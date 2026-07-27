@@ -22,7 +22,9 @@ def compute_matrix(seq_tsv, outdir, logex_bin, histex_bin, threads):
     ids = [u["unit_id"] for u in units]
     prefixes = [ktab_prefix_path(outdir, uid) for uid in ids]
 
-    log(f"computing whole-chromosome pairwise k-mer intersections for {n} units ({n * (n - 1) // 2} pairs)")
+    log(
+        f"computing whole-chromosome pairwise k-mer intersections for {n} units ({n * (n - 1) // 2} pairs)"
+    )
     totals = whole_chromosome_totals(units, outdir, histex_bin)
 
     batches = group_pair_batches(n, letter_cap=8)
@@ -35,11 +37,16 @@ def compute_matrix(seq_tsv, outdir, logex_bin, histex_bin, threads):
     def do_batch(batch_idx, idxs, local_pairs):
         source_prefixes = [prefixes[i] for i in idxs]
         tmp_dir = os.path.join(tmp_root, f"batch{batch_idx}")
-        result = run_logex_batch(logex_bin, histex_bin, source_prefixes, local_pairs, tmp_dir)
+        result = run_logex_batch(
+            logex_bin, histex_bin, source_prefixes, local_pairs, tmp_dir
+        )
         return idxs, result
 
     with ThreadPoolExecutor(max_workers=threads) as ex:
-        futs = [ex.submit(do_batch, bi, idxs, pairs) for bi, (idxs, pairs) in enumerate(batches)]
+        futs = [
+            ex.submit(do_batch, bi, idxs, pairs)
+            for bi, (idxs, pairs) in enumerate(batches)
+        ]
         done = 0
         for fut in as_completed(futs):
             idxs, result = fut.result()
@@ -70,7 +77,9 @@ def compute_matrix(seq_tsv, outdir, logex_bin, histex_bin, threads):
 def write_outputs(outdir, ids, units, total_arr, shared, distance, containment):
     n = len(ids)
 
-    with open(os.path.join(outdir, "whole_chrom_distance_matrix.csv"), "w", newline="") as f:
+    with open(
+        os.path.join(outdir, "whole_chrom_distance_matrix.csv"), "w", newline=""
+    ) as f:
         w = csv.writer(f)
         w.writerow([""] + ids)
         for i, uid in enumerate(ids):
@@ -78,7 +87,18 @@ def write_outputs(outdir, ids, units, total_arr, shared, distance, containment):
 
     with open(os.path.join(outdir, "whole_chrom_pairs.tsv"), "w", newline="") as f:
         w = csv.writer(f, delimiter="\t")
-        w.writerow(["unit_a", "unit_b", "kmers_a", "kmers_b", "shared", "union", "jaccard_distance", "containment"])
+        w.writerow(
+            [
+                "unit_a",
+                "unit_b",
+                "kmers_a",
+                "kmers_b",
+                "shared",
+                "union",
+                "jaccard_distance",
+                "containment",
+            ]
+        )
         for i in range(n):
             for j in range(i + 1, n):
                 union = int(total_arr[i] + total_arr[j] - shared[i, j])

@@ -29,7 +29,9 @@ def read_descriptions(fasta):
     """One streaming decompress pass to pull full FASTA deflines (id -> description)."""
     descs = {}
     if fasta.endswith(".gz"):
-        proc = subprocess.Popen(["gzip", "-dc", fasta], stdout=subprocess.PIPE, text=True)
+        proc = subprocess.Popen(
+            ["gzip", "-dc", fasta], stdout=subprocess.PIPE, text=True
+        )
         stream = proc.stdout
     else:
         proc = None
@@ -70,7 +72,9 @@ def read_manifest(manifest_path):
                 continue
             parts = line.split("\t")
             if len(parts) < 2:
-                raise SystemExit(f"manifest line malformed (need <fasta>\\t<hap_label|AUTO>): {line!r}")
+                raise SystemExit(
+                    f"manifest line malformed (need <fasta>\\t<hap_label|AUTO>): {line!r}"
+                )
             rows.append((parts[0], parts[1]))
     return rows
 
@@ -105,7 +109,15 @@ def prepare(manifest_path, outdir, samtools_bin, min_len, chrom_regexes, hap_reg
                 continue
             unit_id = f"{hap}_chr{chrom:02d}"
             rows.append(
-                dict(unit_id=unit_id, hap=hap, chrom=chrom, seq_id=seq_id, length=length, source=fasta, desc=desc)
+                dict(
+                    unit_id=unit_id,
+                    hap=hap,
+                    chrom=chrom,
+                    seq_id=seq_id,
+                    length=length,
+                    source=fasta,
+                    desc=desc,
+                )
             )
 
     seen = {}

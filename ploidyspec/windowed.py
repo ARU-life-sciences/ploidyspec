@@ -38,7 +38,9 @@ def make_windows(minlen, window, step):
     return windows
 
 
-def build_window_ktab(samtools_bin, fastk_bin, k, source, seq_id, start, end, tmp_dir, unit_id):
+def build_window_ktab(
+    samtools_bin, fastk_bin, k, source, seq_id, start, end, tmp_dir, unit_id
+):
     region = f"{seq_id}:{start}-{end}"
     fa_path = os.path.join(tmp_dir, f"{unit_id}.fa")
     with open(fa_path, "w") as out:
@@ -47,18 +49,42 @@ def build_window_ktab(samtools_bin, fastk_bin, k, source, seq_id, start, end, tm
     # -P scopes FastK's block-sort scratch files to this window's own tmp_dir: the same unit_id
     # recurs across many concurrently-processed windows, and FastK names scratch files from the
     # basename only, so sharing $TMPDIR across windows causes cross-window filename collisions.
-    run([fastk_bin, f"-k{k}", "-t1", "-T1", f"-N{ktab_prefix}", f"-P{tmp_dir}", fa_path])
+    run(
+        [fastk_bin, f"-k{k}", "-t1", "-T1", f"-N{ktab_prefix}", f"-P{tmp_dir}", fa_path]
+    )
     return ktab_prefix
 
 
-def process_window(label, win_idx, start, end, group, samtools_bin, fastk_bin, logex_bin, histex_bin, k, base_tmp):
+def process_window(
+    label,
+    win_idx,
+    start,
+    end,
+    group,
+    samtools_bin,
+    fastk_bin,
+    logex_bin,
+    histex_bin,
+    k,
+    base_tmp,
+):
     tmp_dir = os.path.join(base_tmp, f"w{win_idx}")
     os.makedirs(tmp_dir, exist_ok=True)
     try:
         prefixes = []
         totals = []
         for u in group:
-            p = build_window_ktab(samtools_bin, fastk_bin, k, u["source"], u["seq_id"], start, end, tmp_dir, u["unit_id"])
+            p = build_window_ktab(
+                samtools_bin,
+                fastk_bin,
+                k,
+                u["source"],
+                u["seq_id"],
+                start,
+                end,
+                tmp_dir,
+                u["unit_id"],
+            )
             prefixes.append(p)
             totals.append(sum_hist_distinct(histex_bin, p))
 
@@ -67,7 +93,9 @@ def process_window(label, win_idx, start, end, group, samtools_bin, fastk_bin, l
         for idxs, local_pairs in group_pair_batches(n, letter_cap=8):
             source_prefixes = [prefixes[i] for i in idxs]
             batch_tmp = os.path.join(tmp_dir, "lx")
-            res = run_logex_batch(logex_bin, histex_bin, source_prefixes, local_pairs, batch_tmp)
+            res = run_logex_batch(
+                logex_bin, histex_bin, source_prefixes, local_pairs, batch_tmp
+            )
             for (a, b), count in res.items():
                 shared[(idxs[a], idxs[b])] = count
 
@@ -99,8 +127,20 @@ def process_window(label, win_idx, start, end, group, samtools_bin, fastk_bin, l
 
 
 def compute_windowed_groups(
-    labeled_groups, outdir, samtools_bin, fastk_bin, logex_bin, histex_bin, k, window, step, threads,
-    overview_title, all_tsv_name, overview_png_name, only_cross_chrom=False,
+    labeled_groups,
+    outdir,
+    samtools_bin,
+    fastk_bin,
+    logex_bin,
+    histex_bin,
+    k,
+    window,
+    step,
+    threads,
+    overview_title,
+    all_tsv_name,
+    overview_png_name,
+    only_cross_chrom=False,
 ):
     """
     Core windowed-comparison loop: for each label -> list-of-units group, tile the
@@ -112,7 +152,9 @@ def compute_windowed_groups(
     for label in sorted(labeled_groups):
         group = sorted(labeled_groups[label], key=lambda u: (u["hap"], int(u["chrom"])))
         if len(group) < 2:
-            log(f"{label}: only {len(group)} unit present, skipping windowed comparison")
+            log(
+                f"{label}: only {len(group)} unit present, skipping windowed comparison"
+            )
             continue
 
         lengths = [int(u["length"]) for u in group]
@@ -124,14 +166,29 @@ def compute_windowed_groups(
             )
 
         windows = make_windows(minlen, window, step)
-        log(f"{label}: {len(group)} units x {len(windows)} windows ({window}bp, step {step}bp)")
+        log(
+            f"{label}: {len(group)} units x {len(windows)} windows ({window}bp, step {step}bp)"
+        )
 
         tmp_root = os.path.join(outdir, "tmp_windowed", label)
         os.makedirs(tmp_root, exist_ok=True)
         label_rows = []
         with ThreadPoolExecutor(max_workers=threads) as ex:
             futs = [
-                ex.submit(process_window, label, wi, s, e, group, samtools_bin, fastk_bin, logex_bin, histex_bin, k, tmp_root)
+                ex.submit(
+                    process_window,
+                    label,
+                    wi,
+                    s,
+                    e,
+                    group,
+                    samtools_bin,
+                    fastk_bin,
+                    logex_bin,
+                    histex_bin,
+                    k,
+                    tmp_root,
+                )
                 for wi, (s, e) in enumerate(windows)
             ]
             done = 0
@@ -158,21 +215,53 @@ def compute_windowed_groups(
     return rows_by_label
 
 
-def compute_windowed(seq_tsv, outdir, samtools_bin, fastk_bin, logex_bin, histex_bin, k, window, step, threads):
+def compute_windowed(
+    seq_tsv,
+    outdir,
+    samtools_bin,
+    fastk_bin,
+    logex_bin,
+    histex_bin,
+    k,
+    window,
+    step,
+    threads,
+):
     units = load_sequences(seq_tsv)
     groups = defaultdict(list)
     for u in units:
         groups[int(u["chrom"])].append(u)
     labeled_groups = {f"chr{c:02d}": g for c, g in groups.items()}
     return compute_windowed_groups(
-        labeled_groups, outdir, samtools_bin, fastk_bin, logex_bin, histex_bin, k, window, step, threads,
+        labeled_groups,
+        outdir,
+        samtools_bin,
+        fastk_bin,
+        logex_bin,
+        histex_bin,
+        k,
+        window,
+        step,
+        threads,
         overview_title="Genome-wide windowed haplotype k-mer divergence (relative chromosome position)",
         all_tsv_name="windowed_all.tsv",
         overview_png_name="windowed_genome_overview.png",
     )
 
 
-def compute_windowed_homeologs(seq_tsv, outdir, homeolog_pairs, samtools_bin, fastk_bin, logex_bin, histex_bin, k, window, step, threads):
+def compute_windowed_homeologs(
+    seq_tsv,
+    outdir,
+    homeolog_pairs,
+    samtools_bin,
+    fastk_bin,
+    logex_bin,
+    histex_bin,
+    k,
+    window,
+    step,
+    threads,
+):
     """homeolog_pairs: list of (chrom_a:int, chrom_b:int) candidate ancestral chromosome pairs."""
     units = load_sequences(seq_tsv)
     groups = defaultdict(list)
@@ -185,7 +274,16 @@ def compute_windowed_homeologs(seq_tsv, outdir, homeolog_pairs, samtools_bin, fa
         labeled_groups[label] = groups.get(a, []) + groups.get(b, [])
 
     return compute_windowed_groups(
-        labeled_groups, outdir, samtools_bin, fastk_bin, logex_bin, histex_bin, k, window, step, threads,
+        labeled_groups,
+        outdir,
+        samtools_bin,
+        fastk_bin,
+        logex_bin,
+        histex_bin,
+        k,
+        window,
+        step,
+        threads,
         overview_title="Windowed k-mer divergence between candidate ancestral (paleopolyploid) chromosome pairs",
         all_tsv_name="windowed_homeologs_all.tsv",
         overview_png_name="windowed_homeologs_overview.png",
@@ -199,7 +297,12 @@ def write_group_tsv(outdir, label, rows):
         w = csv.DictWriter(f, fieldnames=FIELDNAMES, delimiter="\t")
         w.writeheader()
         for r in sorted(rows, key=lambda r: (r["win_start"], r["hap_a"], r["hap_b"])):
-            w.writerow({k: (f"{v:.6f}" if k == "jaccard_distance" else v) for k, v in r.items()})
+            w.writerow(
+                {
+                    k: (f"{v:.6f}" if k == "jaccard_distance" else v)
+                    for k, v in r.items()
+                }
+            )
 
 
 def write_all_windows_tsv(outdir, rows_by_label, filename):
@@ -208,8 +311,16 @@ def write_all_windows_tsv(outdir, rows_by_label, filename):
         w = csv.DictWriter(f, fieldnames=FIELDNAMES, delimiter="\t")
         w.writeheader()
         for label in sorted(rows_by_label):
-            for r in sorted(rows_by_label[label], key=lambda r: (r["win_start"], r["hap_a"], r["hap_b"])):
-                w.writerow({k: (f"{v:.6f}" if k == "jaccard_distance" else v) for k, v in r.items()})
+            for r in sorted(
+                rows_by_label[label],
+                key=lambda r: (r["win_start"], r["hap_a"], r["hap_b"]),
+            ):
+                w.writerow(
+                    {
+                        k: (f"{v:.6f}" if k == "jaccard_distance" else v)
+                        for k, v in r.items()
+                    }
+                )
 
 
 def _pair_key_and_label(r):
@@ -266,7 +377,9 @@ def plot_overview(outdir, rows_by_label, title, filename):
 
     labels = sorted(rows_by_label)
     all_rows = [r for rows in rows_by_label.values() for r in rows]
-    all_keys = sorted(set(_pair_key_and_label(r) for r in all_rows), key=lambda kl: kl[1])
+    all_keys = sorted(
+        set(_pair_key_and_label(r) for r in all_rows), key=lambda kl: kl[1]
+    )
     cmap = plt.get_cmap("tab10")
     color_of = {key: cmap(i % 10) for i, (key, _) in enumerate(all_keys)}
     label_of = dict(all_keys)
@@ -278,7 +391,9 @@ def plot_overview(outdir, rows_by_label, title, filename):
 
     ncols = min(4, len(labels))
     nrows = math.ceil(len(labels) / ncols)
-    fig, axes = plt.subplots(nrows, ncols, figsize=(4 * ncols, 2.5 * nrows), sharey=True, squeeze=False)
+    fig, axes = plt.subplots(
+        nrows, ncols, figsize=(4 * ncols, 2.5 * nrows), sharey=True, squeeze=False
+    )
     axes = axes.flatten()
 
     for ax, label in zip(axes, labels):
@@ -293,19 +408,30 @@ def plot_overview(outdir, rows_by_label, title, filename):
             sub = sorted(sub, key=lambda r: r["win_start"])
             xs = [100 * (r["win_start"] + r["win_end"]) / 2 / maxend for r in sub]
             ys = [r["jaccard_distance"] for r in sub]
-            ax.plot(xs, ys, linewidth=1, color=color_of[key], label=lbl if not same_chrom_mode else None)
+            ax.plot(
+                xs,
+                ys,
+                linewidth=1,
+                color=color_of[key],
+                label=lbl if not same_chrom_mode else None,
+            )
         ax.set_title(label, fontsize=9)
         ax.set_ylim(0, 1)
         if not same_chrom_mode:
             ax.legend(fontsize=5, loc="lower left")
 
-    for ax in axes[len(labels):]:
+    for ax in axes[len(labels) :]:
         ax.axis("off")
 
     fig.suptitle(title)
     if same_chrom_mode:
-        handles = [plt.Line2D([0], [0], color=color_of[key], label=lbl) for key, lbl in all_keys]
-        fig.legend(handles=handles, loc="lower center", ncol=min(len(all_keys), 6), fontsize=7)
+        handles = [
+            plt.Line2D([0], [0], color=color_of[key], label=lbl)
+            for key, lbl in all_keys
+        ]
+        fig.legend(
+            handles=handles, loc="lower center", ncol=min(len(all_keys), 6), fontsize=7
+        )
         fig.tight_layout(rect=[0, 0.06, 1, 0.96])
     else:
         fig.tight_layout(rect=[0, 0, 1, 0.96])

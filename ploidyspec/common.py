@@ -20,7 +20,11 @@ def repo_root():
 def find_tool(explicit, dir_glob, binary_name):
     """Locate a binary: explicit path/dir > sibling dir matching dir_glob > PATH."""
     if explicit:
-        cand = explicit if os.path.basename(explicit) == binary_name else os.path.join(explicit, binary_name)
+        cand = (
+            explicit
+            if os.path.basename(explicit) == binary_name
+            else os.path.join(explicit, binary_name)
+        )
         if os.path.isfile(cand) and os.access(cand, os.X_OK):
             return os.path.abspath(cand)
         raise SystemExit(f"{binary_name} not found at {explicit!r}")

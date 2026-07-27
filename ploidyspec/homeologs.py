@@ -13,7 +13,10 @@ def load_distance_matrix(outdir):
     with open(path) as f:
         r = list(csv.reader(f))
     ids = r[0][1:]
-    mat = {ids[i]: {ids[j]: float(v) for j, v in enumerate(row[1:])} for i, row in enumerate(r[1:])}
+    mat = {
+        ids[i]: {ids[j]: float(v) for j, v in enumerate(row[1:])}
+        for i, row in enumerate(r[1:])
+    }
     return ids, mat
 
 
@@ -50,7 +53,9 @@ def detect_homeolog_pairs(pair_dist, chrom_nums, gap_search_frac=0.5):
     that gap, then greedily resolve it into a 1:1 matching.
     """
     sorted_pairs = sorted(pair_dist.items(), key=lambda kv: kv[1])
-    n_candidates = max(len(chrom_nums) // 2 + 1, int(len(sorted_pairs) * gap_search_frac))
+    n_candidates = max(
+        len(chrom_nums) // 2 + 1, int(len(sorted_pairs) * gap_search_frac)
+    )
     search_space = sorted_pairs[:n_candidates]
 
     best_gap = -1.0
@@ -82,7 +87,9 @@ def run(seq_tsv, outdir):
     groups = chrom_groups(units)
     chrom_nums = sorted(groups)
     if len(chrom_nums) < 4:
-        log(f"only {len(chrom_nums)} chromosome numbers -- too few to search for a paleopolyploid pairing")
+        log(
+            f"only {len(chrom_nums)} chromosome numbers -- too few to search for a paleopolyploid pairing"
+        )
         return []
 
     pair_dist = cross_chrom_distances(groups, mat)
@@ -93,7 +100,14 @@ def run(seq_tsv, outdir):
         w = csv.writer(f, delimiter="\t")
         w.writerow(["chrom_a", "chrom_b", "mean_distance", "n_haplotype_copy_pairs"])
         for i, j, d in sorted(accepted, key=lambda x: x[2]):
-            w.writerow([f"chr{i:02d}", f"chr{j:02d}", f"{d:.6f}", len(groups[i]) * len(groups[j])])
+            w.writerow(
+                [
+                    f"chr{i:02d}",
+                    f"chr{j:02d}",
+                    f"{d:.6f}",
+                    len(groups[i]) * len(groups[j]),
+                ]
+            )
 
     bg_mean = statistics.mean(background) if background else float("nan")
     bg_min = min(background) if background else float("nan")
@@ -104,7 +118,9 @@ def run(seq_tsv, outdir):
     for i, j, d in sorted(accepted, key=lambda x: x[2]):
         log(f"  chr{i:02d} <-> chr{j:02d}: mean distance={d:.4f}")
     if unmatched:
-        log(f"  no significant ancestral partner found for: {', '.join(f'chr{c:02d}' for c in unmatched)}")
+        log(
+            f"  no significant ancestral partner found for: {', '.join(f'chr{c:02d}' for c in unmatched)}"
+        )
 
     plot_ranked_distances(outdir, pair_dist, accepted)
     return [(i, j) for i, j, _ in accepted]
@@ -121,16 +137,31 @@ def plot_ranked_distances(outdir, pair_dist, accepted):
 
     xs = list(range(len(sorted_pairs)))
     ys = [d for _, d in sorted_pairs]
-    colors = ["crimson" if (min(k[0], k[1]), max(k[0], k[1])) in accepted_keys else "steelblue" for k, _ in sorted_pairs]
+    colors = [
+        (
+            "crimson"
+            if (min(k[0], k[1]), max(k[0], k[1])) in accepted_keys
+            else "steelblue"
+        )
+        for k, _ in sorted_pairs
+    ]
 
     fig, ax = plt.subplots(figsize=(9, 5))
     ax.scatter(xs, ys, c=colors, s=14)
     for idx, ((i, j), d) in enumerate(sorted_pairs):
         if (min(i, j), max(i, j)) in accepted_keys:
-            ax.annotate(f"{i:02d}-{j:02d}", (idx, d), fontsize=6, xytext=(2, 4), textcoords="offset points")
+            ax.annotate(
+                f"{i:02d}-{j:02d}",
+                (idx, d),
+                fontsize=6,
+                xytext=(2, 4),
+                textcoords="offset points",
+            )
     ax.set_xlabel("cross-chromosome pair rank (ascending mean distance)")
     ax.set_ylabel("mean whole-chromosome k-mer Jaccard distance")
-    ax.set_title("Candidate ancestral (paleopolyploid) homeolog pairs -- red = accepted")
+    ax.set_title(
+        "Candidate ancestral (paleopolyploid) homeolog pairs -- red = accepted"
+    )
     fig.tight_layout()
     fig.savefig(os.path.join(outdir, "homeolog_pairs.png"), dpi=150)
     plt.close(fig)
