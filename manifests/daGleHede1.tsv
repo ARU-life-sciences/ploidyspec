@@ -1,0 +1,5 @@
+# fasta_path	hap_label
+# GCA_965282405.2: hap1, headers say "chromosome: N"
+data/daGleHede1/GCA_965282405.2.fa.gz	HAP1
+# GCA_965282435.2: hap2, headers say plain "SUPER_N" with no haplotype number embedded -> explicit label required (AUTO would find no HAP-prefix match)
+data/daGleHede1/GCA_965282435.2.fa.gz	HAP2

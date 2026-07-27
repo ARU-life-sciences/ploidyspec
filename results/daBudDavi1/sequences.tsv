@@ -1,0 +1,77 @@
+unit_id	hap	chrom	seq_id	length	source	desc
+HAP1_chr01	HAP1	1	OZ282501.1	49839349	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 1
+HAP1_chr02	HAP1	2	OZ282502.1	47988967	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 2
+HAP1_chr03	HAP1	3	OZ282503.1	41019134	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 3
+HAP1_chr04	HAP1	4	OZ282504.1	39538615	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 4
+HAP1_chr05	HAP1	5	OZ282505.1	38041758	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 5
+HAP1_chr06	HAP1	6	OZ282506.1	35097923	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 6
+HAP1_chr07	HAP1	7	OZ282507.1	34786921	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 7
+HAP1_chr08	HAP1	8	OZ282508.1	34628614	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 8
+HAP1_chr09	HAP1	9	OZ282509.1	32529984	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 9
+HAP1_chr10	HAP1	10	OZ282510.1	32171956	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 10
+HAP1_chr11	HAP1	11	OZ282511.1	31738542	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 11
+HAP1_chr12	HAP1	12	OZ282512.1	31000400	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 12
+HAP1_chr13	HAP1	13	OZ282513.1	29565592	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 13
+HAP1_chr14	HAP1	14	OZ282514.1	28798231	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 14
+HAP1_chr15	HAP1	15	OZ282515.1	28688302	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 15
+HAP1_chr16	HAP1	16	OZ282516.1	27948004	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 16
+HAP1_chr17	HAP1	17	OZ282517.1	27596513	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 17
+HAP1_chr18	HAP1	18	OZ282518.1	27549099	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 18
+HAP1_chr19	HAP1	19	OZ282519.1	25759178	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641825.2.fa.gz	Buddleja davidii genome assembly, chromosome: 19
+HAP2_chr01	HAP2	1	CBFFKF020000001.1	47929805	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_1, whole genome shotgun sequence
+HAP2_chr02	HAP2	2	CBFFKF020000002.1	47630533	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_2, whole genome shotgun sequence
+HAP2_chr03	HAP2	3	CBFFKF020000003.1	39082240	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_3, whole genome shotgun sequence
+HAP2_chr04	HAP2	4	CBFFKF020000004.1	39306997	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_4, whole genome shotgun sequence
+HAP2_chr05	HAP2	5	CBFFKF020000005.1	25545671	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_5, whole genome shotgun sequence
+HAP2_chr06	HAP2	6	CBFFKF020000006.1	35248137	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_6, whole genome shotgun sequence
+HAP2_chr07	HAP2	7	CBFFKF020000007.1	34892918	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_7, whole genome shotgun sequence
+HAP2_chr08	HAP2	8	CBFFKF020000008.1	32991789	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_8, whole genome shotgun sequence
+HAP2_chr09	HAP2	9	CBFFKF020000009.1	31281612	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_9, whole genome shotgun sequence
+HAP2_chr10	HAP2	10	CBFFKF020000010.1	32524679	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_10, whole genome shotgun sequence
+HAP2_chr11	HAP2	11	CBFFKF020000011.1	29940604	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_11, whole genome shotgun sequence
+HAP2_chr12	HAP2	12	CBFFKF020000012.1	31910774	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_12, whole genome shotgun sequence
+HAP2_chr13	HAP2	13	CBFFKF020000013.1	29320450	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_13, whole genome shotgun sequence
+HAP2_chr14	HAP2	14	CBFFKF020000014.1	29796882	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_14, whole genome shotgun sequence
+HAP2_chr15	HAP2	15	CBFFKF020000015.1	28201777	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_15, whole genome shotgun sequence
+HAP2_chr16	HAP2	16	CBFFKF020000016.1	27486802	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_16, whole genome shotgun sequence
+HAP2_chr17	HAP2	17	CBFFKF020000017.1	27187018	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_17, whole genome shotgun sequence
+HAP2_chr18	HAP2	18	CBFFKF020000018.1	27180592	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_18, whole genome shotgun sequence
+HAP2_chr19	HAP2	19	CBFFKF020000019.1	26705964	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP2_SUPER_19, whole genome shotgun sequence
+HAP3_chr01	HAP3	1	CBFFKF020000134.1	48987173	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_1, whole genome shotgun sequence
+HAP3_chr02	HAP3	2	CBFFKF020000135.1	48050970	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_2, whole genome shotgun sequence
+HAP3_chr03	HAP3	3	CBFFKF020000136.1	40398737	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_3, whole genome shotgun sequence
+HAP3_chr04	HAP3	4	CBFFKF020000137.1	39479294	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_4, whole genome shotgun sequence
+HAP3_chr05	HAP3	5	CBFFKF020000138.1	37012796	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_5, whole genome shotgun sequence
+HAP3_chr06	HAP3	6	CBFFKF020000139.1	33799780	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_6, whole genome shotgun sequence
+HAP3_chr07	HAP3	7	CBFFKF020000140.1	34330946	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_7, whole genome shotgun sequence
+HAP3_chr08	HAP3	8	CBFFKF020000141.1	33523149	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_8, whole genome shotgun sequence
+HAP3_chr09	HAP3	9	CBFFKF020000142.1	29049189	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_9, whole genome shotgun sequence
+HAP3_chr10	HAP3	10	CBFFKF020000143.1	31451223	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_10, whole genome shotgun sequence
+HAP3_chr11	HAP3	11	CBFFKF020000144.1	32512566	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_11, whole genome shotgun sequence
+HAP3_chr12	HAP3	12	CBFFKF020000145.1	30695868	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_12, whole genome shotgun sequence
+HAP3_chr13	HAP3	13	CBFFKF020000146.1	27329196	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_13, whole genome shotgun sequence
+HAP3_chr14	HAP3	14	CBFFKF020000147.1	28456479	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_14, whole genome shotgun sequence
+HAP3_chr15	HAP3	15	CBFFKF020000148.1	28843087	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_15, whole genome shotgun sequence
+HAP3_chr16	HAP3	16	CBFFKF020000149.1	27985219	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_16, whole genome shotgun sequence
+HAP3_chr17	HAP3	17	CBFFKF020000150.1	25551709	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_17, whole genome shotgun sequence
+HAP3_chr18	HAP3	18	CBFFKF020000151.1	26065488	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_18, whole genome shotgun sequence
+HAP3_chr19	HAP3	19	CBFFKF020000153.1	26520217	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP3_SUPER_19, whole genome shotgun sequence
+HAP4_chr01	HAP4	1	CBFFKF020000154.1	48775564	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_1, whole genome shotgun sequence
+HAP4_chr02	HAP4	2	CBFFKF020000155.1	46861885	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_2, whole genome shotgun sequence
+HAP4_chr03	HAP4	3	CBFFKF020000156.1	40894127	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_3, whole genome shotgun sequence
+HAP4_chr04	HAP4	4	CBFFKF020000157.1	39058516	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_4, whole genome shotgun sequence
+HAP4_chr05	HAP4	5	CBFFKF020000158.1	37770861	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_5, whole genome shotgun sequence
+HAP4_chr06	HAP4	6	CBFFKF020000159.1	33097373	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_6, whole genome shotgun sequence
+HAP4_chr07	HAP4	7	CBFFKF020000160.1	35149011	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_7, whole genome shotgun sequence
+HAP4_chr08	HAP4	8	CBFFKF020000161.1	32063309	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_8, whole genome shotgun sequence
+HAP4_chr09	HAP4	9	CBFFKF020000162.1	31263148	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_9, whole genome shotgun sequence
+HAP4_chr10	HAP4	10	CBFFKF020000163.1	29574378	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_10, whole genome shotgun sequence
+HAP4_chr11	HAP4	11	CBFFKF020000164.1	32615177	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_11, whole genome shotgun sequence
+HAP4_chr12	HAP4	12	CBFFKF020000165.1	30382771	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_12, whole genome shotgun sequence
+HAP4_chr13	HAP4	13	CBFFKF020000166.1	29421985	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_13, whole genome shotgun sequence
+HAP4_chr14	HAP4	14	CBFFKF020000167.1	28019230	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_14, whole genome shotgun sequence
+HAP4_chr15	HAP4	15	CBFFKF020000168.1	28299154	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_15, whole genome shotgun sequence
+HAP4_chr16	HAP4	16	CBFFKF020000169.1	26995395	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_16, whole genome shotgun sequence
+HAP4_chr17	HAP4	17	CBFFKF020000170.1	26355664	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_17, whole genome shotgun sequence
+HAP4_chr18	HAP4	18	CBFFKF020000171.1	26335825	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_18, whole genome shotgun sequence
+HAP4_chr19	HAP4	19	CBFFKF020000172.1	25947377	/Users/mc9148/Documents/software/ploidyspec/data/daBudDavi1/GCA_965641805.2.fa.gz	Buddleja davidii genome assembly, contig: HAP4_SUPER_19, whole genome shotgun sequence

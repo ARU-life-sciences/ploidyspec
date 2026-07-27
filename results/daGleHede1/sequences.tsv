@@ -1,0 +1,37 @@
+unit_id	hap	chrom	seq_id	length	source	desc
+HAP1_chr01	HAP1	1	OZ258479.1	50286307	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 1
+HAP1_chr02	HAP1	2	OZ258480.1	48342744	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 2
+HAP1_chr03	HAP1	3	OZ258481.1	47590900	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 3
+HAP1_chr04	HAP1	4	OZ258482.1	47548539	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 4
+HAP1_chr05	HAP1	5	OZ258483.1	47510955	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 5
+HAP1_chr06	HAP1	6	OZ258484.1	43903922	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 6
+HAP1_chr07	HAP1	7	OZ258485.1	42839683	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 7
+HAP1_chr08	HAP1	8	OZ258486.1	42777013	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 8
+HAP1_chr09	HAP1	9	OZ258487.1	39719882	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 9
+HAP1_chr10	HAP1	10	OZ258488.1	36913710	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 10
+HAP1_chr11	HAP1	11	OZ258489.1	36649719	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 11
+HAP1_chr12	HAP1	12	OZ258490.1	36506206	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 12
+HAP1_chr13	HAP1	13	OZ258491.1	36391440	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 13
+HAP1_chr14	HAP1	14	OZ258492.1	36080066	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 14
+HAP1_chr15	HAP1	15	OZ258493.1	36055182	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 15
+HAP1_chr16	HAP1	16	OZ258494.1	34667653	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 16
+HAP1_chr17	HAP1	17	OZ258495.1	34501374	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 17
+HAP1_chr18	HAP1	18	OZ258496.1	31346893	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282405.2.fa.gz	Glechoma hederacea genome assembly, chromosome: 18
+HAP2_chr01	HAP2	1	CBDIKP020000001.1	48526918	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_1, whole genome shotgun sequence
+HAP2_chr02	HAP2	2	CBDIKP020000003.1	48515717	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_2, whole genome shotgun sequence
+HAP2_chr03	HAP2	3	CBDIKP020000004.1	47237224	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_3, whole genome shotgun sequence
+HAP2_chr04	HAP2	4	CBDIKP020000005.1	46929579	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_4, whole genome shotgun sequence
+HAP2_chr05	HAP2	5	CBDIKP020000006.1	46882649	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_5, whole genome shotgun sequence
+HAP2_chr06	HAP2	6	CBDIKP020000007.1	42982343	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_6, whole genome shotgun sequence
+HAP2_chr07	HAP2	7	CBDIKP020000008.1	44266124	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_7, whole genome shotgun sequence
+HAP2_chr08	HAP2	8	CBDIKP020000009.1	42685755	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_8, whole genome shotgun sequence
+HAP2_chr09	HAP2	9	CBDIKP020000010.1	43304729	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_9, whole genome shotgun sequence
+HAP2_chr10	HAP2	10	CBDIKP020000011.1	35498185	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_10, whole genome shotgun sequence
+HAP2_chr11	HAP2	11	CBDIKP020000012.1	37119040	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_11, whole genome shotgun sequence
+HAP2_chr12	HAP2	12	CBDIKP020000013.1	35411079	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_12, whole genome shotgun sequence
+HAP2_chr13	HAP2	13	CBDIKP020000014.1	39777234	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_13, whole genome shotgun sequence
+HAP2_chr14	HAP2	14	CBDIKP020000015.1	32230934	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_14, whole genome shotgun sequence
+HAP2_chr15	HAP2	15	CBDIKP020000016.1	34636882	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_15, whole genome shotgun sequence
+HAP2_chr16	HAP2	16	CBDIKP020000017.1	34955104	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_16, whole genome shotgun sequence
+HAP2_chr17	HAP2	17	CBDIKP020000018.1	36443557	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_17, whole genome shotgun sequence
+HAP2_chr18	HAP2	18	CBDIKP020000019.1	30341637	/Users/mc9148/Documents/software/ploidyspec/data/daGleHede1/GCA_965282435.2.fa.gz	Glechoma hederacea genome assembly, contig: SUPER_18, whole genome shotgun sequence

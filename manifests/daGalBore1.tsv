@@ -1,0 +1,5 @@
+# fasta_path	hap_label
+# GCA_977964095.1: hap1, headers say "chromosome: N"
+data/daGalBore1/GCA_977964095.1.fa.gz	HAP1
+# GCA_977964275.1: hap2, headers say "HAP2_SUPER_N" -> haplotype auto-detected
+data/daGalBore1/GCA_977964275.1.fa.gz	AUTO
