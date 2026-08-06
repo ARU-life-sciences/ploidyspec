@@ -71,6 +71,12 @@ def compute_matrix(seq_tsv, outdir, logex_bin, histex_bin, threads, k_values):
     """
     units = load_sequences(seq_tsv)
     n = len(units)
+    if n < 2:
+        raise SystemExit(
+            f"only {n} chromosome-scale unit(s) in {seq_tsv} -- nothing to compare. "
+            f"Check --chrom-regex/--hap-regex against this species' FASTA headers "
+            f"(see unplaced.tsv for why sequences were excluded)."
+        )
 
     log(
         f"computing whole-chromosome pairwise k-mer intersections for {n} units "

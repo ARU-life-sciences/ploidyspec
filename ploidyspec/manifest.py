@@ -97,13 +97,18 @@ def prepare(manifest_path, outdir, samtools_bin, min_len, chrom_regexes, hap_reg
                 unplaced.append((seq_id, fasta, length, "below-min-len"))
                 continue
             if hap_label.upper() == "AUTO":
-                hap = match_hap(desc, hap_regex)
+                # "curated" assemblies use bare headers (e.g. ">SUPER_1", no
+                # space) so desc comes back empty -- fall back to seq_id,
+                # which is where release-vs-curated conventions put the tag.
+                hap = match_hap(desc, hap_regex) or match_hap(seq_id, hap_regex)
                 if hap is None:
                     unplaced.append((seq_id, fasta, length, "no-hap-match"))
                     continue
             else:
                 hap = hap_label
-            chrom = match_chrom(desc, chrom_regexes)
+            chrom = match_chrom(desc, chrom_regexes) or match_chrom(
+                seq_id, chrom_regexes
+            )
             if chrom is None:
                 unplaced.append((seq_id, fasta, length, "no-chrom-match"))
                 continue
