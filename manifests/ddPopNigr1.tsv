@@ -1,0 +1,3 @@
+# fasta_path	hap_label
+/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	HAP1
+/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1_alternate_haplotype/insdc/GCA_951802205.1.fa.gz	HAP2

@@ -70,3 +70,5 @@ together (headers say `HAP2_SUPER_N` / `HAP3_SUPER_N` / `HAP4_SUPER_N`, so that 
 label is `AUTO`-detected per sequence). `--chrom-regex` / `--hap-regex` override the default header
 patterns for genomes with different naming conventions.
 
+
+https://github.com/KamilSJaron/k-mer-approaches-for-biodiversity-genomics/wiki/Separate-sub-genomes-of-an-allopolyploid

@@ -3,3 +3,11 @@
 __pycache__
 /data
 ktabs
+ktabs_k*
+chroms
+tmp_matrix
+tmp_windowed
+lsf.*.out
+lsf.*.err
+lsf.verify.*.out
+lsf.verify.*.err

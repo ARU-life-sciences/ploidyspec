@@ -1,0 +1,32 @@
+daBudDavi1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/daBudDavi1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+daEupConf1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/daEupConf1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+daGalBore1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/daGalBore1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+daGleHede1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/daGleHede1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+daInuConz1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/daInuConz1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+daLatSqua1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/daLatSqua1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+daSonOler1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/daSonOler1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+dcCerAlpi1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/dcCerAlpi1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+dcHonPepl1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/dcHonPepl1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+ddEmpNigr1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/ddEmpNigr1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	(?:SUPER_\d+_)?HAP(\d+)(?:_SUPER)?
+ddHypMacu1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/ddHypMacu1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	(?:SUPER_\d+_)?HAP(\d+)(?:_SUPER)?
+ddHypPerf1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/ddHypPerf1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	(?:SUPER_\d+_)?HAP(\d+)(?:_SUPER)?
+ddMalSylv1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/ddMalSylv1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+ddPopNigr1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/ddPopNigr1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+ddSalCine1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/ddSalCine1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+ddSalPent1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/ddSalPent1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+drAriEdul1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/drAriEdul1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+drIngLaur1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/drIngLaur1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+drLytSali1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/drLytSali1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	(?:SUPER_\d+_)?HAP(\d+)(?:_SUPER)?
+drRosSpin1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/drRosSpin1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+drTriDubi3	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/drTriDubi3.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+drTriRepe1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/drTriRepe1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+drUrtDioi1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/drUrtDioi1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+laPotCris1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/laPotCris1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+laPotLuce1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/laPotLuce1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+laPotNata1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/laPotNata1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+laPotNodo1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/laPotNodo1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+laPotPerf1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/laPotPerf1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+llColAutu1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/llColAutu1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
+lpElePalu1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/lpElePalu1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	(?:SUPER_\d+_)?HAP(\d+)(?:_SUPER)?
+lpTriTurg1_A	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/lpTriTurg1_A.tsv	chromosome:?\s*(\d+)A\b|SUPER[_-](\d+)A\b	
+lpTriTurg1_B	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/lpTriTurg1_B.tsv	chromosome:?\s*(\d+)B\b|SUPER[_-](\d+)B\b	
