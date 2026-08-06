@@ -224,6 +224,7 @@ def write_outputs(outdir, ids, units, k_values, distance, summaries):
                     )
 
     plot_heatmap(outdir, ids, units, distance)
+    plot_heatmap_contrast(outdir, ids, units, distance)
     plot_k_resolution_diagnostic(outdir, k_values, summaries)
 
 
@@ -293,19 +294,79 @@ def plot_heatmap(outdir, ids, units, distance):
     ordered_ids = [ids[i] for i in order]
     ordered_mat = distance[np.ix_(order, order)]
 
+    # Mash-corrected distances are an estimated substitution rate, not a bounded
+    # [0,1] Jaccard fraction -- most real comparisons land well under 0.2, so a
+    # fixed vmax=1 (appropriate for raw Jaccard) leaves the whole matrix looking
+    # washed out. Calibrate to the data's own max instead.
+    vmax = float(np.max(distance)) if distance.size else 1.0
+    if vmax <= 0:
+        vmax = 1.0
+
     fig_w = max(6, n * 0.25)
     fig, ax = plt.subplots(figsize=(fig_w, fig_w))
-    im = ax.imshow(ordered_mat, cmap="viridis_r", vmin=0, vmax=1)
+    im = ax.imshow(ordered_mat, cmap="viridis_r", vmin=0, vmax=vmax)
     ax.set_xticks(range(n))
     ax.set_yticks(range(n))
     ax.set_xticklabels(ordered_ids, rotation=90, fontsize=max(3, 8 - n // 20))
     ax.set_yticklabels(ordered_ids, fontsize=max(3, 8 - n // 20))
     ax.set_title(
-        "Whole-chromosome Mash-corrected k-mer divergence (multi-k consensus)"
+        f"Whole-chromosome Mash-corrected k-mer divergence (multi-k consensus)\n"
+        f"color scale: 0-{vmax:.3f}",
+        fontsize=9,
+        wrap=True,
     )
     fig.colorbar(im, ax=ax, shrink=0.7, label="distance")
     fig.tight_layout()
     fig.savefig(os.path.join(outdir, "whole_chrom_distance_heatmap.png"), dpi=150)
+    plt.close(fig)
+
+
+def plot_heatmap_contrast(outdir, ids, units, distance):
+    """Diagonal-masked, contrast-stretched version of plot_heatmap. The fixed
+    0-1 color scale wastes most of its dynamic range on the near-zero
+    true-homolog block (and the trivial 0 diagonal), compressing whatever
+    structure exists in the unrelated-pair background into a flat band.
+    Masking the diagonal and rescaling color to the 2nd-98th percentile of the
+    remaining off-diagonal values -- the same trick used to make Hi-C contact
+    maps readable -- surfaces that structure, e.g. subgenome block patterns."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    n = len(ids)
+    order = average_linkage_order(distance)
+    ordered_ids = [ids[i] for i in order]
+    ordered_mat = distance[np.ix_(order, order)].copy()
+
+    off_diag = ordered_mat[~np.eye(n, dtype=bool)]
+    if off_diag.size == 0:
+        return
+    vmin, vmax = np.percentile(off_diag, [2, 98])
+    np.fill_diagonal(ordered_mat, np.nan)
+
+    cmap = plt.get_cmap("viridis_r").copy()
+    cmap.set_bad("white")
+
+    fig_w = max(6, n * 0.25)
+    fig, ax = plt.subplots(figsize=(fig_w, fig_w))
+    im = ax.imshow(ordered_mat, cmap=cmap, vmin=vmin, vmax=vmax)
+    ax.set_xticks(range(n))
+    ax.set_yticks(range(n))
+    ax.set_xticklabels(ordered_ids, rotation=90, fontsize=max(3, 8 - n // 20))
+    ax.set_yticklabels(ordered_ids, fontsize=max(3, 8 - n // 20))
+    ax.set_title(
+        f"Diagonal-masked, contrast-stretched distance\n"
+        f"(2nd-98th pct: {vmin:.3f}-{vmax:.3f})",
+        fontsize=9,
+        wrap=True,
+    )
+    fig.colorbar(im, ax=ax, shrink=0.7, label="distance")
+    fig.tight_layout()
+    fig.savefig(
+        os.path.join(outdir, "whole_chrom_distance_heatmap_contrast.png"), dpi=150
+    )
     plt.close(fig)
 
 
@@ -336,10 +397,18 @@ def plot_k_resolution_diagnostic(outdir, k_values, summaries):
     ax.set_xlabel("k")
     ax.set_ylabel("Mash-corrected distance")
     ax.set_title(
-        "Per-pair distance vs k -- red = below the chance-collision noise floor at that k"
+        "Per-pair distance vs k\nred = below the chance-collision noise floor at that k",
+        fontsize=9,
+        wrap=True,
     )
     ax.set_xticks(ks_sorted)
-    ax.set_ylim(0, 1)
+    all_dists = [
+        pk["distance"]
+        for s in summaries.values()
+        for pk in s["per_k"].values()
+        if pk["distance"] is not None
+    ]
+    ax.set_ylim(0, max(all_dists) * 1.05 if all_dists else 1)
     fig.tight_layout()
     fig.savefig(os.path.join(outdir, "k_resolution_diagnostic.png"), dpi=150)
     plt.close(fig)
