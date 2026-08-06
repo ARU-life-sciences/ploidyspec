@@ -28,6 +28,18 @@ from .windowed import compute_windowed, compute_windowed_homeologs
 from .homeologs import run as run_homeolog_detection
 
 
+def parse_k_list(s):
+    try:
+        values = sorted({int(x) for x in s.split(",")})
+    except ValueError:
+        raise argparse.ArgumentTypeError(
+            f"--k must be a comma-separated list of ints, got {s!r}"
+        )
+    if not values:
+        raise argparse.ArgumentTypeError("--k must contain at least one value")
+    return values
+
+
 def add_common_args(p):
     p.add_argument(
         "--manifest",
@@ -37,7 +49,17 @@ def add_common_args(p):
     p.add_argument(
         "--outdir", required=True, help="output directory (created if missing)"
     )
-    p.add_argument("--k", type=int, default=15, help="k-mer size (default 15)")
+    p.add_argument(
+        "--k",
+        type=parse_k_list,
+        default=[15],
+        help="k-mer size, or comma-separated list for a multi-k sweep (default 15). "
+        "Used by kmers/matrix/homeologs -- matrix/homeologs combine the swept k's into "
+        "a Mash-corrected consensus distance per pair (see ploidyspec/mash.py), flagging "
+        "pairs whose shared-kmer count never clears the chance-collision noise floor as "
+        "resolution_limited instead of reporting a number that's indistinguishable from "
+        "noise. windowed/windowed-homeologs ignore this and use --window-k instead.",
+    )
     p.add_argument(
         "--min-len",
         type=int,
@@ -72,6 +94,17 @@ def add_common_args(p):
     )
 
 
+def add_window_k_arg(p):
+    p.add_argument(
+        "--window-k",
+        type=int,
+        default=15,
+        help="k-mer size for the windowed track (default 15). Decoupled from --k: "
+        "windowed stages build their own per-window k-mer tables independently and "
+        "don't currently support a multi-k sweep or Mash correction.",
+    )
+
+
 def resolve_tools(args):
     samtools_bin = find_tool(args.samtools, "samtools*", "samtools")
     fastk_bin = find_tool(args.fastk_dir, "FASTK*", "FastK")
@@ -101,7 +134,8 @@ def cmd_kmers(args):
     seq_tsv = os.path.join(args.outdir, "sequences.tsv")
     if not os.path.exists(seq_tsv):
         raise SystemExit(f"{seq_tsv} not found -- run the `prepare` stage first")
-    build_all(seq_tsv, args.outdir, samtools_bin, fastk_bin, args.k, args.threads)
+    for k in args.k:
+        build_all(seq_tsv, args.outdir, samtools_bin, fastk_bin, k, args.threads)
 
 
 def cmd_matrix(args):
@@ -111,7 +145,7 @@ def cmd_matrix(args):
         raise SystemExit(
             f"{seq_tsv} not found -- run the `prepare` and `kmers` stages first"
         )
-    compute_matrix(seq_tsv, args.outdir, logex_bin, histex_bin, args.threads)
+    compute_matrix(seq_tsv, args.outdir, logex_bin, histex_bin, args.threads, args.k)
     log(
         f"wrote {os.path.join(args.outdir, 'whole_chrom_distance_matrix.csv')} and "
         f"{os.path.join(args.outdir, 'whole_chrom_distance_heatmap.png')}"
@@ -133,7 +167,7 @@ def cmd_windowed(args):
         fastk_bin,
         logex_bin,
         histex_bin,
-        args.k,
+        args.window_k,
         args.window,
         step,
         args.threads,
@@ -185,7 +219,7 @@ def cmd_windowed_homeologs(args):
         fastk_bin,
         logex_bin,
         histex_bin,
-        args.k,
+        args.window_k,
         args.window,
         step,
         args.threads,
@@ -231,6 +265,7 @@ def main(argv=None):
         help="sliding-window k-mer divergence between haplotype copies of each chromosome",
     )
     add_common_args(p_win)
+    add_window_k_arg(p_win)
     p_win.add_argument(
         "--window", type=int, default=250_000, help="window size in bp (default 250000)"
     )
@@ -246,6 +281,7 @@ def main(argv=None):
         "all", help="run prepare -> kmers -> matrix -> windowed in sequence"
     )
     add_common_args(p_all)
+    add_window_k_arg(p_all)
     p_all.add_argument(
         "--window", type=int, default=250_000, help="window size in bp (default 250000)"
     )
@@ -269,6 +305,7 @@ def main(argv=None):
         help="sliding-window k-mer divergence between candidate ancestral chromosome pairs found by `homeologs`",
     )
     add_common_args(p_win_homeo)
+    add_window_k_arg(p_win_homeo)
     p_win_homeo.add_argument(
         "--window", type=int, default=250_000, help="window size in bp (default 250000)"
     )

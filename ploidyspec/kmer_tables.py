@@ -14,13 +14,13 @@ def chrom_fasta_path(outdir, unit_id):
     return os.path.join(outdir, "chroms", unit_id + ".fa")
 
 
-def ktab_prefix_path(outdir, unit_id):
-    return os.path.join(outdir, "ktabs", unit_id)
+def ktab_prefix_path(outdir, unit_id, k):
+    return os.path.join(outdir, f"ktabs_k{k}", unit_id)
 
 
 def build_one(samtools_bin, fastk_bin, unit, k, outdir):
     chrom_fa = chrom_fasta_path(outdir, unit["unit_id"])
-    ktab_prefix = ktab_prefix_path(outdir, unit["unit_id"])
+    ktab_prefix = ktab_prefix_path(outdir, unit["unit_id"], k)
     os.makedirs(os.path.dirname(chrom_fa), exist_ok=True)
     os.makedirs(os.path.dirname(ktab_prefix), exist_ok=True)
 

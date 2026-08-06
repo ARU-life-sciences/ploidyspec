@@ -40,6 +40,37 @@ def cross_chrom_distances(groups, mat):
     return pair_dist
 
 
+def load_pair_resolution_flags(outdir):
+    """{frozenset({unit_a, unit_b}): resolution_limited bool} from whole_chrom_pairs.tsv.
+    Empty dict (not an error) if that file predates the Mash-correction columns."""
+    path = os.path.join(outdir, "whole_chrom_pairs.tsv")
+    flags = {}
+    if not os.path.exists(path):
+        return flags
+    with open(path) as f:
+        reader = csv.DictReader(f, delimiter="\t")
+        if "resolution_limited" not in (reader.fieldnames or []):
+            return flags
+        for row in reader:
+            flags[frozenset((row["unit_a"], row["unit_b"]))] = row[
+                "resolution_limited"
+            ] in ("True", "true", "1")
+    return flags
+
+
+def chrom_pair_resolution_status(groups, flags, i, j):
+    """Resolution status of a chromosome-number pair, aggregated over every
+    haplotype-copy combination between the two groups. Returns None if flags
+    aren't available (e.g. pre-Mash-correction pairs.tsv) for any combination,
+    else (any_limited, n_limited, n_total)."""
+    keys = [frozenset((a, b)) for a in groups[i] for b in groups[j]]
+    statuses = [flags.get(k) for k in keys]
+    if any(s is None for s in statuses):
+        return None
+    n_limited = sum(1 for s in statuses if s)
+    return n_limited > 0, n_limited, len(statuses)
+
+
 def detect_homeolog_pairs(pair_dist, chrom_nums, gap_search_frac=0.5):
     """
     Look for a retained ancestral (paleopolyploid/WGD) subgenome pairing among
@@ -94,18 +125,36 @@ def run(seq_tsv, outdir):
 
     pair_dist = cross_chrom_distances(groups, mat)
     accepted, unmatched, background, gap = detect_homeolog_pairs(pair_dist, chrom_nums)
+    flags = load_pair_resolution_flags(outdir)
+    status_by_pair = {
+        (i, j): chrom_pair_resolution_status(groups, flags, i, j) for i, j, _ in accepted
+    }
 
     path = os.path.join(outdir, "homeolog_pairs.tsv")
     with open(path, "w", newline="") as f:
         w = csv.writer(f, delimiter="\t")
-        w.writerow(["chrom_a", "chrom_b", "mean_distance", "n_haplotype_copy_pairs"])
+        w.writerow(
+            [
+                "chrom_a",
+                "chrom_b",
+                "mean_distance",
+                "n_haplotype_copy_pairs",
+                "resolution_limited",
+                "n_resolution_limited_of_total",
+            ]
+        )
         for i, j, d in sorted(accepted, key=lambda x: x[2]):
+            status = status_by_pair[(i, j)]
+            limited_str = "NA" if status is None else status[0]
+            n_limited_str = "NA" if status is None else f"{status[1]}/{status[2]}"
             w.writerow(
                 [
                     f"chr{i:02d}",
                     f"chr{j:02d}",
                     f"{d:.6f}",
                     len(groups[i]) * len(groups[j]),
+                    limited_str,
+                    n_limited_str,
                 ]
             )
 
@@ -116,7 +165,14 @@ def run(seq_tsv, outdir):
         f"{len(chrom_nums)} chromosomes (gap={gap:.4f}, background min={bg_min:.4f} mean={bg_mean:.4f})"
     )
     for i, j, d in sorted(accepted, key=lambda x: x[2]):
-        log(f"  chr{i:02d} <-> chr{j:02d}: mean distance={d:.4f}")
+        status = status_by_pair[(i, j)]
+        warn = ""
+        if status is not None and status[0]:
+            warn = (
+                f" [WARNING: {status[1]}/{status[2]} underlying haplotype-pair distances "
+                f"are resolution-limited -- this pairing rests on noise-floor estimates]"
+            )
+        log(f"  chr{i:02d} <-> chr{j:02d}: mean distance={d:.4f}{warn}")
     if unmatched:
         log(
             f"  no significant ancestral partner found for: {', '.join(f'chr{c:02d}' for c in unmatched)}"
