@@ -28,8 +28,8 @@ HAP2_chr09	HAP2	9	SUPER_9	34728416	/lustre/scratch122/tol/teams/blaxter/users/mb
 HAP2_chr10	HAP2	10	SUPER_10	35371253	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap2.1.primary.fa.gz	
 HAP2_chr11	HAP2	11	SUPER_11	31179743	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap2.1.primary.fa.gz	
 HAP2_chr12	HAP2	12	SUPER_12	32748812	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap2.1.primary.fa.gz	
-HAP2_chr13	HAP2	13	SUPER_13	29429299	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap2.1.primary.fa.gz	
-HAP2_chr14	HAP2	14	SUPER_14	29913714	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap2.1.primary.fa.gz	
+HAP2_chr14	HAP2	14	SUPER_13	29429299	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap2.1.primary.fa.gz	
+HAP2_chr13	HAP2	13	SUPER_14	29913714	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap2.1.primary.fa.gz	
 HAP2_chr15	HAP2	15	SUPER_15	30753780	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap2.1.primary.fa.gz	
 HAP2_chr16	HAP2	16	SUPER_16	27867167	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap2.1.primary.fa.gz	
 HAP2_chr17	HAP2	17	SUPER_17	30090588	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap2.1.primary.fa.gz	
@@ -45,8 +45,8 @@ HAP3_chr09	HAP3	9	SUPER_9	35205622	/lustre/scratch122/tol/teams/blaxter/users/mb
 HAP3_chr10	HAP3	10	SUPER_10	35505925	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap3.1.primary.fa.gz	
 HAP3_chr11	HAP3	11	SUPER_11	31148517	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap3.1.primary.fa.gz	
 HAP3_chr12	HAP3	12	SUPER_12	31755731	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap3.1.primary.fa.gz	
-HAP3_chr13	HAP3	13	SUPER_13	29477332	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap3.1.primary.fa.gz	
-HAP3_chr14	HAP3	14	SUPER_14	31252334	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap3.1.primary.fa.gz	
+HAP3_chr14	HAP3	14	SUPER_13	29477332	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap3.1.primary.fa.gz	
+HAP3_chr13	HAP3	13	SUPER_14	31252334	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap3.1.primary.fa.gz	
 HAP3_chr15	HAP3	15	SUPER_15	30431815	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap3.1.primary.fa.gz	
 HAP3_chr16	HAP3	16	SUPER_16	30406860	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap3.1.primary.fa.gz	
 HAP3_chr17	HAP3	17	SUPER_17	28875690	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap3.1.primary.fa.gz	
@@ -62,8 +62,8 @@ HAP4_chr09	HAP4	9	SUPER_9	33256169	/lustre/scratch122/tol/teams/blaxter/users/mb
 HAP4_chr10	HAP4	10	SUPER_10	34002627	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap4.1.primary.fa.gz	
 HAP4_chr11	HAP4	11	SUPER_11	32434498	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap4.1.primary.fa.gz	
 HAP4_chr12	HAP4	12	SUPER_12	31118845	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap4.1.primary.fa.gz	
-HAP4_chr13	HAP4	13	SUPER_13	29933215	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap4.1.primary.fa.gz	
-HAP4_chr14	HAP4	14	SUPER_14	25510456	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap4.1.primary.fa.gz	
+HAP4_chr14	HAP4	14	SUPER_13	29933215	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap4.1.primary.fa.gz	
+HAP4_chr13	HAP4	13	SUPER_14	25510456	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap4.1.primary.fa.gz	
 HAP4_chr15	HAP4	15	SUPER_15	28520425	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap4.1.primary.fa.gz	
 HAP4_chr16	HAP4	16	SUPER_16	28073198	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap4.1.primary.fa.gz	
 HAP4_chr17	HAP4	17	SUPER_17	24115910	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/drAriEdul1/drAriEdul1.hap4.1.primary.fa.gz	

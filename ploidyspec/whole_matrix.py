@@ -5,6 +5,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import numpy as np
 
+from .chrom_reconcile import reconcile_chrom_labels
 from .common import group_pair_batches, log, matrix_dir, run_logex_batch, sum_hist_distinct
 from .kmer_tables import ktab_prefix_path, load_sequences
 from .mash import summarize_pair_across_k
@@ -120,6 +121,14 @@ def compute_matrix(seq_tsv, outdir, logex_bin, histex_bin, threads, k_values):
         f"  {n_resolution_limited}/{total_pairs} pairs resolution-limited at every swept k "
         f"(no k in {k_values} cleared the chance-collision noise floor)"
     )
+
+    # chrom numbers are extracted independently per source FASTA file (see
+    # chrom_reconcile.py's module docstring) -- reconcile before any chrom-grouped
+    # output gets written, using the all-vs-all distance data just computed above.
+    # ids/units stay index-aligned throughout, so corrections here propagate to
+    # every downstream grouping call automatically once sequences.tsv is rewritten.
+    reconcile_chrom_labels(outdir, seq_tsv, units, distance)
+    ids = [u["unit_id"] for u in units]
 
     write_outputs(outdir, ids, units, k_values, distance, summaries)
     return ids, distance, summaries

@@ -1,10 +1,10 @@
 unit_id	hap	chrom	seq_id	length	source	desc
 HAP1_chr01	HAP1	1	OZ365310.1	55946015	/lustre/scratch122/tol/data/8/a/6/f/5/7/Empetrum_nigrum/assembly/release/ddEmpNigr1.hap1.1/insdc/GCA_977035805.1.fa.gz	Empetrum nigrum genome assembly, chromosome: 1
-HAP1_chr02	HAP1	2	OZ365311.1	45080644	/lustre/scratch122/tol/data/8/a/6/f/5/7/Empetrum_nigrum/assembly/release/ddEmpNigr1.hap1.1/insdc/GCA_977035805.1.fa.gz	Empetrum nigrum genome assembly, chromosome: 2
-HAP1_chr03	HAP1	3	OZ365312.1	52170905	/lustre/scratch122/tol/data/8/a/6/f/5/7/Empetrum_nigrum/assembly/release/ddEmpNigr1.hap1.1/insdc/GCA_977035805.1.fa.gz	Empetrum nigrum genome assembly, chromosome: 3
+HAP1_chr03	HAP1	3	OZ365311.1	45080644	/lustre/scratch122/tol/data/8/a/6/f/5/7/Empetrum_nigrum/assembly/release/ddEmpNigr1.hap1.1/insdc/GCA_977035805.1.fa.gz	Empetrum nigrum genome assembly, chromosome: 2
+HAP1_chr02	HAP1	2	OZ365312.1	52170905	/lustre/scratch122/tol/data/8/a/6/f/5/7/Empetrum_nigrum/assembly/release/ddEmpNigr1.hap1.1/insdc/GCA_977035805.1.fa.gz	Empetrum nigrum genome assembly, chromosome: 3
 HAP1_chr04	HAP1	4	OZ365313.1	44733320	/lustre/scratch122/tol/data/8/a/6/f/5/7/Empetrum_nigrum/assembly/release/ddEmpNigr1.hap1.1/insdc/GCA_977035805.1.fa.gz	Empetrum nigrum genome assembly, chromosome: 4
-HAP1_chr05	HAP1	5	OZ365314.1	43644005	/lustre/scratch122/tol/data/8/a/6/f/5/7/Empetrum_nigrum/assembly/release/ddEmpNigr1.hap1.1/insdc/GCA_977035805.1.fa.gz	Empetrum nigrum genome assembly, chromosome: 5
-HAP1_chr06	HAP1	6	OZ365315.1	43358103	/lustre/scratch122/tol/data/8/a/6/f/5/7/Empetrum_nigrum/assembly/release/ddEmpNigr1.hap1.1/insdc/GCA_977035805.1.fa.gz	Empetrum nigrum genome assembly, chromosome: 6
+HAP1_chr06	HAP1	6	OZ365314.1	43644005	/lustre/scratch122/tol/data/8/a/6/f/5/7/Empetrum_nigrum/assembly/release/ddEmpNigr1.hap1.1/insdc/GCA_977035805.1.fa.gz	Empetrum nigrum genome assembly, chromosome: 5
+HAP1_chr05	HAP1	5	OZ365315.1	43358103	/lustre/scratch122/tol/data/8/a/6/f/5/7/Empetrum_nigrum/assembly/release/ddEmpNigr1.hap1.1/insdc/GCA_977035805.1.fa.gz	Empetrum nigrum genome assembly, chromosome: 6
 HAP1_chr07	HAP1	7	OZ365316.1	39808636	/lustre/scratch122/tol/data/8/a/6/f/5/7/Empetrum_nigrum/assembly/release/ddEmpNigr1.hap1.1/insdc/GCA_977035805.1.fa.gz	Empetrum nigrum genome assembly, chromosome: 7
 HAP1_chr08	HAP1	8	OZ365317.1	39881116	/lustre/scratch122/tol/data/8/a/6/f/5/7/Empetrum_nigrum/assembly/release/ddEmpNigr1.hap1.1/insdc/GCA_977035805.1.fa.gz	Empetrum nigrum genome assembly, chromosome: 8
 HAP1_chr09	HAP1	9	OZ365318.1	39041625	/lustre/scratch122/tol/data/8/a/6/f/5/7/Empetrum_nigrum/assembly/release/ddEmpNigr1.hap1.1/insdc/GCA_977035805.1.fa.gz	Empetrum nigrum genome assembly, chromosome: 9
