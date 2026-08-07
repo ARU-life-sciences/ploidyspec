@@ -1,0 +1,8 @@
+chrom	unit_a	unit_b	hap_a	hap_b	distance	resolution_limited
+chr01	HAP1_chr01	HAP2_chr01	HAP1	HAP2	0.001061	False
+chr02	HAP1_chr02	HAP2_chr02	HAP1	HAP2	0.000333	False
+chr03	HAP1_chr03	HAP2_chr03	HAP1	HAP2	0.000764	False
+chr04	HAP1_chr04	HAP2_chr04	HAP1	HAP2	0.000604	False
+chr05	HAP1_chr05	HAP2_chr05	HAP1	HAP2	0.000436	False
+chr06	HAP1_chr06	HAP2_chr06	HAP1	HAP2	0.000812	False
+chr07	HAP1_chr07	HAP2_chr07	HAP1	HAP2	0.001041	False

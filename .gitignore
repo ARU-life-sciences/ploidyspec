@@ -11,3 +11,5 @@ lsf.*.out
 lsf.*.err
 lsf.verify.*.out
 lsf.verify.*.err
+te_markers_*x*.tsv
+!te_markers_windowed_*.tsv
