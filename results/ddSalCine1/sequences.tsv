@@ -1,0 +1,19 @@
+unit_id	hap	chrom	seq_id	length	source	desc
+HAP1_chr01	HAP1	1	OZ253417.1	31745995	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 1
+HAP1_chr02	HAP1	2	OZ253418.1	21480003	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 2
+HAP1_chr03	HAP1	3	OZ253419.1	21338029	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 3
+HAP1_chr04	HAP1	4	OZ253420.1	19880903	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 4
+HAP1_chr05	HAP1	5	OZ253421.1	17960813	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 5
+HAP1_chr06	HAP1	6	OZ253422.1	17935354	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 6
+HAP1_chr07	HAP1	7	OZ253423.1	17865445	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 7
+HAP1_chr08	HAP1	8	OZ253424.1	17563904	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 8
+HAP1_chr09	HAP1	9	OZ253425.1	17406329	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 9
+HAP1_chr10	HAP1	10	OZ253426.1	17310281	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 10
+HAP1_chr11	HAP1	11	OZ253427.1	17195812	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 11
+HAP1_chr12	HAP1	12	OZ253428.1	16732231	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 12
+HAP1_chr13	HAP1	13	OZ253429.1	16663349	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 13
+HAP1_chr14	HAP1	14	OZ253430.1	16390527	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 14
+HAP1_chr15	HAP1	15	OZ253431.1	15087121	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 15
+HAP1_chr16	HAP1	16	OZ253432.1	14920706	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 16
+HAP1_chr17	HAP1	17	OZ253433.1	12758695	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 17
+HAP1_chr18	HAP1	18	OZ253434.1	10314354	/lustre/scratch122/tol/data/c/c/e/4/5/6/Salix_cinerea/assembly/release/ddSalCine1.hap1.1/insdc/GCA_965260955.1.fa.gz	Salix cinerea genome assembly, chromosome: 18

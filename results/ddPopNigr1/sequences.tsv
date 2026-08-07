@@ -1,0 +1,20 @@
+unit_id	hap	chrom	seq_id	length	source	desc
+HAP1_chr01	HAP1	1	OX637672.1	50570738	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 1
+HAP1_chr02	HAP1	2	OX637673.1	48858236	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 2
+HAP1_chr03	HAP1	3	OX637674.1	27273051	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 3
+HAP1_chr04	HAP1	4	OX637675.1	25094000	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 4
+HAP1_chr05	HAP1	5	OX637676.1	23886339	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 5
+HAP1_chr06	HAP1	6	OX637677.1	22727222	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 6
+HAP1_chr07	HAP1	7	OX637678.1	22490379	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 7
+HAP1_chr08	HAP1	8	OX637679.1	21924117	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 8
+HAP1_chr09	HAP1	9	OX637680.1	17928670	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 9
+HAP1_chr10	HAP1	10	OX637681.1	16710430	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 10
+HAP1_chr11	HAP1	11	OX637682.1	16461703	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 11
+HAP1_chr12	HAP1	12	OX637683.1	16068193	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 12
+HAP1_chr13	HAP1	13	OX637684.1	15933088	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 13
+HAP1_chr14	HAP1	14	OX637685.1	15212947	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 14
+HAP1_chr15	HAP1	15	OX637686.1	15166042	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 15
+HAP1_chr16	HAP1	16	OX637687.1	14614230	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 16
+HAP1_chr17	HAP1	17	OX637688.1	14411003	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 17
+HAP1_chr18	HAP1	18	OX637689.1	14013446	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 18
+HAP1_chr19	HAP1	19	OX637690.1	13761009	/lustre/scratch122/tol/data/8/a/b/f/e/8/Populus_nigra/assembly/release/ddPopNigr1.1/insdc/GCA_951802175.1.fa.gz	Populus nigra genome assembly, chromosome: 19

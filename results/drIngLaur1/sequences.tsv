@@ -1,0 +1,14 @@
+unit_id	hap	chrom	seq_id	length	source	desc
+HAP1_chr01	HAP1	1	OY979701.1	86578616	/lustre/scratch122/tol/data/e/0/2/4/0/4/Inga_laurina/assembly/release/drIngLaur1.1/insdc/GCA_963855925.1.fa.gz	Inga laurina genome assembly, chromosome: 1
+HAP1_chr02	HAP1	2	OY979702.1	86251610	/lustre/scratch122/tol/data/e/0/2/4/0/4/Inga_laurina/assembly/release/drIngLaur1.1/insdc/GCA_963855925.1.fa.gz	Inga laurina genome assembly, chromosome: 2
+HAP1_chr03	HAP1	3	OY979703.1	85182000	/lustre/scratch122/tol/data/e/0/2/4/0/4/Inga_laurina/assembly/release/drIngLaur1.1/insdc/GCA_963855925.1.fa.gz	Inga laurina genome assembly, chromosome: 3
+HAP1_chr04	HAP1	4	OY979704.1	71479628	/lustre/scratch122/tol/data/e/0/2/4/0/4/Inga_laurina/assembly/release/drIngLaur1.1/insdc/GCA_963855925.1.fa.gz	Inga laurina genome assembly, chromosome: 4
+HAP1_chr05	HAP1	5	OY979705.1	70615482	/lustre/scratch122/tol/data/e/0/2/4/0/4/Inga_laurina/assembly/release/drIngLaur1.1/insdc/GCA_963855925.1.fa.gz	Inga laurina genome assembly, chromosome: 5
+HAP1_chr06	HAP1	6	OY979706.1	69475142	/lustre/scratch122/tol/data/e/0/2/4/0/4/Inga_laurina/assembly/release/drIngLaur1.1/insdc/GCA_963855925.1.fa.gz	Inga laurina genome assembly, chromosome: 6
+HAP1_chr07	HAP1	7	OY979707.1	67474288	/lustre/scratch122/tol/data/e/0/2/4/0/4/Inga_laurina/assembly/release/drIngLaur1.1/insdc/GCA_963855925.1.fa.gz	Inga laurina genome assembly, chromosome: 7
+HAP1_chr08	HAP1	8	OY979708.1	67121398	/lustre/scratch122/tol/data/e/0/2/4/0/4/Inga_laurina/assembly/release/drIngLaur1.1/insdc/GCA_963855925.1.fa.gz	Inga laurina genome assembly, chromosome: 8
+HAP1_chr09	HAP1	9	OY979709.1	63439148	/lustre/scratch122/tol/data/e/0/2/4/0/4/Inga_laurina/assembly/release/drIngLaur1.1/insdc/GCA_963855925.1.fa.gz	Inga laurina genome assembly, chromosome: 9
+HAP1_chr10	HAP1	10	OY979710.1	63429930	/lustre/scratch122/tol/data/e/0/2/4/0/4/Inga_laurina/assembly/release/drIngLaur1.1/insdc/GCA_963855925.1.fa.gz	Inga laurina genome assembly, chromosome: 10
+HAP1_chr11	HAP1	11	OY979711.1	60940785	/lustre/scratch122/tol/data/e/0/2/4/0/4/Inga_laurina/assembly/release/drIngLaur1.1/insdc/GCA_963855925.1.fa.gz	Inga laurina genome assembly, chromosome: 11
+HAP1_chr12	HAP1	12	OY979712.1	56366859	/lustre/scratch122/tol/data/e/0/2/4/0/4/Inga_laurina/assembly/release/drIngLaur1.1/insdc/GCA_963855925.1.fa.gz	Inga laurina genome assembly, chromosome: 12
+HAP1_chr13	HAP1	13	OY979713.1	51209887	/lustre/scratch122/tol/data/e/0/2/4/0/4/Inga_laurina/assembly/release/drIngLaur1.1/insdc/GCA_963855925.1.fa.gz	Inga laurina genome assembly, chromosome: 13

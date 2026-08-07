@@ -1,0 +1,23 @@
+unit_id	hap	chrom	seq_id	length	source	desc
+HAP1_chr01	HAP1	1	OX940949.1	66608978	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 1
+HAP1_chr02	HAP1	2	OX940950.1	60051239	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 2
+HAP1_chr03	HAP1	3	OX940951.1	56408396	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 3
+HAP1_chr04	HAP1	4	OX940952.1	48524651	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 4
+HAP1_chr05	HAP1	5	OX940953.1	48373420	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 5
+HAP1_chr06	HAP1	6	OX940954.1	45965543	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 6
+HAP1_chr07	HAP1	7	OX940955.1	44868400	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 7
+HAP1_chr08	HAP1	8	OX940956.1	44504029	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 8
+HAP1_chr09	HAP1	9	OX940957.1	42212847	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 9
+HAP1_chr10	HAP1	10	OX940958.1	41336645	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 10
+HAP1_chr11	HAP1	11	OX940959.1	39672855	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 11
+HAP1_chr12	HAP1	12	OX940960.1	40861923	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 12
+HAP1_chr13	HAP1	13	OX940961.1	39772078	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 13
+HAP1_chr14	HAP1	14	OX940962.1	38891869	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 14
+HAP1_chr15	HAP1	15	OX940963.1	35112103	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 15
+HAP1_chr16	HAP1	16	OX940964.1	36341755	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 16
+HAP1_chr17	HAP1	17	OX940965.1	36615266	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 17
+HAP1_chr18	HAP1	18	OX940966.1	33367751	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 18
+HAP1_chr19	HAP1	19	OX940967.1	32831144	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 19
+HAP1_chr20	HAP1	20	OX940968.1	29761913	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 20
+HAP1_chr21	HAP1	21	OX940969.1	29189881	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 21
+HAP1_chr22	HAP1	22	OX940970.1	29845050	/lustre/scratch122/tol/data/a/6/a/3/3/6/Euphrasia_confusa/assembly/release/daEupConf1.1/insdc/GCA_954870475.1.fa.gz	Euphrasia confusa genome assembly, chromosome: 22

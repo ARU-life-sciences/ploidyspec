@@ -1,0 +1,8 @@
+chrom_a	chrom_b	mean_distance	n_haplotype_copy_pairs	resolution_limited	n_resolution_limited_of_total
+chr10	chr14	0.067949	1	False	0/1
+chr07	chr09	0.073309	1	False	0/1
+chr04	chr11	0.075300	1	False	0/1
+chr06	chr08	0.076206	1	False	0/1
+chr02	chr12	0.077949	1	False	0/1
+chr01	chr05	0.086729	1	False	0/1
+chr03	chr13	0.088830	1	False	0/1

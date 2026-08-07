@@ -1,0 +1,14 @@
+unit_id	hap	chrom	seq_id	length	source	desc
+HAP1_chr01	HAP1	1	OZ076859.1	61322524	/lustre/scratch122/tol/data/d/4/9/4/0/2/Urtica_dioica/assembly/release/drUrtDioi1.1/insdc/GCA_964188135.1.fa.gz	Urtica dioica genome assembly, chromosome: 1
+HAP1_chr02	HAP1	2	OZ076860.1	54024440	/lustre/scratch122/tol/data/d/4/9/4/0/2/Urtica_dioica/assembly/release/drUrtDioi1.1/insdc/GCA_964188135.1.fa.gz	Urtica dioica genome assembly, chromosome: 2
+HAP1_chr03	HAP1	3	OZ076861.1	50492111	/lustre/scratch122/tol/data/d/4/9/4/0/2/Urtica_dioica/assembly/release/drUrtDioi1.1/insdc/GCA_964188135.1.fa.gz	Urtica dioica genome assembly, chromosome: 3
+HAP1_chr04	HAP1	4	OZ076862.1	48317376	/lustre/scratch122/tol/data/d/4/9/4/0/2/Urtica_dioica/assembly/release/drUrtDioi1.1/insdc/GCA_964188135.1.fa.gz	Urtica dioica genome assembly, chromosome: 4
+HAP1_chr05	HAP1	5	OZ076863.1	45121906	/lustre/scratch122/tol/data/d/4/9/4/0/2/Urtica_dioica/assembly/release/drUrtDioi1.1/insdc/GCA_964188135.1.fa.gz	Urtica dioica genome assembly, chromosome: 5
+HAP1_chr06	HAP1	6	OZ076864.1	41425038	/lustre/scratch122/tol/data/d/4/9/4/0/2/Urtica_dioica/assembly/release/drUrtDioi1.1/insdc/GCA_964188135.1.fa.gz	Urtica dioica genome assembly, chromosome: 6
+HAP1_chr07	HAP1	7	OZ076865.1	37327017	/lustre/scratch122/tol/data/d/4/9/4/0/2/Urtica_dioica/assembly/release/drUrtDioi1.1/insdc/GCA_964188135.1.fa.gz	Urtica dioica genome assembly, chromosome: 7
+HAP1_chr08	HAP1	8	OZ076866.1	34456555	/lustre/scratch122/tol/data/d/4/9/4/0/2/Urtica_dioica/assembly/release/drUrtDioi1.1/insdc/GCA_964188135.1.fa.gz	Urtica dioica genome assembly, chromosome: 8
+HAP1_chr09	HAP1	9	OZ076867.1	29159115	/lustre/scratch122/tol/data/d/4/9/4/0/2/Urtica_dioica/assembly/release/drUrtDioi1.1/insdc/GCA_964188135.1.fa.gz	Urtica dioica genome assembly, chromosome: 9
+HAP1_chr10	HAP1	10	OZ076868.1	25087812	/lustre/scratch122/tol/data/d/4/9/4/0/2/Urtica_dioica/assembly/release/drUrtDioi1.1/insdc/GCA_964188135.1.fa.gz	Urtica dioica genome assembly, chromosome: 10
+HAP1_chr11	HAP1	11	OZ076869.1	23175452	/lustre/scratch122/tol/data/d/4/9/4/0/2/Urtica_dioica/assembly/release/drUrtDioi1.1/insdc/GCA_964188135.1.fa.gz	Urtica dioica genome assembly, chromosome: 11
+HAP1_chr12	HAP1	12	OZ076870.1	20534196	/lustre/scratch122/tol/data/d/4/9/4/0/2/Urtica_dioica/assembly/release/drUrtDioi1.1/insdc/GCA_964188135.1.fa.gz	Urtica dioica genome assembly, chromosome: 12
+HAP1_chr13	HAP1	13	OZ076871.1	20064284	/lustre/scratch122/tol/data/d/4/9/4/0/2/Urtica_dioica/assembly/release/drUrtDioi1.1/insdc/GCA_964188135.1.fa.gz	Urtica dioica genome assembly, chromosome: 13

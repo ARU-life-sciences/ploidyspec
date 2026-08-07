@@ -1,0 +1,16 @@
+unit_id	hap	chrom	seq_id	length	source	desc
+HAP1_chr01	HAP1	1	OX638062.1	64644275	/lustre/scratch122/tol/data/d/3/6/c/e/d/Trifolium_dubium/assembly/release/drTriDubi3.1/insdc/GCA_951804385.1.fa.gz	Trifolium dubium genome assembly, chromosome: 1
+HAP1_chr02	HAP1	2	OX638063.1	59506300	/lustre/scratch122/tol/data/d/3/6/c/e/d/Trifolium_dubium/assembly/release/drTriDubi3.1/insdc/GCA_951804385.1.fa.gz	Trifolium dubium genome assembly, chromosome: 2
+HAP1_chr03	HAP1	3	OX638064.1	59372272	/lustre/scratch122/tol/data/d/3/6/c/e/d/Trifolium_dubium/assembly/release/drTriDubi3.1/insdc/GCA_951804385.1.fa.gz	Trifolium dubium genome assembly, chromosome: 3
+HAP1_chr04	HAP1	4	OX638065.1	51571781	/lustre/scratch122/tol/data/d/3/6/c/e/d/Trifolium_dubium/assembly/release/drTriDubi3.1/insdc/GCA_951804385.1.fa.gz	Trifolium dubium genome assembly, chromosome: 4
+HAP1_chr05	HAP1	5	OX638066.1	50659771	/lustre/scratch122/tol/data/d/3/6/c/e/d/Trifolium_dubium/assembly/release/drTriDubi3.1/insdc/GCA_951804385.1.fa.gz	Trifolium dubium genome assembly, chromosome: 5
+HAP1_chr06	HAP1	6	OX638067.1	47175577	/lustre/scratch122/tol/data/d/3/6/c/e/d/Trifolium_dubium/assembly/release/drTriDubi3.1/insdc/GCA_951804385.1.fa.gz	Trifolium dubium genome assembly, chromosome: 6
+HAP1_chr07	HAP1	7	OX638068.1	46006535	/lustre/scratch122/tol/data/d/3/6/c/e/d/Trifolium_dubium/assembly/release/drTriDubi3.1/insdc/GCA_951804385.1.fa.gz	Trifolium dubium genome assembly, chromosome: 7
+HAP1_chr08	HAP1	8	OX638069.1	40672081	/lustre/scratch122/tol/data/d/3/6/c/e/d/Trifolium_dubium/assembly/release/drTriDubi3.1/insdc/GCA_951804385.1.fa.gz	Trifolium dubium genome assembly, chromosome: 8
+HAP1_chr09	HAP1	9	OX638070.1	40212997	/lustre/scratch122/tol/data/d/3/6/c/e/d/Trifolium_dubium/assembly/release/drTriDubi3.1/insdc/GCA_951804385.1.fa.gz	Trifolium dubium genome assembly, chromosome: 9
+HAP1_chr10	HAP1	10	OX638071.1	39275770	/lustre/scratch122/tol/data/d/3/6/c/e/d/Trifolium_dubium/assembly/release/drTriDubi3.1/insdc/GCA_951804385.1.fa.gz	Trifolium dubium genome assembly, chromosome: 10
+HAP1_chr11	HAP1	11	OX638072.1	38738077	/lustre/scratch122/tol/data/d/3/6/c/e/d/Trifolium_dubium/assembly/release/drTriDubi3.1/insdc/GCA_951804385.1.fa.gz	Trifolium dubium genome assembly, chromosome: 11
+HAP1_chr12	HAP1	12	OX638073.1	36761819	/lustre/scratch122/tol/data/d/3/6/c/e/d/Trifolium_dubium/assembly/release/drTriDubi3.1/insdc/GCA_951804385.1.fa.gz	Trifolium dubium genome assembly, chromosome: 12
+HAP1_chr13	HAP1	13	OX638074.1	35948857	/lustre/scratch122/tol/data/d/3/6/c/e/d/Trifolium_dubium/assembly/release/drTriDubi3.1/insdc/GCA_951804385.1.fa.gz	Trifolium dubium genome assembly, chromosome: 13
+HAP1_chr14	HAP1	14	OX638075.1	34190264	/lustre/scratch122/tol/data/d/3/6/c/e/d/Trifolium_dubium/assembly/release/drTriDubi3.1/insdc/GCA_951804385.1.fa.gz	Trifolium dubium genome assembly, chromosome: 14
+HAP1_chr15	HAP1	15	OX638076.1	31434786	/lustre/scratch122/tol/data/d/3/6/c/e/d/Trifolium_dubium/assembly/release/drTriDubi3.1/insdc/GCA_951804385.1.fa.gz	Trifolium dubium genome assembly, chromosome: 15
