@@ -17,6 +17,32 @@ def repo_root():
     return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+def _output_subdir(outdir, name):
+    d = os.path.join(outdir, name)
+    os.makedirs(d, exist_ok=True)
+    return d
+
+
+def matrix_dir(outdir):
+    """Whole-chromosome distance matrix, ploidy/homology reports, heatmaps."""
+    return _output_subdir(outdir, "matrix")
+
+
+def windowed_dir(outdir):
+    """Sliding-window divergence between haplotype copies of the same chromosome."""
+    return _output_subdir(outdir, "windowed")
+
+
+def homeologs_dir(outdir):
+    """Ancient (paleopolyploid) homeolog pairs and their windowed tracks."""
+    return _output_subdir(outdir, "homeologs")
+
+
+def subgenomes_dir(outdir):
+    """Fossil-TE marker output, windowed subgenome painting, auto/allo index."""
+    return _output_subdir(outdir, "subgenomes")
+
+
 def find_tool(explicit, dir_glob, binary_name):
     """Locate a binary: explicit path/dir > sibling dir matching dir_glob > PATH."""
     if explicit:

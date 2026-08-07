@@ -15,7 +15,7 @@ import shutil
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from .common import log, run
+from .common import log, run, subgenomes_dir
 from .kmer_tables import build_one, ktab_prefix_path, load_sequences
 from .windowed import build_window_ktab, make_windows
 
@@ -152,6 +152,8 @@ def compute_te_markers(
                         chrom=chrom,
                         n_markers_a=n_a,
                         n_markers_b=n_b,
+                        n_highcopy_a=len(dumps[ua]),
+                        n_highcopy_b=len(dumps[ub]),
                     )
                 )
 
@@ -160,7 +162,7 @@ def compute_te_markers(
 
 
 def write_markers_tsv(outdir, unit_a, unit_b, markers):
-    path = os.path.join(outdir, f"te_markers_{unit_a}x{unit_b}.tsv")
+    path = os.path.join(subgenomes_dir(outdir), f"te_markers_{unit_a}x{unit_b}.tsv")
     with open(path, "w", newline="") as f:
         w = csv.writer(f, delimiter="\t")
         w.writerow(["kmer", "count_a", "count_b", "assigned"])
@@ -171,10 +173,20 @@ def write_markers_tsv(outdir, unit_a, unit_b, markers):
 
 
 def write_summary_tsv(outdir, results):
-    path = os.path.join(outdir, "te_markers_summary.tsv")
+    path = os.path.join(subgenomes_dir(outdir), "te_markers_summary.tsv")
     with open(path, "w", newline="") as f:
         w = csv.writer(f, delimiter="\t")
-        w.writerow(["unit_a", "unit_b", "chrom", "n_markers_a", "n_markers_b"])
+        w.writerow(
+            [
+                "unit_a",
+                "unit_b",
+                "chrom",
+                "n_markers_a",
+                "n_markers_b",
+                "n_highcopy_a",
+                "n_highcopy_b",
+            ]
+        )
         for r in results:
             w.writerow(
                 [
@@ -183,13 +195,15 @@ def write_summary_tsv(outdir, results):
                     f"chr{r['chrom']:02d}",
                     r["n_markers_a"],
                     r["n_markers_b"],
+                    r["n_highcopy_a"],
+                    r["n_highcopy_b"],
                 ]
             )
 
 
 def load_markers_tsv(outdir, unit_a, unit_b):
     """{kmer} sets for each side, from a te_markers_<a>x<b>.tsv written earlier."""
-    path = os.path.join(outdir, f"te_markers_{unit_a}x{unit_b}.tsv")
+    path = os.path.join(subgenomes_dir(outdir), f"te_markers_{unit_a}x{unit_b}.tsv")
     a_markers, b_markers = set(), set()
     with open(path) as f:
         for row in csv.DictReader(f, delimiter="\t"):
@@ -281,7 +295,7 @@ def compute_te_markers_windowed(
     threads,
 ):
     units = {u["unit_id"]: u for u in load_sequences(seq_tsv)}
-    summary_path = os.path.join(outdir, "te_markers_summary.tsv")
+    summary_path = os.path.join(subgenomes_dir(outdir), "te_markers_summary.tsv")
     if not os.path.exists(summary_path):
         raise SystemExit(
             f"{summary_path} not found -- run the `te-markers` stage first"
@@ -332,7 +346,9 @@ def compute_te_markers_windowed(
 
 
 def write_windowed_tsv(outdir, unit_a, unit_b, rows):
-    path = os.path.join(outdir, f"te_markers_windowed_{unit_a}x{unit_b}.tsv")
+    path = os.path.join(
+        subgenomes_dir(outdir), f"te_markers_windowed_{unit_a}x{unit_b}.tsv"
+    )
     with open(path, "w", newline="") as f:
         w = csv.writer(f, delimiter="\t")
         w.writerow(
@@ -400,6 +416,9 @@ def plot_painted_track(outdir, unit_a, unit_b, rows):
     fig.suptitle(f"{unit_a} x {unit_b}: windowed fossil-TE marker assignment")
     fig.tight_layout(rect=[0, 0.08, 1, 0.95])
     fig.savefig(
-        os.path.join(outdir, f"te_markers_windowed_{unit_a}x{unit_b}.png"), dpi=150
+        os.path.join(
+            subgenomes_dir(outdir), f"te_markers_windowed_{unit_a}x{unit_b}.png"
+        ),
+        dpi=150,
     )
     plt.close(fig)

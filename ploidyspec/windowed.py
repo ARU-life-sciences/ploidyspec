@@ -5,7 +5,15 @@ import shutil
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from .common import group_pair_batches, log, run, run_logex_batch, sum_hist_distinct
+from .common import (
+    group_pair_batches,
+    homeologs_dir,
+    log,
+    run,
+    run_logex_batch,
+    sum_hist_distinct,
+    windowed_dir,
+)
 from .kmer_tables import load_sequences
 
 FIELDNAMES = [
@@ -234,7 +242,7 @@ def compute_windowed(
     labeled_groups = {f"chr{c:02d}": g for c, g in groups.items()}
     return compute_windowed_groups(
         labeled_groups,
-        outdir,
+        windowed_dir(outdir),
         samtools_bin,
         fastk_bin,
         logex_bin,
@@ -275,7 +283,7 @@ def compute_windowed_homeologs(
 
     return compute_windowed_groups(
         labeled_groups,
-        outdir,
+        homeologs_dir(outdir),
         samtools_bin,
         fastk_bin,
         logex_bin,

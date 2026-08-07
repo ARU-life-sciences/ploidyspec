@@ -1,15 +1,16 @@
 import csv
 import itertools
+import math
 import os
 import statistics
 from collections import defaultdict
 
-from .common import log
+from .common import homeologs_dir, log, matrix_dir
 from .kmer_tables import load_sequences
 
 
 def load_distance_matrix(outdir):
-    path = os.path.join(outdir, "whole_chrom_distance_matrix.csv")
+    path = os.path.join(matrix_dir(outdir), "whole_chrom_distance_matrix.csv")
     with open(path) as f:
         r = list(csv.reader(f))
     ids = r[0][1:]
@@ -43,7 +44,7 @@ def cross_chrom_distances(groups, mat):
 def load_pair_resolution_flags(outdir):
     """{frozenset({unit_a, unit_b}): resolution_limited bool} from whole_chrom_pairs.tsv.
     Empty dict (not an error) if that file predates the Mash-correction columns."""
-    path = os.path.join(outdir, "whole_chrom_pairs.tsv")
+    path = os.path.join(matrix_dir(outdir), "whole_chrom_pairs.tsv")
     flags = {}
     if not os.path.exists(path):
         return flags
@@ -71,48 +72,116 @@ def chrom_pair_resolution_status(groups, flags, i, j):
     return n_limited > 0, n_limited, len(statuses)
 
 
-def detect_homeolog_pairs(pair_dist, chrom_nums, gap_search_frac=0.5):
+def _fit_background(distances, n_iter=3, clip_sigma=2.0):
+    """Iteratively refit mean/stdev of the background, excluding low outliers
+    (candidate homeolog pairs) each round so a genome where most chromosomes
+    retain a homeolog partner doesn't contaminate its own null estimate."""
+    sample = list(distances)
+    mean = statistics.mean(sample)
+    stdev = statistics.pstdev(sample) or 1e-9
+    for _ in range(n_iter):
+        kept = [d for d in distances if d >= mean - clip_sigma * stdev]
+        if len(kept) < 2 or len(kept) == len(sample):
+            break
+        sample = kept
+        mean = statistics.mean(sample)
+        stdev = statistics.pstdev(sample) or 1e-9
+    return mean, stdev
+
+
+def empirical_pvalues(pair_dist):
+    """
+    Empirical p-value per cross-chromosome-number pair: a one-sided lower-tail
+    z-test against a normal approximation fit to the background of all
+    cross-chromosome-number distances (sigma-clipped so candidate homeolog
+    pairs don't inflate the estimate -- see _fit_background). Not a literal
+    reshuffle-and-recompute permutation test (that would need re-deriving
+    k-mer distances under permuted labels, real new compute this codebase has
+    no machinery for), but the same underlying question: is this pair's
+    distance unusually small relative to what unrelated-chromosome
+    comparisons look like.
+
+    A naive "fraction of the same n distances that are <= mine" p-value
+    (i.e. rank/n) was tried first and rejected after verification caught a
+    real degeneracy: it's mathematically identical to feeding
+    Benjamini-Hochberg its own expected-value-under-the-null as the observed
+    p-value, so q_(k) = p_(k)*n/k = (k/n)*n/k = 1 for every single pair
+    regardless of the data -- confirmed empirically on synthetic data with an
+    obvious 9-pair signal (0/9 accepted). The p-value has to be able to
+    resolve finer than 1/n for FDR correction to do anything at all; a
+    parametric fit to the background achieves that.
+
+    Returns (p_values, z_scores). z_scores is reported alongside p in every
+    output because p underflows to exactly 0.0 in float64 once |z| gets much
+    past ~9 (confirmed on real data: daGleHede1's homeolog pairs sit ~20
+    background-stdevs below the mean, since that background happens to be
+    unusually tight) -- at that point p and q genuinely are indistinguishable
+    from 0 and stop conveying how much evidence there is, while z stays a
+    finite, comparable number.
+    """
+    distances = list(pair_dist.values())
+    mean, stdev = _fit_background(distances)
+    z_scores = {pair: (d - mean) / stdev for pair, d in pair_dist.items()}
+    p_values = {
+        pair: 0.5 * (1 + math.erf(z / math.sqrt(2))) for pair, z in z_scores.items()
+    }
+    return p_values, z_scores
+
+
+def bh_qvalues(p_by_key):
+    """Benjamini-Hochberg FDR-adjusted p-values (q-values), stdlib only --
+    q_(rank) = min(1, min_{rank' >= rank} p_(rank') * n / rank'), computed as a
+    running minimum from the largest rank down to the smallest so it comes
+    out monotone non-decreasing as p increases, per the standard BH procedure."""
+    items = list(p_by_key.items())
+    n = len(items)
+    order = sorted(range(n), key=lambda idx: items[idx][1])
+    q_values = [0.0] * n
+    running_min = 1.0
+    for rank in range(n, 0, -1):
+        idx = order[rank - 1]
+        p = items[idx][1]
+        running_min = min(running_min, p * n / rank)
+        q_values[idx] = running_min
+    return {items[idx][0]: q_values[idx] for idx in range(n)}
+
+
+def detect_homeolog_pairs(pair_dist, chrom_nums, fdr_alpha=0.05):
     """
     Look for a retained ancestral (paleopolyploid/WGD) subgenome pairing among
-    *different* chromosome numbers: chromosome pairs whose whole-chromosome k-mer
-    distance sits well below the random cross-chromosome background, consistent
-    with shared descent from a whole-genome duplication rather than coincidence.
-
-    Approach: take the best (lowest-distance) partner candidates, find the largest
-    gap in their sorted distances (real ancestral pairs cluster well below the
-    random background, which is unimodal and much higher), keep everything below
-    that gap, then greedily resolve it into a 1:1 matching.
+    *different* chromosome numbers: chromosome pairs whose whole-chromosome
+    k-mer distance is unusually low relative to the empirical background of
+    every other cross-chromosome-number comparison (see empirical_pvalues),
+    with Benjamini-Hochberg FDR correction across all candidates tested
+    simultaneously. Pairs with q <= fdr_alpha are accepted, then greedily
+    resolved into a 1:1 matching (ascending distance order, each chromosome
+    number gets at most one partner) since a chromosome can only have one
+    true ancestral partner.
     """
+    p_values, z_scores = empirical_pvalues(pair_dist)
+    q_values = bh_qvalues(p_values)
+
     sorted_pairs = sorted(pair_dist.items(), key=lambda kv: kv[1])
-    n_candidates = max(
-        len(chrom_nums) // 2 + 1, int(len(sorted_pairs) * gap_search_frac)
-    )
-    search_space = sorted_pairs[:n_candidates]
-
-    best_gap = -1.0
-    cutoff_idx = len(search_space)
-    for k in range(1, len(search_space)):
-        gap = search_space[k][1] - search_space[k - 1][1]
-        if gap > best_gap:
-            best_gap = gap
-            cutoff_idx = k
-    pool = search_space[:cutoff_idx]
-
     matched = {}
     accepted = []
-    for (i, j), d in pool:
+    for (i, j), d in sorted_pairs:
+        if q_values[(i, j)] > fdr_alpha:
+            continue
         if i in matched or j in matched:
             continue
         matched[i] = j
         matched[j] = i
-        accepted.append((i, j, d))
+        accepted.append(
+            (i, j, d, p_values[(i, j)], q_values[(i, j)], z_scores[(i, j)])
+        )
 
     unmatched = [c for c in chrom_nums if c not in matched]
-    background = [d for _, d in sorted_pairs[cutoff_idx:]]
-    return accepted, unmatched, background, best_gap
+    accepted_keys = {(i, j) for i, j, *_ in accepted}
+    background = [d for pair, d in pair_dist.items() if pair not in accepted_keys]
+    return accepted, unmatched, background
 
 
-def run(seq_tsv, outdir):
+def run(seq_tsv, outdir, fdr_alpha=0.05):
     units = load_sequences(seq_tsv)
     ids, mat = load_distance_matrix(outdir)
     groups = chrom_groups(units)
@@ -124,13 +193,16 @@ def run(seq_tsv, outdir):
         return []
 
     pair_dist = cross_chrom_distances(groups, mat)
-    accepted, unmatched, background, gap = detect_homeolog_pairs(pair_dist, chrom_nums)
+    accepted, unmatched, background = detect_homeolog_pairs(
+        pair_dist, chrom_nums, fdr_alpha
+    )
     flags = load_pair_resolution_flags(outdir)
     status_by_pair = {
-        (i, j): chrom_pair_resolution_status(groups, flags, i, j) for i, j, _ in accepted
+        (i, j): chrom_pair_resolution_status(groups, flags, i, j)
+        for i, j, *_ in accepted
     }
 
-    path = os.path.join(outdir, "homeolog_pairs.tsv")
+    path = os.path.join(homeologs_dir(outdir), "homeolog_pairs.tsv")
     with open(path, "w", newline="") as f:
         w = csv.writer(f, delimiter="\t")
         w.writerow(
@@ -138,12 +210,15 @@ def run(seq_tsv, outdir):
                 "chrom_a",
                 "chrom_b",
                 "mean_distance",
+                "z_score",
+                "p_value",
+                "q_value",
                 "n_haplotype_copy_pairs",
                 "resolution_limited",
                 "n_resolution_limited_of_total",
             ]
         )
-        for i, j, d in sorted(accepted, key=lambda x: x[2]):
+        for i, j, d, p, q, z in sorted(accepted, key=lambda x: x[2]):
             status = status_by_pair[(i, j)]
             limited_str = "NA" if status is None else status[0]
             n_limited_str = "NA" if status is None else f"{status[1]}/{status[2]}"
@@ -152,6 +227,9 @@ def run(seq_tsv, outdir):
                     f"chr{i:02d}",
                     f"chr{j:02d}",
                     f"{d:.6f}",
+                    f"{z:.3f}",
+                    f"{p:.6g}",
+                    f"{q:.6g}",
                     len(groups[i]) * len(groups[j]),
                     limited_str,
                     n_limited_str,
@@ -162,9 +240,9 @@ def run(seq_tsv, outdir):
     bg_min = min(background) if background else float("nan")
     log(
         f"candidate ancient homeolog pairs: {len(accepted)} pairs across {2 * len(accepted)} of "
-        f"{len(chrom_nums)} chromosomes (gap={gap:.4f}, background min={bg_min:.4f} mean={bg_mean:.4f})"
+        f"{len(chrom_nums)} chromosomes (FDR alpha={fdr_alpha}, background min={bg_min:.4f} mean={bg_mean:.4f})"
     )
-    for i, j, d in sorted(accepted, key=lambda x: x[2]):
+    for i, j, d, p, q, z in sorted(accepted, key=lambda x: x[2]):
         status = status_by_pair[(i, j)]
         warn = ""
         if status is not None and status[0]:
@@ -172,14 +250,16 @@ def run(seq_tsv, outdir):
                 f" [WARNING: {status[1]}/{status[2]} underlying haplotype-pair distances "
                 f"are resolution-limited -- this pairing rests on noise-floor estimates]"
             )
-        log(f"  chr{i:02d} <-> chr{j:02d}: mean distance={d:.4f}{warn}")
+        log(
+            f"  chr{i:02d} <-> chr{j:02d}: mean distance={d:.4f} z={z:.2f} q={q:.4g}{warn}"
+        )
     if unmatched:
         log(
             f"  no significant ancestral partner found for: {', '.join(f'chr{c:02d}' for c in unmatched)}"
         )
 
     plot_ranked_distances(outdir, pair_dist, accepted)
-    return [(i, j) for i, j, _ in accepted]
+    return [(i, j) for i, j, *_ in accepted]
 
 
 def plot_ranked_distances(outdir, pair_dist, accepted):
@@ -189,7 +269,7 @@ def plot_ranked_distances(outdir, pair_dist, accepted):
     import matplotlib.pyplot as plt
 
     sorted_pairs = sorted(pair_dist.items(), key=lambda kv: kv[1])
-    accepted_keys = {(min(i, j), max(i, j)) for i, j, _ in accepted}
+    accepted_keys = {(min(i, j), max(i, j)) for i, j, *_ in accepted}
 
     xs = list(range(len(sorted_pairs)))
     ys = [d for _, d in sorted_pairs]
@@ -219,5 +299,5 @@ def plot_ranked_distances(outdir, pair_dist, accepted):
         "Candidate ancestral (paleopolyploid) homeolog pairs -- red = accepted"
     )
     fig.tight_layout()
-    fig.savefig(os.path.join(outdir, "homeolog_pairs.png"), dpi=150)
+    fig.savefig(os.path.join(homeologs_dir(outdir), "homeolog_pairs.png"), dpi=150)
     plt.close(fig)

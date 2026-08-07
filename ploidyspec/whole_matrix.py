@@ -1,10 +1,11 @@
 import csv
 import os
+from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import numpy as np
 
-from .common import group_pair_batches, log, run_logex_batch, sum_hist_distinct
+from .common import group_pair_batches, log, matrix_dir, run_logex_batch, sum_hist_distinct
 from .kmer_tables import ktab_prefix_path, load_sequences
 from .mash import summarize_pair_across_k
 
@@ -127,16 +128,17 @@ def compute_matrix(seq_tsv, outdir, logex_bin, histex_bin, threads, k_values):
 def write_outputs(outdir, ids, units, k_values, distance, summaries):
     n = len(ids)
     k_sweep_str = ",".join(str(k) for k in k_values)
+    mdir = matrix_dir(outdir)
 
     with open(
-        os.path.join(outdir, "whole_chrom_distance_matrix.csv"), "w", newline=""
+        os.path.join(mdir, "whole_chrom_distance_matrix.csv"), "w", newline=""
     ) as f:
         w = csv.writer(f)
         w.writerow([""] + ids)
         for i, uid in enumerate(ids):
             w.writerow([uid] + [f"{distance[i, j]:.6f}" for j in range(n)])
 
-    with open(os.path.join(outdir, "whole_chrom_pairs.tsv"), "w", newline="") as f:
+    with open(os.path.join(mdir, "whole_chrom_pairs.tsv"), "w", newline="") as f:
         w = csv.writer(f, delimiter="\t")
         w.writerow(
             [
@@ -185,7 +187,7 @@ def write_outputs(outdir, ids, units, k_values, distance, summaries):
                     ]
                 )
 
-    with open(os.path.join(outdir, "whole_chrom_multi_k.tsv"), "w", newline="") as f:
+    with open(os.path.join(mdir, "whole_chrom_multi_k.tsv"), "w", newline="") as f:
         w = csv.writer(f, delimiter="\t")
         w.writerow(
             [
@@ -223,9 +225,77 @@ def write_outputs(outdir, ids, units, k_values, distance, summaries):
                         ]
                     )
 
+    write_ploidy_and_homology_reports(outdir, ids, units, summaries)
     plot_heatmap(outdir, ids, units, distance)
     plot_heatmap_contrast(outdir, ids, units, distance)
     plot_k_resolution_diagnostic(outdir, k_values, summaries)
+
+
+def write_ploidy_and_homology_reports(outdir, ids, units, summaries):
+    """
+    ploidy_summary.tsv: one row per chromosome number -- how many haplotype
+    copies were assembled for it (its ploidy level, e.g. 4 for a tetraploid
+    chromosome) and their labels. Already implicit in unit grouping
+    everywhere else, but never surfaced as its own readable report.
+
+    homologous_chromosomes.tsv: the same-chromosome-number subset of the
+    pairwise distance table -- the *true* haplotype/homologous pairs (as
+    opposed to homeolog_pairs.tsv's cross-chromosome-number ancestral
+    pairs) -- pulled into its own focused view instead of requiring a filter
+    over the full all-vs-all whole_chrom_pairs.tsv to answer "what are
+    chr01's copies and how different are they."
+    """
+    groups = defaultdict(list)
+    for u in units:
+        groups[int(u["chrom"])].append(u)
+    mdir = matrix_dir(outdir)
+
+    with open(os.path.join(mdir, "ploidy_summary.tsv"), "w", newline="") as f:
+        w = csv.writer(f, delimiter="\t")
+        w.writerow(["chrom", "n_haplotype_copies", "haplotype_labels"])
+        for chrom in sorted(groups):
+            group = groups[chrom]
+            w.writerow(
+                [
+                    f"chr{chrom:02d}",
+                    len(group),
+                    ",".join(sorted(u["hap"] for u in group)),
+                ]
+            )
+
+    id_index = {uid: i for i, uid in enumerate(ids)}
+    with open(os.path.join(mdir, "homologous_chromosomes.tsv"), "w", newline="") as f:
+        w = csv.writer(f, delimiter="\t")
+        w.writerow(
+            [
+                "chrom",
+                "unit_a",
+                "unit_b",
+                "hap_a",
+                "hap_b",
+                "distance",
+                "resolution_limited",
+            ]
+        )
+        for chrom in sorted(groups):
+            group = sorted(groups[chrom], key=lambda u: u["hap"])
+            for i in range(len(group)):
+                for j in range(i + 1, len(group)):
+                    ua, ub = group[i]["unit_id"], group[j]["unit_id"]
+                    gi, gj = id_index[ua], id_index[ub]
+                    key = (gi, gj) if gi < gj else (gj, gi)
+                    s = summaries[key]
+                    w.writerow(
+                        [
+                            f"chr{chrom:02d}",
+                            ua,
+                            ub,
+                            group[i]["hap"],
+                            group[j]["hap"],
+                            "" if s["distance"] is None else f"{s['distance']:.6f}",
+                            s["resolution_limited"],
+                        ]
+                    )
 
 
 def average_linkage_order(distance):
@@ -317,7 +387,9 @@ def plot_heatmap(outdir, ids, units, distance):
     )
     fig.colorbar(im, ax=ax, shrink=0.7, label="distance")
     fig.tight_layout()
-    fig.savefig(os.path.join(outdir, "whole_chrom_distance_heatmap.png"), dpi=150)
+    fig.savefig(
+        os.path.join(matrix_dir(outdir), "whole_chrom_distance_heatmap.png"), dpi=150
+    )
     plt.close(fig)
 
 
@@ -365,7 +437,8 @@ def plot_heatmap_contrast(outdir, ids, units, distance):
     fig.colorbar(im, ax=ax, shrink=0.7, label="distance")
     fig.tight_layout()
     fig.savefig(
-        os.path.join(outdir, "whole_chrom_distance_heatmap_contrast.png"), dpi=150
+        os.path.join(matrix_dir(outdir), "whole_chrom_distance_heatmap_contrast.png"),
+        dpi=150,
     )
     plt.close(fig)
 
@@ -410,5 +483,7 @@ def plot_k_resolution_diagnostic(outdir, k_values, summaries):
     ]
     ax.set_ylim(0, max(all_dists) * 1.05 if all_dists else 1)
     fig.tight_layout()
-    fig.savefig(os.path.join(outdir, "k_resolution_diagnostic.png"), dpi=150)
+    fig.savefig(
+        os.path.join(matrix_dir(outdir), "k_resolution_diagnostic.png"), dpi=150
+    )
     plt.close(fig)

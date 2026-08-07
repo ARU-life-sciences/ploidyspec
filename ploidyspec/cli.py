@@ -16,6 +16,10 @@ Pipeline:
 
   te-markers         -> differential high-copy (fossil-TE) k-mer markers between same-chromosome
                          haplotype copies -- subgenome resolver for recent allopolyploids
+  te-markers-windowed -> paints each haplotype copy's windows by which subgenome's markers
+                         they match -- the phaser
+  subgenome-report   -> consolidates te-markers output into a continuous auto<->allo index
+                         and subgenome-assignment summary
 """
 
 import argparse
@@ -23,12 +27,20 @@ import csv
 import os
 import sys
 
-from .common import find_tool, log
+from .common import (
+    find_tool,
+    homeologs_dir,
+    log,
+    matrix_dir,
+    subgenomes_dir,
+    windowed_dir,
+)
 from .manifest import DEFAULT_CHROM_REGEXES, DEFAULT_HAP_REGEX, prepare
 from .kmer_tables import build_all
 from .whole_matrix import compute_matrix
 from .windowed import compute_windowed, compute_windowed_homeologs
 from .homeologs import run as run_homeolog_detection
+from .subgenome_report import compute_subgenome_report
 from .te_markers import (
     DEFAULT_MARKER_K,
     DEFAULT_MIN_COUNT,
@@ -184,9 +196,11 @@ def cmd_matrix(args):
             f"{seq_tsv} not found -- run the `prepare` and `kmers` stages first"
         )
     compute_matrix(seq_tsv, args.outdir, logex_bin, histex_bin, args.threads, args.k)
+    mdir = matrix_dir(args.outdir)
     log(
-        f"wrote {os.path.join(args.outdir, 'whole_chrom_distance_matrix.csv')} and "
-        f"{os.path.join(args.outdir, 'whole_chrom_distance_heatmap.png')}"
+        f"wrote {os.path.join(mdir, 'whole_chrom_distance_matrix.csv')}, "
+        f"{os.path.join(mdir, 'whole_chrom_distance_heatmap.png')}, "
+        f"ploidy_summary.tsv and homologous_chromosomes.tsv in {mdir}"
     )
 
 
@@ -211,27 +225,28 @@ def cmd_windowed(args):
         args.threads,
     )
     log(
-        f"wrote per-chromosome windowed_chrNN.tsv/.png, windowed_all.tsv and windowed_genome_overview.png in {args.outdir}"
+        f"wrote per-chromosome windowed_chrNN.tsv/.png, windowed_all.tsv and "
+        f"windowed_genome_overview.png in {windowed_dir(args.outdir)}"
     )
 
 
 def cmd_homeologs(args):
     seq_tsv = os.path.join(args.outdir, "sequences.tsv")
-    matrix_csv = os.path.join(args.outdir, "whole_chrom_distance_matrix.csv")
+    matrix_csv = os.path.join(matrix_dir(args.outdir), "whole_chrom_distance_matrix.csv")
     if not os.path.exists(seq_tsv) or not os.path.exists(matrix_csv):
         raise SystemExit(
-            f"need sequences.tsv and whole_chrom_distance_matrix.csv -- run `prepare`, `kmers`, `matrix` first"
+            f"need sequences.tsv and {matrix_csv} -- run `prepare`, `kmers`, `matrix` first"
         )
-    run_homeolog_detection(seq_tsv, args.outdir)
+    run_homeolog_detection(seq_tsv, args.outdir, args.fdr_alpha)
     log(
-        f"wrote {os.path.join(args.outdir, 'homeolog_pairs.tsv')} and homeolog_pairs.png"
+        f"wrote {os.path.join(homeologs_dir(args.outdir), 'homeolog_pairs.tsv')} and homeolog_pairs.png"
     )
 
 
 def cmd_windowed_homeologs(args):
     samtools_bin, fastk_bin, logex_bin, histex_bin, _ = resolve_tools(args)
     seq_tsv = os.path.join(args.outdir, "sequences.tsv")
-    pairs_tsv = os.path.join(args.outdir, "homeolog_pairs.tsv")
+    pairs_tsv = os.path.join(homeologs_dir(args.outdir), "homeolog_pairs.tsv")
     if not os.path.exists(seq_tsv):
         raise SystemExit(
             f"{seq_tsv} not found -- run the `prepare` and `kmers` stages first"
@@ -263,7 +278,8 @@ def cmd_windowed_homeologs(args):
         args.threads,
     )
     log(
-        f"wrote windowed_chrAAxBB.tsv/.png per pair, windowed_homeologs_all.tsv and windowed_homeologs_overview.png in {args.outdir}"
+        f"wrote windowed_chrAAxBB.tsv/.png per pair, windowed_homeologs_all.tsv and "
+        f"windowed_homeologs_overview.png in {homeologs_dir(args.outdir)}"
     )
 
 
@@ -287,7 +303,7 @@ def cmd_te_markers(args):
     )
     log(
         f"wrote te_markers_<unit_a>x<unit_b>.tsv per same-chromosome haplotype pair "
-        f"and te_markers_summary.tsv in {args.outdir}"
+        f"and te_markers_summary.tsv in {subgenomes_dir(args.outdir)}"
     )
 
 
@@ -312,8 +328,13 @@ def cmd_te_markers_windowed(args):
         args.threads,
     )
     log(
-        f"wrote te_markers_windowed_<unit_a>x<unit_b>.tsv/.png per pair in {args.outdir}"
+        f"wrote te_markers_windowed_<unit_a>x<unit_b>.tsv/.png per pair in "
+        f"{subgenomes_dir(args.outdir)}"
     )
+
+
+def cmd_subgenome_report(args):
+    compute_subgenome_report(args.outdir)
 
 
 def cmd_all(args):
@@ -385,6 +406,14 @@ def main(argv=None):
         help="detect candidate ancestral (paleopolyploid) chromosome pairs from the whole-chromosome matrix",
     )
     add_common_args(p_homeo)
+    p_homeo.add_argument(
+        "--fdr-alpha",
+        type=float,
+        default=0.05,
+        help="Benjamini-Hochberg FDR threshold for accepting a candidate ancestral "
+        "chromosome pair (default 0.05). Empirical p-value per pair = fraction of "
+        "all cross-chromosome-number distances that are as small or smaller.",
+    )
     p_homeo.set_defaults(func=cmd_homeologs)
 
     p_win_homeo = sub.add_parser(
@@ -430,6 +459,15 @@ def main(argv=None):
         help="step size in bp (default: same as --window, i.e. tumbling windows)",
     )
     p_te_win.set_defaults(func=cmd_te_markers_windowed)
+
+    p_subgenome = sub.add_parser(
+        "subgenome-report",
+        help="consolidate te-markers/te-markers-windowed output into a continuous "
+        "auto<->allo index and a subgenome-assignment summary (pure aggregation, "
+        "no new FastK/Tabex calls; run `te-markers`/`te-markers-windowed` first)",
+    )
+    add_common_args(p_subgenome)
+    p_subgenome.set_defaults(func=cmd_subgenome_report)
 
     args = parser.parse_args(argv)
     os.makedirs(args.outdir, exist_ok=True)
