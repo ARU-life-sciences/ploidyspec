@@ -13,6 +13,9 @@ Pipeline:
                         whole-chromosome matrix, e.g. chr01<->chr05 retained homeology from an
                         old whole-genome duplication, distinct from same-numbered haplotype copies
   windowed-homeologs -> sliding-window k-mer divergence between those candidate ancestral pairs
+
+  te-markers         -> differential high-copy (fossil-TE) k-mer markers between same-chromosome
+                         haplotype copies -- subgenome resolver for recent allopolyploids
 """
 
 import argparse
@@ -26,6 +29,13 @@ from .kmer_tables import build_all
 from .whole_matrix import compute_matrix
 from .windowed import compute_windowed, compute_windowed_homeologs
 from .homeologs import run as run_homeolog_detection
+from .te_markers import (
+    DEFAULT_MARKER_K,
+    DEFAULT_MIN_COUNT,
+    DEFAULT_MIN_RATIO,
+    compute_te_markers,
+    compute_te_markers_windowed,
+)
 
 
 def parse_k_list(s):
@@ -105,20 +115,48 @@ def add_window_k_arg(p):
     )
 
 
+def add_marker_args(p):
+    p.add_argument(
+        "--marker-k",
+        type=int,
+        default=DEFAULT_MARKER_K,
+        help=f"k-mer size for differential fossil-TE marker extraction (default "
+        f"{DEFAULT_MARKER_K}, matching the Jaron/Cerca method). Decoupled from --k "
+        f"and --window-k: builds its own .ktab per unit if not already present.",
+    )
+    p.add_argument(
+        "--min-count",
+        type=int,
+        default=DEFAULT_MIN_COUNT,
+        help=f"minimum within-chromosome k-mer count to treat as high-copy/repetitive "
+        f"(default {DEFAULT_MIN_COUNT}, matching the tutorial's validated choice). "
+        f"Check `Histex -h` on a unit's .hist if unsure this falls in a real high-copy "
+        f"tail for a given species.",
+    )
+    p.add_argument(
+        "--min-ratio",
+        type=float,
+        default=DEFAULT_MIN_RATIO,
+        help=f"minimum count ratio between haplotype copies for a high-copy k-mer to "
+        f"be called a differential marker (default {DEFAULT_MIN_RATIO}).",
+    )
+
+
 def resolve_tools(args):
     samtools_bin = find_tool(args.samtools, "samtools*", "samtools")
     fastk_bin = find_tool(args.fastk_dir, "FASTK*", "FastK")
     logex_bin = find_tool(args.fastk_dir, "FASTK*", "Logex")
     histex_bin = find_tool(args.fastk_dir, "FASTK*", "Histex")
+    tabex_bin = find_tool(args.fastk_dir, "FASTK*", "Tabex")
     # FastK shells out to sibling tools (e.g. Fastrm) by bare name on error-cleanup paths.
     for d in {os.path.dirname(p) for p in (samtools_bin, fastk_bin)}:
         if d not in os.environ.get("PATH", "").split(os.pathsep):
             os.environ["PATH"] = d + os.pathsep + os.environ.get("PATH", "")
-    return samtools_bin, fastk_bin, logex_bin, histex_bin
+    return samtools_bin, fastk_bin, logex_bin, histex_bin, tabex_bin
 
 
 def cmd_prepare(args):
-    samtools_bin, _, _, _ = resolve_tools(args)
+    samtools_bin, _, _, _, _ = resolve_tools(args)
     prepare(
         args.manifest,
         args.outdir,
@@ -130,7 +168,7 @@ def cmd_prepare(args):
 
 
 def cmd_kmers(args):
-    samtools_bin, fastk_bin, _, _ = resolve_tools(args)
+    samtools_bin, fastk_bin, _, _, _ = resolve_tools(args)
     seq_tsv = os.path.join(args.outdir, "sequences.tsv")
     if not os.path.exists(seq_tsv):
         raise SystemExit(f"{seq_tsv} not found -- run the `prepare` stage first")
@@ -139,7 +177,7 @@ def cmd_kmers(args):
 
 
 def cmd_matrix(args):
-    _, _, logex_bin, histex_bin = resolve_tools(args)
+    _, _, logex_bin, histex_bin, _ = resolve_tools(args)
     seq_tsv = os.path.join(args.outdir, "sequences.tsv")
     if not os.path.exists(seq_tsv):
         raise SystemExit(
@@ -153,7 +191,7 @@ def cmd_matrix(args):
 
 
 def cmd_windowed(args):
-    samtools_bin, fastk_bin, logex_bin, histex_bin = resolve_tools(args)
+    samtools_bin, fastk_bin, logex_bin, histex_bin, _ = resolve_tools(args)
     seq_tsv = os.path.join(args.outdir, "sequences.tsv")
     if not os.path.exists(seq_tsv):
         raise SystemExit(
@@ -191,7 +229,7 @@ def cmd_homeologs(args):
 
 
 def cmd_windowed_homeologs(args):
-    samtools_bin, fastk_bin, logex_bin, histex_bin = resolve_tools(args)
+    samtools_bin, fastk_bin, logex_bin, histex_bin, _ = resolve_tools(args)
     seq_tsv = os.path.join(args.outdir, "sequences.tsv")
     pairs_tsv = os.path.join(args.outdir, "homeolog_pairs.tsv")
     if not os.path.exists(seq_tsv):
@@ -226,6 +264,55 @@ def cmd_windowed_homeologs(args):
     )
     log(
         f"wrote windowed_chrAAxBB.tsv/.png per pair, windowed_homeologs_all.tsv and windowed_homeologs_overview.png in {args.outdir}"
+    )
+
+
+def cmd_te_markers(args):
+    samtools_bin, fastk_bin, _, _, tabex_bin = resolve_tools(args)
+    seq_tsv = os.path.join(args.outdir, "sequences.tsv")
+    if not os.path.exists(seq_tsv):
+        raise SystemExit(
+            f"{seq_tsv} not found -- run the `prepare` and `kmers` stages first"
+        )
+    compute_te_markers(
+        seq_tsv,
+        args.outdir,
+        samtools_bin,
+        fastk_bin,
+        tabex_bin,
+        args.marker_k,
+        args.min_count,
+        args.min_ratio,
+        args.threads,
+    )
+    log(
+        f"wrote te_markers_<unit_a>x<unit_b>.tsv per same-chromosome haplotype pair "
+        f"and te_markers_summary.tsv in {args.outdir}"
+    )
+
+
+def cmd_te_markers_windowed(args):
+    samtools_bin, fastk_bin, _, _, tabex_bin = resolve_tools(args)
+    seq_tsv = os.path.join(args.outdir, "sequences.tsv")
+    if not os.path.exists(seq_tsv):
+        raise SystemExit(
+            f"{seq_tsv} not found -- run the `prepare` and `kmers` stages first"
+        )
+    step = args.step or args.window
+    compute_te_markers_windowed(
+        seq_tsv,
+        args.outdir,
+        samtools_bin,
+        fastk_bin,
+        tabex_bin,
+        args.marker_k,
+        args.min_ratio,
+        args.window,
+        step,
+        args.threads,
+    )
+    log(
+        f"wrote te_markers_windowed_<unit_a>x<unit_b>.tsv/.png per pair in {args.outdir}"
     )
 
 
@@ -316,6 +403,33 @@ def main(argv=None):
         help="step size in bp (default: same as --window)",
     )
     p_win_homeo.set_defaults(func=cmd_windowed_homeologs)
+
+    p_te = sub.add_parser(
+        "te-markers",
+        help="differential high-copy (fossil-TE) k-mer markers between same-chromosome "
+        "haplotype copies -- subgenome resolver for recent allopolyploids",
+    )
+    add_common_args(p_te)
+    add_marker_args(p_te)
+    p_te.set_defaults(func=cmd_te_markers)
+
+    p_te_win = sub.add_parser(
+        "te-markers-windowed",
+        help="paint each haplotype copy's windows by which subgenome's fossil-TE "
+        "markers they match -- the phaser; run `te-markers` first",
+    )
+    add_common_args(p_te_win)
+    add_marker_args(p_te_win)
+    p_te_win.add_argument(
+        "--window", type=int, default=250_000, help="window size in bp (default 250000)"
+    )
+    p_te_win.add_argument(
+        "--step",
+        type=int,
+        default=None,
+        help="step size in bp (default: same as --window, i.e. tumbling windows)",
+    )
+    p_te_win.set_defaults(func=cmd_te_markers_windowed)
 
     args = parser.parse_args(argv)
     os.makedirs(args.outdir, exist_ok=True)
