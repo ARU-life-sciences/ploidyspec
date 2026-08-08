@@ -6,7 +6,14 @@ import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from ploidyspec.homeologs import bh_qvalues, detect_homeolog_pairs, empirical_pvalues
+from ploidyspec.homeologs import (
+    bh_qvalues,
+    build_ploidy_ancestry_rows,
+    detect_homeolog_pairs,
+    empirical_pvalues,
+    own_chrom_distances,
+    rank_candidates,
+)
 
 
 class TestBhQvalues(unittest.TestCase):
@@ -101,8 +108,8 @@ class TestDetectHomeologPairs(unittest.TestCase):
                 if (i, j) in true_pairs
                 else random.uniform(0.08, 0.14)
             )
-        accepted, unmatched, background = detect_homeolog_pairs(
-            pair_dist, chrom_nums, fdr_alpha=0.05
+        accepted, unmatched, background, p_values, q_values, z_scores = (
+            detect_homeolog_pairs(pair_dist, chrom_nums, fdr_alpha=0.05)
         )
         accepted_pairs = {(i, j) for i, j, *_ in accepted}
         self.assertEqual(accepted_pairs, set(true_pairs))
@@ -115,8 +122,8 @@ class TestDetectHomeologPairs(unittest.TestCase):
             (i, j): random.gauss(0.11, 0.015)
             for i, j in itertools.combinations(chrom_nums, 2)
         }
-        accepted, unmatched, background = detect_homeolog_pairs(
-            pair_dist, chrom_nums, fdr_alpha=0.05
+        accepted, unmatched, background, p_values, q_values, z_scores = (
+            detect_homeolog_pairs(pair_dist, chrom_nums, fdr_alpha=0.05)
         )
         # FDR control doesn't guarantee zero false positives, just that their
         # expected proportion is bounded -- with 153 pure-null tests at
@@ -139,13 +146,103 @@ class TestDetectHomeologPairs(unittest.TestCase):
                 if (i, j) in true_pairs
                 else random.uniform(0.08, 0.14)
             )
-        accepted, _, _ = detect_homeolog_pairs(pair_dist, chrom_nums, fdr_alpha=0.05)
+        accepted, _, _, _, _, _ = detect_homeolog_pairs(
+            pair_dist, chrom_nums, fdr_alpha=0.05
+        )
         seen = set()
         for i, j, *_ in accepted:
             self.assertNotIn(i, seen)
             self.assertNotIn(j, seen)
             seen.add(i)
             seen.add(j)
+
+
+class TestOwnChromDistances(unittest.TestCase):
+    def test_mean_for_multi_copy_chromosome(self):
+        groups = {1: ["a", "b", "c"]}
+        mat = {
+            "a": {"a": 0.0, "b": 0.02, "c": 0.04},
+            "b": {"a": 0.02, "b": 0.0, "c": 0.06},
+            "c": {"a": 0.04, "b": 0.06, "c": 0.0},
+        }
+        result = own_chrom_distances(groups, mat)
+        # mean of (a,b)=0.02, (a,c)=0.04, (b,c)=0.06 -> 0.04
+        self.assertAlmostEqual(result[1], 0.04)
+
+    def test_none_for_singleton_chromosome(self):
+        groups = {1: ["a"]}
+        mat = {"a": {"a": 0.0}}
+        result = own_chrom_distances(groups, mat)
+        self.assertIsNone(result[1])
+
+
+class TestRankCandidates(unittest.TestCase):
+    def test_includes_all_pairs_sorted_ascending_with_accepted_flag(self):
+        pair_dist = {(1, 2): 0.05, (1, 3): 0.02, (2, 3): 0.09}
+        p_values, z_scores = empirical_pvalues(pair_dist)
+        q_values = bh_qvalues(p_values)
+        accepted_keys = {(1, 3)}  # only the closest pair accepted
+        ranked = rank_candidates(pair_dist, p_values, q_values, z_scores, accepted_keys)
+        self.assertEqual(len(ranked), 3)
+        self.assertEqual([r["distance"] for r in ranked], sorted(pair_dist.values()))
+        # accepted flag correct even for the rejected/"bad" candidates -- this
+        # is the whole point, a real but FDR-rejected pair must still show up
+        accepted_flags = {(r["chrom_a"], r["chrom_b"]): r["accepted"] for r in ranked}
+        self.assertTrue(accepted_flags[(1, 3)])
+        self.assertFalse(accepted_flags[(1, 2)])
+        self.assertFalse(accepted_flags[(2, 3)])
+
+
+class TestBuildPloidyAncestryRows(unittest.TestCase):
+    def test_ratio_computed_when_both_sides_have_own_distance(self):
+        groups = {1: ["a", "b"], 2: ["c", "d"]}
+        own_dist = {1: 0.01, 2: 0.02}
+        pair_dist = {(1, 2): 0.06}
+        accepted = [(1, 2, 0.06, 0.001, 0.01, -5.0)]
+        q_values = {(1, 2): 0.01}
+        z_scores = {(1, 2): -5.0}
+        rows = build_ploidy_ancestry_rows(
+            groups, own_dist, pair_dist, accepted, q_values, z_scores
+        )
+        by_chrom = {r["chrom"]: r for r in rows}
+        # ratio = 0.06 / mean(0.01, 0.02) = 0.06/0.015 = 4.0
+        self.assertAlmostEqual(by_chrom[1]["distance_ratio"], 4.0)
+        self.assertAlmostEqual(by_chrom[2]["distance_ratio"], 4.0)
+        self.assertEqual(by_chrom[1]["homeolog_partner"], 2)
+        self.assertEqual(by_chrom[2]["homeolog_partner"], 1)
+
+    def test_no_partner_leaves_homeolog_fields_blank(self):
+        groups = {1: ["a", "b"], 2: ["c", "d"], 3: ["e", "f"]}
+        own_dist = {1: 0.01, 2: 0.02, 3: 0.015}
+        pair_dist = {(1, 2): 0.06, (1, 3): 0.08, (2, 3): 0.09}
+        accepted = [(1, 2, 0.06, 0.001, 0.01, -5.0)]
+        q_values = {(1, 2): 0.01, (1, 3): 0.5, (2, 3): 0.6}
+        z_scores = {(1, 2): -5.0, (1, 3): -1.0, (2, 3): -0.5}
+        rows = build_ploidy_ancestry_rows(
+            groups, own_dist, pair_dist, accepted, q_values, z_scores
+        )
+        by_chrom = {r["chrom"]: r for r in rows}
+        self.assertIsNone(by_chrom[3]["homeolog_partner"])
+        self.assertIsNone(by_chrom[3]["distance_ratio"])
+        self.assertIsNone(by_chrom[3]["homeolog_distance"])
+
+    def test_fewer_than_two_copies_leaves_own_distance_and_ratio_none(self):
+        groups = {1: ["a"], 2: ["b", "c"]}
+        own_dist = {1: None, 2: 0.02}
+        pair_dist = {(1, 2): 0.06}
+        accepted = [(1, 2, 0.06, 0.001, 0.01, -5.0)]
+        q_values = {(1, 2): 0.01}
+        z_scores = {(1, 2): -5.0}
+        rows = build_ploidy_ancestry_rows(
+            groups, own_dist, pair_dist, accepted, q_values, z_scores
+        )
+        by_chrom = {r["chrom"]: r for r in rows}
+        self.assertIsNone(by_chrom[1]["own_mean_distance"])
+        # ratio can't be computed since chrom 1 has no own_mean_distance
+        self.assertIsNone(by_chrom[1]["distance_ratio"])
+        # but homeolog_distance/z/q are still reported -- only the ratio
+        # needs both sides' own distance
+        self.assertIsNotNone(by_chrom[1]["homeolog_distance"])
 
 
 if __name__ == "__main__":

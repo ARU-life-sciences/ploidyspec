@@ -157,6 +157,16 @@ def detect_homeolog_pairs(pair_dist, chrom_nums, fdr_alpha=0.05):
     resolved into a 1:1 matching (ascending distance order, each chromosome
     number gets at most one partner) since a chromosome can only have one
     true ancestral partner.
+
+    Returns (accepted, unmatched, background, p_values, q_values, z_scores) --
+    the full per-pair evidence is returned alongside the accept/reject decision
+    so callers can report candidates that didn't survive FDR correction (see
+    rank_candidates/build_ploidy_ancestry_rows) instead of only ever seeing the
+    accepted subset. This matters in practice: correction gets more
+    conservative as chromosome count grows, so a real, moderate effect size on
+    a many-chromosome species can fail significance for the same reason a
+    small effect on a few-chromosome species would -- without the full
+    p/q/z alongside, that signal just silently disappears.
     """
     p_values, z_scores = empirical_pvalues(pair_dist)
     q_values = bh_qvalues(p_values)
@@ -178,7 +188,142 @@ def detect_homeolog_pairs(pair_dist, chrom_nums, fdr_alpha=0.05):
     unmatched = [c for c in chrom_nums if c not in matched]
     accepted_keys = {(i, j) for i, j, *_ in accepted}
     background = [d for pair, d in pair_dist.items() if pair not in accepted_keys]
-    return accepted, unmatched, background
+    return accepted, unmatched, background, p_values, q_values, z_scores
+
+
+def own_chrom_distances(groups, mat):
+    """Mean pairwise distance among a chromosome number's own haplotype
+    copies (the contemporary/same-individual signal) -- None if fewer than 2
+    copies exist to compare. Used as the denominator for
+    build_ploidy_ancestry_rows' distance_ratio diagnostic column."""
+    result = {}
+    for chrom, unit_ids in groups.items():
+        if len(unit_ids) < 2:
+            result[chrom] = None
+            continue
+        vals = [mat[a][b] for a, b in itertools.combinations(unit_ids, 2)]
+        result[chrom] = statistics.mean(vals)
+    return result
+
+
+def rank_candidates(pair_dist, p_values, q_values, z_scores, accepted_keys):
+    """Every cross-chromosome-number pair tested, ranked by ascending
+    distance, each carrying its full evidence (z/p/q) and whether it was
+    accepted into the greedy 1:1 match -- unlike homeolog_pairs.tsv (accepted
+    only), this doesn't let a real but FDR-rejected signal silently
+    disappear (see detect_homeolog_pairs)."""
+    rows = []
+    for (i, j), d in sorted(pair_dist.items(), key=lambda kv: kv[1]):
+        rows.append(
+            dict(
+                chrom_a=i,
+                chrom_b=j,
+                distance=d,
+                z_score=z_scores[(i, j)],
+                p_value=p_values[(i, j)],
+                q_value=q_values[(i, j)],
+                accepted=(i, j) in accepted_keys,
+            )
+        )
+    return rows
+
+
+def build_ploidy_ancestry_rows(groups, own_dist, pair_dist, accepted, q_values, z_scores):
+    """One row per chromosome number combining contemporary haplotype-copy
+    count with ancient homeolog-pairing evidence -- the two signals that were
+    previously only visible by cross-referencing ploidy_summary.tsv and
+    homeolog_pairs.tsv by hand. Only FDR-accepted partners are reported here
+    (see rank_candidates for the full ranked evidence including near-misses).
+    distance_ratio (homeolog distance / mean own within-chromosome distance)
+    is a diagnostic only, not a classifier -- it doesn't cleanly separate
+    ancient from contemporary duplication across the species checked so far
+    (confirmed allopolyploid daGleHede1 ~3.6x; confirmed deep ancient signal
+    llColAutu1 ~277x; drRosSpin1 ~4x, ambiguous either way)."""
+    partner_of = {}
+    for i, j, *_ in accepted:
+        partner_of[i] = j
+        partner_of[j] = i
+
+    rows = []
+    for chrom in sorted(groups):
+        n_copies = len(groups[chrom])
+        own = own_dist.get(chrom)
+        partner = partner_of.get(chrom)
+        row = dict(
+            chrom=chrom,
+            n_haplotype_copies=n_copies,
+            own_mean_distance=own,
+            homeolog_partner=partner,
+            homeolog_distance=None,
+            homeolog_z=None,
+            homeolog_q=None,
+            distance_ratio=None,
+        )
+        if partner is not None:
+            key = (chrom, partner) if chrom < partner else (partner, chrom)
+            hd = pair_dist[key]
+            row["homeolog_distance"] = hd
+            row["homeolog_z"] = z_scores[key]
+            row["homeolog_q"] = q_values[key]
+            partner_own = own_dist.get(partner)
+            if own is not None and partner_own is not None:
+                denom = (own + partner_own) / 2
+                if denom > 0:
+                    row["distance_ratio"] = hd / denom
+        rows.append(row)
+    return rows
+
+
+def write_ranked_candidates(outdir, ranked):
+    path = os.path.join(homeologs_dir(outdir), "homeolog_candidates_ranked.tsv")
+    with open(path, "w", newline="") as f:
+        w = csv.writer(f, delimiter="\t")
+        w.writerow(
+            ["chrom_a", "chrom_b", "distance", "z_score", "p_value", "q_value", "accepted"]
+        )
+        for r in ranked:
+            w.writerow(
+                [
+                    f"chr{r['chrom_a']:02d}",
+                    f"chr{r['chrom_b']:02d}",
+                    f"{r['distance']:.6f}",
+                    f"{r['z_score']:.3f}",
+                    f"{r['p_value']:.6g}",
+                    f"{r['q_value']:.6g}",
+                    r["accepted"],
+                ]
+            )
+
+
+def write_ploidy_ancestry_summary(outdir, rows):
+    path = os.path.join(homeologs_dir(outdir), "ploidy_ancestry_summary.tsv")
+    with open(path, "w", newline="") as f:
+        w = csv.writer(f, delimiter="\t")
+        w.writerow(
+            [
+                "chrom",
+                "n_haplotype_copies",
+                "own_mean_distance",
+                "homeolog_partner",
+                "homeolog_distance",
+                "homeolog_z",
+                "homeolog_q",
+                "distance_ratio",
+            ]
+        )
+        for r in rows:
+            w.writerow(
+                [
+                    f"chr{r['chrom']:02d}",
+                    r["n_haplotype_copies"],
+                    "" if r["own_mean_distance"] is None else f"{r['own_mean_distance']:.6f}",
+                    "" if r["homeolog_partner"] is None else f"chr{r['homeolog_partner']:02d}",
+                    "" if r["homeolog_distance"] is None else f"{r['homeolog_distance']:.6f}",
+                    "" if r["homeolog_z"] is None else f"{r['homeolog_z']:.3f}",
+                    "" if r["homeolog_q"] is None else f"{r['homeolog_q']:.6g}",
+                    "" if r["distance_ratio"] is None else f"{r['distance_ratio']:.2f}",
+                ]
+            )
 
 
 def run(seq_tsv, outdir, fdr_alpha=0.05):
@@ -193,7 +338,7 @@ def run(seq_tsv, outdir, fdr_alpha=0.05):
         return []
 
     pair_dist = cross_chrom_distances(groups, mat)
-    accepted, unmatched, background = detect_homeolog_pairs(
+    accepted, unmatched, background, p_values, q_values, z_scores = detect_homeolog_pairs(
         pair_dist, chrom_nums, fdr_alpha
     )
     flags = load_pair_resolution_flags(outdir)
@@ -257,6 +402,22 @@ def run(seq_tsv, outdir, fdr_alpha=0.05):
         log(
             f"  no significant ancestral partner found for: {', '.join(f'chr{c:02d}' for c in unmatched)}"
         )
+
+    accepted_keys = {(i, j) for i, j, *_ in accepted}
+    ranked = rank_candidates(pair_dist, p_values, q_values, z_scores, accepted_keys)
+    write_ranked_candidates(outdir, ranked)
+
+    own_dist = own_chrom_distances(groups, mat)
+    ancestry_rows = build_ploidy_ancestry_rows(
+        groups, own_dist, pair_dist, accepted, q_values, z_scores
+    )
+    write_ploidy_ancestry_summary(outdir, ancestry_rows)
+    n_with_partner = sum(1 for r in ancestry_rows if r["homeolog_partner"] is not None)
+    log(
+        f"  wrote homeolog_candidates_ranked.tsv ({len(ranked)} pairs, including "
+        f"FDR-rejected) and ploidy_ancestry_summary.tsv ({n_with_partner}/{len(chrom_nums)} "
+        f"chromosomes with an accepted ancient partner)"
+    )
 
     plot_ranked_distances(outdir, pair_dist, accepted)
     return [(i, j) for i, j, *_ in accepted]
