@@ -150,6 +150,30 @@ combination between the two chromosome numbers. If `resolution_limited` is
 was itself below the noise floor — treat it as lower-confidence even if `q`
 looks small.
 
+**`homeolog_candidates_ranked.tsv`**: every cross-chromosome-number pair
+tested, not just the FDR-accepted subset in `homeolog_pairs.tsv` — ranked by
+ascending distance, each row carrying its own `z_score`/`p_value`/`q_value`
+and an `accepted` flag. Exists because FDR correction gets more conservative
+as chromosome count grows (more simultaneous tests), so a real, moderate
+effect size can fail significance on a many-chromosome species for the same
+reason a weak one would on a small species — check this file, not just
+`homeolog_pairs.tsv`, before concluding "no ancient signal" for a species
+with many chromosomes.
+
+**`ploidy_ancestry_summary.tsv`**: one row per chromosome number, combining
+the contemporary haplotype-copy count (from `matrix/ploidy_summary.tsv`)
+with its accepted ancient partner (if any) — the two signals that otherwise
+require cross-referencing `matrix/ploidy_summary.tsv` and
+`homeolog_pairs.tsv` by hand. `distance_ratio` (homeolog-pair distance
+divided by the mean of both chromosomes' own within-chromosome distance) is
+a diagnostic, **not a classifier**: a ratio near 1 means the "ancient"
+partner is actually about as close as a chromosome's own contemporary copy
+— worth checking by hand whether that reflects a real biological signal
+(e.g. a genuinely young/tetrasomic-like duplication, or genus-specific
+chromosome fission/fusion biology) rather than assuming it means the same
+thing a ratio in the hundreds does (deep, clearly-ancient divergence, as
+seen in some species in this project's own panel).
+
 **`windowed_chrAAxBB.tsv/.png`, `windowed_homeologs_all.tsv`,
 `windowed_homeologs_overview.png`**: same shape as `windowed/`'s files, but
 tracking divergence along the *ancestral* pairing instead of true haplotype
@@ -158,8 +182,10 @@ copies — same raw-Jaccard caveat applies.
 ## `subgenomes/` — differential fossil-TE markers (the resolver/phaser)
 
 Only present for species where `te-markers`/`te-markers-windowed` have
-actually been run (opt-in, not part of `all` — it's expensive per species,
-~8h for wheat's large chromosomes). Implements the Jaron/Cerca method
+actually been run (opt-in via `all --with-te-markers`/`--with-te-markers-windowed`,
+or as standalone stages — not run by plain `all`, since `te-markers-windowed`
+in particular is expensive, ~8h for wheat's large chromosomes). Implements
+the Jaron/Cerca method
 (github.com/KamilSJaron/k-mer-approaches-for-biodiversity-genomics, linked
 in `README.md`): isolates k-mers that are both **high-copy**
 (repetitive/TE-like, count ≥ `--min-count`, default 100) and

@@ -6,13 +6,16 @@ Pipeline:
   prepare   -> parse a manifest of haplotype assemblies into per-chromosome units (sequences.tsv)
   kmers     -> FastK canonical k-mer table per chromosome-scale unit
   matrix    -> all-vs-all whole-chromosome k-mer Jaccard distance matrix (Logex + Histex)
+  homeologs -> detect candidate ancestral (paleopolyploid) chromosome pairs from the
+               whole-chromosome matrix, e.g. chr01<->chr05 retained homeology from an
+               old whole-genome duplication, distinct from same-numbered haplotype copies
   windowed  -> sliding-window k-mer divergence between haplotype copies of the same chromosome
-  all       -> run the four stages above in order
+  report    -> self-contained HTML report for one species, from whatever stages have run
+  all       -> run prepare -> kmers -> matrix -> homeologs -> windowed -> report in order
+               (cheap stages only by default; --with-te-markers/--with-te-markers-windowed/
+               --with-windowed-homeologs opt into the more expensive stages below)
 
-  homeologs         -> detect candidate ancestral (paleopolyploid) chromosome pairs from the
-                        whole-chromosome matrix, e.g. chr01<->chr05 retained homeology from an
-                        old whole-genome duplication, distinct from same-numbered haplotype copies
-  windowed-homeologs -> sliding-window k-mer divergence between those candidate ancestral pairs
+  windowed-homeologs -> sliding-window k-mer divergence between candidate ancestral pairs
 
   te-markers         -> differential high-copy (fossil-TE) k-mer markers between same-chromosome
                          haplotype copies -- subgenome resolver for recent allopolyploids
@@ -40,6 +43,7 @@ from .kmer_tables import build_all
 from .whole_matrix import compute_matrix
 from .windowed import compute_windowed, compute_windowed_homeologs
 from .homeologs import run as run_homeolog_detection
+from .report import generate_report
 from .subgenome_report import compute_subgenome_report
 from .te_markers import (
     DEFAULT_MARKER_K,
@@ -337,11 +341,27 @@ def cmd_subgenome_report(args):
     compute_subgenome_report(args.outdir)
 
 
+def cmd_report(args):
+    path = generate_report(args.outdir)
+    log(f"wrote {path}")
+
+
 def cmd_all(args):
     cmd_prepare(args)
     cmd_kmers(args)
     cmd_matrix(args)
+    cmd_homeologs(args)
     cmd_windowed(args)
+    if args.with_windowed_homeologs:
+        cmd_windowed_homeologs(args)
+    run_te_markers = args.with_te_markers or args.with_te_markers_windowed
+    if run_te_markers:
+        cmd_te_markers(args)
+    if args.with_te_markers_windowed:
+        cmd_te_markers_windowed(args)
+    if run_te_markers:
+        cmd_subgenome_report(args)
+    cmd_report(args)
 
 
 def main(argv=None):
@@ -386,10 +406,13 @@ def main(argv=None):
     p_win.set_defaults(func=cmd_windowed)
 
     p_all = sub.add_parser(
-        "all", help="run prepare -> kmers -> matrix -> windowed in sequence"
+        "all",
+        help="run prepare -> kmers -> matrix -> homeologs -> windowed -> report in "
+        "sequence (cheap stages only by default; see --with-* flags for the rest)",
     )
     add_common_args(p_all)
     add_window_k_arg(p_all)
+    add_marker_args(p_all)
     p_all.add_argument(
         "--window", type=int, default=250_000, help="window size in bp (default 250000)"
     )
@@ -398,6 +421,31 @@ def main(argv=None):
         type=int,
         default=None,
         help="step size in bp (default: same as --window, i.e. tumbling windows)",
+    )
+    p_all.add_argument(
+        "--fdr-alpha",
+        type=float,
+        default=0.05,
+        help="Benjamini-Hochberg FDR threshold for the homeologs stage (default 0.05)",
+    )
+    p_all.add_argument(
+        "--with-windowed-homeologs",
+        action="store_true",
+        help="also run windowed-homeologs after homeologs (moderate cost, scales with "
+        "how many ancestral pairs are found)",
+    )
+    p_all.add_argument(
+        "--with-te-markers",
+        action="store_true",
+        help="also run te-markers + subgenome-report (opt-in: moderate cost, reuses "
+        "existing k-mer tables where possible)",
+    )
+    p_all.add_argument(
+        "--with-te-markers-windowed",
+        action="store_true",
+        help="also run te-markers-windowed (implies --with-te-markers) + "
+        "subgenome-report (opt-in: the most expensive stage -- builds a fresh k-mer "
+        "table per window)",
     )
     p_all.set_defaults(func=cmd_all)
 
@@ -459,6 +507,16 @@ def main(argv=None):
         help="step size in bp (default: same as --window, i.e. tumbling windows)",
     )
     p_te_win.set_defaults(func=cmd_te_markers_windowed)
+
+    p_report = sub.add_parser(
+        "report",
+        help="self-contained HTML report for one species (embeds whatever plots/tables "
+        "the completed stages produced; degrades gracefully if some stages haven't run)",
+    )
+    p_report.add_argument(
+        "--outdir", required=True, help="species results directory to report on"
+    )
+    p_report.set_defaults(func=cmd_report)
 
     p_subgenome = sub.add_parser(
         "subgenome-report",
