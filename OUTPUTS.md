@@ -1,12 +1,15 @@
 # ploidyspec output reference
 
 What every file means, how to read the numbers, and worked examples using
-real output already on disk (`daGleHede1` — *Glechoma hederacea*, not
-flagged as a suspected allopolyploid — and the `lpTriTurg1_AB` durum wheat
-validation run, whose A/B subgenomes are independently known ground truth).
-Those two are used throughout as reference points because they anchor the
-low end (real haplotype heterozygosity) and high end (a genuine, confirmed
-allopolyploid) of every scale below.
+real output already on disk (`daGleHede1` — *Glechoma hederacea*, a known
+allopolyploid — and the `lpTriTurg1_AB` durum wheat validation run, whose
+A/B subgenomes are independently known ground truth). **Both of these are
+confirmed allopolyploids**, not an auto/allo pair — `daGleHede1`'s
+haplotype-copy distance (0.0099) is used below purely as a within-individual
+heterozygosity reference point, not as an autopolyploid-like baseline. The
+panel currently has no confirmed autopolyploid or diploid calibration point
+for the low end of the te-marker auto/allo scale (see `subgenomes/`
+section) — that's a real gap, not an oversight.
 
 ## Directory layout
 
@@ -176,11 +179,13 @@ scale of the signal first becomes visible:
 
 | | `n_markers_a` + `n_markers_b` (per chromosome) |
 |---|---|
-| `daGleHede1` haplotype copies (not flagged allo) | ~600–5,700 |
+| `daGleHede1` haplotype copies (confirmed allopolyploid) | ~600–5,700 |
 | Wheat's known A vs B subgenomes | ~330,000–605,000 |
 
-That's a 100–1000x difference — real allopolyploid subgenomes carry vastly
-more independent repeat history than one individual's two haplotype copies.
+That 100–1000x gap in raw counts is driven mostly by genome/repeat-content
+size (wheat's genome and total repeat load dwarf `daGleHede1`'s), not
+directly comparable across species — see `te_marker_fraction` below for the
+size-normalized version, which tells a different story.
 
 **`te_markers_windowed_<a>x<b>.tsv/.png`** (the phaser's output): each
 haplotype copy's own windows, tiled and checked against *both* marker sets.
@@ -201,11 +206,42 @@ by construction (markers are a subset of high-copy k-mers) — "what fraction
 of each haplotype's high-copy repeat content is subgenome-differential."
 Near 0: nearly identical repeat content (autopolyploid-like). Near 1:
 almost entirely non-overlapping (allopolyploid-like). **No calibrated
-threshold exists yet** — there are exactly two reference points so far
-(wheat's known-allo subgenomes at the high end, `daGleHede1`'s unflagged
-haplotype copies at the low end), nowhere near enough to set a defensible
-cutoff. Report and compare the continuous value; don't treat any specific
-number as a verdict. `windowed_distance_cv` (coefficient of variation of the
+threshold exists yet, and the panel currently has no confirmed autopolyploid
+or diploid reference point** — both species validated so far
+(`daGleHede1` and wheat) are confirmed allopolyploids. `daGleHede1`'s range
+(0.11–0.42 across its 18 chromosomes, mean ~0.22) and wheat's (0.40–0.44)
+overlap on their high ends, which is consistent evidence that the metric
+picks up real allopolyploid signal in both species at different intensities
+(plausibly reflecting different subgenome divergence times/degrees), but it
+means the *low* end of the scale is still unmeasured — finding a genuine
+autopolyploid or diploid comparator in the panel is the next real
+calibration gap, not fine-tuning the two allo points already in hand.
+Report and compare the continuous value; don't treat any specific number as
+a verdict.
+
+**Assembly-quality confound, checked and found in one species so far**:
+a haplotype assembly that's more fragmented than its siblings can inflate
+`te_marker_fraction` for every pair it's in, independent of any real
+biology — fragmented/incomplete regions can look like spurious
+"differential" content. Confirmed for `ddHypMacu1`: `unplaced.tsv` shows its
+`HAP1` file has 570 excluded scaffold fragments vs. 2-3 for `HAP3`/`HAP4`
+(essentially perfectly chromosome-scale), and `HAP1`-involving pairs average
+`te_marker_fraction` 0.598 vs. 0.291 for `HAP2`/`HAP3`/`HAP4`-only pairs —
+almost double. **Use 0.291, not the raw panel mean (0.445, which is
+`HAP1`-inflated), as `ddHypMacu1`'s trustworthy value.** Checked
+panel-wide (comparing `unplaced.tsv` counts across each species' source
+files) for the same pattern: `drAriEdul1` also has a lopsided assembly
+(`HAP1`/`HAP2` far more fragmented than `HAP3`/`HAP4`) but its
+`HAP1`/`HAP2`-involving pairs average *lower* (0.209) than
+`HAP3`/`HAP4`-only pairs (0.270) — no inflation there, its reported value
+stands as-is. No other species in the panel shows a comparably lopsided
+`unplaced.tsv` distribution among source files that had `te-markers` run.
+Before trusting any single-species `te_marker_fraction` headline number,
+check `unplaced.tsv` for this asymmetry and, if present, verify (as done
+here) whether it actually correlates with elevated fraction values before
+assuming inflation.
+
+`windowed_distance_cv` (coefficient of variation of the
 raw-Jaccard `windowed/` track for that pair) is a secondary, corroborating
 column — higher means more patchy/heterogeneous divergence along the
 chromosome, consistent with (but not proof of) mosaic subgenome structure.
