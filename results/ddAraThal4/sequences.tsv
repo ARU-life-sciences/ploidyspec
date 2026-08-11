@@ -1,0 +1,6 @@
+unit_id	hap	chrom	seq_id	length	source	desc
+HAP1_chr01	HAP1	1	OW119596.1	33257523	/lustre/scratch122/tol/data/a/9/2/8/7/3/Arabidopsis_thaliana/assembly/release/ddAraThal4.1/insdc/GCA_933208065.1.fa.gz	Arabidopsis thaliana genome assembly, chromosome: 1
+HAP1_chr02	HAP1	2	OW119597.1	21973073	/lustre/scratch122/tol/data/a/9/2/8/7/3/Arabidopsis_thaliana/assembly/release/ddAraThal4.1/insdc/GCA_933208065.1.fa.gz	Arabidopsis thaliana genome assembly, chromosome: 2
+HAP1_chr03	HAP1	3	OW119598.1	27693526	/lustre/scratch122/tol/data/a/9/2/8/7/3/Arabidopsis_thaliana/assembly/release/ddAraThal4.1/insdc/GCA_933208065.1.fa.gz	Arabidopsis thaliana genome assembly, chromosome: 3
+HAP1_chr04	HAP1	4	OW119599.1	23271492	/lustre/scratch122/tol/data/a/9/2/8/7/3/Arabidopsis_thaliana/assembly/release/ddAraThal4.1/insdc/GCA_933208065.1.fa.gz	Arabidopsis thaliana genome assembly, chromosome: 4
+HAP1_chr05	HAP1	5	OW119600.1	30562185	/lustre/scratch122/tol/data/a/9/2/8/7/3/Arabidopsis_thaliana/assembly/release/ddAraThal4.1/insdc/GCA_933208065.1.fa.gz	Arabidopsis thaliana genome assembly, chromosome: 5
