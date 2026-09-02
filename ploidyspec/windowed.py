@@ -215,11 +215,14 @@ def compute_windowed_groups(
 
         write_group_tsv(outdir, label, label_rows)
         plot_group(outdir, label, label_rows)
+        plot_group_heatmap(outdir, label, label_rows)
         rows_by_label[label] = label_rows
 
     write_all_windows_tsv(outdir, rows_by_label, all_tsv_name)
     if rows_by_label:
         plot_overview(outdir, rows_by_label, overview_title, overview_png_name)
+        heatmap_png_name = overview_png_name.replace(".png", "_heatmap.png")
+        plot_overview_heatmap(outdir, rows_by_label, overview_title, heatmap_png_name)
     return rows_by_label
 
 
@@ -374,6 +377,138 @@ def plot_group(outdir, label, rows):
     ax.legend(fontsize=7, ncol=2)
     fig.tight_layout()
     fig.savefig(os.path.join(outdir, f"windowed_{label}.png"), dpi=150)
+    plt.close(fig)
+
+
+def _pair_matrix(rows):
+    """rows -> (row_labels, windows, 2D array of jaccard_distance, NaN where a pair
+    has no value at a given window). All pairs in `rows` are assumed to share the
+    same window grid (true within one compute_windowed_groups label -- windows are
+    computed once per group and applied to every pair in it)."""
+    import numpy as np
+
+    keyed = {}
+    for r in rows:
+        key, lbl = _pair_key_and_label(r)
+        keyed.setdefault(key, (lbl, []))[1].append(r)
+    pair_keys = sorted(keyed)
+    windows = sorted(set((r["win_start"], r["win_end"]) for r in rows))
+    win_index = {w: i for i, w in enumerate(windows)}
+
+    mat = np.full((len(pair_keys), len(windows)), np.nan)
+    row_labels = []
+    for i, key in enumerate(pair_keys):
+        lbl, sub = keyed[key]
+        row_labels.append(lbl)
+        for r in sub:
+            j = win_index.get((r["win_start"], r["win_end"]))
+            if j is not None:
+                mat[i, j] = r["jaccard_distance"]
+    return row_labels, windows, mat
+
+
+def plot_group_heatmap(outdir, label, rows):
+    """One row per haplotype pair, one column per window, color = jaccard distance
+    -- makes mosaic/patchy divergence along a chromosome visible at a glance, which
+    the line-plot equivalent (plot_group) does not do well once there are more than
+    a couple of pairs."""
+    if not rows:
+        return
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    row_labels, windows, mat = _pair_matrix(rows)
+    finite = mat[np.isfinite(mat)]
+    vmin, vmax = np.percentile(finite, [2, 98]) if finite.size else (0.0, 1.0)
+    if vmin == vmax:
+        vmax = vmin + 1e-6
+
+    cmap = plt.get_cmap("viridis_r").copy()
+    cmap.set_bad("0.85")
+    maxend = windows[-1][1] if windows else 1
+
+    fig, ax = plt.subplots(figsize=(10, max(1.5, 0.35 * len(row_labels) + 0.5)))
+    im = ax.imshow(
+        mat,
+        cmap=cmap,
+        vmin=vmin,
+        vmax=vmax,
+        aspect="auto",
+        extent=[0, maxend / 1e6, len(row_labels), 0],
+    )
+    ax.set_yticks([i + 0.5 for i in range(len(row_labels))])
+    ax.set_yticklabels(row_labels, fontsize=7)
+    ax.set_xlabel("position (Mb)")
+    ax.set_title(f"{label} windowed divergence (2nd-98th pct: {vmin:.3f}-{vmax:.3f})")
+    fig.colorbar(im, ax=ax, shrink=0.7, label="jaccard distance")
+    fig.tight_layout()
+    fig.savefig(os.path.join(outdir, f"windowed_{label}_heatmap.png"), dpi=150)
+    plt.close(fig)
+
+
+def plot_overview_heatmap(outdir, rows_by_label, title, filename):
+    """Same idea as plot_group_heatmap but one subplot per chromosome (or homeolog
+    pair) group, all sharing one color scale so patterns are comparable across the
+    whole genome, not just within one chromosome."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    labels = sorted(rows_by_label)
+    all_rows = [r for rows in rows_by_label.values() for r in rows]
+    if not all_rows:
+        return
+    all_dist = np.array([r["jaccard_distance"] for r in all_rows])
+    vmin, vmax = np.percentile(all_dist, [2, 98])
+    if vmin == vmax:
+        vmax = vmin + 1e-6
+
+    cmap = plt.get_cmap("viridis_r").copy()
+    cmap.set_bad("0.85")
+
+    ncols = min(4, len(labels))
+    nrows_grid = math.ceil(len(labels) / ncols)
+    max_pairs = max(
+        len(set(_pair_key_and_label(r)[0] for r in rows_by_label[l])) for l in labels
+    )
+    fig, axes = plt.subplots(
+        nrows_grid,
+        ncols,
+        figsize=(4 * ncols, max(1.8, 0.3 * max_pairs) * nrows_grid),
+        squeeze=False,
+    )
+    axes = axes.flatten()
+
+    im = None
+    for ax, label in zip(axes, labels):
+        row_labels, windows, mat = _pair_matrix(rows_by_label[label])
+        maxend = windows[-1][1] if windows else 1
+        im = ax.imshow(
+            mat,
+            cmap=cmap,
+            vmin=vmin,
+            vmax=vmax,
+            aspect="auto",
+            extent=[0, maxend / 1e6, len(row_labels), 0],
+        )
+        ax.set_yticks([i + 0.5 for i in range(len(row_labels))])
+        ax.set_yticklabels(row_labels, fontsize=5)
+        ax.set_title(label, fontsize=9)
+
+    for ax in axes[len(labels) :]:
+        ax.axis("off")
+
+    fig.suptitle(f"{title}\n(2nd-98th pct: {vmin:.3f}-{vmax:.3f})")
+    fig.tight_layout(rect=[0, 0, 0.93, 0.90])
+    fig.colorbar(
+        im, ax=axes[: len(labels)].tolist(), shrink=0.6, label="jaccard distance"
+    )
+    fig.savefig(os.path.join(outdir, filename), dpi=150)
     plt.close(fig)
 
 

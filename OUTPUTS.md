@@ -117,6 +117,19 @@ for that, use `matrix/`'s `distance`.
 track on one page, x-axis normalized to % of chromosome length so different
 lengths are comparable.
 
+**`windowed_chrNN_heatmap.png`** (one per chromosome) and
+**`windowed_genome_overview_heatmap.png`**: the same per-window
+`jaccard_distance` data as a heatmap instead of a line plot — one row per
+haplotype-copy pair, one column per window, color = distance (viridis,
+2nd–98th percentile contrast-stretched, matching `matrix/`'s heatmaps). More
+readable than the line-plot version once a chromosome has more than two or
+three haplotype copies (line plots overlap into noise; a mosaic of
+lighter/darker patches along one row is still legible) — the overview
+version uses one shared color scale across every chromosome so patches are
+comparable genome-wide, not just within one chromosome. A patchy row (short
+stretches that break from an otherwise-uniform distance) is a candidate
+partial-rediploidization or homeologous-exchange region for that pair.
+
 ## `homeologs/` — ancient (paleopolyploid) chromosome pairs
 
 **`homeolog_pairs.tsv`**: candidate retained-duplicate chromosome pairs from
@@ -174,10 +187,12 @@ chromosome fission/fusion biology) rather than assuming it means the same
 thing a ratio in the hundreds does (deep, clearly-ancient divergence, as
 seen in some species in this project's own panel).
 
-**`windowed_chrAAxBB.tsv/.png`, `windowed_homeologs_all.tsv`,
-`windowed_homeologs_overview.png`**: same shape as `windowed/`'s files, but
-tracking divergence along the *ancestral* pairing instead of true haplotype
-copies — same raw-Jaccard caveat applies.
+**`windowed_chrAAxBB.tsv/.png`, `windowed_chrAAxBB_heatmap.png`,
+`windowed_homeologs_all.tsv`, `windowed_homeologs_overview.png`,
+`windowed_homeologs_overview_heatmap.png`**: same shape as `windowed/`'s
+files (including the heatmap variants), but tracking divergence along the
+*ancestral* pairing instead of true haplotype copies — same raw-Jaccard
+caveat applies.
 
 ## `subgenomes/` — differential fossil-TE markers (the resolver/phaser)
 

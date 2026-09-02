@@ -63,6 +63,9 @@ def collect_species_data(outdir):
             "overview": _embed_image(
                 os.path.join(wdir, "windowed_genome_overview.png")
             ),
+            "overview_heatmap": _embed_image(
+                os.path.join(wdir, "windowed_genome_overview_heatmap.png")
+            ),
         },
         "homeologs": {
             "homeolog_pairs": _read_tsv(os.path.join(hdir, "homeolog_pairs.tsv")),
@@ -150,6 +153,7 @@ def render_report_html(data):
             f"""<section>
   <h2>Windowed divergence</h2>
   {_img_html(w.get('overview'), 'windowed genome overview')}
+  {_img_html(w.get('overview_heatmap'), 'windowed genome overview heatmap')}
 </section>"""
         )
     else:
