@@ -143,6 +143,26 @@ disomic pattern), found by this tool with no prior knowledge of that
 result. See `OUTPUTS.md` for the caveats on treating `split_ratio` as a
 diagnostic rather than a classifier.
 
+**Applying the same lineage-split analysis to the rest of the panel** (any
+species with `te-markers` already run, no prior knowledge of fusion
+structure needed) surfaced comparably strong splits at specific chromosomes
+in 4 other species: `daBudDavi1` chr05 (6.13), `ddHypMacu1` chr06 (4.73),
+`drAriEdul1` chr01 (4.66), `drLytSali1` chr07 (3.67). Digging into
+`daBudDavi1`'s chr05 (the strongest of the four) found it was **not** real
+biology — `HAP2_chr05` is 32% short and has a third of its three siblings'
+high-copy k-mer count, tracking them normally on every other chromosome, and
+every pair involving it is lopsided in the same way `ddHypMacu1`'s `HAP1`
+was. Same confound, different species, caught by inspecting length and
+per-pair marker counts by hand. That's now automated: `te_marker_fraction_by_lineage.tsv`
+carries a `flagged_units` column marking exactly this pattern (see
+`OUTPUTS.md`) — deliberately built to *not* flag a real 2-vs-2 split like
+`SchCurv1`'s `chr19` fusion (both lineages have >1 member, so no majority-vs-
+minority signature exists to catch), only a clear majority-vs-minority split
+like `daBudDavi1`'s. Re-running it: `daBudDavi1` chr05 and `drLytSali1` chr07
+are both flagged (assembly artifacts, not signal); `ddHypMacu1` chr06 and
+`drAriEdul1` chr01 come through clean — genuine candidates worth a proper
+look, not yet investigated further.
+
 ## Detecting chromosome fusion (and fission)
 
 Currently a manual cross-reference of existing files, not its own pipeline

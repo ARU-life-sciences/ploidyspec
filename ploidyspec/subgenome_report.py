@@ -106,6 +106,95 @@ def summarize_windowed_assignment(windowed_path, unit_a, unit_b):
     return rows, anomalous
 
 
+def load_unit_lengths(outdir):
+    """unit_id -> sequence length, from sequences.tsv (written by `prepare`)."""
+    path = os.path.join(outdir, "sequences.tsv")
+    if not os.path.exists(path):
+        return {}
+    with open(path) as f:
+        return {r["unit_id"]: int(r["length"]) for r in csv.DictReader(f, delimiter="\t")}
+
+
+def collect_unit_highcopy(index_rows):
+    """unit_id -> n_highcopy, read off whichever auto_allo_index.tsv row it
+    first appears in. This is a fixed property of a unit's own sequence at
+    the marker k (confirmed empirically: a unit's n_highcopy is identical
+    across every pairwise row it appears in), not something that depends on
+    which partner it's compared against."""
+    hc = {}
+    for r in index_rows:
+        hc.setdefault(r["unit_a"], r["n_highcopy_a"])
+        hc.setdefault(r["unit_b"], r["n_highcopy_b"])
+    return hc
+
+
+def _majority_cluster(values, tolerance):
+    """
+    values: {unit: positive number}. Finds the largest set of units whose
+    values are all mutually within `tolerance` (relative) of each other,
+    returning (cluster_set, median_of_cluster) -- or (None, None) if no
+    strict majority (more than half the units) agrees. Deliberately strict:
+    a real chromosome fusion also produces a length/highcopy outlier by
+    this measure (fused copies ~2x an unfused one), but splits a 4-unit
+    group evenly (2-vs-2) -- neither side is a majority, so this returns
+    (None, None) and flag_low_content_units correctly stays silent. Only a
+    clear majority-vs-minority split (e.g. 3-vs-1) produces a baseline.
+    """
+    items = [(u, v) for u, v in values.items() if v > 0]
+    best = []
+    for _, v in items:
+        cluster = [u2 for u2, v2 in items if abs(v2 - v) / v <= tolerance]
+        if len(cluster) > len(best):
+            best = cluster
+    if not best or len(best) <= len(items) / 2:
+        return None, None
+    return set(best), statistics.median(values[u] for u in best)
+
+
+def flag_low_content_units(units, lengths, highcopy, tolerance=0.15, threshold=0.75):
+    """
+    Flags units whose sequence length or total high-copy k-mer count sits
+    well below a *majority-agreed* baseline among their same-chromosome
+    siblings -- the signature of an incomplete/fragmented haplotype
+    assembly, not real biological divergence. Requires a majority cluster
+    (see _majority_cluster) before flagging anyone, specifically so a real
+    2-vs-2 chromosome fusion or subgenome split (SchCurv1's chr19: two
+    unfused copies at ~38-40Mb, two fused copies at ~69.5Mb, neither side a
+    majority) is never mistaken for this. Confirmed against a real
+    3-vs-1 case: daBudDavi1's chr05 HAP2 (32% short, a third of its three
+    siblings' high-copy count, siblings mutually agree) is flagged; ddHypMacu1's
+    HAP1 (570 excluded scaffold fragments vs. 2-3 for siblings) is the other
+    confirmed case, both driving a spurious te_marker_fraction split with
+    nothing to do with subgenome or fusion structure. A real fusion or
+    subgenome split doesn't reduce a unit's own length or repeat content,
+    only how much of it is shared with specific other copies -- so this is a
+    different, complementary check to the lineage split itself, not a
+    duplicate of it. Needs >=3 units with known length/highcopy; returns []
+    otherwise.
+    """
+    lens = {u: lengths[u] for u in units if u in lengths}
+    hcs = {u: highcopy[u] for u in units if u in highcopy}
+    if len(lens) < 3 or len(hcs) < 3:
+        return []
+
+    len_cluster, len_baseline = _majority_cluster(lens, tolerance)
+    hc_cluster, hc_baseline = _majority_cluster(hcs, tolerance)
+
+    flagged = []
+    for u in units:
+        low_len = (
+            len_cluster is not None and u not in len_cluster and u in lens
+            and lens[u] / len_baseline < threshold
+        )
+        low_hc = (
+            hc_cluster is not None and u not in hc_cluster and u in hcs
+            and hcs[u] / hc_baseline < threshold
+        )
+        if low_len or low_hc:
+            flagged.append(u)
+    return flagged
+
+
 def load_whole_chrom_distances(outdir):
     """unit-id-pair -> whole-chromosome Mash-corrected distance, from
     matrix/whole_chrom_distance_matrix.csv. Always numeric (unlike
@@ -176,8 +265,19 @@ def compute_lineage_te_fractions(outdir, index_rows):
     lineages, a signal invisible in that chromosome's flat pairwise mean
     (~0.35) and easy to miss unless you already know the fusion structure.
     This makes the check automatic instead of requiring that prior knowledge.
+
+    Also flags units that look like an incomplete/fragmented assembly rather
+    than a real second lineage (see flag_low_content_units) -- confirmed
+    case: daBudDavi1's chr05 split 6.13x, but as a lopsided 1-vs-3 (HAP2
+    alone, 32% short and a third of its siblings' high-copy count) rather
+    than a real 2-vs-2 fusion-like split. The split_ratio is still reported
+    in that case, but flagged_units marks it as likely an assembly artifact
+    rather than biology, without requiring the same manual length/marker
+    digging every time.
     """
     own_dist = load_whole_chrom_distances(outdir)
+    lengths = load_unit_lengths(outdir)
+    highcopy = collect_unit_highcopy(index_rows)
     by_chrom = defaultdict(list)
     for r in index_rows:
         by_chrom[r["chrom"]].append(r)
@@ -200,6 +300,7 @@ def compute_lineage_te_fractions(outdir, index_rows):
 
         within_mean = sum(within_vals) / len(within_vals)
         cross_mean = sum(cross_vals) / len(cross_vals)
+        flagged_units = flag_low_content_units(units, lengths, highcopy)
         out_rows.append(
             dict(
                 chrom=chrom,
@@ -210,6 +311,7 @@ def compute_lineage_te_fractions(outdir, index_rows):
                 within_te_marker_fraction=within_mean,
                 cross_te_marker_fraction=cross_mean,
                 split_ratio=(cross_mean / within_mean) if within_mean > 0 else None,
+                flagged_units=",".join(flagged_units),
             )
         )
     return out_rows
@@ -229,6 +331,7 @@ def write_lineage_tsv(outdir, rows):
                 "within_te_marker_fraction",
                 "cross_te_marker_fraction",
                 "split_ratio",
+                "flagged_units",
             ]
         )
         for r in rows:
@@ -242,6 +345,7 @@ def write_lineage_tsv(outdir, rows):
                     f"{r['within_te_marker_fraction']:.6f}",
                     f"{r['cross_te_marker_fraction']:.6f}",
                     "" if r["split_ratio"] is None else f"{r['split_ratio']:.2f}",
+                    r["flagged_units"],
                 ]
             )
 

@@ -329,24 +329,49 @@ treat `split_ratio` as a diagnostic, same as `distance_ratio` in
 `split_ratio` near 1 (no real structure), and that's the expected, correct
 result, not a bug.
 
-**Assembly-quality confound, checked and found in one species so far**:
-a haplotype assembly that's more fragmented than its siblings can inflate
-`te_marker_fraction` for every pair it's in, independent of any real
-biology — fragmented/incomplete regions can look like spurious
-"differential" content. Confirmed for `ddHypMacu1`: `unplaced.tsv` shows its
-`HAP1` file has 570 excluded scaffold fragments vs. 2-3 for `HAP3`/`HAP4`
-(essentially perfectly chromosome-scale), and `HAP1`-involving pairs average
+**`flagged_units` column**: automatically marks units that look like an
+incomplete/fragmented assembly rather than a real second lineage — a unit
+whose sequence length *or* total high-copy k-mer count sits below 75% of
+its same-chromosome siblings' median. A real fusion or subgenome split
+doesn't reduce a unit's own length or repeat content, only how much of it
+is shared with specific other copies, so this is a genuinely different
+check from the bipartition itself, computed independently and reported
+alongside it. Confirmed case: `daBudDavi1`'s `chr05` split at 6.13× —
+comparable in size to `SchCurv1`'s real `chr19` fusion signal — but as a
+lopsided **1-vs-3** split (`HAP2` alone), not a clean 2-vs-2. `HAP2_chr05`
+is 32% short (25.5Mb vs. siblings' 37–38Mb) and has a third of their
+high-copy k-mer count, tracking its siblings normally (within 3–5%) on
+every *other* chromosome — chromosome-specific, not a systemic assembly
+problem with that haplotype. Every pair involving it is lopsided (~10,000+
+markers favoring the other side, `HAP2` contributing 8–18 of its own),
+exactly the `ddHypMacu1` pattern below. `flagged_units` catches this
+automatically now: `chr05`'s row carries `HAP2_chr05` in that column. A
+clean 2-vs-2 split with no flagged units (`SchCurv1`'s `chr19`, `chr17` in
+both snow carps) is the shape a real signal takes; a lopsided split with a
+flagged unit is the shape this specific artifact takes — but `flagged_units`
+being empty doesn't guarantee the split is real, only that this one known
+failure mode has been ruled out.
+
+**Assembly-quality confound, now checked automatically (`flagged_units`
+above), confirmed in two species**: a haplotype assembly that's more
+fragmented/incomplete than its siblings can inflate `te_marker_fraction`
+for every pair it's in, independent of any real biology — missing content
+trivially looks like spurious "differential" content by construction.
+Confirmed for `ddHypMacu1`: `unplaced.tsv` shows its `HAP1` file has 570
+excluded scaffold fragments vs. 2-3 for `HAP3`/`HAP4` (essentially
+perfectly chromosome-scale), and `HAP1`-involving pairs average
 `te_marker_fraction` 0.598 vs. 0.291 for `HAP2`/`HAP3`/`HAP4`-only pairs —
 almost double. **Use 0.291, not the raw panel mean (0.445, which is
-`HAP1`-inflated), as `ddHypMacu1`'s trustworthy value.** Checked
-panel-wide (comparing `unplaced.tsv` counts across each species' source
-files) for the same pattern: `drAriEdul1` also has a lopsided assembly
-(`HAP1`/`HAP2` far more fragmented than `HAP3`/`HAP4`) but its
-`HAP1`/`HAP2`-involving pairs average *lower* (0.209) than
-`HAP3`/`HAP4`-only pairs (0.270) — no inflation there, its reported value
-stands as-is. No other species in the panel shows a comparably lopsided
-`unplaced.tsv` distribution among source files that had `te-markers` run.
-Before trusting any single-species `te_marker_fraction` headline number,
+`HAP1`-inflated), as `ddHypMacu1`'s trustworthy value.** Confirmed a second
+time for `daBudDavi1`'s `chr05`/`HAP2` (above). Checked panel-wide
+(comparing `unplaced.tsv` counts across each species' source files) for the
+same pattern: `drAriEdul1` also has a lopsided assembly (`HAP1`/`HAP2` far
+more fragmented than `HAP3`/`HAP4`) but its `HAP1`/`HAP2`-involving pairs
+average *lower* (0.209) than `HAP3`/`HAP4`-only pairs (0.270) — no
+inflation there, its reported value stands as-is. No other species in the
+panel shows a comparably lopsided `unplaced.tsv` distribution among source
+files that had `te-markers` run. Before trusting any single-species
+`te_marker_fraction` headline number,
 check `unplaced.tsv` for this asymmetry and, if present, verify (as done
 here) whether it actually correlates with elevated fraction values before
 assuming inflation.
