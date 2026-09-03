@@ -30,3 +30,5 @@ llColAutu1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/
 lpElePalu1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/lpElePalu1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	(?:SUPER_\d+_)?HAP(\d+)(?:_SUPER)?
 lpTriTurg1_A	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/lpTriTurg1_A.tsv	chromosome:?\s*(\d+)A\b|SUPER[_-](\d+)A\b	
 lpTriTurg1_B	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/lpTriTurg1_B.tsv	chromosome:?\s*(\d+)B\b|SUPER[_-](\d+)B\b	
+SchCurv1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/SchCurv1.tsv	chromosome:?\s*(\d+)\b	
+SchYoun1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/SchYoun1.tsv	Chr(\d+)_[PM][12]\b	
