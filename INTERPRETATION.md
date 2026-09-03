@@ -166,9 +166,18 @@ mutually-agreeing siblings — invisible to a length/raw-count check, since a
 longer sequence isn't the issue here. Corroborating evidence: the same
 haplotype (`HAP1`) shows 1.9–5.1× elevated density on 3 other chromosomes
 and 0.43× (deflated) on a fourth — scattered in both directions, consistent
-with `HAP1` being the independently-confirmed lower-quality assembly for
-this species (570 excluded scaffold fragments vs. 2–3 for siblings) rather
-than four real biological signals. Also now automated: a separate
+with those being assembly noise rather than four real biological signals.
+`HAP1` does independently show 570 excluded scaffold fragments vs. 2–3 for
+`HAP3`/`HAP4` in `unplaced.tsv` — but that specific asymmetry turns out to
+be *expected* for any >2-haplotype curated assembly, not evidence `HAP1`
+was sequenced or assembled to a lower standard: ToL's curation pipeline
+only runs unlocalized-sequence placement on the primary `HAP1`/`HAP2` pair,
+so `HAP3`/`HAP4`+ files are built only from already-placed scaffolds and
+will always show near-zero unplaced counts by construction. The scattered
+density anomalies are still the more direct evidence for treating `HAP1`'s
+signal cautiously here (see `OUTPUTS.md`'s assembly-quality-confound entry
+for the full explanation and why the correlation, not just the asymmetry,
+is what matters). Also now automated: a separate
 `high_density_units` column, using repeat *density* (high-copy k-mers per
 bp) rather than raw count — raw count alone would false-flag a real fusion
 too, since a longer fused sequence simply contains more total repeat
@@ -205,10 +214,14 @@ breaks away sharply from both for the rest of the chromosome — a specific
 transition point, not diffuse noise.
 
 Why this one reads as real rather than artifactual, unlike the other three:
-- `HAP4` is *not* the known-fragmented haplotype for this species —
-  `unplaced.tsv` shows `HAP1`/`HAP2` are the fragmented ones (89 excluded
-  fragments each), `HAP3`/`HAP4` are both clean (2 each). The outlier here
-  is one of the *good* assemblies.
+- `HAP4` is *not* the haplotype `unplaced.tsv` flags as fragmented — that's
+  `HAP1`/`HAP2` (89 excluded fragments each, vs. 2 each for `HAP3`/`HAP4`).
+  This is a 4-haplotype species, so per the curation-pipeline explanation in
+  `OUTPUTS.md` (only the primary `HAP1`/`HAP2` pair goes through unlocalized-
+  sequence placement), that asymmetry is expected by construction and isn't
+  itself evidence `HAP1`/`HAP2` are lower quality — but it does mean `HAP4`
+  is one of the two haplotypes *not* carrying that structural asymmetry
+  either way, which is one less thing to explain away here.
 - Length (+15%) and density (+66%, just under the 1.75× threshold) are
   both modestly and consistently elevated together — a different pattern
   from `ddHypMacu1`'s pure-density spike or `daBudDavi1`'s pure length

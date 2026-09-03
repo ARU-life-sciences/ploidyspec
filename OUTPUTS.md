@@ -388,28 +388,52 @@ lower-quality assembly for this species (570 excluded scaffold fragments
 below) rather than four coincidental real biological signals.
 
 **Assembly-quality confound, now checked automatically (`flagged_units`
-above), confirmed in two species**: a haplotype assembly that's more
+above), confirmed in two species**: a haplotype file that's more
 fragmented/incomplete than its siblings can inflate `te_marker_fraction`
 for every pair it's in, independent of any real biology — missing content
 trivially looks like spurious "differential" content by construction.
+
+**Why this specifically hits `HAP1`/`HAP2` and not `HAP3`/`HAP4`+ — a
+curation-pipeline artifact, not necessarily a sequencing/assembly-quality
+difference.** For any species with more than 2 haplotype copies (an
+auto-tetraploid-style curated assembly), ToL's curation process only runs
+the unlocalized-sequence placement step on the primary `HAP1`/`HAP2` pair.
+Any additional haplotype file (`HAP3`, `HAP4`, …) is built only from
+already-placed `SUPER` (chromosome-scale) scaffolds plus whatever
+unlocalized sequences trivially came with them — it never goes through that
+placement step. So `HAP3`/`HAP4`+ will *structurally* show near-zero
+`unplaced.tsv` entries for any such species, by construction, not because
+their underlying assembly is more complete or higher quality. Expect the
+`HAP1`/`HAP2` vs. `HAP3`/`HAP4`+ asymmetry in `unplaced.tsv` fragment counts
+as the *default* for every >2-haplotype species in the panel — it is not on
+its own evidence of a problem, and shouldn't be read as one without checking
+whether it actually correlates with an inflated `te_marker_fraction` (below).
+
 Confirmed for `ddHypMacu1`: `unplaced.tsv` shows its `HAP1` file has 570
-excluded scaffold fragments vs. 2-3 for `HAP3`/`HAP4` (essentially
-perfectly chromosome-scale), and `HAP1`-involving pairs average
-`te_marker_fraction` 0.598 vs. 0.291 for `HAP2`/`HAP3`/`HAP4`-only pairs —
-almost double. **Use 0.291, not the raw panel mean (0.445, which is
-`HAP1`-inflated), as `ddHypMacu1`'s trustworthy value.** Confirmed a second
-time for `daBudDavi1`'s `chr05`/`HAP2` (above). Checked panel-wide
-(comparing `unplaced.tsv` counts across each species' source files) for the
-same pattern: `drAriEdul1` also has a lopsided assembly (`HAP1`/`HAP2` far
-more fragmented than `HAP3`/`HAP4`) but its `HAP1`/`HAP2`-involving pairs
-average *lower* (0.209) than `HAP3`/`HAP4`-only pairs (0.270) — no
-inflation there, its reported value stands as-is. No other species in the
-panel shows a comparably lopsided `unplaced.tsv` distribution among source
-files that had `te-markers` run. Before trusting any single-species
-`te_marker_fraction` headline number,
-check `unplaced.tsv` for this asymmetry and, if present, verify (as done
-here) whether it actually correlates with elevated fraction values before
-assuming inflation.
+excluded scaffold fragments vs. 2-3 for `HAP3`/`HAP4`, and `HAP1`-involving
+pairs average `te_marker_fraction` 0.598 vs. 0.291 for `HAP2`/`HAP3`/`HAP4`-only
+pairs — almost double, so in this case the asymmetry *does* correlate with
+real inflation (plausibly because content that never got placed into
+`HAP1`'s chromosome-scale scaffolds is genuinely absent from what
+`te-markers` compares, not just an unplaced-file bookkeeping difference).
+**Use 0.291, not the raw panel mean (0.445, which is `HAP1`-inflated), as
+`ddHypMacu1`'s trustworthy value.** Confirmed a second time for
+`daBudDavi1`'s `chr05`/`HAP2` (above, a 2-haplotype species — same failure
+mode, different cause, since the HAP1/HAP2-curation explanation above
+doesn't apply there). Checked panel-wide (comparing `unplaced.tsv` counts
+across each species' source files) for the same correlation: `drAriEdul1`
+also has a lopsided assembly (`HAP1`/`HAP2` far more fragmented than
+`HAP3`/`HAP4`) but its `HAP1`/`HAP2`-involving pairs average *lower* (0.209)
+than `HAP3`/`HAP4`-only pairs (0.270) — the structural asymmetry is present
+(as expected for any >2-haplotype species) but doesn't correlate with
+inflation here, so its reported value stands as-is. **The lesson: don't
+skip the check just because the asymmetry itself is expected — always
+verify whether it correlates with an actual `te_marker_fraction` difference
+before deciding whether to correct for it.** Before trusting any
+single-species `te_marker_fraction` headline number, check `unplaced.tsv`
+for this asymmetry and, if present, verify (as done here) whether it
+actually correlates with elevated fraction values before assuming
+inflation.
 
 `windowed_distance_cv` (coefficient of variation of the
 raw-Jaccard `windowed/` track for that pair) is a secondary, corroborating
