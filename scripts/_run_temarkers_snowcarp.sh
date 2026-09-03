@@ -24,7 +24,7 @@ echo "=== ${species_id}: te-markers ==="
     --threads "${LSB_DJOB_NUMPROC:-8}" "${extra_args[@]}"
 
 echo "=== ${species_id}: subgenome-report ==="
-./ploidyspec.sh subgenome-report --outdir "$outdir"
+./ploidyspec.sh subgenome-report --manifest "$manifest" --outdir "$outdir"
 
 echo "=== ${species_id}: report (refresh) ==="
 ./ploidyspec.sh report --outdir "$outdir"
