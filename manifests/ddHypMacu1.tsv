@@ -1,5 +1,5 @@
 # fasta_path	hap_label
-/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap1.1.primary.fa.gz	AUTO
-/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap2.1.primary.fa.gz	AUTO
-/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap3.1.primary.fa.gz	AUTO
-/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap4.1.primary.fa.gz	AUTO
+/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264625.1/insdc/GCA_986264625.1.fa.gz	HAP1
+/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264605.1/insdc/GCA_986264605.1.fa.gz	HAP2
+/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264615.1/insdc/GCA_986264615.1.fa.gz	HAP3
+/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264645.1/insdc/GCA_986264645.1.fa.gz	HAP4

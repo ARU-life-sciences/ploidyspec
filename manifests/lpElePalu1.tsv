@@ -1,3 +1,3 @@
 # fasta_path	hap_label
-/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	AUTO
-/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	AUTO
+/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	HAP1
+/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	HAP2
