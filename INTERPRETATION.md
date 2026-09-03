@@ -158,10 +158,73 @@ carries a `flagged_units` column marking exactly this pattern (see
 `OUTPUTS.md`) — deliberately built to *not* flag a real 2-vs-2 split like
 `SchCurv1`'s `chr19` fusion (both lineages have >1 member, so no majority-vs-
 minority signature exists to catch), only a clear majority-vs-minority split
-like `daBudDavi1`'s. Re-running it: `daBudDavi1` chr05 and `drLytSali1` chr07
-are both flagged (assembly artifacts, not signal); `ddHypMacu1` chr06 and
-`drAriEdul1` chr01 come through clean — genuine candidates worth a proper
-look, not yet investigated further.
+like `daBudDavi1`'s.
+
+Digging into the remaining three found a second failure mode. `ddHypMacu1`'s
+chr06 has *normal* length but ~2× the repeat density of its three
+mutually-agreeing siblings — invisible to a length/raw-count check, since a
+longer sequence isn't the issue here. Corroborating evidence: the same
+haplotype (`HAP1`) shows 1.9–5.1× elevated density on 3 other chromosomes
+and 0.43× (deflated) on a fourth — scattered in both directions, consistent
+with `HAP1` being the independently-confirmed lower-quality assembly for
+this species (570 excluded scaffold fragments vs. 2–3 for siblings) rather
+than four real biological signals. Also now automated: a separate
+`high_density_units` column, using repeat *density* (high-copy k-mers per
+bp) rather than raw count — raw count alone would false-flag a real fusion
+too, since a longer fused sequence simply contains more total repeat
+content (confirmed against `SchCurv1`'s `chr19`: ~2.3–2.6× the raw count in
+the fused lineage but only ~1.35–1.4× the density, correctly unflagged).
+
+Final status of all four: `daBudDavi1` chr05, `drLytSali1` chr07, and
+`ddHypMacu1` chr06 are all flagged as assembly artifacts, none of them real
+signal. `drAriEdul1`'s chr01 is the one that survived — see below.
+
+### `drAriEdul1` chr01 — the one that looks real
+
+Passes both automated checks (`flagged_units` and `high_density_units` both
+empty), and manual digging didn't find an artifact explanation either.
+Whole-chromosome Mash-corrected distances tell a clean, quantitative story:
+
+```
+HAP1–HAP2: 0.0118    HAP2–HAP3: 0.0057 (closest pair)
+HAP1–HAP3: 0.0118    HAP2–HAP4: 0.0268
+HAP1–HAP4: 0.0260    HAP3–HAP4: 0.0266
+```
+
+`HAP1`/`HAP2`/`HAP3` form a genuinely tight trio (mutual distances
+0.006–0.012); `HAP4` sits 2.2–4.7× further from all three than they are
+from each other. The windowed heatmap looks at first glance like `HAP1` is
+equally diverged from everyone — that's a scale-compression artifact of the
+*raw*, uncorrected windowed track: its color scale gets stretched by
+`HAP2`/`HAP3`'s unusually tight relationship (down to 0.14), making
+everything else look uniformly dark by comparison even though `HAP1` is
+genuinely closer to `HAP2`/`HAP3` than to `HAP4` on the calibrated metric.
+Read correctly, the windowed track shows real spatial structure: `HAP2`,
+`HAP3`, and `HAP4` sit relatively close for the first ~13Mb, then `HAP4`
+breaks away sharply from both for the rest of the chromosome — a specific
+transition point, not diffuse noise.
+
+Why this one reads as real rather than artifactual, unlike the other three:
+- `HAP4` is *not* the known-fragmented haplotype for this species —
+  `unplaced.tsv` shows `HAP1`/`HAP2` are the fragmented ones (89 excluded
+  fragments each), `HAP3`/`HAP4` are both clean (2 each). The outlier here
+  is one of the *good* assemblies.
+- Length (+15%) and density (+66%, just under the 1.75× threshold) are
+  both modestly and consistently elevated together — a different pattern
+  from `ddHypMacu1`'s pure-density spike or `daBudDavi1`'s pure length
+  deficit.
+- There's a specific breakpoint (~13Mb), not uniform noise across the whole
+  chromosome.
+
+This species' own literature entry already flags taxonomic uncertainty —
+the sequenced sample may actually be the tetraploid *A. wyensis* rather
+than diploid *A. edulis* — and whitebeams (*Sorbus*/*Aria*) are a textbook
+genus for hybrid/polyploid complexity, so a real, partial differentiation
+signal at one chromosome is a plausible outcome, not a surprising one. Not
+proven the way the snow carp findings were (no independent literature
+confirmation here) — the strongest surviving candidate of the four, not a
+confirmed finding. Resolving it further would need alignment/synteny data,
+beyond what k-mer comparison alone can do.
 
 ## Detecting chromosome fusion (and fission)
 
@@ -325,7 +388,7 @@ treat those as provisional.
 | `ddPopNigr1` (*Populus nigra*) | 1 | 0/19 | – | diploid-looking (alt haplotype too fragmentary) |
 | `ddSalCine1` (*Salix cinerea*) | 1 | 0/18 | – | diploid-looking (alt haplotype too fragmentary) |
 | `ddSalPent1` (*Salix pentandra*) | 2 | 38/38 | 0.200 | strong, complete ancient-pairing signal — allo-leaning, not literature-checked |
-| `drAriEdul1` (*Aria edulis*) | 4 | 16/17 | 0.219/0.209 (no inflation found) | ambiguous per *A. edulis* diploid literature; allo-consistent if sample is actually the tetraploid relative *A. wyensis* |
+| `drAriEdul1` (*Aria edulis*) | 4 | 16/17 | 0.219/0.209 (no inflation found) | ambiguous per *A. edulis* diploid literature; allo-consistent if sample is actually the tetraploid relative *A. wyensis*. `chr01` lineage split (4.66×) passes both artifact checks and manual digging — `HAP4` (a clean assembly) sits 2.2–4.7× further from `HAP1`/`HAP2`/`HAP3` than they do from each other, with a specific ~13Mb breakpoint; strongest surviving real-signal candidate in the panel, unconfirmed |
 | `drIngLaur1` (*Inga laurina*) | 1 | 0/13 | – | diploid-looking |
 | `drLytSali1` (*Lythrum salicaria*) | 4 | 10/15 | 0.307 | **auto** *(lit)*, but high te_frac and substantial ancient-pairing signal both lean allo — worth revisiting given the fusion-mimics-dominance caveat above |
 | `drRosSpin1` (*Rosa spinosissima*) | 2 | 14/14 | 0.122 | complete ancient-pairing signal, moderate te_frac — allo-leaning, not literature-checked |
