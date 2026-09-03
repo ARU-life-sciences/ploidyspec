@@ -118,9 +118,30 @@ switch. For salmonid work specifically, where regions of residual tetrasomy
 are already mapped from segregation data, `te_marker_fraction` computed per
 chromosome arm gives an independent, sequence-only cross-check, and the
 windowed painting gives a physical view of exactly where homeologous
-exchange is (or isn't) still active. **Not yet run on the two snow carp
-species** — a natural next step now that we have confirmed ground truth to
-calibrate against.
+exchange is (or isn't) still active.
+
+**Now run on both snow carp species, and it immediately exposed a real
+limitation in how the index was being read.** Genome-wide means came back
+at 0.209 (`SchCurv1`) and 0.223 (`SchYoun1`) — indistinguishable from
+`daGleHede1`'s confirmed-allo 0.223. Taken at face value, that says
+`te_marker_fraction` can't tell a confirmed autopolyploid from a confirmed
+allopolyploid, which would undercut the whole index. It can't, **at that
+resolution** — a flat genome-wide mean is the wrong level to read a genome
+that's only partly rediploidized. Broken down per chromosome and, where a
+chromosome has ≥3 haplotype copies, by an automatic 2-way split of those
+copies by whole-chromosome distance (new: `te_marker_fraction_by_lineage.tsv`,
+described in `OUTPUTS.md`), the real signal appears immediately:
+`SchCurv1`'s `chr19` (the confirmed chromosome fusion) shows within-lineage
+`te_marker_fraction` of 0.11 versus 0.59 across lineages — a 5.6×
+split invisible in either the flat genome-wide mean or that chromosome's
+own flat pairwise average (~0.35). Every other chromosome sits at
+split_ratio 0.8–2.2 (no comparable structure), except `chr17` (split_ratio
+3.2 in `SchCurv1`, 1.9 independently in `SchYoun1`) — which the paper
+separately documents as a *second* rediploidization mechanism at that exact
+chromosome (a centromeric inversion producing a partial, short-arm-only
+disomic pattern), found by this tool with no prior knowledge of that
+result. See `OUTPUTS.md` for the caveats on treating `split_ratio` as a
+diagnostic rather than a classifier.
 
 ## Detecting chromosome fusion (and fission)
 
@@ -175,6 +196,28 @@ system, with the same two species.
   exactly the auto-like signature, arrived at independently. This is the
   panel's first confirmed-autopolyploid ground truth (previously we only
   had confirmed allopolyploids plus one true diploid).
+- **The lineage-split TE-marker signal at `chr19`.** Once `te-markers` was
+  run, splitting `SchCurv1`'s `chr19` copies into the unfused (`HAP1`/`HAP2`)
+  and fused (`HAP3`/`HAP4`) lineages showed within-lineage
+  `te_marker_fraction` of 0.11 versus 0.59 across lineages — the two
+  post-fusion lineages have built independent repeat histories from each
+  other, not just diverged in bulk sequence. This is the same
+  fusion-splits-a-tetrasomic-quartet-into-two-lineages model the paper
+  describes, recovered with a completely different method (differential
+  repeat-content markers, not Ks/gene trees) at the same locus.
+- **`chr17`, unprompted.** The same lineage-split analysis, run automatically
+  across every chromosome (not just the known fusion), flagged `chr17` as
+  the next-most-structured chromosome in both species (`split_ratio` 3.2 in
+  `SchCurv1`, 1.9 in `SchYoun1`) — well below `chr19`'s fusion-strength
+  signal, but clearly above the rest of the genome (0.8–2.2). `chr17` is
+  *not* one of the five known fusions. The paper separately documents a
+  distinct rediploidization mechanism there: a centromeric inversion
+  producing a partial, short-arm-only shift to disomic inheritance, with the
+  long arm staying tetrasomic — exactly consistent with a real-but-partial
+  signal weaker than a full chromosome fusion. Not independently confirmed
+  here (would need the same due-diligence check as any homeolog hit), but a
+  strong candidate that fell out of the analysis without being told to look
+  for it.
 
 **A correction we made along the way:** we initially misread `SchCurv1`'s
 `chr19↔chr22` ancient-homeolog hit as a pipeline artifact — a chimeric,
@@ -274,8 +317,8 @@ treat those as provisional.
 | `lpElePalu1` (*Eleocharis palustris*) | 2 | 18/19 | 0.083 | holocentric chromosomes, documented agmatoploidy/symploidy (fission/fusion) in the genus — many pairs sit at `distance_ratio` ≈1, plausibly real biology rather than unresolved WGD signal; see prior deep-dive |
 | `lpTriTurg1_A` / `_B` (wheat, A/B subgenomes) | 2 | 0 | 0.012–0.015 (within-subgenome) | **allo** *(confirmed)* — structurally-guaranteed low within-subgenome baseline |
 | `lpTriTurg1_AB` (wheat, A×B cross-subgenome) | – | – | ~0.42 | **allo** *(confirmed)* — cross-subgenome anchor, the panel's other primary calibration point alongside `daGleHede1` |
-| `SchCurv1` (*Schizothorax curvilabiatus*) | 2, 4 | 1/25 (real) | not yet run | **auto** *(confirmed, Xie et al. 2026)* — 1 ancestral fusion (`chr19+22`), sequence-level ancient signal mostly lost |
-| `SchYoun1` (*Schizopygopsis younghusbandi*) | 2, 4 | 0/25 (1 near-miss) | not yet run | **auto** *(confirmed, Xie et al. 2026)* — 5 fusions, clean `M1`+`P1` (unfused) vs `M2`+`P2` (fused) subgenome-like split |
+| `SchCurv1` (*Schizothorax curvilabiatus*) | 2, 4 | 1/25 (real) | 0.209 genome-wide, but 0.11 within-lineage vs 0.59 cross-lineage at `chr19` | **auto** *(confirmed, Xie et al. 2026)* — 1 ancestral fusion (`chr19+22`), sequence-level ancient signal mostly lost; genome-wide te_frac mean looks allo-like but that's the wrong resolution — see lineage-split analysis above |
+| `SchYoun1` (*Schizopygopsis younghusbandi*) | 2, 4 | 0/25 (1 near-miss) | 0.223 genome-wide | **auto** *(confirmed, Xie et al. 2026)* — 5 fusions, clean `M1`+`P1` (unfused) vs `M2`+`P2` (fused) subgenome-like split; fused scaffolds not yet re-processed for their own lineage-split te_frac (see next steps) |
 
 ---
 

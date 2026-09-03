@@ -1,0 +1,9 @@
+chrom	group_a	group_b	n_within	n_cross	within_te_marker_fraction	cross_te_marker_fraction	split_ratio
+chr01	HAP1_chr01	HAP3_chr01,HAP2_chr01,HAP4_chr01	3	3	0.162640	0.588248	3.62
+chr02	HAP1_chr02	HAP3_chr02,HAP2_chr02,HAP4_chr02	3	3	0.497783	0.868035	1.74
+chr03	HAP1_chr03	HAP2_chr03,HAP3_chr03,HAP4_chr03	3	3	0.310705	0.630640	2.03
+chr04	HAP1_chr04	HAP2_chr04,HAP3_chr04,HAP4_chr04	3	3	0.446672	0.526174	1.18
+chr05	HAP1_chr05	HAP4_chr05,HAP2_chr05,HAP3_chr05	3	3	0.194173	0.498702	2.57
+chr06	HAP1_chr06	HAP2_chr06,HAP3_chr06,HAP4_chr06	3	3	0.125835	0.595258	4.73
+chr07	HAP1_chr07	HAP4_chr07,HAP2_chr07,HAP3_chr07	3	3	0.380114	0.585302	1.54
+chr08	HAP1_chr08	HAP4_chr08,HAP2_chr08,HAP3_chr08	3	3	0.211384	0.489981	2.32

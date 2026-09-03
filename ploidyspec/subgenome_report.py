@@ -8,9 +8,9 @@ no new FastK/Tabex calls, so this is fast even though te-markers itself isn't.
 import csv
 import os
 import statistics
-from collections import Counter
+from collections import Counter, defaultdict
 
-from .common import log, subgenomes_dir, windowed_dir
+from .common import log, matrix_dir, subgenomes_dir, windowed_dir
 
 
 def te_marker_fraction(n_markers_a, n_markers_b, n_highcopy_a, n_highcopy_b):
@@ -106,6 +106,146 @@ def summarize_windowed_assignment(windowed_path, unit_a, unit_b):
     return rows, anomalous
 
 
+def load_whole_chrom_distances(outdir):
+    """unit-id-pair -> whole-chromosome Mash-corrected distance, from
+    matrix/whole_chrom_distance_matrix.csv. Always numeric (unlike
+    whole_chrom_pairs.tsv's distance column, which is blank when a pair is
+    resolution_limited across every k)."""
+    path = os.path.join(matrix_dir(outdir), "whole_chrom_distance_matrix.csv")
+    if not os.path.exists(path):
+        return {}
+    dist = {}
+    with open(path) as f:
+        rows = list(csv.reader(f))
+    header = rows[0][1:]
+    for row in rows[1:]:
+        uid = row[0]
+        for j, val in enumerate(row[1:]):
+            dist[(uid, header[j])] = float(val)
+    return dist
+
+
+def bipartition_by_distance(units, dist):
+    """
+    Split >=3 haplotype copies of one chromosome into two lineages using
+    their whole-chromosome distance to each other: seed with the most-distant
+    pair, then assign every other copy to whichever seed it's closer to. A
+    dependency-free stand-in for 2-means on a distance matrix -- not meant to
+    be a rigorous clustering method, just good enough to recover a real split
+    when one exists (allopolyploid subgenomes, fusion-derived lineages). When
+    no real split exists the two groups end up no more separated than any
+    other bipartition would be, which shows up downstream as split_ratio
+    near 1 -- read it as a diagnostic, not a classifier, same as
+    distance_ratio in homeologs.py.
+    """
+    if len(units) < 3:
+        return None
+    best = None
+    for i, u in enumerate(units):
+        for v in units[i + 1 :]:
+            d = dist.get((u, v))
+            if d is None:
+                continue
+            if best is None or d > best[0]:
+                best = (d, u, v)
+    if best is None:
+        return None
+    _, seed_a, seed_b = best
+    group_a, group_b = [seed_a], [seed_b]
+    for u in units:
+        if u in (seed_a, seed_b):
+            continue
+        da, db = dist.get((u, seed_a)), dist.get((u, seed_b))
+        if da is None or db is None:
+            continue
+        (group_a if da < db else group_b).append(u)
+    if not group_a or not group_b:
+        return None
+    return group_a, group_b
+
+
+def compute_lineage_te_fractions(outdir, index_rows):
+    """
+    For each chromosome with >=3 haplotype copies, splits the copies into two
+    lineages by whole-chromosome distance and reports mean te_marker_fraction
+    within each lineage versus across them. Exists because the flat,
+    unweighted genome-wide mean in auto_allo_index.tsv can look uninformative
+    for a genome that's only partly resolved into two lineages -- confirmed
+    case: SchCurv1's chr19 (one confirmed chromosome fusion, Xie et al. 2026)
+    has within-lineage te_marker_fraction of 0.07-0.14 but 0.57-0.61 across
+    lineages, a signal invisible in that chromosome's flat pairwise mean
+    (~0.35) and easy to miss unless you already know the fusion structure.
+    This makes the check automatic instead of requiring that prior knowledge.
+    """
+    own_dist = load_whole_chrom_distances(outdir)
+    by_chrom = defaultdict(list)
+    for r in index_rows:
+        by_chrom[r["chrom"]].append(r)
+
+    out_rows = []
+    for chrom, pairs in sorted(by_chrom.items()):
+        units = sorted(set(p["unit_a"] for p in pairs) | set(p["unit_b"] for p in pairs))
+        split = bipartition_by_distance(units, own_dist)
+        if split is None:
+            continue
+        group_a, group_b = split
+        set_a = set(group_a)
+
+        within_vals, cross_vals = [], []
+        for p in pairs:
+            same_group = (p["unit_a"] in set_a) == (p["unit_b"] in set_a)
+            (within_vals if same_group else cross_vals).append(p["te_marker_fraction"])
+        if not within_vals or not cross_vals:
+            continue
+
+        within_mean = sum(within_vals) / len(within_vals)
+        cross_mean = sum(cross_vals) / len(cross_vals)
+        out_rows.append(
+            dict(
+                chrom=chrom,
+                group_a=",".join(group_a),
+                group_b=",".join(group_b),
+                n_within=len(within_vals),
+                n_cross=len(cross_vals),
+                within_te_marker_fraction=within_mean,
+                cross_te_marker_fraction=cross_mean,
+                split_ratio=(cross_mean / within_mean) if within_mean > 0 else None,
+            )
+        )
+    return out_rows
+
+
+def write_lineage_tsv(outdir, rows):
+    path = os.path.join(subgenomes_dir(outdir), "te_marker_fraction_by_lineage.tsv")
+    with open(path, "w", newline="") as f:
+        w = csv.writer(f, delimiter="\t")
+        w.writerow(
+            [
+                "chrom",
+                "group_a",
+                "group_b",
+                "n_within",
+                "n_cross",
+                "within_te_marker_fraction",
+                "cross_te_marker_fraction",
+                "split_ratio",
+            ]
+        )
+        for r in rows:
+            w.writerow(
+                [
+                    r["chrom"],
+                    r["group_a"],
+                    r["group_b"],
+                    r["n_within"],
+                    r["n_cross"],
+                    f"{r['within_te_marker_fraction']:.6f}",
+                    f"{r['cross_te_marker_fraction']:.6f}",
+                    "" if r["split_ratio"] is None else f"{r['split_ratio']:.2f}",
+                ]
+            )
+
+
 def compute_subgenome_report(outdir):
     summary_path = os.path.join(subgenomes_dir(outdir), "te_markers_summary.tsv")
     if not os.path.exists(summary_path):
@@ -162,6 +302,15 @@ def compute_subgenome_report(outdir):
             anomalous_rows.extend(anomalous)
 
     write_index_tsv(outdir, index_rows)
+
+    lineage_rows = compute_lineage_te_fractions(outdir, index_rows)
+    if lineage_rows:
+        write_lineage_tsv(outdir, lineage_rows)
+        log(
+            f"wrote te_marker_fraction_by_lineage.tsv ({len(lineage_rows)} chromosomes "
+            f"with >=3 copies split into two lineages)"
+        )
+
     if windows_summary_rows:
         write_windows_summary_tsv(outdir, windows_summary_rows)
         write_anomalous_tsv(outdir, anomalous_rows)

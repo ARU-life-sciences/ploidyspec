@@ -289,19 +289,45 @@ with real signal concentrated in specific repeat-rich regions.
 by construction (markers are a subset of high-copy k-mers) — "what fraction
 of each haplotype's high-copy repeat content is subgenome-differential."
 Near 0: nearly identical repeat content (autopolyploid-like). Near 1:
-almost entirely non-overlapping (allopolyploid-like). **No calibrated
-threshold exists yet, and the panel currently has no confirmed autopolyploid
-or diploid reference point** — both species validated so far
-(`daGleHede1` and wheat) are confirmed allopolyploids. `daGleHede1`'s range
-(0.11–0.42 across its 18 chromosomes, mean ~0.22) and wheat's (0.40–0.44)
-overlap on their high ends, which is consistent evidence that the metric
-picks up real allopolyploid signal in both species at different intensities
-(plausibly reflecting different subgenome divergence times/degrees), but it
-means the *low* end of the scale is still unmeasured — finding a genuine
-autopolyploid or diploid comparator in the panel is the next real
-calibration gap, not fine-tuning the two allo points already in hand.
-Report and compare the continuous value; don't treat any specific number as
-a verdict.
+almost entirely non-overlapping (allopolyploid-like). Report and compare the
+continuous value; don't treat any specific number as a verdict.
+
+`daGleHede1`'s range (0.11–0.42 across its 18 chromosomes, mean ~0.22) and
+wheat's (0.40–0.44) overlap on their high ends — consistent evidence the
+metric picks up real allopolyploid signal in both, at different intensities
+(plausibly different subgenome divergence times/degrees). The panel's first
+confirmed autopolyploids, `SchCurv1`/`SchYoun1` (snow carp, Xie et al. 2026),
+sit at genome-wide means of 0.209/0.223 — indistinguishable from
+`daGleHede1` at that resolution. **This isn't a failure of the metric; it's
+the wrong resolution to read it at.** See
+`te_marker_fraction_by_lineage.tsv` below.
+
+**`te_marker_fraction_by_lineage.tsv`**: for every chromosome with ≥3
+haplotype copies, an automatic 2-way split of the copies by whole-chromosome
+distance (`matrix/whole_chrom_distance_matrix.csv`, reused — no new k-mer
+work), then `te_marker_fraction` averaged separately **within** each group
+versus **across** them (`split_ratio` = cross ÷ within). Exists because a
+flat, unweighted genome-wide mean can hide real structure in a genome that's
+only *partly* resolved into two lineages — confirmed case: `SchCurv1`'s
+`chr19` (the one confirmed ancestral chromosome fusion in that species) has
+within-lineage fraction 0.11 but cross-lineage 0.59 (`split_ratio` 5.6),
+buried inside a flat per-chromosome mean around 0.35 and invisible in the
+genome-wide mean entirely. Every other chromosome in `SchCurv1` sits at
+`split_ratio` 0.8–2.2, i.e. no comparable structure — except `chr17`
+(`split_ratio` 3.2, and 1.9 independently in `SchYoun1`), which is *not*
+one of the five known chromosome fusions. The paper documents a **second,
+separate rediploidization mechanism** at exactly this chromosome — a
+centromeric inversion producing a partial, short-arm-only disomic pattern
+— which plausibly explains a real but weaker split_ratio than a full
+fusion like `chr19`'s. Not independently confirmed here (would need the
+same length/windowed-heatmap check as any homeolog hit — see the fused-
+scaffold caveat above), but a strong, unprompted candidate worth checking
+before assuming it's noise. The grouping (`group_a`/`group_b` columns) is a
+simple farthest-pair-seeded 2-way split, not a rigorous clustering method —
+treat `split_ratio` as a diagnostic, same as `distance_ratio` in
+`homeologs/`, not a classifier: most chromosomes in most species will show
+`split_ratio` near 1 (no real structure), and that's the expected, correct
+result, not a bug.
 
 **Assembly-quality confound, checked and found in one species so far**:
 a haplotype assembly that's more fragmented than its siblings can inflate

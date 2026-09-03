@@ -87,8 +87,15 @@ def collect_species_data(outdir):
         windowed_pngs = sorted(
             glob.glob(os.path.join(sdir, "te_markers_windowed_*.png"))
         )
+        by_lineage = _read_tsv(os.path.join(sdir, "te_marker_fraction_by_lineage.tsv"))
+        if by_lineage:
+            by_lineage.sort(
+                key=lambda r: float(r["split_ratio"]) if r["split_ratio"] else 0.0,
+                reverse=True,
+            )
         data["subgenomes"] = {
             "auto_allo_index": auto_allo,
+            "by_lineage": by_lineage,
             "windows_summary": _read_tsv(
                 os.path.join(sdir, "subgenome_windows_summary.tsv")
             ),
@@ -194,6 +201,8 @@ def render_report_html(data):
   <h2>Subgenomes / auto-allo index</h2>
   <h3>Auto/allo index</h3>
   {_table_html(s.get('auto_allo_index'))}
+  <h3>te_marker_fraction by lineage (chromosomes with &ge;3 copies, split by whole-chromosome distance)</h3>
+  {_table_html(s.get('by_lineage'))}
   <h3>Window assignment summary</h3>
   {_table_html(s.get('windows_summary'))}
   {plot_imgs}
