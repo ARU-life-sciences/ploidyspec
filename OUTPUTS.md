@@ -331,12 +331,19 @@ result, not a bug.
 
 **`flagged_units` column**: automatically marks units that look like an
 incomplete/fragmented assembly rather than a real second lineage — a unit
-whose sequence length *or* total high-copy k-mer count sits below 75% of
-its same-chromosome siblings' median. A real fusion or subgenome split
-doesn't reduce a unit's own length or repeat content, only how much of it
-is shared with specific other copies, so this is a genuinely different
-check from the bipartition itself, computed independently and reported
-alongside it. Confirmed case: `daBudDavi1`'s `chr05` split at 6.13× —
+whose sequence length *or* total high-copy k-mer count sits below 75% of a
+*majority-agreed* baseline among its same-chromosome siblings (median of
+whichever units mutually agree with each other; requires that agreeing set
+to be a strict majority, not just the largest cluster — see `flag_low_content_units`
+in `subgenome_report.py`). The majority requirement matters: a real 2-vs-2
+chromosome fusion also produces a length/high-copy outlier by a naive
+median comparison (the group median gets pulled toward the longer, fused
+side), but splits the group evenly — neither side is a majority — so it's
+never mistaken for this. A real fusion or subgenome split doesn't reduce a
+unit's own length or repeat content, only how much of it is shared with
+specific other copies, so this is a genuinely different check from the
+bipartition itself, computed independently and reported alongside it.
+Confirmed case: `daBudDavi1`'s `chr05` split at 6.13× —
 comparable in size to `SchCurv1`'s real `chr19` fusion signal — but as a
 lopsided **1-vs-3** split (`HAP2` alone), not a clean 2-vs-2. `HAP2_chr05`
 is 32% short (25.5Mb vs. siblings' 37–38Mb) and has a third of their
@@ -351,6 +358,34 @@ both snow carps) is the shape a real signal takes; a lopsided split with a
 flagged unit is the shape this specific artifact takes — but `flagged_units`
 being empty doesn't guarantee the split is real, only that this one known
 failure mode has been ruled out.
+
+**`high_density_units` column**: a separate, more cautious check for a
+different failure mode — a unit with *normal* length but anomalously high
+repeat **density** (high-copy k-mers per bp, not raw count) relative to a
+majority-agreed baseline among its siblings (>1.75× the baseline; see
+`flag_high_density_units`). Density, not raw high-copy count, matters here:
+a real chromosome fusion also elevates a unit's raw high-copy count (a
+longer, fused sequence simply contains more total repeat content), which a
+raw-count version of this check would wrongly flag — confirmed against
+`SchCurv1`'s real `chr19` fusion, whose fused lineage has ~2.3–2.6× the raw
+high-copy count of the unfused lineage but only ~1.35–1.4× the *density*,
+roughly proportional to the length increase rather than a density anomaly,
+and correctly unflagged. `chr17` (candidate, associated with a documented
+centromeric-inversion rediploidization mechanism per Xie et al. 2026) sits
+at ~1.4–1.6× density, also unflagged — deliberately: unlike missing
+content, which is never real, elevated density *can* be genuine biology
+(independent TE activity in a real second lineage is exactly what
+`te_marker_fraction` exists to detect), so this column is a caution to go
+check further, not a verdict the way `flagged_units` is closer to being.
+Confirmed case: `ddHypMacu1`'s `chr06` (split_ratio 4.73, initially read as
+a clean candidate since `flagged_units` — a length/raw-count check — didn't
+catch it) has normal length but ~2× the density of its three
+mutually-agreeing siblings, clearing the threshold. Corroborating evidence:
+the same haplotype (`HAP1`) shows 1.9–5.1× elevated density on 3 other
+chromosomes and 0.43× (deflated) on a fourth — scattered in both
+directions, consistent with `HAP1` being independently confirmed as the
+lower-quality assembly for this species (570 excluded scaffold fragments
+below) rather than four coincidental real biological signals.
 
 **Assembly-quality confound, now checked automatically (`flagged_units`
 above), confirmed in two species**: a haplotype assembly that's more

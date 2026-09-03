@@ -10,6 +10,7 @@ from ploidyspec.common import matrix_dir
 from ploidyspec.subgenome_report import (
     bipartition_by_distance,
     compute_lineage_te_fractions,
+    flag_high_density_units,
     flag_low_content_units,
     summarize_windowed_assignment,
     te_marker_fraction,
@@ -166,6 +167,42 @@ class TestFlagLowContentUnits(unittest.TestCase):
         lengths = {"HAP1_chr19": 37_835_192, "HAP2_chr19": 40_201_877, "HAP3_chr19": 69_462_795, "HAP4_chr19": 69_501_293}
         highcopy = {"HAP1_chr19": 14000, "HAP2_chr19": 14100, "HAP3_chr19": 13900, "HAP4_chr19": 14050}
         self.assertEqual(flag_low_content_units(units, lengths, highcopy), [])
+
+
+class TestFlagHighDensityUnits(unittest.TestCase):
+    def test_flags_elevated_density_unit(self):
+        # real ddHypMacu1 chr06 case: HAP1 is normal length but ~2x the
+        # repeat density of its three mutually-agreeing siblings
+        units = ["HAP1_chr06", "HAP2_chr06", "HAP3_chr06", "HAP4_chr06"]
+        lengths = {"HAP1_chr06": 37_451_450, "HAP2_chr06": 34_875_493, "HAP3_chr06": 36_524_631, "HAP4_chr06": 33_208_710}
+        highcopy = {"HAP1_chr06": 4488, "HAP2_chr06": 2133, "HAP3_chr06": 2323, "HAP4_chr06": 1975}
+        self.assertEqual(flag_high_density_units(units, lengths, highcopy), ["HAP1_chr06"])
+
+    def test_real_fusion_not_flagged_raw_highcopy_elevated_but_density_isnt(self):
+        # regression: SchCurv1's real chr19 fusion elevates the fused
+        # lineage's raw high-copy COUNT ~2.3-2.6x (it's a longer, fused
+        # sequence with proportionally more total repeat content) but its
+        # DENSITY only ~1.35-1.4x -- below threshold, and a 2-vs-2 split
+        # anyway (no majority cluster forms), so nobody should be flagged.
+        units = ["HAP1_chr19", "HAP2_chr19", "HAP3_chr19", "HAP4_chr19"]
+        lengths = {"HAP1_chr19": 37_835_192, "HAP2_chr19": 40_201_877, "HAP3_chr19": 69_462_795, "HAP4_chr19": 69_501_293}
+        highcopy = {"HAP1_chr19": 16181, "HAP2_chr19": 17942, "HAP3_chr19": 41454, "HAP4_chr19": 42059}
+        self.assertEqual(flag_high_density_units(units, lengths, highcopy), [])
+
+    def test_candidate_centromeric_signal_not_flagged(self):
+        # real SchCurv1 chr17 case (candidate, per Xie et al. 2026's
+        # centromeric-inversion finding at this chromosome) -- density
+        # elevated ~1.4-1.6x, below the 1.75x threshold, and no majority
+        # cluster forms (also a roughly 2-vs-2 pattern) -- stays unflagged
+        # so a real, still-developing signal isn't suppressed.
+        units = ["HAP1_chr17", "HAP2_chr17", "HAP3_chr17", "HAP4_chr17"]
+        lengths = {"HAP1_chr17": 32_691_785, "HAP2_chr17": 33_000_264, "HAP3_chr17": 33_345_630, "HAP4_chr17": 35_888_158}
+        highcopy = {"HAP1_chr17": 8398, "HAP2_chr17": 8429, "HAP3_chr17": 12026, "HAP4_chr17": 15148}
+        self.assertEqual(flag_high_density_units(units, lengths, highcopy), [])
+
+    def test_fewer_than_three_known_units_returns_empty(self):
+        units = ["A", "B"]
+        self.assertEqual(flag_high_density_units(units, {"A": 100, "B": 10}, {"A": 100, "B": 10}), [])
 
 
 class TestComputeLineageTeFractions(unittest.TestCase):

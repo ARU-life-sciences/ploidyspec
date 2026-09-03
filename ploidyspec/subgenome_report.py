@@ -195,6 +195,50 @@ def flag_low_content_units(units, lengths, highcopy, tolerance=0.15, threshold=0
     return flagged
 
 
+def flag_high_density_units(units, lengths, highcopy, tolerance=0.15, threshold=1.75):
+    """
+    Flags units whose repeat DENSITY (high-copy k-mers per bp, not raw
+    count) sits well above a majority-agreed baseline among their
+    same-chromosome siblings. Kept separate from flag_low_content_units and
+    reported in its own column, deliberately more conservative: unlike
+    missing content, which is never real, elevated repeat density *can* be
+    genuine biology -- independent TE activity in a real second lineage is
+    exactly what te_marker_fraction exists to detect, so this is a caution,
+    not a verdict.
+
+    Density, not raw high-copy count, is what matters: a real chromosome
+    fusion also elevates a unit's raw high-copy count (a longer, fused
+    sequence simply contains more total repeat content), which a raw-count
+    version of this check would wrongly flag. Confirmed against SchCurv1's
+    real chr19 fusion: the fused lineage's raw high-copy count is ~2.3-2.6x
+    the unfused lineage's, but its *density* is only ~1.35-1.4x -- roughly
+    proportional to the length increase, not a density anomaly, and correctly
+    unflagged here. chr17 (candidate, centromeric-inversion-associated per
+    Xie et al. 2026) sits at ~1.4-1.6x density, also unflagged. ddHypMacu1's
+    chr06 (normal length, ~2x the density) clears the 1.75x threshold and is
+    flagged -- consistent with its HAP1 also showing 1.9-5.1x elevated
+    density on 3 other chromosomes, the same haplotype independently
+    confirmed fragmented elsewhere in this species (570 excluded scaffold
+    fragments vs. 2-3 for siblings). Needs >=3 units with known
+    length/highcopy; returns [] otherwise.
+    """
+    lens = {u: lengths[u] for u in units if u in lengths}
+    hcs = {u: highcopy[u] for u in units if u in highcopy}
+    densities = {
+        u: hcs[u] / lens[u] for u in units if u in lens and u in hcs and lens[u] > 0
+    }
+    if len(densities) < 3:
+        return []
+    cluster, baseline = _majority_cluster(densities, tolerance)
+    if cluster is None or not baseline:
+        return []
+    return [
+        u
+        for u in units
+        if u in densities and u not in cluster and densities[u] / baseline > threshold
+    ]
+
+
 def load_whole_chrom_distances(outdir):
     """unit-id-pair -> whole-chromosome Mash-corrected distance, from
     matrix/whole_chrom_distance_matrix.csv. Always numeric (unlike
@@ -274,6 +318,11 @@ def compute_lineage_te_fractions(outdir, index_rows):
     in that case, but flagged_units marks it as likely an assembly artifact
     rather than biology, without requiring the same manual length/marker
     digging every time.
+
+    Separately flags units with anomalously high repeat DENSITY relative to
+    their siblings (see flag_high_density_units) -- a softer, more cautious
+    caution than flagged_units, reported in its own column since elevated
+    density (unlike missing content) can be genuine biology.
     """
     own_dist = load_whole_chrom_distances(outdir)
     lengths = load_unit_lengths(outdir)
@@ -301,6 +350,7 @@ def compute_lineage_te_fractions(outdir, index_rows):
         within_mean = sum(within_vals) / len(within_vals)
         cross_mean = sum(cross_vals) / len(cross_vals)
         flagged_units = flag_low_content_units(units, lengths, highcopy)
+        high_density_units = flag_high_density_units(units, lengths, highcopy)
         out_rows.append(
             dict(
                 chrom=chrom,
@@ -312,6 +362,7 @@ def compute_lineage_te_fractions(outdir, index_rows):
                 cross_te_marker_fraction=cross_mean,
                 split_ratio=(cross_mean / within_mean) if within_mean > 0 else None,
                 flagged_units=",".join(flagged_units),
+                high_density_units=",".join(high_density_units),
             )
         )
     return out_rows
@@ -332,6 +383,7 @@ def write_lineage_tsv(outdir, rows):
                 "cross_te_marker_fraction",
                 "split_ratio",
                 "flagged_units",
+                "high_density_units",
             ]
         )
         for r in rows:
@@ -346,6 +398,7 @@ def write_lineage_tsv(outdir, rows):
                     f"{r['cross_te_marker_fraction']:.6f}",
                     "" if r["split_ratio"] is None else f"{r['split_ratio']:.2f}",
                     r["flagged_units"],
+                    r["high_density_units"],
                 ]
             )
 
