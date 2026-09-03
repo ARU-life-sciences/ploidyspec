@@ -1,26 +1,26 @@
-chrom	n_haplotype_copies	own_mean_distance	homeolog_partner	homeolog_distance	homeolog_z	homeolog_q	distance_ratio
-chr01	4	0.013867					
-chr02	4	0.012562					
-chr03	4	0.018346	chr05	0.112866	-3.818	0.00504592	7.59
-chr04	4	0.013672					
-chr05	4	0.011400	chr03	0.112866	-3.818	0.00504592	7.59
-chr06	4	0.011499					
-chr07	4	0.015051					
-chr08	4	0.013520					
-chr09	4	0.011801					
-chr10	4	0.012934					
-chr11	4	0.022641					
-chr12	4	0.012252					
-chr13	4	0.012976					
-chr14	4	0.012857					
-chr15	4	0.014216					
-chr16	4	0.011442					
-chr17	4	0.012127					
-chr18	4	0.012847					
-chr19	4	0.038243	chr22	0.083347	-13.248	0	3.27
-chr20	4	0.011917					
-chr21	4	0.014183					
-chr22	2	0.012806	chr19	0.083347	-13.248	0	3.27
-chr23	4	0.012403					
-chr24	4	0.013650					
-chr25	4	0.014468					
+chrom	n_haplotype_copies	own_mean_distance	homeolog_partner	homeolog_distance	homeolog_z	homeolog_q	distance_ratio	notes
+chr01	4	0.013867						
+chr02	4	0.012562						
+chr03	4	0.018346	chr05	0.112866	-3.818	0.00504592	7.59	Caveat: real but modest and localized signal (one ~9Mb block around 27-36Mb), consistent across all 16 haplotype-copy pairs including same-haplotype comparisons (not confined to specific haplotypes the way the chr19/chr22 artifact was), and not resolution_limited. Could reflect shared repeat-rich content (e.g. centromeric/satellite) rather than confirmed WGD-derived homology -- k-mer distance cannot fully distinguish the two. See OUTPUTS.md.
+chr04	4	0.013672						
+chr05	4	0.011400	chr03	0.112866	-3.818	0.00504592	7.59	Caveat: see chr03 note (same finding, mirrored). See OUTPUTS.md.
+chr06	4	0.011499						
+chr07	4	0.015051						
+chr08	4	0.013520						
+chr09	4	0.011801						
+chr10	4	0.012934						
+chr11	4	0.022641						
+chr12	4	0.012252						
+chr13	4	0.012976						
+chr14	4	0.012857						
+chr15	4	0.014216						
+chr16	4	0.011442						
+chr17	4	0.012127						
+chr18	4	0.012847						
+chr19	4	0.038243	chr22	0.083347	-13.248	0	3.27	"REAL ancient-homeolog pair, confirmed by Xie et al. 2026 Nature (doi:10.1038/s41586-026-10439-1): chr19+chr22 is an ancestral unbalanced chromosome fusion shared across all snow carps (~30Ma, their ""wave 1"", highest divergence/most-resolved fusion pair). HAP3/HAP4 carry the fused (f) chromosome (~69.5Mb, chr19+chr22 physically joined); HAP1/HAP2 retain the unfused (uf) ancestral pair. The windowed-heatmap match being confined to a block, not genome-wide, is the CORRECT signature for a physically fused ohnologue, not an artifact -- my earlier note here calling this an artifact was wrong and has been corrected. distance_ratio=3.27 reflects real but partial (not complete) sequence-level rediploidization at this locus, consistent with the paper's Ks-based dating. See OUTPUTS.md."
+chr20	4	0.011917						
+chr21	4	0.014183						
+chr22	2	0.012806	chr19	0.083347	-13.248	0	3.27	"REAL ancient-homeolog pair -- see chr19 note (same finding, mirrored, corrected from an earlier ""artifact"" mischaracterization)."
+chr23	4	0.012403						
+chr24	4	0.013650						
+chr25	4	0.014468						

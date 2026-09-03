@@ -187,6 +187,49 @@ chromosome fission/fusion biology) rather than assuming it means the same
 thing a ratio in the hundreds does (deep, clearly-ancient divergence, as
 seen in some species in this project's own panel).
 
+**Fused-chromosome homeolog pairs — a real category, not automatically an
+artifact**: a homeolog pair can come out significant because one
+haplotype's copy of a chromosome isn't a clean single unit — it's a scaffold
+containing another chromosome's sequence too, usually visible as roughly
+double the length of that chromosome's other haplotype copies, paired with
+that other chromosome being entirely *absent* from the same haplotype(s).
+**This can be a genuine, biologically real chromosome fusion, not a
+mislabeling bug — check before concluding either way.** Case in point,
+`SchCurv1` (`chr19`↔`chr22`): `HAP3_chr19`/`HAP4_chr19` are ~69.5Mb versus
+`HAP1_chr19`/`HAP2_chr19`'s ~38–40Mb (close to `chr19`+`chr22` combined),
+`chr22` is missing entirely from `HAP3`/`HAP4`, and the windowed heatmap
+shows the match to `chr22` confined to specific blocks within `HAP3`/`HAP4`
+only. An earlier version of this note called this an assembly artifact to
+be discarded — that was wrong. `Xie et al. 2026, Nature`
+(doi:10.1038/s41586-026-10439-1) independently confirms, via synteny to an
+outgroup, Hi-C, and meiotic FISH, that `chr19`+`chr22` is a real ancestral
+**unbalanced chromosome fusion** shared across all snow carp genera:
+only 2 of the 4 ancestral chromosome copies fuse, the fused pair then
+pairs preferentially with itself at meiosis (bivalent) instead of the
+original 4-way (tetravalent) pairing, and *that* is what triggers disomic
+inheritance and ohnologue divergence at that locus — this is literally the
+mechanism the paper's title describes. Under that model, a match **confined
+to a block** rather than spread genome-wide is the *correct* signature for a
+physically fused ohnologue pair, not evidence against it — only the
+fused-in segment should match, and it should only match in the haplotype
+copies that carry the fusion. Don't read "localized, not genome-wide" as an
+automatic artifact flag; read the length/absence pattern first, and treat
+"confined to a block" as consistent with a real fusion rather than
+disqualifying one.
+
+Before trusting *any* `homeolog_pairs.tsv` hit, still check whether either
+chromosome's `n_haplotype_copies` is lower than its partner's (visible in
+this same file) and whether the short haplotype(s) are anomalously long
+relative to their siblings — that tells you whether you're looking at a
+straightforward retained duplicate or a fusion-derived one, which changes
+how you read `distance_ratio` (it now describes resolution *at the fused
+locus specifically*, not the whole chromosome) but doesn't by itself mean
+discard the pair. `ploidy_ancestry_summary.tsv` may carry a manually-added
+`notes` column (present for `SchCurv1`) recording this kind of
+investigated, per-pair verdict — it's not part of the automated schema, so
+its absence elsewhere in the panel means "not yet checked," not "confirmed
+clean."
+
 **`windowed_chrAAxBB.tsv/.png`, `windowed_chrAAxBB_heatmap.png`,
 `windowed_homeologs_all.tsv`, `windowed_homeologs_overview.png`,
 `windowed_homeologs_overview_heatmap.png`**: same shape as `windowed/`'s
