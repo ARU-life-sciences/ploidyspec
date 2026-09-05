@@ -1,0 +1,46 @@
+species	partition_consistency	n_chroms_split	modal_singleton_hap	singleton_artifact_suspected	mean_run_length_windows	flip_rate	n_windows_for_run_length	mean_windowed_cv	n_pairs_cv	pair_depth_cv	distance_ratio_cv	n_pairs_for_ratio_cv	n_accepted_pairs	combined_allo_score	n_metrics_available
+SchCurv1	0.4167	24	HAP1		4.119	0.2355	3295	0.0348	17	0.1504	0.3978	2	2	0.7508	3
+SchYoun1	0.3333	15			5.312	0.1812	2125		0			0	0	0.3333	1
+daBudDavi1	0.2632	19			5.350	0.1791	2429		0			0	0	0.2632	1
+daEupConf1		0					0	0.0409	11	0.0353		0	11	0.9633	2
+daGalBore1	0.2727	11	HAP1	yes	4.604	0.2113	1874		0	0.0020	0.0831	2	2	0.6354	2
+daGleHede1		0					0	0.0270	27	0.0424	0.1100	9	9	0.9666	2
+daInuConz1		0					0		0			0	0		0
+daLatClan1		0					0	0.0227	27	0.0361	0.1893	9	9	0.9715	2
+daLatSqua1		0					0	0.0148	18	0.0572	1.0056	8	8	0.9656	2
+daPilAura1		0					0	0.0487	27	0.1051	0.1067	9	9	0.9292	2
+daSenVulg1		0					0	0.0206	24	0.0311	0.9032	8	8	0.9748	2
+daSonOler1		0					0		0			0	0		0
+dcCerAlpi1		0					0		0			0	0		0
+dcHonPepl1		0					0		0			0	0		0
+ddAraThal4		0					0		0			0	0		0
+ddEmpNigr1	0.3846	13			4.607	0.2105	1981		0			1	1	0.3846	1
+ddHesMatr1	0.6667	6	HAP1	yes	2.248	0.4443	12763	0.0205	10			1	1	0.8233	2
+ddHypMacu1	1.0000	8	HAP1	yes	4.124	0.2354	1130	0.0209	10			1	1	0.9897	2
+ddHypPerf1	0.3750	8	HAP2	yes	4.621	0.2100	1257		0			0	0	0.3750	1
+ddLepDrab1	0.9375	16	HAP4	no	4.489	0.2128	1607	0.0352	80	0.1016	0.1321	8	8	0.9371	3
+ddMalSylv1		0					0		0			0	0		0
+ddPopNigr1		0					0		0			0	0		0
+ddSalCine1		0					0		0			0	0		0
+ddSalPent1		0					0	0.0313	57	0.0384	0.1277	19	19	0.9664	2
+ddSalTria1	0.6316	19	HAP3	yes	5.480	0.1653	1107	0.0325	12	0.0194	0.1167	2	2	0.8604	3
+dmRanRepe1		0					0		0			0	0		0
+drAriEdul1	0.2353	17	HAP4	yes	5.336	0.1799	2284		0	0.0279	0.1517	8	8	0.6041	2
+drIngLaur1		0					0		0			0	0		0
+drLytSali1	0.4000	15	HAP4	yes	3.717	0.2628	2386	0.0117	50	0.0465	0.0835	5	5	0.7813	3
+drMyrSpic1		0					0	0.0364	24	0.3318	0.3147	8	8	0.8579	2
+drMyrVert1		0					0	0.0161	21	0.0255	0.0613	7	7	0.9796	2
+drRosSpin1		0					0	0.0444	12	0.0290	0.1254	7	7	0.9646	2
+drSorDevo1		0					0	0.0440	51	0.0299	0.2313	17	17	0.9644	2
+drTriDubi3		0					0	0.0173	7	0.0876		0	7	0.9512	2
+drTriRepe1		0					0	0.0315	24	0.0321	0.0365	8	8	0.9692	2
+drUrtDioi1		0					0		0			0	0		0
+laPotCris1		0					0	0.0167	30	0.0807	0.4896	12	12	0.9545	2
+laPotLuce1		0					0	0.0132	36	0.1097	0.1851	12	12	0.9441	2
+laPotNata1		0					0	0.0211	24	0.1263	0.2105	12	12	0.9336	2
+laPotNodo1		0					0		0	0.0872	0.4506	13	13	0.9198	1
+laPotPerf1		0					0	0.0168	27	0.0848	0.1288	13	13	0.9527	2
+llColAutu1		0					0		0	0.0517	0.5860	24	24	0.9509	1
+lpElePalu1		0					0	0.0475	27	0.5598	1.3020	9	9	0.7979	2
+lpTriTurg1_A		0					0		0			0	0		0
+lpTriTurg1_B		0					0		0			0	0		0

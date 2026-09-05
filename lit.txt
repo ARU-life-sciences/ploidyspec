@@ -1,0 +1,1034 @@
+Unravelling complex hybrid and polyploid evolutionary relationships using phylogenetic placement of homologous gene copies from target enrichment data
+N Walden, C Kiefer, MA Koch - Systematic Biology, 2026 - academic.oup.com
+Mentions that a recent study of Australasian *Lepidium* used amplicon sequencing of 15 nuclear genes and condensed splits from MUL-networks to infer the evolutionary history of the genus, which is rich in high polyploids and interploidal and intercontinental hybridization.
+
+    *Lepidium* Allopolyploid Origin: Notes that the study on *Lepidium* illustrates the potential for creative solutions to study the origin of allopolyploids in a phylogenetic and systematic context.
+    Cytogenetic Evidence: Cites a study that revisits the bicontinental allopolyploid origin of Australasian *Lepidium* species using amplicon sequencing of 15 nuclear genes.
+
+Save Cite Cited by 2 Related articles All 3 versions
+[PDF] oup.com
+Polyploid evolution of the Brassicaceae during the Cenozoic era
+S Kagale, SJ Robinson, J Nixon, R Xiao… - The Plant …, 2014 - academic.oup.com
+Identifies a specific polyploidy event, the "Lepidium event," that was shared by all three sampled *Lepidium* species, including *L. densiflorum*, *L. meyenii*, and *L. sativum*, which may be relevant context for *Lepidium draba*.
+
+    Phylogenetic Methodology: Explains that phylogenetic relationships were determined using an extensive transcriptome pyrosequencing supermatrix approach, affirming tribal classifications and supporting the accuracy of the method.
+    Flow Cytometric Evidence: Utilizes flow cytometric analysis to estimate genome sizes for various Brassicaceae species, a common cytological and genomic technique for analyzing polyploidy.
+
+Save Cite Cited by 235 Related articles All 15 versions
+[PDF] cdnsciencepub.com
+The biology of Canadian weeds. 3. Lepidium draba L., L. chalepense L., L. appelianum Al-Shehbaz (updated)
+A Francis, SI Warwick - Canadian Journal of Plant Science, 2008 - cdnsciencepub.com
+Reports that *Lepidium draba* has a chromosome number of 2n=64 in Alberta, and that it is considered an octoploid in Europe and hexaploid to decaploid in adjacent parts of western Asia, based on a base chromosome number of x=8.
+
+    Polyploid Levels: Cites chromosome counts for *L. draba* ranging from n=16, 32 and 2n=62 in various regions.
+    Diploid Comparison: Mentions that *L. appelianum* is consistent with a diploid level, which provides context for the polyploid nature of *L. draba* and *L. chalepense*.
+
+Save Cite Cited by 54 Related articles All 7 versions
+[PDF] cell.com
+Global Brassicaceae phylogeny based on filtering of 1,000-gene dataset
+KP Hendriks, C Kiefer, IA Al-Shehbaz, CD Bailey… - Current biology, 2023 - cell.com
+Reports that all representatives of the tribe Lepidieae, which contains *Lepidium draba*, fall within the hybrid or highly polyploid classes in the allelic variation analysis.
+
+    Genetic Evidence for Polyploidy: Analyzes allelic variation using nuclear genes, calculating locus heterozygosity and allele divergence to assess polyploid origins, with results suggesting high polyploidy for tribes including Lepidieae.
+    Hybridization and Allopolyploid Origin: Suggests that the observed cytonuclear discordance and the presence of many samples in the 'realm of polyploids' are likely the result of rampant hybridization, which often precedes allopolyploidization.
+
+Save Cite Cited by 154 Related articles All 40 versions
+
+
+Deciphering complex reticulate evolution of Asian Buddleja (Scrophulariaceae): insights into the taxonomy and speciation of polyploid taxa in the Sino-Himalayan …
+F Yang, J Ge, Y Guo, R Olmstead, W Sun - Annals of Botany, 2023 - academic.oup.com
+Indicates that PhyloNet analysis combined with species ploidy data identified several allopolyploid speciation events within the Asian *Buddleja* clade, suggesting that allopolyploidy is a significant factor in the lineage's evolutionary history.
+
+    Hybridization and Diversification: Explains that reticulate phylogenetic analysis of the Asian *Buddleja* suggests that hybridization and allopolyploidy significantly contributed to the diversification of the species, which includes *Buddleja davidii*.
+    Phylogenetic Placement of B. davidii: Notes that *Buddleja davidii* clustered with five other polyploid species in the ASTRAL species tree and the nrDNA tree, but was nested with diploid species in the plastid tree, which suggests complex evolutionary relationships and possible cytonuclear conflict.
+
+Save Cite Cited by 20 Related articles All 14 versions
+
+Breaking free: the genomics of allopolyploidy-facilitated niche expansion in white clover
+AG Griffiths, R Moraga, M Tausen, V Gupta… - The Plant …, 2019 - academic.oup.com
+Identifies *Trifolium repens* (white clover) as an allotetraploid (*2n=4x=32*) derived from two European diploid progenitors.
+
+    Diploid Progenitors: Names western clover (*Trifolium occidentale*) and pale clover (*Trifolium pallescens*) as the extant relatives and inferred diploid progenitor species.
+    Genomic Evidence: Confirms the allopolyploid origin through combined ITS, chloroplast, and broader genomic evidence, suggesting the progenitor subgenomes have retained integrity and gene expression activity.
+
+Save Cite Cited by 152 Related articles All 14 versions
+[PDF] springer.com
+Quick read - nih.gov
+Experimental evidence for the ancestry of allotetraploid Trifolium repens and creation of synthetic forms with value for plant breeding
+WM Williams, NW Ellison, HA Ansari, IM Verry… - BMC Plant …, 2012 - Springer
+Validates the hypothesis that *Trifolium repens* (white clover) is an allotetraploid that originated from the hybridization of progenitor taxa similar to modern *T. pallescens* and *T. occidentale*.
+
+    Identifying Diploid Progenitor Species: Identifies the diploid progenitors as a diploid alpine species (*T. pallescens*) and a diploid coastal species (*T. occidentale*), noting that the maternal ancestor is likely *T. pallescens* based on chloroplast DNA and GISH results.
+    Cytological and Genome Evidence: Supports the ancestry hypothesis using molecular cytogenetics (GISH), which showed that half of the chromosomes in white clover hybridized with genomic DNA probes from *T. pallescens* and the other half with probes from *T. occidentale*, demonstrating its allopolyploid composition.
+
+Save Cite Cited by 71 Related articles All 18 versions
+[PDF] oup.com
+Quick read - nih.gov
+Full View
+Haplotype-Resolved, Chromosome-Level Assembly of White Clover (Trifolium repens L., Fabaceae)
+JS Santangelo, P Battlay… - Genome Biology and …, 2023 - academic.oup.com
+States that the species originated as an allotetraploid resulting from a hybrid origin, which is explicitly mentioned as the reason for its complex genome.
+
+    Diploid Progenitors: Indicates that the species originated 15–28 thousand years ago in the Mediterranean through the hybridization of its diploid progenitors, *T. occidentale* and *T. pallescens*.
+    Genomic Evidence: Details the use of Illumina reads from the diploid parental species *Trifolium occidentale* and *Trifolium pallescens* to label contigs and assign them to the corresponding subgenomes, providing genomic evidence for the allopolyploid structure.
+
+Save Cite Cited by 31 Related articles All 15 versions
+[PDF] springer.com
+Quick read - nih.gov
+De novo genome assembly of white clover (Trifolium repens L.) reveals the role of copy number variation in rapid environmental adaptation
+WH Kuo, SJ Wright, LL Small, KM Olsen - BMC biology, 2024 - Springer
+Identifies white clover ($Trifolium$ $repens$) as an allotetraploid species that evolved from two ecologically distinct diploid progenitor species, supporting its allopolyploid nature.
+
+    Diploid Progenitors: Names $T.$ $occidentale$ and $T.$ $pallescens$ as the two inferred diploid progenitor species of white clover, using their genomes for comparative analysis.
+    Genomic Evidence: Confirms the allopolyploid origin using genomic evidence, showing that the white clover genome exhibits a highly conserved genome organization and composition with its diploid progenitors and that subgenome identities were assessed using BLAST against the diploid progenitors' genomes.
+
+Save Cite Cited by 22 Related articles All 16 versions
+[PDF] wiley.com
+Quick read
+Full View
+Dual‐species origin of an adaptive chemical defense polymorphism
+KM Olsen, DM Goad, SJ Wright, ML Dutta… - New …, 2021 - Wiley Online Library
+Identifies that *Trifolium repens* (white clover) is a recently evolved allotetraploid (allopolyploid species).
+
+    Diploid Progenitors: States that the diploid progenitor species are *Trifolium pallescens* and *Trifolium occidentale*, resulting from multiple hybridizations.
+    Genetic Evidence: Uses genome sequence comparisons and genetic mapping of gene clusters (*Ac* and *Li*) to trace the origin of the subgenomes, confirming the dual-species origin.
+
+Save Cite Cited by 16 Related articles All 15 versions
+[PDF] wiley.com
+Quick read
+Interspecific hybridization in the genus Trifolium
+MT Abberton - Plant Breeding, 2007 - Wiley Online Library
+Confirms the allotetraploidy of white clover, which is one of the species mentioned in the research question.
+
+    Diploid Progenitor Species: Identifies that studies suggest *Trifolium nigrescens* and *Trifolium occidentale* may be the diploid progenitors of *Trifolium repens*.
+    Cytogenetic Evidence: Notes that molecular cytogenetic organization studies using fluorescence in situ hybridization (FISH) on 5S and 18S-26S rDNA loci provided evidence for the allotetraploidy of white clover.
+
+Save Cite Cited by 100 Related articles All 11 versions
+[PDF] oup.com
+Molecular Cytogenetic Organization of 5S and 18S-26S rDNA Loci in White Clover (Trifolium repensL.) and Related Species
+HA ANSARI, NW ELLISON, SM READER… - Annals of Botany, 1999 - Elsevier
+Supports the idea of white clover (T. repens) having an allotetraploid origin based on present findings from molecular cytogenetic organization.
+
+    Inferred Diploid Ancestor: Suggests that *T. nigrescens* ssp. *petrisavii* may be one of the present-day diploid ancestors of *T. repens*.
+    FISH Cytological Evidence: Employs fluorescence *in situ* hybridization (FISH) to map 5S and 18S-26S rDNA loci in *T. repens* and related species, providing molecular markers and cytological evidence for evolutionary relationships.
+
+Save Cite Cited by 117 Related articles All 15 versions
+[PDF] oup.com
+Quick read - nih.gov
+Looking Over Allopolyploid Clover
+M Jennifer - 2019 - academic.oup.com
+Identifies the species, *Trifolium repens* (white clover), as an allotetraploid species that resulted from hybridization.
+
+    Diploid Progenitor Species: Names the two diploid European progenitor species as *Trifolium occidentale* and *Trifolium pallescens*, noting their limited extant distribution.
+    Genomic and Transcriptomic Evidence: Details that genomic and transcriptomic sequencing of *T. repens* and its progenitors found the white clover has retained most of the progenitor genomes with little homeolog recombination and minor gene loss, supporting the allopolyploidy event.
+
+Save Cite Related articles All 6 versions
+[PDF] frontiersin.org
+Quick read
+Introgression of Trifolium ambiguum Into Allotetraploid White Clover (Trifolium repens) Using the Ancestral Parent Trifolium occidentale as a Bridging Species
+I Ullah, HA Ansari, IM Verry, SW Hussain… - Frontiers in Plant …, 2022 - frontiersin.org
+States that white clover (Trifolium repens) is an allotetraploid pasture legume.
+
+    Ancestral Parent Species: Identifies Trifolium occidentale as one of the ancestral parents of T. repens.
+    Progenitor Genome Evidence: Indicates that the ancestral parent genomes of T. repens are derived from Trifolium pallescens and T. occidentale, which are coded as Pr and Or, respectively, in the sub-genome analysis.
+
+Save Cite Cited by 8 Related articles All 11 versions
+[PDF] researchgate.net
+Molecular phylogenetics of the clover genus (Trifolium—Leguminosae)
+NW Ellison, A Liston, JJ Steiner, WM Williams… - Molecular phylogenetics …, 2006 - Elsevier
+Identifies *T. repens* (white clover) as an allopolyploid species with a tetraploid chromosome count of 2n = 32, which is consistent with the general hypothesis of the research question.
+
+    Genetic Evidence: Uses incongruence between nuclear ribosomal DNA (nrDNA) and chloroplast DNA (cpDNA) phylogenetic results to identify the putative diploid progenitors of *T. repens*.
+    Putative Diploid Progenitors: Hypothesizes that *T. pallescens* (2n = 16) is the maternal progenitor based on cpDNA analysis, and *T. occidentale* (2n = 16) is the paternal progenitor based on nrDNA analysis.
+
+
+Euploid and aneuploid evolution in Potamogeton (Potamogetonaceae): a factual basis for interpretation
+PM Hollingsworth, CD Preston, RJ Gornall - Aquatic Botany, 1998 - Elsevier
+Indicates that aneuploidy is a widespread evolutionary mechanism within the genus, suggesting that polyploidy is also a factor in the evolution of *Potamogeton*.
+
+    Specific Species Chromosome Counts: Reports new chromosome counts for *Potamogeton perfoliatus* (2n=ca. 52) and *Potamogeton lucens* when hybridized with *P. perfoliatus* (P.×salicifolius Wolfg., 2n=ca. 52), as well as chromosome counts for *P. crispus* (2n=50, 52, 78), *P. natans* (2n=52), and *P. nodosus* (n=26) from previous studies in a comprehensive review.
+    Cytological Review of Genus: Reviews the chromosome numbers reported for species of *Potamogeton* to provide a cytological background for interpreting evolutionary trends, which implicitly addresses polyploidy and hybridization in the genus.
+
+Save Cite Cited by 41 Related articles All 5 versions
+Phylogenetic relationships and hybrid origin of Potamogeton species (Potamogetonaceae) distributed in China: insights from the nuclear ribosomal internal …
+QD Wang, T Zhang, JB Wang - Plant Systematics and Evolution, 2007 - Springer
+Indicates that hybridization and polyploidization are significant evolutionary forces that have increased the diversity of the genus Potamogeton.
+
+    Polyploidy in Specific Species: Discusses the polyploidy of multiple species, suggesting that Potamogeton natans and Potamogeton lucens are probably allotetraploids.
+    Evolutionary Mechanism Discussion: Addresses the evolutionary mechanism of polyploidy in Potamogeton species, noting that the genus is characterized by a complex array of polyploidy whose process has not been fully evaluated.
+
+Save Cite Cited by 51 Related articles All 14 versions
+Chromosome conspectus of Kashmir Himalayan species of the genus Potamogeton L.
+AH Ganie, ZA Reshi, BA Wafai - Tropical Ecology, 2020 - Springer
+Indicates that the genus *Potamogeton* is chromosomally interesting due to widespread aneuploidy and polyploidy, with variations in chromosome number used to hypothesize taxonomic relationships.
+
+    Potamogeton perfoliatus Allopolyploid: Reports that *Potamogeton perfoliatus* is consistent with a presumed allopolyploid nature, although definitive evidence is needed.
+    Specific Species Chromosome Counts: Notes that *Potamogeton crispus* (2n=12x=84) and *P. natans* (tetraploid 2n=4x=52 and octoploid 2n=8x=104) were investigated for chromosome number and ploidy status, with the octoploid cytotype of *P. natans* being a first report.
+
+Save Cite Cited by 1 Related articles All 5 versions
+A dynamic evolution of chromosome in subgenus Potamogeton revealed by physical mapping of rDNA loci detection
+T Wan, X Zhang, J Gregan, Y Zhang, P Guo… - Plant systematics and …, 2012 - Springer
+Indicates that both hybridization and polyploidy are significant factors in the evolution and diversification of various members of the genus.
+
+    Tetraploid Species Studied: Reports that the analysis included 12 species in the subgenus Potamogeton, including eight tetraploids, two diploids, and two putative tetraploid hybrids, suggesting the prevalence of polyploidy.
+    Specific Species Addressed: Mentions *Potamogeton crispus*, *P. lucens*, *P. natans*, and *P. perfoliatus* in a list of species where chromosome and rDNA loci were examined, confirming these four species were specifically addressed.
+
+Save Cite Cited by 11 Related articles All 14 versions
+[PDF] academia.edu
+First record of Potamogeton×salicifolius for Italy, with isozyme evidence for plants collected in Italy and Sweden
+Z Kaplan - Plant Biosystems, 2007 - Springer
+Studies the hybrid *Potamogeton* × *salicifolius* which is a hybrid between *P. lucens* and *P. perfoliatus*, two of the five species listed in the question, confirming their involvement in hybridization.
+
+    Hybrid Origin Confirmed: Confirms the hybrid nature of *P. salicifolius* using isozyme analysis, which revealed additive banding patterns indicative of inheritance from *P. lucens* and *P. perfoliatus*.
+    Hybridization Documented: Indicates that hybridization is an important component of *Potamogeton* diversity and is well documented, especially in Europe where the distribution and frequency of hybrids varies geographically.
+
+Save Cite Cited by 33 Related articles All 15 versions
+[PDF] oup.com
+Molecular evidence for a natural primary triple hybrid in plants revealed from direct sequencing
+Z Kaplan, J Fehrer - Annals of Botany, 2007 - academic.oup.com
+Indicates that interspecific hybridization is a common and important mechanism for diversity and speciation across the plant kingdom, as a general context for the research in *Potamogeton*.
+
+    Hybridization in Potamogeton: Confirms that hybridization is well documented in the genus, although previous morphological theories on triple hybrids in *Potamogeton* were largely abandoned.
+    P. perfoliatus and Polyploidy: Addresses *P. perfoliatus* as one of the species involved in the triple hybrid *P. × torssanderi* and reports that all species of *Potamogeton* are considered tetraploids (2n=52), suggesting an allopolyploid origin for the hexaploid hybrid (2n=78).
+
+Save Cite Cited by 80 Related articles All 18 versions
+Isozyme evidence for hybridization between Potamogeton natans and P. nodosus (Potamogetonaceae) in Britain
+PM Hollingsworth, CD Preston… - Botanical journal of the …, 1995 - academic.oup.com
+Indicates that polyploidy in the genus *Potamogeton* is a recognized subject by citing a paper specifically addressing the taxonomic implications of aneuploidy and polyploidy.
+
+    Hybridization Frequent: Confirms that hybridization is widespread and well-documented in the genus, with many hybrids having been suggested and 43 taxa accepted as hybrids by one authority.
+    Specific Species Addressed: Addresses four of the five species specifically by examining the hybrid *P. × schreberi* (between *P. natans* and *P. nodosus*), noting that *P. crispus* is a parent of another putative hybrid (*P. × cooperi*), and mentioning the hybrid between *P. lucens* and *P. natans* (*P. × fluitans*).
+
+Save Cite Cited by 56 Related articles All 7 versions
+[PDF] chicagobotanic.org
+Genetic structure and morphological variation of British populations of the hybrid Potamogeton x salicifolius
+JB Fant, CD Preston - Botanical Journal of the Linnean Society, 2004 - academic.oup.com
+Indicates that polyploidy is a feature of the parental species of the hybrid *Potamogeton x salicifolius* as a general fact, but does not specify whether they are auto- or allopolyploid.
+
+    Hybridization in Potamogeton: Explains that the genus *Potamogeton* exhibits a high prevalence of interspecific hybrids, with at least 50 hybrids worldwide, which is an important feature of the genus.
+    Specific Species Addressed: Addresses *Potamogeton lucens* and *Potamogeton perfoliatus* specifically, as they are the putative parents of the hybrid *P. x salicifolius*, and it is noted that the banding patterns of the hybrids are generally consistent with the local multi-enzyme phenotypes of these putative parents.
+
+Save Cite Cited by 25 Related articles All 9 versions
+[HTML] academia.edu
+Isozyme evidence of the parental origin and possible fertility of the hybrid Potamogeton×fluitans Roth
+JB Fant, CD Preston, JA Barrett - Plant Systematics and Evolution, 2001 - Springer
+Indicates that the chromosome numbers of *Potamogeton* species range from 2n=14 to 2n=104, suggesting that both polyploidy and aneuploidy have been important in the evolution of the genus.
+
+    Hybridization is Common: Explains that interspecific hybrids are prevalent in the genus *Potamogeton*, and hybridization and subsequent changes in ploidy are considered an important evolutionary origin for a large percentage of angiosperms.
+    Specific Species Addressed: Provides isozyme evidence supporting the hybrid *Potamogeton* × *fluitans* resulting from a cross between *P. lucens* and *P. natans*, addressing two of the five species in the research question.
+
+Save Cite Cited by 32 Related articles All 11 versions
+Nuclear and chloroplast DNA sequences data support the origin of Potamogeton intortusifolius JB He in China as a hybrid between P. perfoliatus Linn. and P. wrightii …
+ZY Du, CF Yang, JM Chen, YH Guo - Aquatic Botany, 2009 - Elsevier
+Confirms that the genus *Potamogeton* includes hybrids, specifically studying *P. intortusifolius* as a reciprocal hybrid originating from hybridization between *P. perfoliatus* and *P. wrightii*, supporting that hybridization is documented in the genus.
+
+    Potamogeton perfoliatus: Indicates that *P. perfoliatus* is specifically addressed as one of the parental species in the hybridization event that led to *P. intortusifolius*.
+    Polyploidy in P. perfoliatus: Notes that all three taxa, *P. intortusifolius*, *P. perfoliatus*, and *P. wrightii*, are tetraploids with a chromosome number of 2n = 52, linking polyploidy and hybridization for one of the species requested (*P. perfoliatus*).
+
+Save Cite Cited by 35 Related articles All 4 versions
+
+[PDF] Biogeographic and cytogenetic evolution of the Alstroemeriaceae/Colchicaceae inferred from multi-locus molecular philogenies, fluorescent in situ hybridization …
+J Chacon Pinilla - 2013 - edoc.ub.uni-muenchen.de
+Indicates that the genus *Colchicum* is characterized by highly variable chromosome numbers and ploidy levels, ranging from tetraploid to 24-ploid, addressing the question of whether it is polyploid.
+
+    Polyploidy Mechanism: Suggests that polyploidization played a major role in the chromosome number evolution of *Colchicum*, presumably connected with hybridization, which hints that the polyploidy may be allopolyploidy.
+    Cytogenetic Studies: Details a focus on chromosome number evolution in the Colchicaceae, including *Colchicum*, using event-based maximum likelihood models and cytogenetics to infer ancestral chromosome numbers and mechanisms of cytogenetic evolution.
+
+Save Cite Related articles
+[PDF] archive.org
+Quick read
+[PDF] Biogeographic and Cytogenetic Evolution of the Alstroemeriaceae/Colchicaceae Inferred from Multi-locus Molecular Philogenies, Fluorescent in Situ …
+JC Pinilla - 2013 - scholar.archive.org
+Indicates that the genus *Colchicum* is characterized by highly variable chromosome numbers and ploidy levels, ranging from tetraploid to 24-ploid.
+
+    Polyploidization Mechanism: Suggests that polyploidization played a major role in the chromosome number evolution of *Colchicum*, presumably connected with hybridization (allopolyploidy).
+    Cytogenetic Evolution Study: Focuses on the cytogenetic evolution of the Colchicaceae, including *Colchicum*, using maximum likelihood approaches to infer ancestral chromosome numbers and mechanisms of chromosome number change.
+
+Save Cite Related articles All 3 versions
+[PDF] researchgate.net
+Quick read - archive.org
+The evolution of Colchicaceae, with a focus on chromosome numbers
+J Chacón, N Cusimano, SS Renner - Systematic Botany, 2014 - ingentaconnect.com
+Explains that the cytogenetics of *Colchicum* are complex, with species showing variable chromosome numbers and a range of ploidy levels (from tetra- to 24-ploid).
+
+    Polyploidy Type Unresolved: Notes that the extent to which past allopolyploidy or autopolyploidy explains the lability of *Colchicum* chromosome numbers remains an open question, as there are no experimental crosses or other studies addressing hybridization.
+    Inferred Evolutionary Events: Investigates chromosome number evolution in *Colchicaceae* and the *Colchicum* clade using likelihood models that consider polyploidization, demi-duplication, and dysploidization events, inferring frequent demi-duplication for *Colchicum* itself.
+
+Save Cite Cited by 24 Related articles All 11 versions
+Chromosome numbers and evolution in the genus Colchicum
+N Feinbrun - Evolution, 1958 - JSTOR
+Indicates that the section Autumnales, which includes *C. autumnale*, comprises both diploid and polyploid species, and the polyploids are presumably allopolyploids.
+
+    Cytogenetic Evolutionary Pattern: Identifies secondary polyploidy and allopolyploidy, involving the addition or loss of single chromosome pairs, as playing a major role in speciation within the genus *Colchicum*.
+    Autumnales Chromosome Numbers: Reports that the section Autumnales contains species with a basic number of x=9 and chromosome numbers including 36, 38-42, 42-44, 52, 54, 106, and 140, besides one diploid species (2n=18).
+
+Save Cite Cited by 33 Related articles All 6 versions
+A phylogenetic analysis of the genus Colchicum L. (Colchicaceae) based on sequences from six plastid regions
+K Persson, G Petersen, A del Hoyo, O Seberg… - Taxon, 2011 - Wiley Online Library
+Includes chromosomal characters in its phylogenetic analysis of the genus, alongside morphological, life history, and molecular data from six plastid regions.
+
+    Ploidy Level of C. autumnale: Identifies Colchicum autumnale as a polyploid with a ploidy level of 4x, belonging to a Central and South European polyploid complex based on x = 9.
+    Polyploidy in Colchicum: Notes that approximately 75% of all Colchicum species are polyploid, and an unknown fraction may be allopolyploids, emphasizing the role of polyploidization in the genus's evolution.
+
+Save Cite Cited by 37 Related articles All 8 versions
+Colchicaceae
+B Nordenstam - Flowering Plants· Monocotyledons: Lilianae (except …, 1998 - Springer
+Reports that the cytology of *Colchicum* is particularly complicated with a seemingly continuous aneuploid range of all basic chromosome numbers between 6 and 12, plus an additional 19.
+
+    High Somatic Numbers: Notes that somatic chromosome numbers up to 182 have been reported in the genus *Colchicum*, indicating a high level of polyploidy.
+    Colchicine's Effect: Suggests the complex karyology and high chromosome numbers in *Colchicum* might be due to the presence of colchicine, known for its antimitotic effect and ability to induce chromosome duplication.
+
+Save Cite Cited by 82 Related articles All 3 versions
+[PDF] tandfonline.com
+Revisione Citosistematica del Genere Colchicum. II: Nuove Località di C. Autumnale L., C. Lusitanum Brot. e C. Neapolitanum Ten. e Delimitazione Dell'Areale …
+F D'Amato - Caryologia, 1957 - Taylor & Francis
+Finds the typical diploid chromosome number in all cytologically studied materials of *C. autumnale*, *C. lusitanum*, and *C. neapolitanum*.
+
+    Lack of Polyploidy: Indicates that the studied *Colchicum* species are stable, lacking signs of differentiation into biotypes through intraspecific polyploidy (aneuploidy, euploidy) or supernumerary chromosomes.
+    Speciation Mechanisms: Discusses speciation mechanisms within the genus *Colchicum*, suggesting that interspecific hybridization followed by amphidiploidy may have played an important role in the differentiation of other species.
+
+Save Cite Cited by 15 Related articles All 2 versions
+[PDF] researchgate.net
+Cytometric determination of genome size in Colchicum species (Liliales, Colchicaceae) of the western Mediterranean area
+A Fridlender, S Brown, R Verlaque, M Crosnier, N Pech - Plant cell reports, 2002 - Springer
+Reports the polyploid level for *Colchicum autumnale* as 2n=4x=36, confirming it is a tetraploid (a type of polyploid).
+
+    Genome Size Determination: Determines the genome size for *C. autumnale* using flow cytometry to be 2C=5.89±0.22 pg, which is equivalent to bp.
+    Cytogenetic Details: Confirms the chromosome number and very heterogeneous karyotype for *C. autumnale* with six long metacentrics and numerous short chromosomes, supporting prior cytogenetic work and contributing to the understanding of chromosome evolution in the genus.
+
+Save Cite Cited by 20 Related articles All 13 versions
+[CITATION] The Evolution of Colchicaceae, with a Focus on Chromosome Numbers
+C Juliana, C Natalie - 2014
+Studies the cytogenetic diversity within the Colchicaceae family, which exhibits a wide range of ploidy levels from 2n= 14 to 2n= 216, to understand the origin of this variation.
+
+    Colchicum Demi-duplication: Infers that the frequent demi-duplication, which is the fusion of gametes of different ploidy, is a common evolutionary event within the *Colchicum* clade.
+    Modeling Chromosome Change: Explains that multilocus phylogenies and likelihood models were used on species with published chromosome counts to infer events like dysploidy, polyploidization, or demi-duplication that explain observed chromosome numbers.
+
+Save Cite Related articles
+[PDF] herbmedit.org
+[PDF] On the treatment of Merendera and Bulbocodium (Colchicaceae) as separate genera
+GH Oganezova - Flora Mediterranea, 2014 - herbmedit.org
+Compares data on the genus *Colchicum*, including chromosome numbers, to distinguish it from the genera *Merendera* and *Bulbocodium*.
+
+    Colchicum Chromosome Numbers: Notes that *Colchicum* species exhibit variable chromosome numbers and ploidy levels across their geographic range, with polyploidy based on several basic numbers such as x = 7, 8, 9, 10, 11, and 12.
+    Molecular Phylogenetic Studies: Mentions existing molecular phylogenetic analyses focused on *Colchicum* and related genera, which addressed their taxonomic boundaries and phylogenetic relationships.
+
+Save Cite Cited by 16 Related articles All 4 versions
+
+[PDF] The DNA weights per nucleus (genome size) of more than 2350 species of the Flora of The Netherlands, of which 1370 are new to science, including the pattern …
+BJM Zonneveld - Forum geobotanicum, 2019 - d-nb.info
+Lists *Lathraea squamaria* with a nuclear DNA weight (2C-value) of 2.95 picograms, a chromosome number () of 36, and a peak pattern of 2C, 4C, 8C, and 16C, indicating multiple ploidy levels in the sample.
+
+    Multiple Ploidy Levels: Indicates that *Lathraea squamaria* is known in two ploidies, which also applies to *Lathraea clandestina*, which has 2.18 and 4.18 picograms of DNA.
+    Flow Cytometry Relevance: Explains that flow cytometry determines the weight of DNA per nucleus, a key value for determining ploidy and detecting species and hybrids.
+
+Save Cite Cited by 91 Related articles All 10 versions
+[PDF] wiley.com
+Full View
+Phylogeny of the parasitic plant family Orobanchaceae inferred from phytochrome A
+JR Bennett, S Mathews - American journal of botany, 2006 - Wiley Online Library
+Indicates that the hexaploid chromosome number of *Lathraea* is consistent with a scenario of later duplications or doublings within the lineage.
+
+    Gene Duplication Evidence: Detects multiple copies of the PHYA gene in *Lathraea squamaria*, suggesting gene or genome duplication events.
+    Gene/Genome Duplication: Mentions that the split of clades Va and Vb points to an early gene or genome duplication in clade V, with subsequent duplications occurring in *Lathraea* and *Euphrasia*.
+
+Save Cite Cited by 286 Related articles All 10 versions
+
+[BOOK] Evolutionary relationships and reproductive ecology of endemic Sorbus species in south west UK: Implications for conservation.
+TJ Hamston - 2017 - search.proquest.com
+Suggests that polyploids under study, which include *Sorbus devoniensis* (a tetraploid species mentioned later), resulted from rare interspecific hybridization and are maintained through apomictic reproduction, indicating an **allopolyploid** origin.
+
+    Hybridization Route: Explains that diversification in the *Sorbus* genus involves hybridization between the sexual diploid *Sorbus torminalis* and both tetraploid and triploid species, which likely gave rise to members of subgenus Tormaria, of which *S. devoniensis* is a member, through a **triploid bridge** mechanism.
+    Genetic Evidence: Utilizes molecular analysis, specifically Principal Coordinate Analysis (PCoA), Neighbour-Joining analysis, and **parental simulations** based on ten **microsatellite loci**, to determine the genetic structure and reticulated evolutionary relationships of the study species, including *S. devoniensis*.
+
+Save Cite Cited by 1 Related articles All 3 versions
+Parentage of endemic Sorbus L. (Rosaceae) species in the British Isles: evidence from plastid DNA
+M Chester, RS Cowan, MF Fay… - Botanical Journal of the …, 2007 - academic.oup.com
+Indicates that *Sorbus devoniensis*, alongside several other polyploids, may be derived from a single maternal lineage, suggesting an allopolyploid origin involving hybridization.
+
+    Genetic Evidence and Haplotype: Details that *S. devoniensis* samples from English and Irish populations consistently had the Torminalis N haplotype, providing genetic evidence for its origin.
+    Paternal Parentage: Implies that the hybridization event that formed species in the *S. anglica* and *S. latifolia* groups, which includes *S. devoniensis*, usually involved *S. aria* s.l. as the paternal (pollen-donating) parent.
+
+Save Cite Cited by 82 Related articles All 7 versions
+[PDF] exeter.ac.uk
+Quick read
+[PDF] Inheritance patterns and hybrid origins of apomictic polyploids: Sorbus in the southwest UK
+TJ Hamston, N de Vere, RA King, JE Cresswell… - … reproductive ecology of … - ore.exeter.ac.uk
+Examines hybridization and polyploidy in *Sorbus*, focusing on reconstructing parentage and elucidating the hybrid origins for seven polyploid species using microsatellites.
+
+    Study Species Location: Studies the *Sorbus* (whitebeams) found in Devon and north Somerset in southwest England, which include four apomictic species.
+    Polyploid Classification: Provides a summary of ploidy level, breeding systems, and proposed genome composition for the species studied, differentiating between autopolyploids (arising within populations of single species) and allopolyploids (arising from interspecific hybridization).
+
+Save Cite Related articles All 4 versions
+[HTML] emerald.com
+[HTML] Whitebeams, Rowans and Service Trees of Britain and Ireland: A Monograph of British and Irish Sorbus L.
+H Ashton - 2012 - emerald.com
+Describes 52 (44 species and eight hybrids) native or naturalized *Sorbus* taxa in the UK and Ireland, which likely includes *Sorbus devoniensis*.
+
+    Genetics Discussion: Presents a very technical discussion about the genetics, cytology, biology, and ecology of the various *Sorbus* species.
+    Molecular Studies Basis: Bases the monograph on morphological and molecular taxonomic studies, which are the types of studies necessary to determine polyploidy, parent taxa, and genetic origin.
+
+Save Cite Related articles
+[PDF] frontiersin.org
+Apomixis and Hybridization Drives Reticulate Evolution and Phyletic Differentiation in Sorbus L.: Implications for Conservation
+TJ Hamston, N De Vere, RA King, J Pellicer… - Frontiers in Plant …, 2018 - frontiersin.org
+Indicates that the hybrid origins of the study taxa, including *S. devoniensis*, and specifically the pollen donors, were not identified by the study, thus not directly answering the question about its parent taxa.
+
+    Interspecific Hybridization: Reports that the route of polyploid formation in *Sorbus* generally is via interspecific hybridization, suggesting that *S. devoniensis* is likely an allopolyploid, though the exact ploidy and parental species are not specified in the abstract or snippets.
+    Genetic Evidence: Assesses the evolutionary origins of a complex of closely related *Sorbus* taxa, including *S. devoniensis*, by combining nuclear DNA microsatellite markers and flow cytometry data to address questions about likely hybrid origins and whether single or multiple origins are evident for the polyploid taxa.
+
+Save Cite Cited by 43 Related articles All 21 versions
+[PDF] bsbi.org.uk
+Quick read
+[PDF] The Sorbus latifolia (Lam.) pers. aggregate in the British Isles
+PD Sell - Watsonia, 1989 - archive.bsbi.org.uk
+Determines that *Sorbus devoniensis* is a tetraploid with a chromosome number of .
+
+    Hybrid Origin and Parents: Suggests that *Sorbus devoniensis* likely originated from hybridization between *S. aria* (sensu stricto) and *S. torminalis* followed by a doubling of chromosomes, which would classify it as an allopolyploid.
+    General Hybrid Origin: Notes that all the species discussed, including *S. devoniensis*, are thought to have been derived from hybridization between *S. aria* (sensu lato) and *S. torminalis*.
+
+Save Cite Cited by 28 Related articles All 5 versions
+[PDF] wiley.com
+1048. SORBUS SUBCUNEATA: Rosaceae
+MF Fay, T Hamston, G Barlow… - Curtis's Botanical …, 2022 - Wiley Online Library
+Describes how a species within the *Sorbus devoniensis* group, *S. subcuneata*, results from hybridization between *S. torminalis* and members of *Sorbus* subgenus *Aria*.
+
+    Genetic Evidence and Female Parent: Explains that the parentage of *S. devoniensis* was determined using microsatellites and that *S. torminalis* is the female parent of all three related hybridogenic species.
+    Reproductive Biology: Reports that *S. subcuneata*, a related species, is an obligate pseudogamous apomict and that genotyped embryos were identical to the female parent, indicating a form of apomixis.
+
+Save Cite Cited by 1 Related articles All 6 versions
+[PDF] researchgate.net
+Polyploid wild service tree: first record of a triploid Sorbus torminalis (Rosaceae) in Britain
+TJ Hamston, J Pellicer, MF Fay - New Journal of Botany, 2015 - Taylor & Francis
+Describes that genetic analyses using chloroplast microsatellites suggested that *S. torminalis* is a maternal parental taxon of the tetraploid *S. devoniensis*.
+
+    Ploidy Level and Origin: Confirms *S. devoniensis* is a tetraploid species (4x) endemic to the region of Devon and Somerset, which arose from hybridisation events.
+    Genetic Evidence Method: Used flow cytometry to assess ploidy levels for *S. devoniensis* samples and other polyploid *Sorbus* species, confirming the genus's high incidence of polyploidy (3x, 4x, and 5x).
+
+Save Cite Cited by 6 Related articles All 6 versions
+[PDF] wiley.com
+Evidence from peroxidase polymorphism on the taxonomy and reproduction of some Sorbus populations in south‐west England
+MCF Proctor, ME Proctor, AC Groenhof - New Phytologist, 1989 - Wiley Online Library
+Suggests the polyploid *S. devoniensis* is an allopolyploid (allospecies) because its peroxidase phenotype combines bands found in *S. aria* and *S. torminalis*.
+
+    Parent Taxa Identification: Indicates *S. subcuneata* and *S. devoniensis* possess four or five of the bands characteristic of diploid *S. aria* populations, together with two bands that are apparently constant in *S. torminalis*.
+    Genetic Evidence and Apomixis: Shows the six polyploid *Sorbus* microspecies, including *S. devoniensis*, generally consist of individuals with an essentially identical peroxidase phenotype, suggesting a high degree of apomixis in these populations.
+
+Save Cite Cited by 41 Related articles All 13 versions
+[PDF] exeter.ac.uk
+[PDF] Polyploid wild service tree: first record for a triploid Sorbus torminalis in the UK
+TJ Hamston, J Pellicer, MF Fay - … ecology of endemic Sorbus species in … - ore.exeter.ac.uk
+Describes that a flow cytometry analysis identified a tetraploid individual of *S. devoniensis* in Devon.
+
+    Parental Taxa Evidence: Indicates that genetic analyses using nuclear and chloroplast microsatellites have suggested that *S. torminalis* is a maternal parent of *S. devoniensis*.
+    Origin via Hybridization: Notes that the complex array of morphologically diverse *Sorbus* taxa arose from hybridization events involving crossings between diploid species and other polyploid apomicts, resulting in a complex polyploid network.
+
+Save Cite Related articles All 4 versions
+
+Introgression of fitness genes across a ploidy barrier
+MA Chapman, RJ Abbott - New Phytologist, 2010 - Wiley Online Library
+Establishes that *Senecio vulgaris* is a tetraploid species, differentiating it from the diploid *S. squalidus*.
+
+    *S. vulgaris* Allotetraploid: Suggests that *S. vulgaris* is an allotetraploid based on the identification of a homeologous copy (RAY2b) of the *RAY2* gene (*RAY2a*).
+    Genome History/Introgression: Discusses introgression of regulatory genes (*RAY1* and *RAY2*) from the diploid *S. squalidus* into the polyploid *S. vulgaris*, which resulted in a variant form of *S. vulgaris* with radiate flower heads.
+
+Save Cite Cited by 151 Related articles All 14 versions
+The origin ofSenecio vulgaris (Asteraceae)
+JW Kadereit - Plant Systematics and Evolution, 1984 - Springer
+Suggests that *Senecio vulgaris* (2n=40) is of autotetraploid origin from the diploid species *S. vernalis* (2n=20), based on hybridizations, cytological observations, and morphological/geographical patterns.
+
+    Ploidy Level: Indicates that the tetraploid *S. vulgaris* has a chromosome count of 2n=40.
+    Allotetraploid Hypothesis: Notes that previous investigations suggested *S. vulgaris* might be of allotetraploid origin, with half its genome homoeologous to that of *S. squalidus*, raising a dual affinity question regarding its ancestry.
+
+Save Cite Cited by 78 Related articles All 6 versions
+[PDF] nature.com
+Molecular systematics of the genus Senecio L. II: The origin of S. vulgaris L.
+SA Harris, R Ingram - Heredity, 1992 - nature.com
+Explains that no definitive evidence was found using nuclear ribosomal and chloroplast DNA analyses to support either an allopolyploid or an autopolyploid origin for *S. vulgaris*.
+
+    Progenitor Taxa: Suggests that *S. vernalis* is likely not one of the progenitor taxa of *S. vulgaris* due to its distinct nuclear and organelle genomes.
+    Genome Relationship: Notes that the chloroplast genomes of *S. vulgaris* ssp. *vulgaris* and *S. squalidus* appear identical, which is relevant to its genome history.
+
+Save Cite Cited by 15 Related articles All 9 versions
+[PDF] researchgate.net
+Isozyme evidence and the origin ofSenecio vulgaris (Compositae)
+PA Ashton, RJ Abbott - Plant systematics and evolution, 1992 - Springer
+Tests the hypothesis that *Senecio vulgaris* (2n=40) originated as an autotetraploid from *S. vernalis* (2n=20) using an electrophoretic survey of isozyme variation.
+
+    Allopolyploid Origin: Concludes that *S. vulgaris* is not of autotetraploid origin but that the genetic evidence aligns with an allopolyploid origin, potentially with *S. vernalis* as one parent.
+    Genetic Evidence: Presents genetic findings, including fixed heterozygosity at three loci, disomic inheritance at polymorphic loci, and the presence of a unique gene/allele in *S. vulgaris* not found in *S. vernalis*.
+
+Save Cite Cited by 24 Related articles All 9 versions
+[PDF] researchgate.net
+Regulatory genes control a key morphological and ecological trait transferred between species
+M Kim, ML Cui, P Cubas, A Gillies, K Lee… - Science, 2008 - science.org
+States that *Senecio vulgaris* (Groundsel) is an allotetraploid nonradiate species, native to Europe and occurring throughout temperate zones.
+
+    Genomic Origin History: Notes that the species is hypothesized to have originated from a hybridization event involving *S. squalidus* and an unknown parent.
+    Introgression Events: Explains that the radiate forms of *S. vulgaris* arose after the introduction of the diploid species *S. squalidus* and subsequent introgression of the *RAY* locus.
+
+Save Cite Cited by 315 Related articles All 19 versions
+[PDF] cell.com
+Quick read - sciencedirect.com
+Transcriptome shock after interspecific hybridization in Senecio is ameliorated by genome duplication
+MJ Hegarty, GL Barker, ID Wilson, RJ Abbott… - Current biology, 2006 - cell.com
+Identifies *S. vulgaris* as a tetraploid species, contrasting with its diploid parent *S. squalidus* and its allohexaploid derivative *S. cambrensis*.
+
+    Role in Hybridization Studies: Compares floral gene expression in the allohexaploid *S. cambrensis* to its parent species, *S. vulgaris* (tetraploid) and *S. squalidus* (diploid), and their triploid F1 hybrid, *S. x baxteri*, to study the effects of hybridization and polyploidization.
+    Parental Gene Expression Baseline: Discusses that significant changes in gene expression relative to the parents (*S. vulgaris* and *S. squalidus*) were associated with the hybridization step that formed the triploid *S. x baxteri*.
+
+Save Cite Cited by 391 Related articles All 12 versions
+[PDF] academia.edu
+Development of anonymous cDNA microarrays to study changes to the Senecio floral transcriptome during hybrid speciation
+MJ Hegarty, JM Jones, ID Wilson, GL Barker… - Molecular …, 2005 - Wiley Online Library
+Identifies *Senecio vulgaris* as a parental taxon with a tetraploid (4x = 40) ploidy level in the context of the allohexaploid hybrid *Senecio cambrensis*.
+
+    Hybridization Pathway: Explains that *S. vulgaris* (tetraploid) hybridized with *Senecio squalidus* (diploid) to form the sterile triploid hybrid *Senecio × baxteri*, which subsequently led to the allohexaploid *Senecio cambrensis*.
+    Transcriptome Analysis: Compares gene expression between *S. vulgaris* and the intermediate triploid hybrid *Senecio × baxteri* using anonymous cDNA microarrays to study changes associated with allopolyploid speciation.
+
+Save Cite Cited by 143 Related articles All 12 versions
+[PDF] cell.com
+Genomic changes and stabilization following homoploid hybrid speciation of the Oxford ragwort Senecio squalidus
+B Nevado, MA Chapman, AC Brennan, JW Clark… - Current Biology, 2024 - cell.com
+States that *S. vulgaris* (common groundsel) is a native tetraploid species with a chromosome number of 2n = 40, which is involved in the origin of new allohexaploid species.
+
+    Hybridization Events: Mentions that *S. vulgaris* hybridized with *Senecio squalidus*, leading to a burst of evolution in UK *Senecio* and resulting in the origin of the new allohexaploid species *Senecio cambrensis* (2n = 60).
+    Evolutionary History: Suggests that the *vulgaris* clade of *Senecio* underwent a rapid radiation during the Miocene epoch (4.9–3.9 million years ago).
+
+Save Cite Cited by 16 Related articles All 16 versions
+[PDF] academia.edu
+Chloroplast DNA and isozyme evidence on the evolution ofSenecio vulgaris (Asteraceae)
+HP Comes, JW Kadereit, A Pohl, RJ Abbott - Plant Systematics and …, 1997 - Springer
+Identifies the species, *Senecio vulgaris*, as a tetraploid species, which addresses the question of its ploidy level.
+
+    Evolutionary Relationship: Supports the hypothesis that the widespread *S. vulgaris* var. *vulgaris* evolved from *S. vulgaris* subsp. *denticulatus* using isozyme data.
+    Genome/Ploidy History Hypotheses: Presents two alternative hypotheses for the observed chloroplast DNA composition and genome history: either retention of ancestral polymorphism from recurrent formation of ancestral tetraploid lineages, or acquisition of haplotypes via repeated introgressive hybridization with related diploid species, favoring the latter.
+
+Save Cite Cited by 26 Related articles All 10 versions
+Origins, establishment and evolution of new polyploid species: Senecio cambrensis and S. eboracensis in the British Isles
+RJ Abbott, AJ Lowe - biological Journal of the Linnean Society, 2004 - academic.oup.com
+Indicates that *Senecio vulgaris* is a native plant in the British Isles with a chromosome number of .
+
+    Genome History Hypotheses: Discusses two conflicting hypotheses regarding the ploidy type of *S. vulgaris*, suggesting it is either an allopolyploid or an autopolyploid.
+    Genome Role in Hybrid Speciation: Notes that if *S. vulgaris* is an allopolyploid, one of its two genomes may have been largely replaced during the origin of *S. eboracensis*, but if it is an autopolyploid, part of its duplicated genome may have been replaced.
+
+Save Cite Cited by 268 Related articles All 13 versions
+
+Expressivity of apomixis in 2n + n hybrids from an apomictic and a sexual parent: insights into variation detected in Pilosella (Asteraceae: Lactuceae)
+A Krahulcová, F Krahulec, R Rosenbaumová - Sexual Plant Reproduction, 2011 - Springer
+Identifies Pilosella aurantiaca as a tetraploid species.
+
+    Reproductive Mode: Notes that Pilosella aurantiaca exhibits facultative autonomous apospory, which is a form of apomixis.
+    Hybrid Constitution: Compares the genetic makeup of P. rubra, which is presumed to have four chromosome sets of P. aurantiaca and two sets of P. officinarum, suggesting that P. aurantiaca is involved in allopolyploid hybrid formation, but not explicitly stating P. aurantiaca itself is an allopolyploid.
+
+Save Cite Cited by 28 Related articles All 13 versions
+[PDF] uni-frankfurt.de
+Prozesse innerhalb hybridisierender Pilosella-Populationen: P. aurantiaca und P. officinarum in Hagen (Nordrhein-Westfalen)
+A Krahulcová, U Raabe, F Krahulec - Kochia, 2012 - ojs.ub.uni-frankfurt.de
+Identifies Pilosella aurantiaca as a tetraploid species with a facultatively apomictic reproductive mode.
+
+    Allopolyploid Mention: Mentions that a related hawkweed, *Hieracium ru-* (likely *Hieracium rubra* or similar), is an allopolyploid facultatively apomictic hawkweed.
+    Hybridization Mechanism: Notes the presence of a hybrid swarm involving P. aurantiaca and P. officinarum, with hybrids formed through 2n + n hybridization, which is characteristic of allopolyploid formation.
+
+Save Cite Cited by 17 Related articles All 5 versions
+[PDF] oup.com
+Quick read - nih.gov
+Chromosomes Carrying Meiotic Avoidance Loci in Three Apomictic Eudicot Hieracium Subgenus Pilosella Species Share Structural Features with Two Monocot …
+T Okada, K Ito, SD Johnson, K Oelkers… - Plant …, 2011 - academic.oup.com
+Indicates that two accessions of *H. aurantiacum* were analyzed, one being tetraploid (4x = 2n = 36) and the other aneuploid (3x + 8 = 35), thus providing information on ploidy level.
+
+    Reproductive Mode: Reports that *Hieracium aurantiacum* is an apomictic species and suggests that the evolution of apomixis in this species may have followed an independent route compared to other species in the subgenus *Pilosella*.
+    Base Chromosome Number: Establishes that *Hieracium* subgenus *Pilosella* species have a base chromosome number of nine, and apomicts are frequently tetraploid with 36 chromosomes.
+
+Save Cite Cited by 65 Related articles All 17 versions
+[PDF] academia.edu
+Quick read - cas.cz
+The Detection, Rate and Manifestation of Residual Sexuality in Apomictic Populations of Pilosella (Asteraceae, Lactuceae)
+A Krahulcová, O Rotreklová, F Krahulec - Folia Geobotanica, 2014 - Springer
+Identifies *Pilosella aurantiaca* as a facultatively apomictic plant coexisting with a sexual species (*P. officinarum*) in hybridizing polyploid populations.
+
+    Ploidy Level: Examines *Pilosella aurantiaca* in hybridizing polyploid populations, focusing on the ploidy level and reproductive system to characterize the plants and their hybrids.
+    Hybrid Origin: Notes that variation in hybrid populations suggests prevailing introgressive hybridization towards the sexual species, implying an allopolyploid origin or ongoing hybridization.
+
+Save Cite Cited by 28 Related articles All 15 versions
+Variation inHieracium subgen.Pilosella (Asteraceae): What do we know about its sources?
+A Krahulcová, F Krahulec, HM Chapman - Folia Geobotanica, 2000 - Springer
+Indicates that the extensive variation and abundance of intermediate types in *Hieracium* subgenus *Pilosella*, which includes *Pilosella aurantiaca*, is due to a combination of frequent hybridization, polyploid differentiation, facultative apomixis, and clonal growth.
+
+    Polyploid Complex: Notes that *Hieracium aurantiacum* (often listed as *Pilosella aurantiaca*) is part of a polyploid complex, alongside *H. pilosella*, which has undergone intensive study of its reproductive systems and cytogeography.
+    Ploidy and Reproductive Mode: States that all known cytotypes of the *H. aurantiacum* polyploid complex in nature are facultative apomicts, including pentaploid, hexaploid, and octoploid levels, though the frequency of sexual reproduction is higher in cytotypes with an even number of genomes.
+
+Save Cite Cited by 80 Related articles All 6 versions
+[PDF] pnas.org
+Full View
+Deletion mapping of genetic regions associated with apomixis in Hieracium
+AS Catanach, SK Erasmuson, E Podivinsky… - Proceedings of the …, 2006 - pnas.org
+Identifies that a tetraploid, apomictic accession of *Hieracium aurantiacum* (now *Pilosella aurantiaca*) was used as a pollination partner in the study.
+
+    Mechanism of Apomixis: Confirms that apomixis in *Hieracium* (the genus including *Pilosella*) occurs by apospory, involving the avoidance of meiosis (apomeiosis) and the avoidance of fertilization (parthenogenesis and autonomous endospermy).
+    Ploidy Assessment: Utilizes flow cytometry to assess the ploidy of progeny in mutants, indicating ploidy level was a critical factor monitored during the research.
+
+Save Cite Cited by 169 Related articles All 17 versions
+[PDF] cuni.cz
+Introgresívna hybridizácia v rode Pilosella (Asteraceae)
+N Gloríková - 2025 - dspace.cuni.cz
+Determines the ploidy level of *Pilosella aurantiaca*, noting that four out of five individuals were tetraploid with a mean genome size of 7.68±0.02 pg, while one sample was likely triploid (5.77 pg).
+
+    Chromosome Number: Reports a chromosome count of 2n=36 for *Pilosella aurantiaca*, which corresponds to a tetraploid level.
+    Reproductive Mode in Pilosella: Identifies the genus *Pilosella* as a taxonomically complex diploid-polyploid group with reproductive variability ranging from strict sexuality to facultative or almost obligate apomixis, with polyploid apomicts exhibiting broader ecological amplitudes.
+
+Save Cite Related articles
+[PDF] cas.cz
+Quick read
+[PDF] Production of polyhaploids by facultatively apomictic Pilosella can result in the formation of new genotypes via genome doubling
+F Krahulec, A Krahulcova, R Rosenbaumova… - Preslia, 2011 - ibot.cas.cz
+Identifies *Pilosella aurantiaca* as a tetraploid species, meaning it has four sets of chromosomes ().
+
+    Reproductive Mode: Describes *Pilosella* as facultatively apomictic, noting that haploid parthenogenesis occurs in the polyploid maternal plants, which leads to polyhaploid progeny.
+    Genotype Formation: Explains the formation of new genotypes of *P. aurantiaca* through a polyploid–polyhaploid–polyploid cycle that is autonomous, meaning it occurs without the contribution of pollen from the parent genotype.
+
+Save Cite Cited by 24 Related articles All 4 versions
+[PDF] cas.cz
+[PDF] Chromosome numbers and reproductive systems of selected representatives of Pilosella from the Krkonoše Mts (the Sudetes Mts). Part 3
+JC hrtek Jr - ibot.cas.cz
+Reports that *Pilosella aurantiaca* has chromosome numbers of 2n=36 and 2n=45, corresponding to tetraploid and pentaploid DNA ploidy levels.
+
+    Reproductive Mode: Indicates that both the tetraploid and pentaploid cytotypes of *Pilosella aurantiaca* are apomictic, describing its reproductive mode.
+    Hybrid Origin: Mentions that a rare heptaploid plant (2n=63) is probably a hybrid between *Pilosella rubra* and *P. aurantiaca*, suggesting an allopolyploid origin for some *P. aurantiaca* related hybrids or forms.
+
+Save Cite Related articles All 3 versions
+[PDF] researchgate.net
+How apomictic taxa are treated in current taxonomy: a review
+Ľ Majeský, F Krahulec, RJ Vašut - Taxon, 2017 - Wiley Online Library
+Notes that apomixis in the genus *Pilosella* is characterized as autonomous apospory, where both the embryo and endosperm develop without fertilization.
+
+    Ploidy Levels in Pilosella: States that *Pilosella* has a large variation in ploidy levels in nature, ranging from diploids to octoploids, with even higher levels observed in hybridization experiments.
+    Origin of Polyploids: Indicates that polyploids in the related North American hawksbeards (*Crepis*) include both autopolyploids and allopolyploids, and that the genus *Pilosella* is characterized by extensive reticulate evolution and common polyploidy, often of hybrid origin.
+
+Save Cite Cited by 67 Related articles All 14 versions
+
+Chromosome‐scale genome of Myriophyllum spicatum unveils the role of allohexaploidy in driving aquatic adaptation and widespread invasion
+Y Wang, C Jin, S Shao, S Shi, Z He - The Plant Journal, 2026 - Wiley Online Library
+Determines that *Myriophyllum spicatum* is an allohexaploid plant with a chromosome number of , which addresses the nature of its polyploidy.
+
+    Genetic Evidence: Presents genetic evidence for the allohexaploid origin of *M. spicatum* by assembling its chromosome-scale genome, which is composed of three subgenomes (AABBCC).
+    Hypothesized Origin: Suggests a stepwise origin for the allopolyploid where an A-B allopolyploid lineage formed before hybridization with a more divergent C-like lineage (i.e., (AB) C).
+
+Save Cite Related articles All 4 versions
+[PDF] vu.lt
+Quick read
+Study of plants of the genus myriophyllum using molecular methods
+M Lukošiūnas - 2024 - epublications.vu.lt
+Indicates that *Myriophyllum spicatum* and *Myriophyllum sibiricum* are closely related allohexaploids that likely arose through hybridization and polyploidization involving different parental lineages.
+
+    Ploidy Levels (2n): Reports chromosome counts for *Myriophyllum verticillatum* (2n = 28) and *Myriophyllum spicatum* (2n = 42), which suggests they are tetraploid and hexaploid, respectively, based on a base number of x=7.
+    Potential Diploid Progenitor: Discusses phylogenetic analysis suggesting that *Myriophyllum alterniflorum* (2n=14) might be a diploid progenitor of *M. spicatum* and *M. sibiricum*, although another study disproved this specific diploid ancestor hypothesis.
+
+Save Cite Related articles
+Allohexaploid speciation of the two closely related species Myriophyllum spicatum and M. sibiricum (Haloragaceae)
+TF Lü, X Li, SN Wang, L Han, F Hao, CL Fu, P Zhang… - Aquatic Botany, 2017 - Elsevier
+Identifies *Myriophyllum spicatum* as an allohexaploid formed by hybridization and polyploidization of different diploid parental lineages.
+
+    Genetic Evidence for Origin: Provides genetic evidence for the allohexaploid status of *M. spicatum* and *M. sibiricum* by detecting three distinct sequence types in each individual using the low copy nuclear gene G3pdh.
+    *M. verticillatum* Status Not Explicit: Notes that *Myriophyllum verticillatum* was used as an outgroup in the phylogenetic analysis, but does not explicitly state whether it is an autopolyploid or allopolyploid.
+
+Save Cite Cited by 16 Related articles All 4 versions
+[PDF] wiley.com
+Trait Mapping Utilizing a Newly Constructed Genome for Allohexaploid Invasive Eurasian Watermilfoil (Myriophyllum spicatum) Reveals a Non‐Target Site QTL …
+D Hannay, GM Chorak, A Harkess… - Evolutionary …, 2026 - Wiley Online Library
+Identifies *Myriophyllum spicatum* (Eurasian watermilfoil) as an aquatic allohexaploid macrophyte, addressing the polyploid type.
+
+    Genome Construction: Aides research on *M. spicatum* by constructing a chromosome-level annotated genome, which is essential for genetic analysis in polyploid species.
+    Genetic Evidence Methods: Describes the use of whole-genome resequencing and gene annotation to identify variants and map loci, which are genetic methods used to study polyploids.
+
+Save Cite Cited by 1 Related articles All 7 versions
+[PDF] montana.edu
+Quick read
+[PDF] IMPROVING GENOMIC RESOURCES FOR THE STUDY OF INVASIVENESS IN EURASIAN WATERMILOFIL (MYRIOPHYLLUM SPICATUM) AND THEIR …
+JJ Pashnick - 2021 - scholarworks.montana.edu
+Presents overwhelming evidence for allopolyploid inheritance of chromosomes in Eurasian watermilfoil ($Myriophyllum spicatum$), northern watermilfoil ($Myriophyllum sibiricum$), and their hybrids.
+
+    Ploidy Level: Explains that Eurasian watermilfoil and interspecific hybrids with northern watermilfoil are hexaploid (), which complicates genotyping and genetic analysis.
+    Genetic Evidence: Confirms disomic inheritance and identifies diploidized molecular markers using genotyping-by-sequencing of a mapping population created by self-pollinating a single hybrid watermilfoil, thereby improving the ability to conduct population genetic analyses.
+
+Save Cite Related articles
+Allohexaploid speciation of the two closely related species Myriophyllum spicatum and M. sibiricum (Haloragaceae).
+LTF LüTianFeng, LX Li Xiang, WSN Wang ShengNan… - 2017 - cabidigitallibrary.org
+Identifies that *Myriophyllum spicatum* is an allohexaploid, formed through hybridization and polyploidization of different diploid parental lineages.
+
+    Genetic Evidence G3pdh: Used molecular markers, specifically the low copy nuclear gene G3pdh, to detect three distinct types of sequences in *M. spicatum* individuals, providing genetic evidence for its allohexaploid status.
+    cpDNA Evidence: Employed chloroplast DNA (cpDNA) data to show that the allopolyploids are monophyletic, suggesting a possible combination in the hybridization event.
+
+Save Cite Related articles
+[HTML] academia.edu
+Systematics of the aquatic angiosperm genus Myriophyllum (Haloragaceae)
+ML Moody, DH Les - Systematic Botany, 2010 - ingentaconnect.com
+Indicates that the ploidy level is unknown for most Myriophyllum species, though some chromosome counts exist, revealing that polyploids are not uncommon and the base number is n=7.
+
+    Chromosome Count for *M. verticillatum*: Reports chromosome counts for *Myriophyllum verticillatum* as 2n = 28, based on earlier research.
+    Genetic Evidence Suggests Autopolyploidy: Suggests that the data sets (nrDNA ITS and cpDNA) do not show the incongruence for polyploid taxa (2n = 28, 42) that would typically suggest an allopolyploid history, implying a potential autopolyploid history instead, though the polyploid origin of *M. spicatum* is not explicitly stated.
+
+Save Cite Cited by 80 Related articles All 12 versions
+[PDF] jcu.cz
+Populačně genetické aspekty rostlinných invazí: studie genetické a cytotypové variability u invazních a nativních populací Phalaris arundinacea L. a Myriophyllum sp …
+T Kávová - 2019 - dspace.jcu.cz
+Indicates that Myriophyllum verticillatum is probably represented only by the cytotype 2n = 28, suggesting a uniform ploidy level.
+
+    M. spicatum Genome Variability: Discusses that Myriophyllum spicatum is highly variable in genome size in both the USA (where hybridization with M. sibiricum may be a factor) and Europe, with the variation in the USA possibly linked to a higher genome size in introduced European plants.
+    Cytological and Genetic Evidence: Compares the native (Eurasian) and invasive (USA) populations of Myriophyllum spicatum using cytological and population-genetic methods, including genome size determination and cpDNA and ITS analysis, to evaluate the role of polyploidization in its invasive character.
+
+Save Cite Related articles All 2 versions
+A conspectus of myriophyllum (haloragaceae) in North America
+SG Aiken - Brittonia, 1981 - Springer
+Considers and dismisses the possibility of a polyploid series involving four species in the genus *Myriophyllum*, which includes *M. spicatum* and *M. verticillatum*.
+
+    Polyploidy Theories Rejected: Mentions that *Myriophyllum verticillatum* was considered a possible tetraploid, and *Myriophyllum spicatum* was suggested to be an autohexaploid, but concludes that the cytological evidence does not support the interpretation of a polyploid series.
+    Cytological Data: Reports the chromosome number for *Myriophyllum spicatum* as 2n = 42, which is cytological data relevant to polyploid origins.
+
+Save Cite Cited by 164 Related articles All 7 versions
+[PDF] sciencedirect.com
+The search for hybrids between Myriophyllum sibiricum and M. spicatum (Haloragaceae) in North Eurasia allowed to clarify their morphological differences and …
+PA Volkova, MO Ivanova, AA Bobrov - Aquatic Botany, 2024 - Elsevier
+Explains that *Myriophyllum sibiricum* and *M. spicatum* are considered allohexaploids, which formed through the hybridization and polyploidization of close diploid parental lineages.
+
+    Genetic Evidence for Origin: Mentions that genetic evidence, such as the ITS2 region of nuclear ribosomal DNA and the trnL-trnF intergenic spacer of cpDNA, was used to document hybrids and understand the species' origins.
+    DNA Fragment Size: Notes that the small size of the DNA fragments (ITS2 region was 339 nucleotides and trnL-trnF intergenic spacer was 239 nucleotides long) allows for their amplification from partly degraded DNA, which is useful for routine biodiversity studies of *Myriophyllum* species, including *M. verticillatum*.
+
+Save Cite Cited by 10 Related articles All 3 versions
+
+Phylogeny of the parasitic plant family Orobanchaceae inferred from phytochrome A
+JR Bennett, S Mathews - American journal of botany, 2006 - Wiley Online Library
+Suggests that the hexaploid number of *Lathraea* is consistent with a gene/genome duplication early in the history of its clade, with later duplications/doublings occurring in *Lathraea* and *Euphrasia*.
+
+    Gene Copy Detection: Notes that multiple copies of the PHYA gene were detected from *Lathraea clandestina*, *L. squamaria*, *Euphrasia stricta*, and *Bartsia alpina*, indicating polyploidy.
+    Documented Ploidy Level: Mentions the documented hexaploid number of *Lathraea*, citing a 1927 paper by Gates and Latter.
+
+Save Cite Cited by 286 Related articles All 10 versions
+[PDF] d-nb.info
+[PDF] The DNA weights per nucleus (genome size) of more than 2350 species of the Flora of The Netherlands, of which 1370 are new to science, including the pattern …
+BJM Zonneveld - Forum geobotanicum, 2019 - d-nb.info
+Indicates that *Lathraea clandestina* occurs in two different ploidies with genome sizes of 2.18 pg and 4.18 pg in one section of the paper, and a table entry lists a 2C value of 2.20 pg and a chromosome number of 42.
+
+    DNA Peak Patterns: Reports that *Lathraea clandestina* exhibits three DNA peak patterns, indicated by the code 2C, 4C, and 8C, suggesting multiple ploidy levels within the plant or organ.
+    Maximum Ploidy Level: Lists the maximum number of chromosome sets (ploidies) found in *Lathraea clandestina* as eight (8C) in a formula/code devised to indicate the number of peaks seen in the flow cytometer.
+
+Save Cite Cited by 91 Related articles All 10 versions
+Biological flora of the British Isles
+MD Atkinson, E Atkinson - Journal of Ecology, 2020 - JSTOR
+Determines that the documented chromosome number for the species is 2n = 42, based on analyses from multiple locations including London, Bordeaux, and Irish material.
+
+    Ploidy Level Consistency: Notes that the chromosome number of 2n = 42 was consistently obtained from pollen mother cells by Gates and Latter in 1927, and from both mitotic and meiotic cells by Dangeard in 1937.
+    Biological Characteristics Only: Focuses on other biological aspects of the plant, such as its parasitic nature, host range, morphology, and distribution, rather than explicitly discussing whether it is an autopolyploid or allopolyploid.
+
+Save Cite Cited by 58 Related articles
+
+Unveiling the Patterns of Reticulated Evolutionary Processes with Phylogenomics: Hybridization and Polyploidy in the Genus Rosa
+K Debray, MC Le Paslier, A Bérard… - Systematic …, 2022 - academic.oup.com
+Identifies *Rosa spinosissima*, commonly considered tetraploid, as a 50–50 intersectional hybrid between Middle Eastern lineages of a specific section.
+
+    Genetic Evidence: Used amplicon sequencing to target allele variation in the nuclear genome and haploid sequences in the chloroplast genome to construct robust plastid and nuclear phylogenies.
+    Hybridization Testing: Employed a maximum pseudo-likelihood approach on taxon subsets to test several scenarios of hybridization.
+
+Save Cite Cited by 60 Related articles All 12 versions
+[PDF] wiley.com
+Quick read
+Population structure of Rosa spinosissima L. on the Frisian Islands and introgression from cultivated material
+E Mayland‐Quellhorst… - Nordic Journal of Botany, 2021 - Wiley Online Library
+States that *Rosa spinosissima* is an allopolyploid with a chromosome number of 2n=4x=28, citing an earlier study (Fougère-Danezan et al. 2014).
+
+    Notes Hybrid Origin: Mentions that the hybrid origin of the allopolyploid *R. spinosissima* complicates the inheritance mode of the chromosomes, suggesting a possible functional diploid (disomic inheritance).
+    Details Genetic Analysis Method: Describes the use of microsatellite loci and the dosage-dependent allele identification method MAC-PR to infer the allelic configuration in this polyploid species.
+
+Save Cite Cited by 2 Related articles All 6 versions
+[PDF] db-thueringen.de
+The genus Rosa (Rosoideae, Rosaceae) revisited: molecular analysis of nrITS-1 and atpB-rbcL intergenic spacer (IGS) versus conventional taxonomy
+V Wissemann, CM Ritz - Botanical journal of the Linnean …, 2005 - academic.oup.com
+Suggests that *R. spinosissima* appears to be allotetraploid, based on unpublished isozyme analysis data.
+
+    Genetic Distinction: Mentions that *R. spinosissima* is genetically distinct from its morphological twin *R. altaica*, although both are tetraploid.
+    Molecular Analysis: Analyzes sequences of the nrDNA internal transcribed spacer 1 (nrITS-1) and *atpB-rbcL* intergenic spacer (IGS) of the cpDNA to study molecular infrageneric taxonomy and relationships within the genus *Rosa*.
+
+Save Cite Cited by 246 Related articles All 13 versions
+[PDF] muni.cz
+[PDF] Cytogenetická a genomická analýza genů pro ribozomální RNA u polyploidních rostlin
+R Vozárová - 2023 - is.muni.cz
+Indicates that the genus *Rosa* is characterized by intense hybridization, polyploidization, and introgression, and contains a large number of spontaneous allopolyploid species, suggesting *R. spinosissima* may be an allopolyploid.
+
+    Polyploidy Definition: Distinguishes between autopolyploidy, which is a multiplication of the same chromosome set, and allopolyploidy, which results from the merging of structurally different chromosomal sets after interspecific hybridization, providing the theoretical context for determining *R. spinosissima*'s origin.
+    Cytological rDNA Loci: Provides cytological evidence for *R. spinosissima*, stating that it has three loci of 5S_A ribosomal DNA (rDNA), four loci of 5S_B rDNA, and four loci of 18S rDNA, with two 18S rDNA loci on the same chromosomes as the 5S_B variant, which suggests a complex, potentially allopolyploid, genomic history.
+
+Save Cite Related articles All 3 versions
+[PDF] nih.gov
+Relationship between species in the genus Rosa, section Pimpinellifoliae
+AV Roberts - Botanical Journal of the Linnean Society, 1977 - Wiley Online Library
+Suggests that the regular meiosis observed in *R. spinosissima* indicates either that the putative parental genomes were sufficiently distinct for preferential pairing between common-origin genomes (allopolyploidy) or that genomic/genotypic changes stabilized meiosis after initial tetraploid formation (autopolyploidy, followed by stabilization).
+
+    Cytological Evidence Used: Uses cytological evidence from meiosis in pollen mother cells, focusing on the regularity of bivalent formation, to reflect the degree of homology between parental genomes in assessing polyploid origins.
+    Morphological Comparison of Origins: Indicates possible origins of the tetraploid species, including *R. spinosissima*, from diploid species based on comparative morphology.
+
+Save Cite Cited by 45 Related articles All 10 versions
+[PDF] vliz.be
+[PDF] Promotors: Prof. dr. ir. Erik Van Bockstaele Department of Plant Production, FBW, UGent dr. ir. Jan De Riek Institute for Agricultural and Fisheries Research …
+J Van Slycken, FBW Dean, H Van Langenhove - vliz.be
+Discusses the complexity within the section Caninae, which includes *Rosa spinosissima*, attributing it to factors like polyploidy, hybridization, and unique chromosomal constitutions with two types of genomes.
+
+    Chromosomal Constitution: Addresses the unique chromosomal constitution and heterogamous canina meiosis in section Caninae, which combines two types of genomes and leads to predominant maternal inheritance.
+    Genome Description: Explains that the genetic constitution of section Caninae species can be described with two different genomes: diploidized bivalent-forming chromosomes and three maternally inherited univalent-forming 'passenger' genomes.
+
+Save Cite Related articles All 2 versions
+[PDF] wellcomeopenresearch.org
+The genome sequence of Rosa spinosissima L., 1753 (Rosales: Rosaceae)
+M Ruhsam, L Campos-Dominguez… - Wellcome Open …, 2026 - wellcomeopenresearch.org
+Indicates that *Rosa spinosissima* is a diploid species with a chromosome number of 2n = 14, which suggests it is not polyploid, therefore not autopolyploid or allopolyploid.
+
+    Cytological Evidence: Reports the estimated genome size (1C-value) using flow cytometry to be 1.06 pg, or 1040.00 Mb, which is a key piece of cytological evidence about the species.
+    Genome Assembly Provided: Presents a high-quality genome assembly with two haplotypes, providing a genomic resource for future studies on genome evolution in the *Rosa* genus that could address the species' polyploid origin if it were polyploid.
+
+Save Cite Related articles
+
+The phylogeny of Salix revealed by whole genome re-sequencing suggests different sex-determination systems in major groups of the genus
+S Gulyaev, XJ Cai, FY Guo, S Kikuchi… - Annals of …, 2022 - academic.oup.com
+Suggests that the polyploid group C5, which includes *Salix pentandra* (bay willow, section Pentandrae), might have arisen from allopolyploid offspring resulting from crosses between species from the *Salix* and *Vetrix* clades.
+
+    Phylogenetic Grouping: Notes that the inclusion of the mainly polyploid C5 group—which comprises representatives of section Pentandrae—makes the *Salix* sensu Argus group paraphyletic.
+    Hybrid Origin Supported: Explains that the conflict between nuclear and chloroplast tree data for the C5 subclade supports the hypothesis of a hybrid origin, which is further supported by admixture analysis of nuclear data.
+
+Save Cite Cited by 47 Related articles All 16 versions
+
+On the correlation of pollen grain size and ploidy levels of genus Galium sect. platygalium
+IA Schanzer, AA Elkordy - RUDN Journal of Agronomy and …, 2014 - agrojournal.rudn.ru
+Studies demonstrate that *Galium boreale* occurs as diploids (2n = 2x = 22), tetraploids (2n = 4x = 44), and hexaploids (2n = 6x = 66), confirming that it is polyploid.
+
+    Range of Polyploidy: Confirms that diploids, tetraploids, hexaploids, octa-ploids, deca-ploids, dodeca-ploids, and possibly higher polyploidy levels occur among the species of *Galium* section *Platygalium*.
+    Pollen Size Correlation: Found a positive correlation between pollen grain size and ploidy level in *Galium* section *Platygalium* species, including *G. boreale*.
+
+Save Cite Cited by 2 Related articles All 5 versions
+Phylogeny of the Rubiaceae-Rubioideae, in particular the tribe Rubieae: evidence from a non-coding chloroplast DNA sequence
+A Natali, JF Manen, F Ehrendorfer - Annals of the Missouri Botanical Garden, 1995 - JSTOR
+Indicates that *Galium boreale*, along with *G. septentrionale* and *G. rubioides*, are members of a polymorphic Northern Hemisphere polyploid complex.
+
+    Species Range: Discusses *Galium boreale* and *G. septentrionale* as polyploids that are likely conspecific and span Eurasia and North America.
+    Impact of Polyploidy: Notes that hybridization and polyploidy are frequent biological phenomena in Rubieae that can result in reticulate evolution, which is not fully resolved by chloroplast sequences.
+
+Save Cite Cited by 122 Related articles All 3 versions
+К вопросу о корреляции между размером пыльцевых зерен и плоидностью у Galium sect. platygalium
+IA Schanzer, AA Elkordy - RUDN Journal of Agronomy and Animal … - openrepository.ru
+Reports data for *Galium boreale* at multiple ploidy levels, including diploids (2n=2x=22), tetraploids (2n=4x=44), and hexaploids (2n=6x=66).
+
+    Confirmation of Polyploidy: Notes that *Galium boreale* exists as polyploids, specifically tetraploids and hexaploids.
+    Pollen Size Correlation: Establishes a positive correlation between pollen grain size and ploidy in *G. boreale* from diploids to hexaploids.
+
+Save Cite Related articles
+[PDF] d-nb.info
+Quick read
+[PDF] The DNA weights per nucleus (genome size) of more than 2350 species of the Flora of The Netherlands, of which 1370 are new to science, including the pattern …
+BJM Zonneveld - Forum geobotanicum, 2019 - d-nb.info
+Reports that *Galium boreale* has a 2C DNA weight of 3.46 pg and a chromosome number of 44, suggesting a polyploid level.
+
+    Indicates Multiple Ploidy Levels: Indicates that flow cytometry analysis of *Galium boreale* shows 2C and 4C DNA peaks, which is evidence of multiple ploidy levels within the plant or organ, commonly associated with polyploidy.
+    Explains Genome Size and Ploidy: Notes that *Galium* species generally have differences in DNA weights per nucleus between species, and the genome size measurement is used to determine ploidy in plants.
+
+Save Cite Cited by 91 Related articles All 10 versions
+[PDF] cyberleninka.ru
+К вопросу о корреляции между размером пыльцевых зерен и плоидностью у Galium sect. Platygalium
+ИА Шанцер, ЭАММ Абдельрахим - … дружбы народов. Серия …, 2014 - cyberleninka.ru
+Reports finding rare diploid (), tetraploid (), and hexaploid () forms of *G. boreale*, as well as representatives with higher ploidy (12x).
+
+    Pollen and Ploidy Correlation: Studies the correlation between pollen grain size and ploidy level in various *Galium* species, confirming the existence of diploid, tetraploid, and hexaploid individuals for *G. boreale*.
+    Ploidy Levels Confirmed: Establishes a statistically significant positive correlation between the mean pollen diameter and the level of ploidy, reporting measurements for *G. boreale* at diploid, tetraploid, and hexaploid levels.
+
+Save Cite Related articles All 5 versions
+[PDF] torreybotanical.org
+Noteworthy plants reported from the Torrey Range—2009 and 20101
+EE Lamont, SD Glenn, SM Young - The Journal of the Torrey Botanical …, 2011 - BioOne
+Indicates that the Eurasian taxon of *Galium boreale* is tetraploid and the American-Asiatic taxon is hexaploid.
+
+    Citing Cytological Studies: Cites later cytological studies that revealed the ploidy levels of the different geographic distributions of the species.
+    Geographic Distributions: Classifies *Galium boreale* as a circumboreal species with two distinct geographic distributions, Iceland to central Siberia, and central Asia through North America.
+
+Save Cite Cited by 7 Related articles All 7 versions
+Cytotaxonomic investigations on some species of the genus Galium (Rubiaceae) from the Balkans
+E Kliphuis - Nordic journal of botany, 1986 - Wiley Online Library
+Indicates that *Galium boreale* is part of a polyploid complex, which includes both tetraploid () and hexaploid () cytotypes.
+
+    Cytotype Distribution: Notes that both the tetraploid and hexaploid cytotypes of *Galium boreale* are found throughout Europe, but with a non-uniform distribution.
+    Geographical Range: Explains that the polyploid complex of *Galium boreale* has a widespread circumpolar distribution across the Northern Hemisphere.
+
+Save Cite Cited by 15 Related articles All 4 versions
+Noteworthy plants reported from the Torrey Range
+SM Young - Journal of the Torrey Botanical Society, 2011 - JSTOR
+Reports that cytological studies have shown that the Eurasian taxon of *Galium boreale* is tetraploid, while the American-Asiatic taxon is hexaploid.
+
+    Eurasian Taxon Ploidy: Indicates that the Eurasian taxon of *Galium boreale* has a tetraploid chromosome number.
+    American-Asiatic Ploidy: Notes that the American-Asiatic taxon of *Galium boreale* has a hexaploid chromosome number.
+
+Save Cite Related articles
+Cytotaxonomical studies on the northern bedstraw
+Á Löve, D Löve - American Midland Naturalist, 1954 - JSTOR
+Determines that *Galium boreale* (in its strict sense, the Eurasiatic taxon) is a tetraploid with chromosomes.
+
+    Hexaploid Chromosome Number: Identifies that the American-Asiatic species, previously considered part of the collective *Galium boreale*, is a hexaploid with chromosomes and is taxonomically recognized as *G. septentrionale*.
+    Polyploidy in Collective Species: Shows that the collective species *Galium boreale* encompasses two distinct species with different chromosome numbers, demonstrating polyploidy within the group.
+
+Save Cite Cited by 18 Related articles All 3 versions
+[PDF] naturalis.nl
+Cytotaxonomic notes on some Galium species Galium boreale L. I
+E Kliphuis - Mededelingen van het Botanisch Museum en …, 1973 - repository.naturalis.nl
+Found two levels of ploidy in European populations of *Galium boreale*, identifying tetraploids (2n=44) and hexaploids (2n=66).
+
+    Reproductive Barrier Exists: Documents unsuccessful crossing attempts between the tetraploid and hexaploid cytotypes, indicating a strong reproductive barrier.
+    Taxonomic Classification: Considers the two cytotypes (tetraploid and hexaploid) to belong to the same taxon despite morphological similarity and reproductive isolation.
+
+Save Cite Cited by 4 Related articles All 2 versions
+
+A preliminary account of the chromosomes and chromosome behaviour in the Salicaceae
+KB Blackburn, JWH Harrison - Annals of Botany, 1924 - JSTOR
+Reports that one form of *Salix triandra* (*Almond-leaved Willow*) from Bedfordshire gave a haploid chromosome count of nineteen, aligning it with *diploid Salix* species.
+
+    Modified Diploid S. triandra: Identifies a second type of *Salix triandra* with a reduced chromosome number of twenty-two, which is attributed to the fragmentation of one or more compound chromosomes in the diploid form.
+    Two Chromosome Numbers: Concludes that *Salix triandra* presented two forms: one with the normal reduced number of 19 and another with an unusual reduced number of 22, setting up a second orthoploid series for *Salix*.
+
+Save Cite Cited by 147 Related articles All 8 versions
+
+The Biology of Canadian Weeds. 140. Hesperis matronalis L.
+A Francis, PB Cavers, SI Warwick - Canadian Journal of Plant …, 2009 - cdnsciencepub.com
+Reports that the chromosome number for *Hesperis matronalis* is highly variable, with counts ranging from n=7, 8, 12, 14, 24, and 2n=14, 16, 24, 26, 28, indicating the presence of both diploid and polyploid populations.
+
+    Segmental Allotetraploid Origin: Notes that a detailed analysis of chromosome morphology and meiotic behavior suggested that *H. matronalis* is a segmental allotetraploid, with both bivalent and quadrivalent chromosomal associations observed.
+    Evidence of Multiple Genomes: Indicates that variability in chromosome length among specimens from different localities suggested the presence of multiple genomes and varying cytotypes in the species.
+
+Save Cite Cited by 25 Related articles All 5 versions
+Introduction to the general cytology of the Cruciferae
+I Manton - Annals of Botany, 1932 - JSTOR
+Indicates that Hesperis matronalis in cultivation is likely a tetraploid based on a fundamental number of 6, with its diploid number being 12 (derived from n=6), suggesting a 4x state.
+
+    Polyploid Origin Evidence: Suggests the tetraploid form of Hesperis matronalis was originally derived by aneuploid loss of a chromosome from a form with the more common haploid number of 7 (2n=14 for the diploid), providing a cytogenetic hypothesis for its origin.
+    Chromosome Number Correction: Notes that a previous record of a haploid number of 14 for H. matronalis was an error, likely due to misinterpreting a pair of very large chromosomes with median constrictions as four separate chromosomes, thus establishing the correct chromosome count for the material studied.
+
+Save Cite Cited by 347 Related articles All 7 versions
+[PDF] oup.com
+A time-calibrated road map of Brassicaceae species radiation and evolutionary history
+N Hohmann, EM Wolf, MA Lysak, MA Koch - The Plant Cell, 2015 - academic.oup.com
+Identifies Hesperis matronalis as a neopolyploid species with .
+
+    Genetic Evidence: Indicates that recent investigations did not detect a past mesopolyploidization event in the genome of *Hesperis matronalis*.
+    Cytogenetic Methods: Describes how flow cytometry was utilized to determine nuclear DNA content and genome size for species within the Brassicaceae, which includes the genus *Hesperis*.
+
+Save Cite Cited by 322 Related articles All 18 versions
+[PDF] nih.gov
+Monophyletic origin and evolution of the largest crucifer genomes
+T Mandáková, P Hlou¡ ková, DA German… - Plant …, 2017 - academic.oup.com
+Reports that the largest known genome in the Brassicaceae family belongs to *Hesperis matronalis* with an estimated size of 8 Gb and chromosome counts of 2n = 24 and 28.
+
+    Genome Size and Polyploidy: Indicates that increases in genome size within the Hesperis clade are usually not associated with neopolyploidy, although it does not specify if *H. matronalis* is an exception.
+    Cytogenetic and Genomic Evidence: Investigates genome evolution in the Hesperis clade, which includes *Hesperis matronalis*, using comparative chromosome painting and whole-chloroplast phylogenetics to reconstruct its ancestral genome.
+
+Save Cite Cited by 44 Related articles All 12 versions
+[PDF] jst.go.jp
+Polyploidy accompanied by structural alterations in the evolution of Hesperis matronalis L
+R Raina - Cytologia, 1987 - jstage.jst.go.jp
+Suggests the cytotype under study appears to be an autopolyploid based on morphology and meiotic details, although it does not explicitly state “autopolyploid” or “allopolyploid” in the snippets provided.
+
+    Meiotic Abnormalities Observed: Presents cytogenetic evidence, observing chromosome clumping and the formation of multivalents during male meiosis in microspore mother cells of *Hesperis matronalis*.
+    Chromosome Number (2n=24): Notes a chromosome count of 2n=24 in *H. matronalis*, which is in conformity with previous findings and consistent with a tetraploid status.
+
+Save Cite Cited by 6 Related articles All 8 versions
+[PDF] biorxiv.org
+The Dynamics of Long Terminal Repeat Proliferation in the Hesperis matronalis Genome
+JL Rifkin, SE Johnson, AE Weis, SL Wright, R Baucom - bioRxiv, 2026 - biorxiv.org
+Indicates that flow cytometry estimates for extit{Hesperis matronalis} populations were mostly consistent with tetraploid genomes, with a size range of 3.6-4.3 Gb, though one site appeared to be diploid.
+
+    Diploid Accession Assembly: Presents a new de novo assembly of a diploid accession of extit{Hesperis matronalis} to investigate the dynamics of a major LTR burst in the Brassicaceae.
+    Genome Duplication Timing: Suggests that the genome expansion in the extit{H. matronalis} lineage via LTR proliferation likely predated the genome duplication event.
+
+Save Cite Related articles
+
+A new species of Aria (Rosaceae) from the Wye Valley, Wales
+D Green - British & Irish Botany, 2024 - britishandirishbotany.org
+Indicates that *Aria wyensis* is tetraploid based on flow cytometry, differentiating it from the true diploid *Aria edulis* (2n=34).
+
+    Morphological Differences: Contrasts the morphology of the tetraploid *Aria wyensis* with the diploid *Aria edulis*, noting that *A. wyensis* has small, broadly obtrullate to oblanceolate leaves with few (5–7) pairs of lateral veins, while *A. edulis* typically has ovate to elliptic leaves with 9–14 pairs of veins.
+    Taxon Derivation: Suggests that the tetraploid *Aria wyensis*, which belongs to the *Aria porrigentiformis* group, is probably derived indirectly from a cross between the diploid *Aria edulis* and a member of the *A. porrigentiformis* group.
+
+Save Cite Cited by 3 Related articles All 3 versions
+[PDF] oup.com
+Quick read - nih.gov
+Cytotype diversity in the Sorbus complex (Rosaceae) in Britain: sorting out the puzzle
+J Pellicer, S Clermont, L Houston, TCG Rich… - Annals of …, 2012 - academic.oup.com
+Found four cytotypes (2x, 3x, 4x, and 5x) in the *Sorbus* complex, with diploids restricted to potential parental species and homoploid hybrids, which is essential for understanding ploidy levels in *Aria edulis* and related taxa.
+
+    Diploid *S. Aria* Definition: Notes that *Sorbus aria* is restricted to sexual diploid individuals according to the authors' species concept, suggesting that polyploid individuals collected as *S. aria* (which includes *Aria edulis*) are likely apomictic hybrids, addressing the consistency of *A. edulis* identification.
+    Triploid Misidentification: Explains that 14 specimens collected as *S. aria* were found to be triploid (3x) and not diploid (2x), indicating they are likely hybrids, which directly supports the possibility of misidentification and the presence of polyploid individuals under the name *A. edulis*.
+
+Save Cite Cited by 108 Related articles All 19 versions
+[PDF] wiley.com
+Quick read
+Pollen morphology of Norwegian hybrids of Sorbus
+HL Andersen, N Dhakal, HH Parsian… - Nordic Journal of …, 2024 - Wiley Online Library
+Studies the pollen morphology of 16 specimens from 13 species of *Sorbus* s. str., *Aria* and *Hedlundia*, including the diploid *Aria edulis* (2n) and several polyploid *Aria* and *Hedlundia* taxa, allowing for comparisons that may address the question of misidentification.
+
+    Ploidy and Pollen Size: Establishes a correlation between ploidy levels (diploid, triploid, and tetraploid) and the equatorial diameter (E) of the pollen grains, which is a key cytological and morphological distinction relevant to identifying tetraploid specimens like *A. wyensis* or other tetraploid relatives.
+    Taxa Differentiation by Pollen: Shows that *Aria* can be separated from *Sorbus* s. str. and *Hedlundia* based on the length of the polar axis (P) of the pollen grain, and notes that the two diploid species studied, *Aria edulis* and *Sorbus aucuparia*, have the largest P/E ratio, providing morphological data to distinguish these taxa.
+
+Save Cite Cited by 1 Related articles All 7 versions
+[PDF] oup.com
+When sexual meets apomict: genome size, ploidy level and reproductive mode variation of Sorbus aria sl and S. austriaca (Rosaceae) in Bosnia and Herzegovina
+A Hajrudinović, S Siljak-Yakovlev, SC Brown… - Annals of …, 2015 - academic.oup.com
+Studies the genus *Sorbus*, which is appropriate for examining the relationship between ploidy and reproductive mode variations, focusing on diploid *S. aria* and tetraploid apomictic *S. austriaca*.
+
+    Cytotype Taxonomy: Notes that *S. aria* individuals with different ploidy levels were treated as cytotype groups due to their complicated taxonomy, which may relate to the query about misidentification of *Aria edulis*.
+    Ploidy and Mating System: Confirms the presence of di-, tri-, and tetraploid cytotype mixtures in mixed-ploidy populations of *S. aria* and *S. austriaca*, with diploid *S. aria* being sexual and tetraploid *S. aria* being partially sexual, in contrast to obligate apomictic triploid *S. aria* and tetraploid *S. austriaca*.
+
+Save Cite Cited by 59 Related articles All 17 versions
+Sex and Rosaceae apomicts
+TA Dickinson - Taxon, 2018 - Wiley Online Library
+Reviews polyploidy and reproductive biology in the Rosaceae, focusing on hybridization, polyploidy, and gametophytic apomixis in the tribe Maleae, which includes *Aria* and *Sorbus*.
+
+    Taxonomic Relationship of Aria: Explains that *Sorbus* sensu lato is polyphyletic and supports its dismemberment into clades including *Aria* and *Sorbus* sensu stricto, with *Aria* comprising numerous polyploid species with gametophytic apomixis, and being involved in numerous bi- or tri-generic hybrids.
+    Aria Ploidy Variation: Mentions that the *Aria* complex contains diploids, allotriploids and -tetraploids, and at least two autotetraploid species, indicating ploidy variation within the genus relevant to the specific question about *Aria edulis* and related tetraploids.
+
+Save Cite Cited by 29 Related articles All 6 versions
+Revision of Sorbus subgenera Aria and Torminaria (Rosaceae-Maloideae)
+JJ Aldasoro, C Aedo, FM Garmendia… - Systematic Botany …, 2004 - JSTOR
+Reviews the complexity and taxonomic challenges of agamic complexes in the genus, which involve agamospermy and hybridization, potentially spawning numerous microspecies that complicate systematic resolution.
+
+    Pollen Sterility: Suggests that high pollen sterility is a common characteristic of some agamospermous plants, cautioning against its use as a reliable taxonomic character.
+    Polyploid Discrimination: Acknowledges the difficulty in discriminating between diploid and tetraploid plants morphologically, particularly within the challenging *Sorbus* section *Aria*.
+
+Save Cite Cited by 120 Related articles All 3 versions
+[PDF] researchgate.net
+Polyploidy, reproductive biology, and Rosaceae: understanding evolution and making classifications
+TA Dickinson, E Lo, N Talent - Plant systematics and evolution, 2007 - Springer
+Discusses that the subgenus *Aria* is taxonomically difficult, with *Sorbus aria* comprising diploids, triploids, and tetraploids, and placing individual polyploid microspecies (like *S. rupicola*) into synonymy with *S. aria*.
+
+    Taxonomic Distinction: Notes that the taxonomic treatment of subgenera *Aria* and *Torminalis* uses a phenetic species concept, distinguishing species based on multivariate analyses of micro- and macromorphological characters.
+    Polyploidy and Species Boundaries: Indicates that polyploidy is linked to hybridization and apomixis, which complicates species-level taxonomy and blurs the boundaries between species in large *Maloid* genera like *Aria* and *Sorbus*.
+
+Save Cite Cited by 195 Related articles All 15 versions
+[PDF] gfbs-home.de
+Floral scent and its correlation with AFLP data in Sorbus M. Feulner et al.
+M Feulner, S Pointner, L Heuss, G Aas, J Paule… - Organisms Diversity & …, 2014 - Springer
+Investigates the phytochemical differentiation in floral scent and correlates it with DNA-molecular-based differentiation (AFLP data) in the genus Sorbus, providing tools for taxonomic distinction.
+
+    Polyploid Hybrid Complexes: Notes that many taxa in the genus Sorbus are polyploids derived by hybridization and that scent analysis can be a valuable tool for parental species identification in such hybrid complexes.
+    Ploidy and Scent Substances: Shows that the average number of scent substances increases with ploidy level in Sorbus aria agg., with diploid S. aria s.str. having fewer compounds (49.3) than triploid (54.7) or tetraploid (56.8) relatives.
+
+Save Cite Cited by 22 Related articles All 12 versions
+[PDF] jcu.cz
+Taxonomy and variability of selected Sorbus taxa
+M Lepší - 2017 - dspace.jcu.cz
+Indicates that biosystematic methods, including chromosome counting, flow cytometry, and morphological analysis, were used to assess the variability and phylogeny of selected *Sorbus* taxa, which is essential for distinguishing between closely related species and ploidy levels like the diploid/tetraploid question concerning *Aria edulis* and *Aria wyensis*.
+
+    Focus on *Sorbus* Taxonomy: Reports that the study focuses on the taxonomy and variability of selected *Sorbus* taxa, particularly the taxonomically complicated subgenus *Aria*, the group to which *A. edulis* and *A. wyensis* belong.
+    Need for Modern Classification: Mentions that the use of modern biosystematic methods is necessary for a more objective classification of intra-generic variation within the genus *Sorbus*.
+
+Save Cite Cited by 1 Related articles All 3 versions
+[PDF] journal.fi
+A phylogenetic checklist of Sorbus sl (Rosaceae) in Europe
+AN Sennikov, A Kurtto - Memoranda Societatis pro Fauna et Flora Fennica, 2017 - journal.fi
+Establishes that chromosome counts, along with DNA ploidy levels based on flow cytometry, are highly valuable and commonly used in modern taxonomic studies of *Sorbus* sensu lato (which includes *Aria*) for refining species limits and understanding relationships.
+
+    Taxa Including Aria edulis: Mentions *Aria edulis* and indicates that some recently described taxa are hybrids involving *A. edulis* (e.g., a hybrid with *Sorbus aucuparia*), confirming the taxon is part of the complex addressed by the checklist.
+    Classification of Aria: Confirms that the new classification accepts five non-hybrid genera, including *Aria*, based on the latest phylogenetic studies and evolutionary lineages, which is relevant to distinguishing taxa like *A. edulis* and potential relatives.
+
+Save Cite Cited by 120 Related articles All 9 versions 
