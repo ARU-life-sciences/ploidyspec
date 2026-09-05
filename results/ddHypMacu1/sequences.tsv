@@ -1,33 +1,33 @@
 unit_id	hap	chrom	seq_id	length	source	desc
-HAP1_chr01	HAP1	1	SUPER_1_HAP1	53004963	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap1.1.primary.fa.gz	
-HAP1_chr02	HAP1	2	SUPER_2_HAP1	44529523	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap1.1.primary.fa.gz	
-HAP1_chr03	HAP1	3	SUPER_3_HAP1	43844198	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap1.1.primary.fa.gz	
-HAP1_chr04	HAP1	4	SUPER_4_HAP1	39382601	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap1.1.primary.fa.gz	
-HAP1_chr05	HAP1	5	SUPER_5_HAP1	38971517	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap1.1.primary.fa.gz	
-HAP1_chr06	HAP1	6	SUPER_6_HAP1	37451450	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap1.1.primary.fa.gz	
-HAP1_chr07	HAP1	7	SUPER_7_HAP1	38734054	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap1.1.primary.fa.gz	
-HAP1_chr08	HAP1	8	SUPER_8_HAP1	37475877	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap1.1.primary.fa.gz	
-HAP2_chr01	HAP2	1	SUPER_1_HAP2	36393182	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap2.1.primary.fa.gz	
-HAP2_chr02	HAP2	2	SUPER_2_HAP2	34086453	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap2.1.primary.fa.gz	
-HAP2_chr03	HAP2	3	SUPER_3_HAP2	59303237	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap2.1.primary.fa.gz	
-HAP2_chr04	HAP2	4	SUPER_4_HAP2	41196909	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap2.1.primary.fa.gz	
-HAP2_chr05	HAP2	5	SUPER_5_HAP2	39539675	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap2.1.primary.fa.gz	
-HAP2_chr06	HAP2	6	SUPER_6_HAP2	34875493	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap2.1.primary.fa.gz	
-HAP2_chr07	HAP2	7	SUPER_7_HAP2	36814583	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap2.1.primary.fa.gz	
-HAP2_chr08	HAP2	8	SUPER_8_HAP2	39699215	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap2.1.primary.fa.gz	
-HAP3_chr01	HAP3	1	SUPER_1_HAP3	35368707	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap3.1.primary.fa.gz	
-HAP3_chr02	HAP3	2	SUPER_2_HAP3	34880503	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap3.1.primary.fa.gz	
-HAP3_chr03	HAP3	3	SUPER_3_HAP3	52576118	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap3.1.primary.fa.gz	
-HAP3_chr04	HAP3	4	SUPER_4_HAP3	40694239	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap3.1.primary.fa.gz	
-HAP3_chr05	HAP3	5	SUPER_5_HAP3	38696356	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap3.1.primary.fa.gz	
-HAP3_chr06	HAP3	6	SUPER_6_HAP3	36524631	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap3.1.primary.fa.gz	
-HAP3_chr07	HAP3	7	SUPER_7_HAP3	38058465	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap3.1.primary.fa.gz	
-HAP3_chr08	HAP3	8	SUPER_8_HAP3	38962106	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap3.1.primary.fa.gz	
-HAP4_chr01	HAP4	1	SUPER_1_HAP4	37269448	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap4.1.primary.fa.gz	
-HAP4_chr02	HAP4	2	SUPER_2_HAP4	35364613	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap4.1.primary.fa.gz	
-HAP4_chr03	HAP4	3	SUPER_3_HAP4	64949758	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap4.1.primary.fa.gz	
-HAP4_chr04	HAP4	4	SUPER_4_HAP4	38988092	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap4.1.primary.fa.gz	
-HAP4_chr05	HAP4	5	SUPER_5_HAP4	36714412	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap4.1.primary.fa.gz	
-HAP4_chr06	HAP4	6	SUPER_6_HAP4	33208710	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap4.1.primary.fa.gz	
-HAP4_chr07	HAP4	7	SUPER_7_HAP4	24089980	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap4.1.primary.fa.gz	
-HAP4_chr08	HAP4	8	SUPER_8_HAP4	35477491	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHypMacu1/ddHypMacu1.hap4.1.primary.fa.gz	
+HAP1_chr01	HAP1	1	OZ485676.1	53004963	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264625.1/insdc/GCA_986264625.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 1
+HAP1_chr02	HAP1	2	OZ485677.1	44529523	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264625.1/insdc/GCA_986264625.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 2
+HAP1_chr03	HAP1	3	OZ485678.1	43844198	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264625.1/insdc/GCA_986264625.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 3
+HAP1_chr04	HAP1	4	OZ485679.1	39382601	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264625.1/insdc/GCA_986264625.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 4
+HAP1_chr05	HAP1	5	OZ485680.1	38971517	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264625.1/insdc/GCA_986264625.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 5
+HAP1_chr06	HAP1	6	OZ485681.1	37451450	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264625.1/insdc/GCA_986264625.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 6
+HAP1_chr07	HAP1	7	OZ485682.1	38734054	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264625.1/insdc/GCA_986264625.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 7
+HAP1_chr08	HAP1	8	OZ485683.1	37475877	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264625.1/insdc/GCA_986264625.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 8
+HAP2_chr01	HAP2	1	OZ485647.1	36393182	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264605.1/insdc/GCA_986264605.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 1
+HAP2_chr02	HAP2	2	OZ485648.1	34086453	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264605.1/insdc/GCA_986264605.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 2
+HAP2_chr03	HAP2	3	OZ485649.1	59303237	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264605.1/insdc/GCA_986264605.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 3
+HAP2_chr04	HAP2	4	OZ485650.1	41196909	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264605.1/insdc/GCA_986264605.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 4
+HAP2_chr05	HAP2	5	OZ485651.1	39539675	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264605.1/insdc/GCA_986264605.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 5
+HAP2_chr06	HAP2	6	OZ485652.1	34875493	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264605.1/insdc/GCA_986264605.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 6
+HAP2_chr07	HAP2	7	OZ485653.1	36814583	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264605.1/insdc/GCA_986264605.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 7
+HAP2_chr08	HAP2	8	OZ485654.1	39699215	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264605.1/insdc/GCA_986264605.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 8
+HAP3_chr01	HAP3	1	OZ485666.1	35368707	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264615.1/insdc/GCA_986264615.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 1
+HAP3_chr02	HAP3	2	OZ485667.1	34880503	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264615.1/insdc/GCA_986264615.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 2
+HAP3_chr03	HAP3	3	OZ485668.1	52576118	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264615.1/insdc/GCA_986264615.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 3
+HAP3_chr04	HAP3	4	OZ485669.1	40694239	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264615.1/insdc/GCA_986264615.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 4
+HAP3_chr05	HAP3	5	OZ485670.1	38696356	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264615.1/insdc/GCA_986264615.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 5
+HAP3_chr06	HAP3	6	OZ485671.1	36524631	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264615.1/insdc/GCA_986264615.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 6
+HAP3_chr07	HAP3	7	OZ485672.1	38058465	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264615.1/insdc/GCA_986264615.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 7
+HAP3_chr08	HAP3	8	OZ485673.1	38962106	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264615.1/insdc/GCA_986264615.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 8
+HAP4_chr01	HAP4	1	OZ485695.1	37269448	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264645.1/insdc/GCA_986264645.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 1
+HAP4_chr02	HAP4	2	OZ485696.1	35364613	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264645.1/insdc/GCA_986264645.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 2
+HAP4_chr03	HAP4	3	OZ485697.1	64949758	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264645.1/insdc/GCA_986264645.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 3
+HAP4_chr04	HAP4	4	OZ485698.1	38988092	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264645.1/insdc/GCA_986264645.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 4
+HAP4_chr05	HAP4	5	OZ485699.1	36714412	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264645.1/insdc/GCA_986264645.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 5
+HAP4_chr06	HAP4	6	OZ485700.1	33208710	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264645.1/insdc/GCA_986264645.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 6
+HAP4_chr07	HAP4	7	OZ485701.1	24089980	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264645.1/insdc/GCA_986264645.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 7
+HAP4_chr08	HAP4	8	OZ485702.1	35477491	/lustre/scratch122/tol/data/f/3/f/3/4/3/Hypericum_maculatum/assembly/release/GCA_986264645.1/insdc/GCA_986264645.1.fa.gz	Hypericum maculatum genome assembly, chromosome: 8

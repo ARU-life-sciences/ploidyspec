@@ -372,6 +372,62 @@ phylogenomic) evidence.
   convergent repeat content (e.g. shared satellite DNA). A real,
   non-artifact, localized block of similarity could still be either.
 
+## 2026-09 Darwin assembly batch
+
+A batch of 15 species with new/updated Darwin Tree of Life `hap1`/`hap2`(+)
+assemblies was run through `all` (+ `homeologs`/`windowed-homeologs`) in
+early September 2026: 4 already in the panel with newer assembly versions
+(`dcCerAlpi1`, `ddHypMacu1`, `drLytSali1`, `lpElePalu1`) and 11 new species
+(`daSenVulg1`, `drSorDevo1`, `drMyrSpic1`, `drMyrVert1`, `daPilAura1`,
+`ddLepDrab1`, `ddHesMatr1`, `ddSalTria1`, `drSorDevo1`, `dmRanRepe1`,
+`daLatClan1`). `drSorAngl1` was excluded — only `hap1` exists for it
+anywhere on the farm, so it can't be run. All 14 runnable species are now
+complete and verified (`matrix/ploidy_summary.tsv` +
+`homeologs/homeolog_pairs.tsv` populated, LSF "Successfully completed").
+`ddHesMatr1` (tetraploid, 6 chromosomes) needed three resubmissions at
+increasing memory (16GB → 28GB → 40GB) to clear `TERM_MEMLIMIT` during
+k-mer table building — its actual peak usage tracked each new ceiling
+closely (18.6GB, then 28.16GB) before finally completing under 40GB,
+which may reflect this species' genuine k-mer/repeat-content memory
+footprint rather than a fluke. **`te-markers` has not been (re-)run on
+any of these 15's new assemblies** — it's a separate, expensive stage not
+included in `all`. The `te_frac` values already in the table for the 4
+re-run species are carried over from their *previous* (pre-Darwin-batch)
+assembly and are marked stale below; treat them as historical context only,
+not as measurements of the new assembly.
+
+The batch splits into three readable groups:
+
+- **`dcCerAlpi1` and `dmRanRepe1` reconfirm/add clean, complete
+  no-homeolog results** — `dcCerAlpi1` 0/36 chromosomes paired (same as the
+  prior assembly), `dmRanRepe1` 0/16 — the strongest candidates in the
+  panel for a genuine diploid/no-WGD data point, which is exactly what
+  [[project_autoallo_calibration_gap]] flagged as missing. Neither's
+  literature ploidy status has been checked yet, so these are data-only
+  observations, not confirmed calibration anchors.
+- **Near-fully-resolved ancient pairing** (most or all chromosomes find a
+  partner): `drSorDevo1` (34/34, full), `drMyrVert1` (14/14, full),
+  `daPilAura1` (18/18, full, tight/consistent divergence 0.031–0.044 —
+  single-age WGD signature), `ddLepDrab1` (16/16, full, tetraploid —
+  cleanly resolves into 8 chromosome pairs), `lpElePalu1` (18/19, unchanged
+  from prior assembly), `drLytSali1` (10/15, unchanged from prior
+  assembly), `daLatClan1` (18/21), `drMyrSpic1` (16/21), `daSenVulg1`
+  (16/20).
+- **Sparse pairing** (most chromosome copies look interchangeable rather
+  than distinctly diverged): `ddHypMacu1` (2/8, unchanged in count from the
+  prior assembly), `ddSalTria1` (4/19, triploid), `ddHesMatr1` (2/6,
+  tetraploid — only `chr01↔chr02` accepted out of 6 chromosomes, the
+  species that needed 40GB to complete), `drLytSali1` also qualifies here
+  relative to its ploidy level (only 10/15 vs. `ddLepDrab1`'s full 16/16 at
+  the same 4-copy ploidy).
+
+All four re-run species reproduced the same accepted-pair *count* as their
+prior-assembly runs (`dcCerAlpi1` 0/36, `ddHypMacu1` 2/8, `lpElePalu1`
+18/19, `drLytSali1` 10/15) — a useful stability check, though pair
+*identity* wasn't cross-checked chromosome-by-chromosome against the old
+runs (the old `results/` output was overwritten in place before this
+comparison was made).
+
 ## Species summary
 
 Every species run through the pipeline so far. `copies` = distinct
@@ -389,28 +445,38 @@ treat those as provisional.
 | `daGalBore1` (*Galium boreale*) | 4 | 4/11 | 0.129 | unresolved *(lit: ploidy confirmed, origin not addressed)* |
 | `daEupConf1` (*Euphrasia confusa*) | 1 | 22/22 | – | **allo** *(lit, pre-existing annotation)*; only 1 usable haplotype but strong ancient-pairing signal within it |
 | `daInuConz1` (*Inula conycafé*) | 2 | 0/16 | 0.017 | diploid-looking, low te signal; not independently literature-checked |
+| `daLatClan1` | 2 | 18/21 | – *(not yet run)* | near-fully-resolved ancient pairing; data-only, not literature-checked. 2026-09 Darwin batch. |
 | `daLatSqua1` (*Lathraea squamaria*) | 2 | 16/18 | 0.320 | strong ancient-pairing + high te_frac — allo-leaning; wide `distance_ratio` spread (20×), candidate asynchronous resolution, not yet artifact-checked pair-by-pair |
+| `daPilAura1` | 2 | 18/18 (full) | – *(not yet run)* | fully-resolved ancient pairing, all 18 chromosomes paired into 9 pairs, tight/consistent divergence (0.031–0.044) — consistent single-age WGD signature; data-only, not literature-checked. 2026-09 Darwin batch. |
+| `daSenVulg1` | 2 | 16/20 | – *(not yet run)* | near-fully-resolved ancient pairing, uniform divergence (~0.06–0.07 across all 8 pairs) — consistent single-age WGD signature; data-only, not literature-checked. 2026-09 Darwin batch. |
 | `daSonOler1` (*Sonchus oleraceus*) | 2 | 0/16 | 0.039 | diploid-looking, low te signal |
-| `dcCerAlpi1` (*Cerastium alpinum*) | 2 | 0/36 | 0.198 | moderate te signal despite no accepted ancient pairs — worth a closer look |
+| `dcCerAlpi1` (*Cerastium alpinum*) | 2 | 0/36 | 0.198 *(stale, prior assembly)* | moderate te signal despite no accepted ancient pairs — worth a closer look; reconfirmed 0/36 on 2026-09 Darwin reassembly, see batch note above |
 | `dcHonPepl1` (*Honckenya peploides*) | 2 | 0/34 | 0.028 | mostly diploid-looking; some tetraploid-like clusters noted visually earlier, not yet reconciled with this low te value |
 | `ddAraThal4` (*Arabidopsis thaliana*) | 1 | 0/5 | – | **true diploid** *(lit, confirmed)* — panel's diploid anchor |
 | `ddEmpNigr1` (*Empetrum nigrum*) | 4 | 2/13 | 0.239 | **auto** *(lit)*, but te_frac sits at/above the confirmed-allo range — unresolved tension, flagged in `meta/literature_ploidy.tsv` |
-| `ddHypMacu1` (*Hypericum maculatum*) | 4 | 2/8 | 0.291 (corrected; raw 0.445 was assembly-quality-inflated) | **auto** *(lit)*; corrected te_frac still elevated vs. confirmed autos — same tension as above |
+| `ddHesMatr1` | 4 (tetraploid) | 2/6 | – *(not yet run)* | sparse pairing — only `chr01↔chr02` accepted out of 6 chromosomes; needed three resubmissions (16GB→28GB→40GB) to clear `TERM_MEMLIMIT` during k-mer table building, peak usage tracked each ceiling closely, possibly a genuine high-memory-footprint species; data-only, not literature-checked. 2026-09 Darwin batch. |
+| `ddHypMacu1` (*Hypericum maculatum*) | 4 | 2/8 | 0.291 (corrected; raw 0.445 was assembly-quality-inflated) *(stale, prior assembly)* | **auto** *(lit)*; corrected te_frac still elevated vs. confirmed autos — same tension as above; reconfirmed 2/8 (chr01↔chr03) on 2026-09 Darwin reassembly, see batch note above |
 | `ddHypPerf1` (*H. perforatum*) | 4 | 0/8 | 0.408 | contested in the literature (both auto and allo hypotheses actively cited); high te_frac leans allo but unconfirmed |
+| `ddLepDrab1` | 4 | 16/16 (full) | – *(not yet run)* | cleanest allotetraploid-like structure seen in the panel — all 16 chromosomes resolve into 8 pairs; data-only, not literature-checked. 2026-09 Darwin batch. |
 | `ddMalSylv1` (*Malus sylvestris*) | 2 | 0/21 | 0.135 | diploid *(lit)* — "a dead diploid" per visual inspection |
 | `ddPopNigr1` (*Populus nigra*) | 1 | 0/19 | – | diploid-looking (alt haplotype too fragmentary) |
 | `ddSalCine1` (*Salix cinerea*) | 1 | 0/18 | – | diploid-looking (alt haplotype too fragmentary) |
 | `ddSalPent1` (*Salix pentandra*) | 2 | 38/38 | 0.200 | strong, complete ancient-pairing signal — allo-leaning, not literature-checked |
+| `ddSalTria1` | 3 (triploid) | 4/19 | – *(not yet run)* | sparse pairing — most chromosome copies look interchangeable rather than distinctly diverged, consistent with a fairly homogeneous triploid rather than three diverged subgenomes; data-only, not literature-checked. 2026-09 Darwin batch. |
+| `dmRanRepe1` | 2 | 0/16 | – *(not yet run)* | clean, complete no-homeolog result — no chromosome pair shows significant divergence signal, same pattern as `dcCerAlpi1`; candidate diploid/no-WGD data point, see batch note above. 2026-09 Darwin batch. |
 | `drAriEdul1` (*Aria edulis*) | 4 | 16/17 | 0.219/0.209 (no inflation found) | ambiguous per *A. edulis* diploid literature; allo-consistent if sample is actually the tetraploid relative *A. wyensis*. `chr01` lineage split (4.66×) passes both artifact checks and manual digging — `HAP4` (a clean assembly) sits 2.2–4.7× further from `HAP1`/`HAP2`/`HAP3` than they do from each other, with a specific ~13Mb breakpoint; strongest surviving real-signal candidate in the panel, unconfirmed |
 | `drIngLaur1` (*Inga laurina*) | 1 | 0/13 | – | diploid-looking |
-| `drLytSali1` (*Lythrum salicaria*) | 4 | 10/15 | 0.307 | **auto** *(lit)*, but high te_frac and substantial ancient-pairing signal both lean allo — worth revisiting given the fusion-mimics-dominance caveat above |
+| `drLytSali1` (*Lythrum salicaria*) | 4 | 10/15 | 0.307 *(stale, prior assembly)* | **auto** *(lit)*, but high te_frac and substantial ancient-pairing signal both lean allo — worth revisiting given the fusion-mimics-dominance caveat above; reconfirmed 10/15 on 2026-09 Darwin reassembly, see batch note above |
+| `drMyrSpic1` | 2 | 16/21 | – *(not yet run)* | near-fully-resolved ancient pairing (7 tight pairs, distance 0.057–0.061, + 1 much weaker pair at 0.128) — bimodal divergence hints at two duplication events or a recent rearrangement on an older WGD; data-only, not literature-checked. 2026-09 Darwin batch. |
+| `drMyrVert1` | 2 | 14/14 (full) | – *(not yet run)* | fully-resolved ancient pairing, all 14 chromosomes paired; data-only, not literature-checked. 2026-09 Darwin batch. |
 | `drRosSpin1` (*Rosa spinosissima*) | 2 | 14/14 | 0.122 | complete ancient-pairing signal, moderate te_frac — allo-leaning, not literature-checked |
+| `drSorDevo1` | 2 | 34/34 (full) | – *(not yet run)* | fully-resolved ancient pairing, all 34 chromosomes paired into 17 pairs — strongest complete-pairing signal in the panel; data-only, not literature-checked. 2026-09 Darwin batch. |
 | `drTriDubi3` (*Trifolium dubium*) | 1 | 14/15 | – | strong ancient-pairing despite single usable haplotype |
 | `drTriRepe1` (*T. repens*, white clover) | 2 | 16/16 | 0.169 | **suspected allo** *(lit)* — tight, uniform `distance_ratio` (1.1× spread), consistent with one clean, synchronized event like `daGleHede1` |
 | `drUrtDioi1` (*Urtica dioica*) | 1 | 0/13 | – | diploid-looking |
 | `laPotCris1/Luce1/Nata1/Nodo1/Perf1` (*Potamogeton*, 5 spp.) | 2 | 24–26 (near-complete) | 0.25–0.36 | allo-leaning across the genus (high te_frac, near-complete ancient pairing); heterogeneous `distance_ratio` within each species (1.6–5×) — candidates for mosaic resolution, matches earlier visual read of mixed diploid/tetraploid-like blocks in the heatmaps |
 | `llColAutu1` (*Colchicum autumnale*) | 2 | 48/51 | 0.050 | near-complete ancient pairing but low te_frac — inconsistent pair, worth a second look; widest `distance_ratio` spread in the panel (37×), strong asynchronous-resolution candidate |
-| `lpElePalu1` (*Eleocharis palustris*) | 2 | 18/19 | 0.083 | holocentric chromosomes, documented agmatoploidy/symploidy (fission/fusion) in the genus — many pairs sit at `distance_ratio` ≈1, plausibly real biology rather than unresolved WGD signal; see prior deep-dive |
+| `lpElePalu1` (*Eleocharis palustris*) | 2 | 18/19 | 0.083 *(stale, prior assembly)* | holocentric chromosomes, documented agmatoploidy/symploidy (fission/fusion) in the genus — many pairs sit at `distance_ratio` ≈1, plausibly real biology rather than unresolved WGD signal; see prior deep-dive; reconfirmed 18/19 on 2026-09 Darwin reassembly, see batch note above |
 | `lpTriTurg1_A` / `_B` (wheat, A/B subgenomes) | 2 | 0 | 0.012–0.015 (within-subgenome) | **allo** *(confirmed)* — structurally-guaranteed low within-subgenome baseline |
 | `lpTriTurg1_AB` (wheat, A×B cross-subgenome) | – | – | ~0.42 | **allo** *(confirmed)* — cross-subgenome anchor, the panel's other primary calibration point alongside `daGleHede1` |
 | `SchCurv1` (*Schizothorax curvilabiatus*) | 2, 4 | 1/25 (real) | 0.209 genome-wide, but 0.11 within-lineage vs 0.59 cross-lineage at `chr19` | **auto** *(confirmed, Xie et al. 2026)* — 1 ancestral fusion (`chr19+22`), sequence-level ancient signal mostly lost; genome-wide te_frac mean looks allo-like but that's the wrong resolution — see lineage-split analysis above |

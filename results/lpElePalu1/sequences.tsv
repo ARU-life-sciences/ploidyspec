@@ -1,39 +1,39 @@
 unit_id	hap	chrom	seq_id	length	source	desc
-HAP1_chr01	HAP1	1	SUPER_1_HAP1	457923285	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr02	HAP1	2	SUPER_2_HAP1	432045237	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr03	HAP1	3	SUPER_3_HAP1	375885073	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr04	HAP1	4	SUPER_4_HAP1	288742780	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr05	HAP1	5	SUPER_5_HAP1	284625426	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr06	HAP1	6	SUPER_6_HAP1	284400941	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr07	HAP1	7	SUPER_7_HAP1	282790445	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr08	HAP1	8	SUPER_8_HAP1	270442014	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr09	HAP1	9	SUPER_9_HAP1	196275110	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr10	HAP1	10	SUPER_10_HAP1	193386763	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr11	HAP1	11	SUPER_11_HAP1	186564966	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr12	HAP1	12	SUPER_12_HAP1	179980472	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr13	HAP1	13	SUPER_13_HAP1	169497964	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr14	HAP1	14	SUPER_14_HAP1	167349069	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr15	HAP1	15	SUPER_15_HAP1	161446425	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr16	HAP1	16	SUPER_16_HAP1	154863976	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr17	HAP1	17	SUPER_17_HAP1	153221000	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr18	HAP1	18	SUPER_18_HAP1	152520409	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP1_chr19	HAP1	19	SUPER_19_HAP1	148654117	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap1.1.primary.fa.gz	
-HAP2_chr01	HAP2	1	SUPER_1_HAP2	456565913	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr02	HAP2	2	SUPER_2_HAP2	432102743	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr03	HAP2	3	SUPER_3_HAP2	377662613	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr04	HAP2	4	SUPER_4_HAP2	291004057	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr05	HAP2	5	SUPER_5_HAP2	284804475	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr06	HAP2	6	SUPER_6_HAP2	280783746	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr07	HAP2	7	SUPER_7_HAP2	273272020	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr08	HAP2	8	SUPER_8_HAP2	279830815	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr09	HAP2	9	SUPER_9_HAP2	194993591	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr10	HAP2	10	SUPER_10_HAP2	196381468	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr11	HAP2	11	SUPER_11_HAP2	188866065	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr12	HAP2	12	SUPER_12_HAP2	176018798	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr13	HAP2	13	SUPER_13_HAP2	150406108	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr14	HAP2	14	SUPER_14_HAP2	162313259	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr15	HAP2	15	SUPER_15_HAP2	180306137	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr16	HAP2	16	SUPER_16_HAP2	159781184	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr17	HAP2	17	SUPER_17_HAP2	169591702	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr18	HAP2	18	SUPER_18_HAP2	158762831	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
-HAP2_chr19	HAP2	19	SUPER_19_HAP2	152536172	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/lpElePalu1/lpElePalu1.hap2.1.primary.fa.gz	
+HAP1_chr01	HAP1	1	OZ485876.1	457923285	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 1
+HAP1_chr02	HAP1	2	OZ485877.1	432045237	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 2
+HAP1_chr03	HAP1	3	OZ485878.1	375885073	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 3
+HAP1_chr04	HAP1	4	OZ485879.1	288742780	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 4
+HAP1_chr05	HAP1	5	OZ485880.1	284625426	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 5
+HAP1_chr06	HAP1	6	OZ485881.1	284400941	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 6
+HAP1_chr07	HAP1	7	OZ485882.1	282790445	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 7
+HAP1_chr08	HAP1	8	OZ485883.1	270442014	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 8
+HAP1_chr09	HAP1	9	OZ485884.1	196275110	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 9
+HAP1_chr10	HAP1	10	OZ485885.1	193386763	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 10
+HAP1_chr11	HAP1	11	OZ485886.1	186564966	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 11
+HAP1_chr12	HAP1	12	OZ485887.1	179980472	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 12
+HAP1_chr13	HAP1	13	OZ485888.1	169497964	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 13
+HAP1_chr14	HAP1	14	OZ485889.1	167349069	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 14
+HAP1_chr15	HAP1	15	OZ485890.1	161446425	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 15
+HAP1_chr16	HAP1	16	OZ485891.1	154863976	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 16
+HAP1_chr17	HAP1	17	OZ485892.1	153221000	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 17
+HAP1_chr18	HAP1	18	OZ485893.1	152520409	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 18
+HAP1_chr19	HAP1	19	OZ485894.1	148654117	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	Eleocharis palustris genome assembly, chromosome: 19
+HAP2_chr01	HAP2	1	CFRUDF010000001.1	456565913	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_1_HAP2, whole genome shotgun sequence
+HAP2_chr02	HAP2	2	CFRUDF010000002.1	432102743	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_2_HAP2, whole genome shotgun sequence
+HAP2_chr03	HAP2	3	CFRUDF010000004.1	377662613	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_3_HAP2, whole genome shotgun sequence
+HAP2_chr04	HAP2	4	CFRUDF010000005.1	291004057	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_4_HAP2, whole genome shotgun sequence
+HAP2_chr05	HAP2	5	CFRUDF010000006.1	284804475	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_5_HAP2, whole genome shotgun sequence
+HAP2_chr06	HAP2	6	CFRUDF010000007.1	280783746	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_6_HAP2, whole genome shotgun sequence
+HAP2_chr07	HAP2	7	CFRUDF010000008.1	273272020	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_7_HAP2, whole genome shotgun sequence
+HAP2_chr08	HAP2	8	CFRUDF010000009.1	279830815	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_8_HAP2, whole genome shotgun sequence
+HAP2_chr09	HAP2	9	CFRUDF010000010.1	194993591	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_9_HAP2, whole genome shotgun sequence
+HAP2_chr10	HAP2	10	CFRUDF010000011.1	196381468	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_10_HAP2, whole genome shotgun sequence
+HAP2_chr11	HAP2	11	CFRUDF010000012.1	188866065	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_11_HAP2, whole genome shotgun sequence
+HAP2_chr12	HAP2	12	CFRUDF010000013.1	176018798	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_12_HAP2, whole genome shotgun sequence
+HAP2_chr13	HAP2	13	CFRUDF010000014.1	150406108	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_13_HAP2, whole genome shotgun sequence
+HAP2_chr14	HAP2	14	CFRUDF010000015.1	162313259	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_14_HAP2, whole genome shotgun sequence
+HAP2_chr15	HAP2	15	CFRUDF010000017.1	180306137	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_15_HAP2, whole genome shotgun sequence
+HAP2_chr16	HAP2	16	CFRUDF010000018.1	159781184	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_16_HAP2, whole genome shotgun sequence
+HAP2_chr17	HAP2	17	CFRUDF010000019.1	169591702	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_17_HAP2, whole genome shotgun sequence
+HAP2_chr18	HAP2	18	CFRUDF010000020.1	158762831	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_18_HAP2, whole genome shotgun sequence
+HAP2_chr19	HAP2	19	CFRUDF010000021.1	152536172	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	Eleocharis palustris genome assembly, contig: SUPER_19_HAP2, whole genome shotgun sequence

@@ -1,0 +1,10 @@
+chrom_a	chrom_b	mean_distance	z_score	p_value	q_value	n_haplotype_copy_pairs	resolution_limited	n_resolution_limited_of_total
+chr03	chr04	0.085464	-5.918	1.63418e-09	3.43177e-07	4	False	0/4
+chr09	chr16	0.088639	-5.105	1.65466e-07	1.15826e-05	4	False	0/4
+chr06	chr07	0.089789	-4.811	7.52496e-07	3.9506e-05	4	False	0/4
+chr02	chr19	0.091348	-4.412	5.13048e-06	0.000179567	4	False	0/4
+chr12	chr21	0.092756	-4.051	2.54833e-05	0.000764499	4	False	0/4
+chr01	chr11	0.094318	-3.651	0.000130435	0.00342391	4	False	0/4
+chr05	chr17	0.094972	-3.484	0.000246858	0.00546349	4	False	0/4
+chr15	chr18	0.095026	-3.470	0.000260166	0.00546349	4	False	0/4
+chr08	chr20	0.096034	-3.212	0.000658932	0.0125796	4	False	0/4

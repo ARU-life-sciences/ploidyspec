@@ -1,0 +1,33 @@
+unit_id	hap	chrom	seq_id	length	source	desc
+HAP1_chr01	HAP1	1	OZ492089.1	693706416	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 1
+HAP1_chr02	HAP1	2	OZ492090.1	622365147	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 2
+HAP1_chr03	HAP1	3	OZ492091.1	608505155	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 3
+HAP1_chr04	HAP1	4	OZ492092.1	603228070	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 4
+HAP1_chr05	HAP1	5	OZ492093.1	587349828	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 5
+HAP1_chr06	HAP1	6	OZ492094.1	567927559	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 6
+HAP1_chr07	HAP1	7	OZ492095.1	526510233	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 7
+HAP1_chr08	HAP1	8	OZ492096.1	516443859	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 8
+HAP1_chr09	HAP1	9	OZ492097.1	512171579	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 9
+HAP1_chr10	HAP1	10	OZ492098.1	502837447	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 10
+HAP1_chr11	HAP1	11	OZ492099.1	491461453	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 11
+HAP1_chr12	HAP1	12	OZ492100.1	481170445	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 12
+HAP1_chr13	HAP1	13	OZ492101.1	479452096	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 13
+HAP1_chr14	HAP1	14	OZ492102.1	469121739	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 14
+HAP1_chr15	HAP1	15	OZ492103.1	463822155	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 15
+HAP1_chr16	HAP1	16	OZ492104.1	459533232	/lustre/scratch122/tol/data/3/9/6/a/7/e/Ranunculus_repens/assembly/release/GCA_986449105.1/insdc/GCA_986449105.1.fa.gz	Ranunculus repens genome assembly, chromosome: 16
+HAP2_chr01	HAP2	1	SUPER_1_HAP2	676108724	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	
+HAP2_chr02	HAP2	2	SUPER_2_HAP2	647592401	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	
+HAP2_chr03	HAP2	3	SUPER_3_HAP2	599493117	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	
+HAP2_chr04	HAP2	4	SUPER_4_HAP2	627656185	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	
+HAP2_chr05	HAP2	5	SUPER_5_HAP2	580507203	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	
+HAP2_chr06	HAP2	6	SUPER_6_HAP2	535200467	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	
+HAP2_chr07	HAP2	7	SUPER_7_HAP2	532406864	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	
+HAP2_chr08	HAP2	8	SUPER_8_HAP2	539806604	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	
+HAP2_chr09	HAP2	9	SUPER_9_HAP2	516914286	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	
+HAP2_chr10	HAP2	10	SUPER_10_HAP2	509385515	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	
+HAP2_chr11	HAP2	11	SUPER_11_HAP2	471835595	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	
+HAP2_chr12	HAP2	12	SUPER_12_HAP2	451579568	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	
+HAP2_chr13	HAP2	13	SUPER_13_HAP2	474436526	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	
+HAP2_chr14	HAP2	14	SUPER_14_HAP2	503506452	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	
+HAP2_chr15	HAP2	15	SUPER_15_HAP2	451444126	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	
+HAP2_chr16	HAP2	16	SUPER_16_HAP2	443510376	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dmRanRepe1/dmRanRepe1.hap2.1.primary.fa.gz	

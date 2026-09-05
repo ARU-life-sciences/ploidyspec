@@ -1,0 +1,3 @@
+status	unit_id	old_chrom	new_chrom	own_group_dist	alt_group_dist	ratio
+ambiguous	HAP1_chr01	1	2	0.070012	0.022392	3.13
+ambiguous	HAP1_chr02	2	1	0.070264	0.030236	2.32

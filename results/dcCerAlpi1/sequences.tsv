@@ -1,73 +1,73 @@
 unit_id	hap	chrom	seq_id	length	source	desc
-HAP1_chr01	HAP1	1	SUPER_1	67789833	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr02	HAP1	2	SUPER_2	63447416	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr03	HAP1	3	SUPER_3	59677348	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr04	HAP1	4	SUPER_4	55320103	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr05	HAP1	5	SUPER_5	55267352	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr06	HAP1	6	SUPER_6	54959920	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr07	HAP1	7	SUPER_7	54175134	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr08	HAP1	8	SUPER_8	53370547	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr09	HAP1	9	SUPER_9	52621742	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr10	HAP1	10	SUPER_10	51468131	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr11	HAP1	11	SUPER_11	51148528	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr12	HAP1	12	SUPER_12	50854498	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr13	HAP1	13	SUPER_13	50558871	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr14	HAP1	14	SUPER_14	49204689	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr15	HAP1	15	SUPER_15	49033007	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr16	HAP1	16	SUPER_16	47762337	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr17	HAP1	17	SUPER_17	47251026	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr18	HAP1	18	SUPER_18	45611969	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr19	HAP1	19	SUPER_19	36711110	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr20	HAP1	20	SUPER_20	34848543	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr21	HAP1	21	SUPER_21	31961779	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr22	HAP1	22	SUPER_22	30933463	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr23	HAP1	23	SUPER_23	30833813	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr24	HAP1	24	SUPER_24	30449756	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr25	HAP1	25	SUPER_25	30212700	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr26	HAP1	26	SUPER_26	29793392	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr27	HAP1	27	SUPER_27	28923162	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr28	HAP1	28	SUPER_28	28695193	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr29	HAP1	29	SUPER_29	28441186	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr30	HAP1	30	SUPER_30	28356228	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr31	HAP1	31	SUPER_31	28129975	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr32	HAP1	32	SUPER_32	28048741	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr33	HAP1	33	SUPER_33	27577763	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr34	HAP1	34	SUPER_34	26708828	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr35	HAP1	35	SUPER_35	26532529	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP1_chr36	HAP1	36	SUPER_36	23143071	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap1.1.primary.fa.gz	
-HAP2_chr01	HAP2	1	SUPER_1	52983865	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr02	HAP2	2	SUPER_2	52998984	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr03	HAP2	3	SUPER_3	39031766	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr04	HAP2	4	SUPER_4	40415030	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr05	HAP2	5	SUPER_5	51657179	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr06	HAP2	6	SUPER_6	44909480	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr07	HAP2	7	SUPER_7	45934890	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr08	HAP2	8	SUPER_8	43154870	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr09	HAP2	9	SUPER_9	45880004	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr10	HAP2	10	SUPER_10	47771514	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr11	HAP2	11	SUPER_11	44447667	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr12	HAP2	12	SUPER_12	44284126	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr13	HAP2	13	SUPER_13	37532787	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr14	HAP2	14	SUPER_14	37700803	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr15	HAP2	15	SUPER_15	45381129	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr16	HAP2	16	SUPER_16	46813809	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr17	HAP2	17	SUPER_17	44000335	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr18	HAP2	18	SUPER_18	40161016	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr19	HAP2	19	SUPER_19	33401685	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr20	HAP2	20	SUPER_20	29291749	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr21	HAP2	21	SUPER_21	31940108	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr22	HAP2	22	SUPER_22	31631244	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr23	HAP2	23	SUPER_23	30254590	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr24	HAP2	24	SUPER_24	27356818	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr25	HAP2	25	SUPER_25	29428964	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr26	HAP2	26	SUPER_26	27188061	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr27	HAP2	27	SUPER_27	24519938	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr28	HAP2	28	SUPER_28	24699064	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr29	HAP2	29	SUPER_29	27332775	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr30	HAP2	30	SUPER_30	27985374	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr31	HAP2	31	SUPER_31	26711590	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr32	HAP2	32	SUPER_32	24682532	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr33	HAP2	33	SUPER_33	26282626	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr34	HAP2	34	SUPER_34	28123858	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr35	HAP2	35	SUPER_35	23754460	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
-HAP2_chr36	HAP2	36	SUPER_36	21876504	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/dcCerAlpi1/dcCerAlpi1.hap2.1.primary.fa.gz	
+HAP1_chr01	HAP1	1	OZ484596.1	67789833	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 1
+HAP1_chr02	HAP1	2	OZ484597.1	63447416	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 2
+HAP1_chr03	HAP1	3	OZ484598.1	59677348	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 3
+HAP1_chr04	HAP1	4	OZ484599.1	55320103	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 4
+HAP1_chr05	HAP1	5	OZ484600.1	55267352	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 5
+HAP1_chr06	HAP1	6	OZ484601.1	54959920	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 6
+HAP1_chr07	HAP1	7	OZ484602.1	54175134	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 7
+HAP1_chr08	HAP1	8	OZ484603.1	53370547	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 8
+HAP1_chr09	HAP1	9	OZ484604.1	52621742	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 9
+HAP1_chr10	HAP1	10	OZ484605.1	51468131	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 10
+HAP1_chr11	HAP1	11	OZ484606.1	51148528	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 11
+HAP1_chr12	HAP1	12	OZ484607.1	50854498	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 12
+HAP1_chr13	HAP1	13	OZ484608.1	50558871	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 13
+HAP1_chr14	HAP1	14	OZ484609.1	49204689	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 14
+HAP1_chr15	HAP1	15	OZ484610.1	49033007	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 15
+HAP1_chr16	HAP1	16	OZ484611.1	47762337	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 16
+HAP1_chr17	HAP1	17	OZ484612.1	47251026	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 17
+HAP1_chr18	HAP1	18	OZ484613.1	45611969	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 18
+HAP1_chr19	HAP1	19	OZ484614.1	36711110	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 19
+HAP1_chr20	HAP1	20	OZ484615.1	34848543	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 20
+HAP1_chr21	HAP1	21	OZ484616.1	31961779	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 21
+HAP1_chr22	HAP1	22	OZ484617.1	30933463	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 22
+HAP1_chr23	HAP1	23	OZ484618.1	30833813	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 23
+HAP1_chr24	HAP1	24	OZ484619.1	30449756	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 24
+HAP1_chr25	HAP1	25	OZ484620.1	30212700	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 25
+HAP1_chr26	HAP1	26	OZ484621.1	29793392	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 26
+HAP1_chr27	HAP1	27	OZ484622.1	28923162	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 27
+HAP1_chr28	HAP1	28	OZ484623.1	28695193	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 28
+HAP1_chr29	HAP1	29	OZ484624.1	28441186	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 29
+HAP1_chr30	HAP1	30	OZ484625.1	28356228	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 30
+HAP1_chr31	HAP1	31	OZ484626.1	28129975	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 31
+HAP1_chr32	HAP1	32	OZ484627.1	28048741	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 32
+HAP1_chr33	HAP1	33	OZ484628.1	27577763	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 33
+HAP1_chr34	HAP1	34	OZ484629.1	26708828	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 34
+HAP1_chr35	HAP1	35	OZ484630.1	26532529	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 35
+HAP1_chr36	HAP1	36	OZ484631.1	23143071	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607225.1/insdc/GCA_985607225.1.fa.gz	Cerastium alpinum genome assembly, chromosome: 36
+HAP2_chr01	HAP2	1	CFOAWV010000001.1	52983865	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_1, whole genome shotgun sequence
+HAP2_chr02	HAP2	2	CFOAWV010000002.1	52998984	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_2, whole genome shotgun sequence
+HAP2_chr03	HAP2	3	CFOAWV010000003.1	39031766	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_3, whole genome shotgun sequence
+HAP2_chr04	HAP2	4	CFOAWV010000004.1	40415030	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_4, whole genome shotgun sequence
+HAP2_chr05	HAP2	5	CFOAWV010000005.1	51657179	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_5, whole genome shotgun sequence
+HAP2_chr06	HAP2	6	CFOAWV010000006.1	44909480	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_6, whole genome shotgun sequence
+HAP2_chr07	HAP2	7	CFOAWV010000007.1	45934890	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_7, whole genome shotgun sequence
+HAP2_chr08	HAP2	8	CFOAWV010000008.1	43154870	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_8, whole genome shotgun sequence
+HAP2_chr09	HAP2	9	CFOAWV010000009.1	45880004	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_9, whole genome shotgun sequence
+HAP2_chr10	HAP2	10	CFOAWV010000010.1	47771514	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_10, whole genome shotgun sequence
+HAP2_chr11	HAP2	11	CFOAWV010000011.1	44447667	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_11, whole genome shotgun sequence
+HAP2_chr12	HAP2	12	CFOAWV010000012.1	44284126	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_12, whole genome shotgun sequence
+HAP2_chr13	HAP2	13	CFOAWV010000013.1	37532787	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_13, whole genome shotgun sequence
+HAP2_chr14	HAP2	14	CFOAWV010000014.1	37700803	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_14, whole genome shotgun sequence
+HAP2_chr15	HAP2	15	CFOAWV010000015.1	45381129	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_15, whole genome shotgun sequence
+HAP2_chr16	HAP2	16	CFOAWV010000016.1	46813809	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_16, whole genome shotgun sequence
+HAP2_chr17	HAP2	17	CFOAWV010000017.1	44000335	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_17, whole genome shotgun sequence
+HAP2_chr18	HAP2	18	CFOAWV010000018.1	40161016	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_18, whole genome shotgun sequence
+HAP2_chr19	HAP2	19	CFOAWV010000019.1	33401685	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_19, whole genome shotgun sequence
+HAP2_chr20	HAP2	20	CFOAWV010000020.1	29291749	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_20, whole genome shotgun sequence
+HAP2_chr21	HAP2	21	CFOAWV010000021.1	31940108	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_21, whole genome shotgun sequence
+HAP2_chr22	HAP2	22	CFOAWV010000022.1	31631244	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_22, whole genome shotgun sequence
+HAP2_chr23	HAP2	23	CFOAWV010000023.1	30254590	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_23, whole genome shotgun sequence
+HAP2_chr24	HAP2	24	CFOAWV010000024.1	27356818	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_24, whole genome shotgun sequence
+HAP2_chr25	HAP2	25	CFOAWV010000025.1	29428964	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_25, whole genome shotgun sequence
+HAP2_chr26	HAP2	26	CFOAWV010000026.1	27188061	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_26, whole genome shotgun sequence
+HAP2_chr27	HAP2	27	CFOAWV010000027.1	24519938	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_27, whole genome shotgun sequence
+HAP2_chr28	HAP2	28	CFOAWV010000028.1	24699064	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_28, whole genome shotgun sequence
+HAP2_chr29	HAP2	29	CFOAWV010000029.1	27332775	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_29, whole genome shotgun sequence
+HAP2_chr30	HAP2	30	CFOAWV010000030.1	27985374	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_30, whole genome shotgun sequence
+HAP2_chr31	HAP2	31	CFOAWV010000031.1	26711590	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_31, whole genome shotgun sequence
+HAP2_chr32	HAP2	32	CFOAWV010000032.1	24682532	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_32, whole genome shotgun sequence
+HAP2_chr33	HAP2	33	CFOAWV010000033.1	26282626	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_33, whole genome shotgun sequence
+HAP2_chr34	HAP2	34	CFOAWV010000034.1	28123858	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_34, whole genome shotgun sequence
+HAP2_chr35	HAP2	35	CFOAWV010000035.1	23754460	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_35, whole genome shotgun sequence
+HAP2_chr36	HAP2	36	CFOAWV010000036.1	21876504	/lustre/scratch122/tol/data/a/2/6/9/1/4/Cerastium_alpinum/assembly/release/GCA_985607205.1/insdc/GCA_985607205.1.fa.gz	Cerastium alpinum genome assembly, contig: SUPER_36, whole genome shotgun sequence

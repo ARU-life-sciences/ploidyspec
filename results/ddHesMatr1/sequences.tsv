@@ -1,0 +1,25 @@
+unit_id	hap	chrom	seq_id	length	source	desc
+HAP1_chr01	HAP1	1	SUPER_1_HAP1	827946405	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap1.1.primary.fa.gz	
+HAP1_chr02	HAP1	2	SUPER_2_HAP1	825393763	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap1.1.primary.fa.gz	
+HAP1_chr03	HAP1	3	SUPER_3_HAP1	536739713	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap1.1.primary.fa.gz	
+HAP1_chr04	HAP1	4	SUPER_4_HAP1	459262978	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap1.1.primary.fa.gz	
+HAP1_chr05	HAP1	5	SUPER_5_HAP1	454584747	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap1.1.primary.fa.gz	
+HAP1_chr06	HAP1	6	SUPER_6_HAP1	417458169	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap1.1.primary.fa.gz	
+HAP2_chr01	HAP2	1	SUPER_1_HAP2	834377722	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP2_chr02	HAP2	2	SUPER_2_HAP2	764799762	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP2_chr03	HAP2	3	SUPER_3_HAP2	525959252	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP2_chr04	HAP2	4	SUPER_4_HAP2	435073585	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP2_chr05	HAP2	5	SUPER_5_HAP2	443551622	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP2_chr06	HAP2	6	SUPER_6_HAP2	381025804	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP3_chr01	HAP3	1	SUPER_1_HAP3	766403439	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP3_chr02	HAP3	2	SUPER_2_HAP3	731874900	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP3_chr03	HAP3	3	SUPER_3_HAP3	534418841	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP3_chr04	HAP3	4	SUPER_4_HAP3	470962238	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP3_chr05	HAP3	5	SUPER_5_HAP3	407815333	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP3_chr06	HAP3	6	SUPER_6_HAP3	342437259	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP4_chr01	HAP4	1	SUPER_1_HAP4	875103616	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP4_chr02	HAP4	2	SUPER_2_HAP4	757015288	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP4_chr03	HAP4	3	SUPER_3_HAP4	506326223	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP4_chr04	HAP4	4	SUPER_4_HAP4	456417821	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP4_chr05	HAP4	5	SUPER_5_HAP4	413247292	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	
+HAP4_chr06	HAP4	6	SUPER_6_HAP4	362575206	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap2.1.primary.fa.gz	

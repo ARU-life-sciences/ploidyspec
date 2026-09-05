@@ -1,0 +1,43 @@
+unit_id	hap	chrom	seq_id	length	source	desc
+HAP1_chr01	HAP1	1	OZ491128.1	59060103	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 1
+HAP1_chr02	HAP1	2	OZ491129.1	58692988	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 2
+HAP1_chr03	HAP1	3	OZ491130.1	54993185	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 3
+HAP1_chr04	HAP1	4	OZ491131.1	51834841	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 4
+HAP1_chr05	HAP1	5	OZ491132.1	49022003	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 5
+HAP1_chr06	HAP1	6	OZ491133.1	48327721	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 6
+HAP1_chr07	HAP1	7	OZ491134.1	45154503	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 7
+HAP1_chr08	HAP1	8	OZ491135.1	45011378	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 8
+HAP1_chr09	HAP1	9	OZ491136.1	42538845	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 9
+HAP1_chr10	HAP1	10	OZ491137.1	41546087	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 10
+HAP1_chr11	HAP1	11	OZ491138.1	40824048	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 11
+HAP1_chr12	HAP1	12	OZ491139.1	38994901	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 12
+HAP1_chr13	HAP1	13	OZ491140.1	38343729	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 13
+HAP1_chr14	HAP1	14	OZ491141.1	38277625	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 14
+HAP1_chr15	HAP1	15	OZ491142.1	37883078	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 15
+HAP1_chr16	HAP1	16	OZ491143.1	37634969	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 16
+HAP1_chr17	HAP1	17	OZ491144.1	33948613	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 17
+HAP1_chr18	HAP1	18	OZ491145.1	32366710	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 18
+HAP1_chr19	HAP1	19	OZ491146.1	30016503	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 19
+HAP1_chr20	HAP1	20	OZ491147.1	29790326	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 20
+HAP1_chr21	HAP1	21	OZ491148.1	22672268	/lustre/scratch122/tol/data/8/6/2/6/9/0/Lathraea_clandestina/assembly/release/GCA_986341785.1/insdc/GCA_986341785.1.fa.gz	Lathraea clandestina genome assembly, chromosome: 21
+HAP2_chr01	HAP2	1	SUPER_1_HAP2	47290280	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr02	HAP2	2	SUPER_2_HAP2	53101553	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr03	HAP2	3	SUPER_3_HAP2	33169554	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr04	HAP2	4	SUPER_4_HAP2	37322799	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr05	HAP2	5	SUPER_5_HAP2	47307076	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr06	HAP2	6	SUPER_6_HAP2	44522703	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr07	HAP2	7	SUPER_7_HAP2	45636024	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr08	HAP2	8	SUPER_8_HAP2	29015389	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr09	HAP2	9	SUPER_9_HAP2	40296759	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr10	HAP2	10	SUPER_10_HAP2	24452889	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr11	HAP2	11	SUPER_11_HAP2	38022722	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr12	HAP2	12	SUPER_12_HAP2	28189765	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr13	HAP2	13	SUPER_13_HAP2	34086586	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr14	HAP2	14	SUPER_14_HAP2	34062881	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr15	HAP2	15	SUPER_15_HAP2	30423401	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr16	HAP2	16	SUPER_16_HAP2	34255235	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr17	HAP2	17	SUPER_17_HAP2	23748210	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr18	HAP2	18	SUPER_18_HAP2	25233730	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr19	HAP2	19	SUPER_19_HAP2	21206275	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr20	HAP2	20	SUPER_20_HAP2	29129309	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
+HAP2_chr21	HAP2	21	SUPER_21_HAP2	22675969	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/daLatClan1/daLatClan1.hap2.1.primary.curated.fa.gz	
