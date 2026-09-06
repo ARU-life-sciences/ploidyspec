@@ -138,6 +138,7 @@ def render_report_html(data):
     sections = []
 
     m = data.get("matrix") or {}
+    h = data.get("homeologs") or {}
     if m.get("ploidy_summary") is not None or m.get("heatmap"):
         sections.append(
             f"""<section>
@@ -145,6 +146,15 @@ def render_report_html(data):
   {_img_html(m.get('heatmap'), 'distance heatmap')}
   {_img_html(m.get('heatmap_contrast'), 'contrast-stretched distance heatmap')}
   {_img_html(m.get('k_resolution'), 'k-resolution diagnostic')}
+  <h3>Hierarchically reordered, chromosome-number resolution</h3>
+  <p class="note">Same distance data as the heatmaps above, but collapsed
+  to one value per chromosome NUMBER (haplotype copies aggregated away)
+  and reordered by average-linkage clustering -- shows cross-chromosome
+  (subgenome/ancestral-pair) structure cleanly, including diffuse structure
+  with no individually FDR-significant pair. Red outlines mark individually
+  FDR-accepted pairs from the homeolog test below. See INTERPRETATION.md's
+  "checkerboard" section.</p>
+  {_img_html(h.get('homeolog_pairs_reordered_heatmap'), 'homeolog pairs hierarchically reordered')}
   <h3>Ploidy summary</h3>
   {_table_html(m.get('ploidy_summary'))}
   <h3>Homologous chromosome pairs</h3>
@@ -172,21 +182,13 @@ def render_report_html(data):
             '<p class="empty">Not run yet.</p></section>'
         )
 
-    h = data.get("homeologs") or {}
     if h.get("homeolog_pairs") is not None or h.get("ranked_candidates") is not None:
         sections.append(
             f"""<section>
   <h2>Ancient homeolog pairing</h2>
   {_img_html(h.get('homeolog_pairs_plot'), 'homeolog pairs')}
-  <h3>Reordered by accepted pair membership</h3>
-  <p class="note">Chromosome-number distance matrix, reordered so each
-  accepted pair sits adjacent to the diagonal instead of the pipeline's raw
-  chromosome-number order -- resolves scattered/checkerboard-looking
-  pairing into a clean pattern when it's just a numbering artifact; any
-  structure that persists after reordering (e.g. tighter multi-pair blocks)
-  is real signal beyond the individual pairs. See INTERPRETATION.md's
-  "checkerboard" section. Undefined when there are no accepted pairs.</p>
-  {_img_html(h.get('homeolog_pairs_reordered_heatmap'), 'homeolog pairs reordered by pair membership')}
+  <p class="note">See the hierarchically-reordered chromosome-number
+  heatmap in the "Whole-chromosome matrix" section above.</p>
   <h3>Accepted pairs</h3>
   {_table_html(h.get('homeolog_pairs'))}
   <h3>Ploidy / ancestry summary</h3>
