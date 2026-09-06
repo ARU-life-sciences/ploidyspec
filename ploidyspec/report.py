@@ -78,6 +78,9 @@ def collect_species_data(outdir):
             "homeolog_pairs_plot": _embed_image(
                 os.path.join(hdir, "homeolog_pairs.png")
             ),
+            "homeolog_pairs_reordered_heatmap": _embed_image(
+                os.path.join(hdir, "homeolog_pairs_reordered_heatmap.png")
+            ),
         },
         "subgenomes": None,
     }
@@ -175,6 +178,15 @@ def render_report_html(data):
             f"""<section>
   <h2>Ancient homeolog pairing</h2>
   {_img_html(h.get('homeolog_pairs_plot'), 'homeolog pairs')}
+  <h3>Reordered by accepted pair membership</h3>
+  <p class="note">Chromosome-number distance matrix, reordered so each
+  accepted pair sits adjacent to the diagonal instead of the pipeline's raw
+  chromosome-number order -- resolves scattered/checkerboard-looking
+  pairing into a clean pattern when it's just a numbering artifact; any
+  structure that persists after reordering (e.g. tighter multi-pair blocks)
+  is real signal beyond the individual pairs. See INTERPRETATION.md's
+  "checkerboard" section. Undefined when there are no accepted pairs.</p>
+  {_img_html(h.get('homeolog_pairs_reordered_heatmap'), 'homeolog pairs reordered by pair membership')}
   <h3>Accepted pairs</h3>
   {_table_html(h.get('homeolog_pairs'))}
   <h3>Ploidy / ancestry summary</h3>

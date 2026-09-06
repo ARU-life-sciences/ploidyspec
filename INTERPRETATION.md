@@ -795,6 +795,76 @@ yet (both genera have documented polyploid complexes generally, which
 doesn't confirm anything for these species specifically) — this is the
 single highest-value literature gap this analysis has surfaced.
 
+## The "checkerboard" pattern, and reordering by known pair membership
+
+Several species with complete or near-complete accepted homeolog pairing
+(`drTriRepe1`, `drRosSpin1`, `daSenVulg1`, `drSorDevo1`, `llColAutu1`, and
+others) show a scattered, checkerboard-like pattern in the default
+chromosome-number-ordered heatmap, distinct from the smooth two-block
+pattern of the diffuse-partition species above. `scripts/
+reorder_heatmap.py` tests whether this is a numbering-order artifact of
+already-strong, individually significant pairs (it should resolve into a
+clean pattern once reordered by the actual `homeolog_pairs.tsv`
+assignment) or something unresolved. Reuses `homeolog_candidates_ranked.tsv`,
+no new k-mer work. Output: `results/<species>/homeologs/
+homeolog_pairs_reordered_heatmap.png`, run panel-wide.
+
+**For most species, it's exactly a numbering artifact.** `drTriRepe1`,
+`drRosSpin1`, `drSorDevo1`, and the majority of the panel collapse cleanly:
+every accepted pair becomes one sharp, tight cell immediately off the
+(masked) diagonal, with an otherwise flat, uniform background everywhere
+else. Chromosome numbers here don't track a clean size rank or any
+subgenome-aware scheme (checked directly on `drTriRepe1`: `chr01` is
+55.9Mb, smaller than 14 of its 15 siblings, breaking any simple
+size-order story) — pair partners just end up scattered at arbitrary
+numeric distance from each other, which is what produces the checkerboard
+look in raw chromosome-number order. Once reordered, there's nothing left
+to explain.
+
+**Two species don't fully collapse, and that's real signal, not a
+failure of the reordering.**
+
+- **`llColAutu1`** keeps visible extra structure even after reordering by
+  its 24 pairs — several groups of 4–8 chromosomes (spanning multiple
+  pairs) stay noticeably tighter with each other than with the rest of the
+  genome (e.g. `chr18/28/25/26/10/17/30/35`), and `chr01`/`chr02` show
+  unusually elevated distance reaching into otherwise-unrelated regions.
+  This directly corroborates the uneven, non-pairwise group sizes
+  `genome_partition.py` already found for this species (3,4,4,5,5,6,6,6,6,6)
+  and the literature's proposed "demi-duplication" mechanism (repeated
+  fusion of mismatched-ploidy gametes) — a single clean WGD should produce
+  the flat-background-plus-pairs pattern every other species shows;
+  `llColAutu1`'s persistent extra structure is consistent with a messier,
+  multi-event history layered on top of the primary pairing.
+- **`ddLepDrab1`** shows a clear, visible tighter sub-block spanning
+  `chr05,chr16,chr03,chr06,chr10,chr12` — three of its eight pairs
+  clustering with each other more than with the rest. This is a direct
+  visual confirmation of the nested quartet structure `genome_partition.py`
+  found underneath the primary 8 pairs (k=7 merges exactly `chr05,chr16`
+  with `chr10,chr12` into one group, more significant than the primary
+  k=8 pairing itself) — corroborating evidence for the allo-octaploid-block
+  hypothesis from two independent methods now.
+- **`daSenVulg1`**: the 4 chromosomes left unpaired by the strict FDR test
+  (`chr03,chr04,chr11,chr19`) are visibly tighter with each other than with
+  the paired set — consistent with the `genome_partition.py` k=10 result
+  that extended this species' 8 known pairs to 10 by picking up 2 more
+  that didn't individually clear significance.
+
+**On making this the default view**: not a full replacement, for two
+concrete reasons. First, it's undefined for any species with zero accepted
+pairs — exactly the diffuse-partition species in the section above, which
+still need the general-purpose clustering-based heatmap since there's no
+pair table to sort by. Second, it deliberately drops to chromosome-number
+resolution (aggregating away haplotype copies), which is coarser than the
+existing unit-level `whole_chrom_distance_heatmap_contrast.png` for ≥3-copy
+species — that's exactly the resolution that caught `drLytSali1`'s
+rotating-singleton pattern, which a chromosome-number-only view can't see.
+Recommended instead: generate both. The pair-reordered view is the clearer
+default *read* whenever accepted pairs exist (which is most of the panel),
+but the general clustering-based heatmap remains the one actually capable
+of *discovering* structure the FDR test missed, as demonstrated repeatedly
+in this document.
+
 ## Species summary
 
 Every species run through the pipeline so far. `copies` = distinct
