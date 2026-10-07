@@ -1,3 +1,1 @@
-scaffold	hap	length	origin	components	containment	lineage_divergence	max_z	status
-HAP1_chr01	HAP1	273349963	placed_long_copy	chr01+chr06+chr07+chr14	chr14:0.467,chr07:0.465,chr06:0.388	chr14:0.0331,chr07:0.0333,chr06:0.0411	20.7	candidate_partner_present
-HAP1_chr07	HAP1	215430434	placed_long_copy	chr01+chr06+chr07	chr06:0.504,chr01:0.369	chr06:0.0298,chr01:0.0434	23.2	candidate_partner_present
+scaffold	hap	length	origin	components	containment	sibling_excess	lineage_divergence	max_z	status

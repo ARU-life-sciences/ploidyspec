@@ -59,6 +59,8 @@ from .rediploidization import (
     DEFAULT_LONG_RATIO,
     DEFAULT_MIN_SEGMENT_BP,
     DEFAULT_ORPHAN_MIN_FRAC,
+    DEFAULT_PARTITION_Z,
+    DEFAULT_SIBLING_EXCESS,
     DEFAULT_TE_SPLIT,
     DEFAULT_WINDOW_SPLIT,
     compute_rediploidization,
@@ -195,6 +197,14 @@ def add_rediploidization_args(p):
     p.add_argument("--containment-z", type=float, default=DEFAULT_CONTAINMENT_Z,
                    help="robust z above the species' background k-mer containment for a chromosome "
                    f"to count as a fusion component (default {DEFAULT_CONTAINMENT_Z})")
+    p.add_argument("--sibling-excess", type=float, default=DEFAULT_SIBLING_EXCESS,
+                   help="a long copy's fusion partner must be this many times more enriched in it "
+                   "than in its least-enriched sibling copy, per k-mer (default "
+                   f"{DEFAULT_SIBLING_EXCESS}; rules out ancient homeology and fragmentary siblings)")
+    p.add_argument("--partition-z", type=float, default=DEFAULT_PARTITION_Z,
+                   help="with no homeolog pairs, pool < 3-copy chromosomes across the structure "
+                   "stage's k=2 genome partition when its z >= this "
+                   f"(default {DEFAULT_PARTITION_Z})")
     p.add_argument("--dist-split", type=float, default=DEFAULT_DIST_SPLIT,
                    help="cross/within whole-chromosome distance ratio counted as lineage-split "
                    f"evidence (default {DEFAULT_DIST_SPLIT}; 2x this plus a whole-chromosome "
@@ -403,6 +413,8 @@ def cmd_rediploidization(args):
         long_ratio=args.long_ratio,
         orphan_min_frac=args.orphan_min_frac,
         containment_z=args.containment_z,
+        sibling_excess=args.sibling_excess,
+        partition_z=args.partition_z,
         dist_split=args.dist_split,
         te_split=args.te_split,
         window_split=args.window_split,

@@ -2,6 +2,7 @@ metric	value
 n_chromosome_numbers	19
 state_basis:copies	19
 state_basis:homeolog_pool	0
+state_basis:partition_pool	0
 state_basis:fusion	0
 state_basis:none	0
 copy_state:tetrasomic_like	15

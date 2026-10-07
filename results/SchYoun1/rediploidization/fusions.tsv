@@ -1,11 +1,11 @@
-scaffold	hap	length	origin	components	containment	lineage_divergence	max_z	status
-Sy_Chr04_15_M2	HAP2	59133001	unplaced_scaffold	chr04+chr15	chr15:0.542,chr04:0.519	chr15:0.0266,chr04:0.0285	133.0	fusion
-Sy_Chr11_14_M2	HAP2	61469535	unplaced_scaffold	chr11+chr14	chr11:0.714,chr14:0.698	chr11:0.0146,chr14:0.0157	179.1	fusion
-Sy_Chr08_16_M2	HAP2	74276067	unplaced_scaffold	chr08+chr16	chr08:0.545,chr16:0.525	chr08:0.0264,chr16:0.0280	75.4	fusion
-Sy_Chr19_22_M2	HAP2	75691561	unplaced_scaffold	chr19+chr22	chr22:0.302,chr19:0.292	chr22:0.0521,chr19:0.0535	45.1	fusion
-Sy_Chr20_23_M2	HAP2	67882479	unplaced_scaffold	chr20+chr23	chr23:0.550,chr20:0.546	chr23:0.0260,chr20:0.0263	91.0	fusion
-Sy_Chr04_15_P2	HAP4	60161718	unplaced_scaffold	chr04+chr15	chr15:0.538,chr04:0.517	chr15:0.0270,chr04:0.0287	111.3	fusion
-Sy_Chr11_14_P2	HAP4	62657866	unplaced_scaffold	chr11+chr14	chr11:0.710,chr14:0.707	chr11:0.0149,chr14:0.0151	174.5	fusion
-Sy_Chr08_16_P2	HAP4	74138516	unplaced_scaffold	chr08+chr16	chr08:0.547,chr16:0.523	chr08:0.0263,chr16:0.0282	94.0	fusion
-Sy_Chr19_22_P2	HAP4	70736621	unplaced_scaffold	chr19+chr22	chr19:0.292,chr22:0.292	chr19:0.0535,chr22:0.0535	40.8	fusion
-Sy_Chr20_23_P2	HAP4	67940996	unplaced_scaffold	chr20+chr23	chr23:0.550,chr20:0.540	chr23:0.0260,chr20:0.0268	90.0	fusion
+scaffold	hap	length	origin	components	containment	sibling_excess	lineage_divergence	max_z	status
+Sy_Chr04_15_M2	HAP2	59133001	unplaced_scaffold	chr04+chr15	chr15:0.542,chr04:0.519		chr15:0.0266,chr04:0.0285	133.0	fusion
+Sy_Chr11_14_M2	HAP2	61469535	unplaced_scaffold	chr11+chr14	chr11:0.714,chr14:0.698		chr11:0.0146,chr14:0.0157	179.1	fusion
+Sy_Chr08_16_M2	HAP2	74276067	unplaced_scaffold	chr08+chr16	chr08:0.545,chr16:0.525		chr08:0.0264,chr16:0.0280	75.4	fusion
+Sy_Chr19_22_M2	HAP2	75691561	unplaced_scaffold	chr19+chr22	chr22:0.302,chr19:0.292		chr22:0.0521,chr19:0.0535	45.1	fusion
+Sy_Chr20_23_M2	HAP2	67882479	unplaced_scaffold	chr20+chr23	chr23:0.550,chr20:0.546		chr23:0.0260,chr20:0.0263	91.0	fusion
+Sy_Chr04_15_P2	HAP4	60161718	unplaced_scaffold	chr04+chr15	chr15:0.538,chr04:0.517		chr15:0.0270,chr04:0.0287	111.3	fusion
+Sy_Chr11_14_P2	HAP4	62657866	unplaced_scaffold	chr11+chr14	chr11:0.710,chr14:0.707		chr11:0.0149,chr14:0.0151	174.5	fusion
+Sy_Chr08_16_P2	HAP4	74138516	unplaced_scaffold	chr08+chr16	chr08:0.547,chr16:0.523		chr08:0.0263,chr16:0.0282	94.0	fusion
+Sy_Chr19_22_P2	HAP4	70736621	unplaced_scaffold	chr19+chr22	chr19:0.292,chr22:0.292		chr19:0.0535,chr22:0.0535	40.8	fusion
+Sy_Chr20_23_P2	HAP4	67940996	unplaced_scaffold	chr20+chr23	chr23:0.550,chr20:0.540		chr23:0.0260,chr20:0.0268	90.0	fusion

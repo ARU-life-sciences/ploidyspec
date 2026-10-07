@@ -476,6 +476,18 @@ containment is >= `--containment-z` (10) robust z-scores above the species'
 background and >= 2x the background median. `SchCurv1`: chr22 in the fused chr19
 copies = 0.44-0.45, background median 0.063, z ~ 48.
 
+`sibling_excess` (placed long copies only): for each component, the share of the
+long copy's own k-mers found in that chromosome, divided by the same share in its
+least-enriched sibling copy. A component is kept only at >= `--sibling-excess`
+(2.5). Normalising by each copy's own k-mer count means a fragmentary sibling
+reads the same per-k-mer rate as a complete one. A fused copy carries the
+partner and its unfused sibling doesn't: `SchCurv1` chr22 in `HAP3_chr19` =
+3.4x. Ancient homeology is shared by every copy: `drMyrSpic1` `HAP1_chr13`,
+"long" only because its sibling is a 15 Mb fragment, has its homeologs chr03 and
+chr09 at 0.9x. `daPilAura1`'s long `HAP1_chr01` has chr06/chr07/chr14 at
+0.6-1.9x. All of these were `candidate_partner_present` before this check.
+Hits that fail it still appear in `sibling_excess` but not in `components`.
+
 `lineage_divergence` = -ln(containment)/k: a Mash-style divergence between the
 fused lineage and the unfused copies of each component. Use it to rank fusions
 by age. `SchYoun1` gives chr19+22 ~0.053, chr04+15 / chr08+16 / chr20+23
@@ -530,10 +542,26 @@ Xie et al. 2026, oldest first, recovered without prior knowledge.
 
     With 3 copies every split is one-vs-two, so triploids land here by
     construction.
-  - `not_assessable`: < 3 copies and no homeolog partner to pool with.
+  - `not_assessable`: < 3 copies and no homeolog or partition partner to pool with.
 - `state_basis`, `pooled_with`: what the state was read from:
   - `copies`: the chromosome's own >= 3 copies (all three lines of evidence).
   - `fusion`: a confirmed fusion.
+  - `partition_pool`: as `homeolog_pool`, for species with no accepted homeolog
+    pairs but a significant genome-wide bipartition from the `structure` stage
+    (`structure/genome_partition.tsv`, k=2 row, z >= `--partition-z` (10), smaller
+    group >= a quarter of the chromosomes). Each chromosome is pooled with its
+    reciprocal best match in the other group (`pooled_with`); chromosomes without
+    a reciprocal match stay `not_assessable`. `daInuConz1` (16/16, z=10.6),
+    `dmRanRepe1` (16/16, z=10.9), `dcCerAlpi1` (32/36, z=18.9).
+    **The evidence here is the partition test, not the pooled state.** Any two
+    different chromosome numbers are far more distant than two alleles: pooling
+    each chromosome of the diploid `ddMalSylv1` with its nearest other number
+    gives `dist_split` 22-47, i.e. `resolved_lineages`. So `resolved_lineages`
+    from either kind of pool means "the copies do not interchange across the two
+    numbers"; it does not separate allopolyploidy from a long-diploidized
+    autopolyploid, and with a partition pool it adds nothing beyond the
+    partition's z. What pooling *can* show is the opposite case, a partner as
+    close as the allele (`tetrasomic_like`, most of `lpElePalu1`).
   - `homeolog_pool`: the chromosome has < 3 copies (two-haplotype assemblies),
     so its copies were pooled with those of its FDR-accepted homeolog partner
     (`pooled_with`) and split as one group. A two-haplotype tetraploid has 2
@@ -556,6 +584,8 @@ Xie et al. 2026, oldest first, recovered without prior knowledge.
 - Chromosome numbers per `copy_state`; `n_distinct_fusions` (distinct
   chromosome combinations) and `n_fused_scaffolds` (one per haplotype carrying
   one: `SchCurv1` = 1 and 2).
+- `partition_pool_z`: present when chromosomes were pooled across the genome
+  partition; the z of the k=2 partition used.
 - `most_frequent_outlier_hap`: one haplotype isolated on many chromosomes is a
   haplotype-level issue, not per-chromosome biology.
 - Ancient-paired chromosome count, with the median and coefficient of variation

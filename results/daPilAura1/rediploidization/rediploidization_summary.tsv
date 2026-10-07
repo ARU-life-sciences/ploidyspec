@@ -2,6 +2,7 @@ metric	value
 n_chromosome_numbers	18
 state_basis:copies	0
 state_basis:homeolog_pool	18
+state_basis:partition_pool	0
 state_basis:fusion	0
 state_basis:none	0
 copy_state:tetrasomic_like	0
@@ -14,7 +15,7 @@ copy_state:not_assessable	0
 most_frequent_outlier_hap	HAP1 (10 chromosomes)
 n_distinct_fusions	0
 n_fused_scaffolds	0
-n_fusion_candidates_partner_present	2
+n_fusion_candidates_partner_present	0
 ancient_paired_chromosomes	18
 ancient_distance_ratio_median	1.04
 ancient_distance_ratio_cv	0.11

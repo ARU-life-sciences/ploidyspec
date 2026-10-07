@@ -173,6 +173,26 @@ autopolyploid lineages).
 
 Newest first. Check a running batch with the command given for it.
 
+- **2026-10-07 — rediploidization: sibling-enrichment fusion check and
+  partition pooling.**
+  - Long-copy fusion candidates now need the partner at >= 2.5x
+    (`--sibling-excess`) its per-k-mer rate in the copy's least-enriched
+    sibling. Closes follow-up 3: `drMyrSpic1` HAP1_chr13 (homeologs at 0.9x
+    next to a 15 Mb fragment) and both `daPilAura1` candidates (0.6–1.9x)
+    drop out; `SchCurv1`'s fusion is 3.4x. No panel species has a
+    `candidate_partner_present` row any more.
+  - Species with no accepted pairs but a significant, balanced k=2 genome
+    partition (z >= 10, `--partition-z`) pool each chromosome with its
+    reciprocal best match across the groups (`partition_pool`):
+    `daInuConz1` 16/16, `dmRanRepe1` 16/16, `dcCerAlpi1` 32/36, all
+    `resolved_lineages`. No other species changed.
+  - **Caveat found on the way:** pooling any two chromosome numbers in the
+    diploid `ddMalSylv1` also reads `resolved_lineages` (22–47x). A pooled
+    `resolved_lineages` therefore means only "not interchangeable"; the
+    partition z (or the homeolog FDR) carries the evidence. Documented in
+    `OUTPUTS.md`. For the paper, report pooled states as a test for
+    tetrasomy, not as evidence of allopolyploidy.
+
 - **2026-10-07 — panel refresh on the merged code.** Homeolog pooling
   (2-copy chromosomes pooled with their accepted partner), the
   `one_divergent_copy` state, ROADMAP 1.3–1.5 and the homeolog min-effect
@@ -237,6 +257,9 @@ Newest first. Check a running batch with the command given for it.
        recurs (possible AAB structure). Give 3-copy splits their own state.
     3. Long-copy fusion test: don't call a copy "long" when its only sibling
        is a fragment (`drMyrSpic1` HAP2_chr13 at 15 Mb).
+    Status: 1 done (homeolog pooling, plus partition pooling), 2 done
+    (`one_divergent_copy`), 3 done (sibling-enrichment check) — see the
+    entries above.
 - **2026-10-07 — panel-wide rediploidization run submitted** (Phase 1.2
   follow-up). 43 LSF jobs (`redip_<species>`, 2 cores, 4 GB), one per species
   with a matrix; snow carps were already done. Job IDs in

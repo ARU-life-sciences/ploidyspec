@@ -12,7 +12,9 @@ other stages already compute, plus one new k-mer test:
    (a) placed copies much longer than their siblings (reusing the matrix stage's
    shared-k-mer counts, no new k-mer work) and (b) unplaced chromosome-length
    scaffolds whose headers matched no chromosome number (new k-mer tables, built
-   only for those few sequences).
+   only for those few sequences). A placed copy's partner must also be enriched
+   over the copy's unfused siblings, which rules out shared ancient homeology
+   and siblings that are only fragments.
 
 2. Lineage structure within each chromosome number (>=3 copies): copies split
    into two groups by whole-chromosome distance (same bipartition as
@@ -24,6 +26,9 @@ other stages already compute, plus one new k-mer test:
 3. Ancient (WGD-derived) pairing between different chromosome numbers, from the
    homeologs stage, with distance_ratio as the resolution measure. Pairs that a
    detected fusion explains are relabelled, not counted as WGD pairs.
+   Chromosomes with < 3 copies are pooled with their homeolog partner, or,
+   failing that, with their reciprocal best match across a significant
+   genome-wide bipartition from the structure stage.
 
 The state labels are descriptive readings of sequence data from one
 individual -- not proof of inheritance mode, which needs segregation data.
@@ -55,6 +60,9 @@ from .subgenome_report import bipartition_by_distance, load_whole_chrom_distance
 DEFAULT_LONG_RATIO = 1.4
 DEFAULT_ORPHAN_MIN_FRAC = 0.5
 DEFAULT_CONTAINMENT_Z = 10.0
+DEFAULT_SIBLING_EXCESS = 2.5
+DEFAULT_PARTITION_Z = 10.0
+PARTITION_MIN_GROUP_FRAC = 0.25
 MIN_FRAC_OF_TOP = 0.25
 DEFAULT_DIST_SPLIT = 1.25
 DEFAULT_TE_SPLIT = 2.0
@@ -182,7 +190,36 @@ def lineage_divergence(containment, k):
     return -math.log(containment) / k if containment > 0 else float("inf")
 
 
-def detect_placed_fusions(units, counts, long_ratio, z_min):
+def own_fraction(counts, a, b):
+    """Fraction of a's k-mers shared with b. Normalised by a's own k-mer count, so
+    a fragmentary copy reads the same per-k-mer rate as a complete one."""
+    s, na, _, _ = counts[(a, b)]
+    return s / max(na, 1)
+
+
+def sibling_excess(units, counts, u, partner_chrom):
+    """How enriched partner_chrom is in copy u relative to u's least-enriched
+    sibling copy (best partner copy each time). A fused copy carries the partner,
+    an unfused sibling only shares background or ancient-homeolog k-mers:
+    SchCurv1 HAP3_chr19 has chr22 at 3.4x its unfused siblings, while
+    drMyrSpic1 HAP1_chr13 (a full copy next to a 15 Mb fragment) has its
+    homeologs chr03/chr09 at 0.9x. None when u has no sibling to compare."""
+    partners = [v["unit_id"] for v in units if v["chrom"] == partner_chrom]
+
+    def best(a):
+        vals = [own_fraction(counts, a, p) for p in partners if (a, p) in counts]
+        return max(vals) if vals else None
+
+    sibs = [best(v["unit_id"]) for v in units
+            if v["chrom"] == u["chrom"] and v["unit_id"] != u["unit_id"]]
+    sibs = [s for s in sibs if s is not None]
+    own = best(u["unit_id"])
+    if own is None or not sibs:
+        return None
+    return own / max(min(sibs), 1e-9)
+
+
+def detect_placed_fusions(units, counts, long_ratio, z_min, min_excess=DEFAULT_SIBLING_EXCESS):
     long_units = long_copy_outliers(units, long_ratio)
     if not long_units:
         return []
@@ -202,12 +239,13 @@ def detect_placed_fusions(units, counts, long_ratio, z_min):
             s, nv, _, _ = counts[(v["unit_id"], u["unit_id"])]
             best[v["chrom"]] = max(best.get(v["chrom"], 0.0), s / max(nv, 1))
         hits = containment_components(best, background, z_min)
-        rows.append(
-            fusion_row(
-                u["unit_id"], u["hap"], int(u["length"]), "placed_long_copy",
-                u["chrom"], hits, chrom_haps, k,
-            )
-        )
+        excess = {c: sibling_excess(units, counts, u, c) for c, _, _ in hits}
+        kept = [h for h in hits if excess[h[0]] is None or excess[h[0]] >= min_excess]
+        row = fusion_row(u["unit_id"], u["hap"], int(u["length"]), "placed_long_copy",
+                         u["chrom"], kept, chrom_haps, k)
+        row["sibling_excess"] = ",".join(
+            f"chr{c:02d}:{excess[c]:.2f}" for c, _, _ in hits if excess[c] is not None)
+        rows.append(row)
     return rows
 
 
@@ -488,6 +526,59 @@ def load_ancient_pairs(outdir):
     return out
 
 
+def load_chrom_distances(outdir):
+    """{(chrom_a, chrom_b): distance} between chromosome numbers (both orders),
+    from the homeologs stage's ranked candidates."""
+    path = os.path.join(homeologs_dir(outdir), "homeolog_candidates_ranked.tsv")
+    out = {}
+    if not os.path.exists(path):
+        return out
+    with open(path) as f:
+        for r in csv.DictReader(f, delimiter="\t"):
+            a, b = int(r["chrom_a"].replace("chr", "")), int(r["chrom_b"].replace("chr", ""))
+            out[(a, b)] = out[(b, a)] = float(r["distance"])
+    return out
+
+
+def reciprocal_matches(group_a, group_b, cdist):
+    """{chrom: partner} for chromosomes that are each other's closest match in the
+    opposite group (both directions recorded)."""
+    def nearest(c, others):
+        cands = [(cdist[(c, o)], o) for o in others if (c, o) in cdist]
+        return min(cands)[1] if cands else None
+
+    out = {}
+    for a in group_a:
+        b = nearest(a, group_b)
+        if b is not None and nearest(b, group_a) == a:
+            out[a], out[b] = b, a
+    return out
+
+
+def load_partition_pairs(outdir, z_min):
+    """
+    Partners from a diffuse genome-wide bipartition, for species where the
+    homeologs stage accepted no pairs but the structure stage found a
+    significant 2-group split of chromosome numbers (daInuConz1, dmRanRepe1,
+    dcCerAlpi1). Uses the k=2 partition when its z >= z_min and the smaller
+    group holds >= PARTITION_MIN_GROUP_FRAC of the chromosomes -- a 2-vs-rest
+    split is one tight pair, not two subgenomes. Each chromosome is paired with
+    its reciprocal best match in the other group. Returns ({chrom: partner}, z).
+    """
+    path = os.path.join(outdir, "structure", "genome_partition.tsv")
+    if not os.path.exists(path):
+        return {}, None
+    with open(path) as f:
+        row = next((r for r in csv.DictReader(f, delimiter="\t") if r["k"] == "2"), None)
+    if row is None or float(row["z_score"]) < z_min:
+        return {}, None
+    groups = [[int(c.strip().replace("chr", "")) for c in g.split(",")]
+              for g in row["groups"].split("|")]
+    if len(groups) != 2 or min(map(len, groups)) < PARTITION_MIN_GROUP_FRAC * sum(map(len, groups)):
+        return {}, None
+    return reciprocal_matches(groups[0], groups[1], load_chrom_distances(outdir)), float(row["z_score"])
+
+
 # --- driver -------------------------------------------------------------------
 
 
@@ -504,7 +595,8 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
     dist = load_whole_chrom_distances(outdir)
 
     log("rediploidization: fusion detection (placed long copies)")
-    fusions = detect_placed_fusions(units, counts, thresholds["long_ratio"], thresholds["containment_z"])
+    fusions = detect_placed_fusions(units, counts, thresholds["long_ratio"], thresholds["containment_z"],
+                                    thresholds.get("sibling_excess", DEFAULT_SIBLING_EXCESS))
     orphans = orphan_candidates(outdir, units, min_len, thresholds["orphan_min_frac"])
     if orphans:
         k = max((c[3] for c in counts.values()), default=max(k_values))
@@ -528,6 +620,13 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
     log("rediploidization: lineage structure per chromosome")
     lineages = chromosome_lineages(units, dist, load_windowed(outdir), load_te_split(outdir), thresholds)
     ancient = load_ancient_pairs(outdir)
+    partition, partition_z = {}, None
+    if not ancient:
+        partition, partition_z = load_partition_pairs(
+            outdir, thresholds.get("partition_z", DEFAULT_PARTITION_Z))
+        if partition:
+            log(f"rediploidization: no homeolog pairs; pooling {len(partition)} chromosomes by "
+                f"reciprocal match across the k=2 genome partition (z={partition_z:.1f})")
     all_haps = sorted({u["hap"] for u in units})
     chrom_haps = haps_by_chrom(units)
 
@@ -552,18 +651,22 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
         elif lin["n_copies"] >= 3:
             state, basis = copy_state(lin["n_copies"], lin["balanced"], lin["dist_split"],
                                       lin["te_split"], lin["extent"], thresholds), "copies"
-        elif ancient_state == "paired" and partner[0] in ids_by_chrom:
-            pooled = split_lineages(ids_by_chrom[chrom] + ids_by_chrom[partner[0]], dist)
+        else:
+            if ancient_state == "paired" and partner[0] in ids_by_chrom:
+                mate, pool_basis = partner[0], "homeolog_pool"
+            elif partition.get(chrom) in ids_by_chrom:
+                mate, pool_basis = partition[chrom], "partition_pool"
+            else:
+                mate = None
+            pooled = split_lineages(ids_by_chrom[chrom] + ids_by_chrom[mate], dist) if mate else None
             if pooled:
                 ga, gb, balanced, pooled_ratio = pooled
                 lin = dict(lin, group_a=",".join(ga), group_b=",".join(gb),
                            dist_split=pooled_ratio)
-                state, basis = pooled_state(balanced, pooled_ratio, thresholds), "homeolog_pool"
-                pooled_with = partner_str
+                state, basis = pooled_state(balanced, pooled_ratio, thresholds), pool_basis
+                pooled_with = f"chr{mate:02d}"
             else:
                 state, basis = "not_assessable", "none"
-        else:
-            state, basis = "not_assessable", "none"
         outlier = ""
         if state == "one_divergent_copy":
             ga, gb = lin["group_a"].split(","), lin["group_b"].split(",")
@@ -594,18 +697,18 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
     rdir = rediploidization_dir(outdir)
     write_tsv(os.path.join(rdir, "fusions.tsv"), fusions,
               ["scaffold", "hap", "length", "origin", "components", "containment",
-               "lineage_divergence", "max_z", "status"])
+               "sibling_excess", "lineage_divergence", "max_z", "status"])
     write_tsv(os.path.join(rdir, "rediploidization_by_chrom.tsv"), rows, list(rows[0]) if rows else [])
-    summary = summarize(rows, fusions)
+    summary = summarize(rows, fusions, partition_z)
     write_tsv(os.path.join(rdir, "rediploidization_summary.tsv"), summary, ["metric", "value"])
     log(f"wrote fusions.tsv, rediploidization_by_chrom.tsv, rediploidization_summary.tsv in {rdir}")
     return rows, fusions, summary
 
 
-def summarize(rows, fusions):
+def summarize(rows, fusions, partition_z=None):
     n = len(rows)
     out = [dict(metric="n_chromosome_numbers", value=n)]
-    for basis in ("copies", "homeolog_pool", "fusion", "none"):
+    for basis in ("copies", "homeolog_pool", "partition_pool", "fusion", "none"):
         out.append(dict(metric=f"state_basis:{basis}",
                         value=sum(1 for r in rows if r.get("state_basis") == basis)))
     for state in ("tetrasomic_like", "candidate", "partially_resolved", "resolved_lineages",
@@ -623,6 +726,8 @@ def summarize(rows, fusions):
     out.append(dict(metric="n_fused_scaffolds", value=len(confirmed)))
     out.append(dict(metric="n_fusion_candidates_partner_present",
                     value=sum(1 for f in fusions if f["status"] == "candidate_partner_present")))
+    if partition_z is not None:
+        out.append(dict(metric="partition_pool_z", value=f"{partition_z:.2f}"))
     paired = [r for r in rows if r["ancient_state"] == "paired"]
     out.append(dict(metric="ancient_paired_chromosomes", value=len(paired)))
     ratios = [float(r["distance_ratio"]) for r in paired if r["distance_ratio"]]

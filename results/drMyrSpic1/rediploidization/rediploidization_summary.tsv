@@ -2,6 +2,7 @@ metric	value
 n_chromosome_numbers	21
 state_basis:copies	0
 state_basis:homeolog_pool	16
+state_basis:partition_pool	0
 state_basis:fusion	0
 state_basis:none	5
 copy_state:tetrasomic_like	0
@@ -13,7 +14,7 @@ copy_state:one_divergent_copy	0
 copy_state:not_assessable	5
 n_distinct_fusions	0
 n_fused_scaffolds	0
-n_fusion_candidates_partner_present	1
+n_fusion_candidates_partner_present	0
 ancient_paired_chromosomes	16
 ancient_distance_ratio_median	6.98
 ancient_distance_ratio_cv	0.33

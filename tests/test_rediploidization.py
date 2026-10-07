@@ -1,5 +1,7 @@
 import os
+import shutil
 import sys
+import tempfile
 import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -10,7 +12,10 @@ from ploidyspec.rediploidization import (
     copy_state,
     fusion_row,
     lineage_divergence,
+    load_partition_pairs,
     long_copy_outliers,
+    reciprocal_matches,
+    sibling_excess,
     pooled_state,
     robust_background,
     split_segments,
@@ -72,6 +77,88 @@ class TestFusionDetection(unittest.TestCase):
         row = fusion_row("scaffold_7", "HAP1", 5e6, "unplaced_scaffold", None,
                          [(4, 0.3, 15.0)], {4: {"HAP2"}}, 23)
         self.assertEqual(row["status"], "no_fusion_signal")
+
+
+class TestSiblingExcess(unittest.TestCase):
+    """drMyrSpic1-like: HAP1_chr13 is a full copy, HAP2_chr13 a fragment, and
+    both share ancient-homeolog k-mers with chr03 at the same per-k-mer rate.
+    SchCurv1-like: HAP3_chr19 carries chr22, its sibling HAP1_chr19 does not."""
+
+    @staticmethod
+    def counts(kmers, shared):
+        out = {}
+        for (a, b), s in shared.items():
+            out[(a, b)] = (s, kmers[a], kmers[b], 23)
+            out[(b, a)] = (s, kmers[b], kmers[a], 23)
+        return out
+
+    def setUp(self):
+        self.units = [unit("HAP1_chr13", "HAP1", 13, 36e6), unit("HAP2_chr13", "HAP2", 13, 15e6),
+                      unit("HAP1_chr03", "HAP1", 3, 48e6), unit("HAP2_chr03", "HAP2", 3, 43e6),
+                      unit("HAP1_chr19", "HAP1", 19, 40e6), unit("HAP3_chr19", "HAP3", 19, 69e6),
+                      unit("HAP1_chr22", "HAP1", 22, 30e6)]
+        kmers = {"HAP1_chr13": 24_000_000, "HAP2_chr13": 14_000_000, "HAP1_chr03": 26_000_000,
+                 "HAP2_chr03": 25_000_000, "HAP1_chr19": 25_000_000, "HAP3_chr19": 45_000_000,
+                 "HAP1_chr22": 20_000_000}
+        self.c = self.counts(kmers, {
+            ("HAP1_chr13", "HAP1_chr03"): 5_300_000, ("HAP1_chr13", "HAP2_chr03"): 5_200_000,
+            ("HAP2_chr13", "HAP1_chr03"): 3_500_000, ("HAP2_chr13", "HAP2_chr03"): 3_400_000,
+            ("HAP3_chr19", "HAP1_chr22"): 10_000_000, ("HAP1_chr19", "HAP1_chr22"): 1_700_000,
+        })
+
+    def test_homeolog_shared_with_fragment_sibling_is_not_enriched(self):
+        u = self.units[0]
+        self.assertLess(sibling_excess(self.units, self.c, u, 3), 1.5)
+
+    def test_fused_partner_is_enriched_over_unfused_sibling(self):
+        u = self.units[5]
+        self.assertGreater(sibling_excess(self.units, self.c, u, 22), 2.5)
+
+    def test_no_sibling_gives_none(self):
+        u = self.units[6]
+        self.assertIsNone(sibling_excess(self.units, self.c, u, 19))
+
+
+class TestPartitionPairs(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+        os.makedirs(os.path.join(self.tmp, "structure"))
+        os.makedirs(os.path.join(self.tmp, "homeologs"))
+        # two groups {1,2,3} / {4,5,6}; 1<->4, 2<->5, 3<->6 closest across groups
+        close = {(1, 4), (2, 5), (3, 6)}
+        with open(os.path.join(self.tmp, "homeologs", "homeolog_candidates_ranked.tsv"), "w") as f:
+            f.write("chrom_a\tchrom_b\tdistance\tz_score\tp_value\tq_value\taccepted\n")
+            for a in range(1, 7):
+                for b in range(a + 1, 7):
+                    d = 0.05 if (a, b) in close else 0.07
+                    f.write(f"chr{a:02d}\tchr{b:02d}\t{d}\t0\t1\t1\tFalse\n")
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp)
+
+    def write_partition(self, sizes, z, groups):
+        with open(os.path.join(self.tmp, "structure", "genome_partition.tsv"), "w") as f:
+            f.write("species\tk\tgroup_sizes\tseparation_ratio\tnull_mean_ratio\tz_score\tgroups\n")
+            f.write(f"sp\t2\t{sizes}\t1.2\t1.0\t{z}\t{groups}\n")
+
+    def test_balanced_significant_partition_pairs_reciprocal_matches(self):
+        self.write_partition("3,3", 12.0, "chr01,chr02,chr03 | chr04,chr05,chr06")
+        pairs, z = load_partition_pairs(self.tmp, 10.0)
+        self.assertEqual(z, 12.0)
+        self.assertEqual(pairs, {1: 4, 4: 1, 2: 5, 5: 2, 3: 6, 6: 3})
+
+    def test_weak_partition_is_ignored(self):
+        self.write_partition("3,3", 5.0, "chr01,chr02,chr03 | chr04,chr05,chr06")
+        self.assertEqual(load_partition_pairs(self.tmp, 10.0), ({}, None))
+
+    def test_one_pair_versus_rest_is_not_two_subgenomes(self):
+        self.write_partition("1,5", 12.0, "chr01 | chr02,chr03,chr04,chr05,chr06")
+        self.assertEqual(load_partition_pairs(self.tmp, 10.0), ({}, None))
+
+    def test_non_reciprocal_matches_are_left_unpaired(self):
+        d = {(1, 3): 0.05, (2, 3): 0.04, (1, 4): 0.06, (2, 4): 0.07}
+        d.update({(b, a): v for (a, b), v in d.items()})
+        self.assertEqual(reciprocal_matches([1, 2], [3, 4], d), {2: 3, 3: 2})
 
 
 class TestSplitSegments(unittest.TestCase):

@@ -252,7 +252,11 @@ The `rediploidization` stage does this automatically (see `OUTPUTS.md`,
 For each one it measures k-mer containment against every other
 chromosome's copies. A chromosome counts as a fused component when its
 containment is far above background (robust z ≥ 10, at least 2× the
-background median, and at least a quarter of the top hit). The result is
+background median, and at least a quarter of the top hit). For a placed
+long copy, the partner must also be at least 2.5× more enriched, per k-mer,
+than in the copy's unfused siblings (`sibling_excess`). Ancient homeology is
+shared by every copy, while a fused partner is carried only by the fused
+copy. The result is
 `fusion` only if that partner chromosome is missing from the same
 haplotype; otherwise it is `candidate_partner_present`. Containment also
 gives `lineage_divergence` (−ln(c)/k), which dates the fused lineage
@@ -274,7 +278,9 @@ partner before a state is assigned (`state_basis = homeolog_pool`).
   Their `lineage_divergence` puts them in the paper's wave order: 19+22
   oldest (≈0.053), then 04+15, 08+16 and 20+23 (≈0.026–0.028), then 11+14
   (≈0.015). No other species has a `fusion` call.
-- **Candidates with the partner present are homeologs, not fusions.**
+- **Candidates with the partner present were homeologs, not fusions.**
+  The sibling-enrichment check (added after the first panel run) now
+  removes all three; the explanations below are why it was added.
   `daPilAura1` HAP1 chr01 (273 Mb) and chr07 contain chr06/chr07/chr14 at
   0.37–0.50, but all those partners are present, and chr01–chr14 and
   chr06–chr07 are accepted homeolog pairs. HAP2's chr07 is short, so this
@@ -321,12 +327,24 @@ partner before a state is assigned (`state_basis = homeolog_pool`).
   and `lpElePalu1` (8 tetrasomic, 4 resolved, 4 candidate, 2 one-divergent)
   are the panel's best candidates for rediploidization in progress.
   `ddEmpNigr1` and `drAriEdul1` are already on the hand-check list.
-- **Not assessable: two-haplotype species with no homeolog pairs.** That
-  includes all the diploid references, but also the cryptic
-  allopolyploid candidates `daInuConz1`, `dcCerAlpi1` and `dmRanRepe1`.
-  Their signal is a diffuse genome-wide partition (below), not discrete
-  pairs, so there is nothing to pool. Pooling by partition group instead
-  of by pair is the obvious extension.
+- **Cryptic allopolyploid candidates, pooled by partition.** `daInuConz1`,
+  `dcCerAlpi1` and `dmRanRepe1` have no accepted homeolog pairs, but each
+  has a significant two-group partition (below). Each chromosome is now
+  pooled with its reciprocal best match across the two groups
+  (`state_basis = partition_pool`): 16/16, 32/36 and 16/16 chromosomes,
+  all `resolved_lineages`.
+  - Read this carefully: the evidence is the partition's z, not the
+    pooled state. Pooling each chromosome of the diploid `ddMalSylv1` with
+    its nearest other chromosome also reads `resolved_lineages` (split
+    22–47×), because any two chromosome numbers are far more distant than
+    two alleles.
+  - The same holds for homeolog pools. `resolved_lineages` from a pool
+    means "copies do not interchange across the two numbers". It does not
+    separate allopolyploidy from a long-diploidized autopolyploid. The
+    informative pooled outcome is the opposite one: `tetrasomic_like`
+    (most of `lpElePalu1`).
+- **Not assessable: two-haplotype species with neither pairs nor a
+  partition** — the diploid references.
 
 ## The snow carps: what we found, what the paper found, and a correction
 
