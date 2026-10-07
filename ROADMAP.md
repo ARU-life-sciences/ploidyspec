@@ -88,7 +88,7 @@ Phase 1, not a later extra.
        manifests accept paths relative to the manifest file.
 5. [ ] **Defaults = what the panel used** (k sweep 11–23 etc.); `--cleanup` to
        drop k-mer tables after a run; document runtime/memory.
-6. [ ] **Simulated test data + end-to-end test + CI**: small synthetic genomes —
+6. [x] **Simulated test data + end-to-end test + CI**: small synthetic genomes —
        diploid, autotetraploid, allotetraploid, and a *partially rediploidized*
        autotetraploid (one fused/disomic chromosome, one arm-level disomic region).
        Doubles as the paper's validation figure.

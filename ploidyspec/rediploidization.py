@@ -55,6 +55,7 @@ from .subgenome_report import bipartition_by_distance, load_whole_chrom_distance
 DEFAULT_LONG_RATIO = 1.4
 DEFAULT_ORPHAN_MIN_FRAC = 0.5
 DEFAULT_CONTAINMENT_Z = 10.0
+MIN_FRAC_OF_TOP = 0.25
 DEFAULT_DIST_SPLIT = 1.25
 DEFAULT_TE_SPLIT = 2.0
 DEFAULT_WINDOW_SPLIT = 1.25
@@ -77,14 +78,20 @@ def containment_components(containments, background, z_min):
     Chromosome numbers whose k-mers are contained in a scaffold far above the
     background rate. containments: {chrom: containment of that chromosome's
     best-matching copy in the scaffold}. Returns [(chrom, containment, z)],
-    strongest first. Requires both a robust z >= z_min and at least twice the
-    background median, so a tight background can't promote small excesses.
+    strongest first. Requires a robust z >= z_min, at least twice the
+    background median, and at least MIN_FRAC_OF_TOP of the strongest hit. The
+    last one matters when the background is near zero (little shared repeat
+    content): the MAD then sits at its floor and repeat k-mers shared by every
+    chromosome would otherwise clear the z test everywhere (caught on
+    simulated genomes, where the shared-TE background is ~0.02 vs ~0.58 for
+    the real fusion partner).
     """
     med, mad = background
+    top = max(containments.values(), default=0.0)
     hits = []
     for chrom, c in containments.items():
         z = (c - med) / mad
-        if z >= z_min and c >= 2 * med:
+        if z >= z_min and c >= 2 * med and c >= MIN_FRAC_OF_TOP * top:
             hits.append((chrom, c, z))
     return sorted(hits, key=lambda h: -h[1])
 

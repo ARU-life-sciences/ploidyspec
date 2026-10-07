@@ -41,6 +41,12 @@ class TestFusionDetection(unittest.TestCase):
         hits = containment_components({22: 0.45, 5: 0.08, 17: 0.07}, background, 10)
         self.assertEqual([h[0] for h in hits], [22])
 
+    def test_near_zero_background_does_not_promote_shared_repeats(self):
+        # random-sequence background: MAD at its floor, shared-TE containment ~0.02
+        background = robust_background([0.0, 0.001, 0.0005, 0.0, 0.001])
+        hits = containment_components({4: 0.58, 1: 0.029, 7: 0.021}, background, 10)
+        self.assertEqual([h[0] for h in hits], [4])
+
     def test_fusion_requires_partner_missing_from_haplotype(self):
         hits = [(22, 0.45, 40.0)]
         absorbed = fusion_row("HAP3_chr19", "HAP3", 69e6, "placed_long_copy", 19, hits,

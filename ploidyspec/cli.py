@@ -26,6 +26,9 @@ Pipeline:
   rediploidization   -> chromosome fusions between haplotype copies, lineage structure along
                          each chromosome, and a per-chromosome rediploidization state
                          (run by `all`; uses te-markers output if present)
+
+  simulate           -> synthetic haplotype assemblies with a known answer (diploid,
+                         autotetraploid, allotetraploid, rediploidized) for testing
 """
 
 import argparse
@@ -57,6 +60,7 @@ from .rediploidization import (
     compute_rediploidization,
 )
 from .report import generate_report
+from .simulate import DEFAULTS as SIM_DEFAULTS, SCENARIOS, simulate
 from .subgenome_report import compute_subgenome_report
 from .te_markers import (
     DEFAULT_MARKER_K,
@@ -404,6 +408,12 @@ def cmd_rediploidization(args):
     )
 
 
+def cmd_simulate(args):
+    params = dict(n_chrom=args.n_chrom, chrom_len=args.chrom_len)
+    for d in simulate(args.scenario, args.outdir, args.seed, params):
+        log(f"wrote {d}/manifest.tsv, truth.tsv and one FASTA per haplotype")
+
+
 def cmd_report(args):
     path = generate_report(args.outdir)
     log(f"wrote {path}")
@@ -600,6 +610,21 @@ def main(argv=None):
     add_common_args(p_redip)
     add_rediploidization_args(p_redip)
     p_redip.set_defaults(func=cmd_rediploidization)
+
+    p_sim = sub.add_parser(
+        "simulate",
+        help="write synthetic haplotype assemblies with a known answer (manifest.tsv + "
+        "truth.tsv per scenario) for testing and calibration",
+    )
+    p_sim.add_argument("--scenario", choices=SCENARIOS + ("all",), default="all")
+    p_sim.add_argument("--outdir", required=True, help="one subdirectory per scenario")
+    p_sim.add_argument("--seed", type=int, default=1)
+    p_sim.add_argument("--n-chrom", type=int, default=SIM_DEFAULTS["n_chrom"],
+                       help=f"chromosomes per genome (default {SIM_DEFAULTS['n_chrom']}; "
+                       "allotetraploid has 2x this)")
+    p_sim.add_argument("--chrom-len", type=int, default=SIM_DEFAULTS["chrom_len"],
+                       help=f"chromosome length in bp (default {SIM_DEFAULTS['chrom_len']})")
+    p_sim.set_defaults(func=cmd_simulate)
 
     args = parser.parse_args(argv)
     os.makedirs(args.outdir, exist_ok=True)

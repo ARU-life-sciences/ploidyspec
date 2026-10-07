@@ -80,6 +80,21 @@ file — see `manifests/daBudDavi1.tsv` for a real example. Use an explicit labe
 single file contains multiple haplotype copies distinguished by header (matched via
 `--hap-regex`/the default above).
 
+## Testing on simulated genomes
+
+`ploidyspec simulate --outdir sims` writes four synthetic assemblies with a known
+answer — diploid, autotetraploid, allotetraploid, and a partially rediploidized
+autotetraploid (a whole-chromosome lineage split, a regional split, one placed and
+one unplaced fusion) — each with a `manifest.tsv` and the expected results in
+`truth.tsv`. Run any stage on them like a real species. The end-to-end test runs the
+whole pipeline on all four and checks it recovers the truth (needs samtools + FastK,
+about 25 minutes):
+
+```
+python3 -m unittest discover -s tests                         # unit tests, seconds
+PLOIDYSPEC_E2E=1 python3 -m unittest tests.test_end_to_end    # end-to-end
+```
+
 ## Pipeline stages
 
 Cheap stages, always run by `all`:
