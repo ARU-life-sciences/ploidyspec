@@ -43,6 +43,11 @@ def subgenomes_dir(outdir):
     return _output_subdir(outdir, "subgenomes")
 
 
+def rediploidization_dir(outdir):
+    """Fusion detection, per-chromosome lineage structure, rediploidization state."""
+    return _output_subdir(outdir, "rediploidization")
+
+
 def find_tool(explicit, dir_glob, binary_name):
     """Locate a binary: explicit path/dir > sibling dir matching dir_glob > PATH."""
     if explicit:

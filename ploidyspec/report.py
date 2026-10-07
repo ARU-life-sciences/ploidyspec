@@ -12,7 +12,12 @@ import glob
 import html
 import os
 
-from .common import homeologs_dir, matrix_dir, subgenomes_dir, windowed_dir
+from .common import (
+    homeologs_dir,
+    matrix_dir,
+    subgenomes_dir,
+    windowed_dir,
+)
 
 RANKED_CANDIDATES_LIMIT = 20
 
@@ -83,7 +88,16 @@ def collect_species_data(outdir):
             ),
         },
         "subgenomes": None,
+        "rediploidization": None,
     }
+
+    rdir = os.path.join(outdir, "rediploidization")
+    if os.path.isdir(rdir):
+        data["rediploidization"] = {
+            "summary": _read_tsv(os.path.join(rdir, "rediploidization_summary.tsv")),
+            "fusions": _read_tsv(os.path.join(rdir, "fusions.tsv")),
+            "by_chrom": _read_tsv(os.path.join(rdir, "rediploidization_by_chrom.tsv")),
+        }
 
     auto_allo = _read_tsv(os.path.join(sdir, "auto_allo_index.tsv"))
     if auto_allo is not None:
@@ -226,6 +240,30 @@ def render_report_html(data):
         sections.append(
             '<section><h2>Subgenomes / auto-allo index</h2>'
             '<p class="empty">te-markers not run for this species.</p></section>'
+        )
+
+    r = data.get("rediploidization")
+    if r:
+        sections.append(
+            f"""<section>
+  <h2>Rediploidization</h2>
+  <p class="note">Fusions between haplotype copies, lineage structure within
+  each chromosome number (whole-chromosome distance split, TE-marker split,
+  and where along the chromosome the split holds), and ancient pairing.
+  States are descriptive readings of one individual's sequence, not proof of
+  inheritance mode. See OUTPUTS.md.</p>
+  <h3>Summary</h3>
+  {_table_html(r.get('summary'))}
+  <h3>Chromosome fusions</h3>
+  {_table_html(r.get('fusions'))}
+  <h3>Per chromosome</h3>
+  {_table_html(r.get('by_chrom'))}
+</section>"""
+        )
+    else:
+        sections.append(
+            '<section><h2>Rediploidization</h2>'
+            '<p class="empty">Not run yet.</p></section>'
         )
 
     body = "\n".join(sections)

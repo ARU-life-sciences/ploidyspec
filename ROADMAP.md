@@ -55,8 +55,11 @@ Phase 1, not a later extra.
   a different species (or Tetmer on reads).
 - ~10 metrics, some failed (run-length/`flip_rate`), some confounded
   (`distance_ratio_cv` denominator). Needs pruning to a core set.
-- Open threads: `SchYoun1` lineage split on fused scaffolds; inverted direction of
-  the fusion-wave distance ranking (check with windowed data); `drAriEdul1` chr01
+- Open threads: ~~inverted direction of the fusion-wave distance ranking~~ —
+  resolved by the rediploidization stage: fused-lineage divergence
+  (`fusions.tsv` `lineage_divergence`) ranks `SchYoun1`'s five fusions in the
+  paper's wave order; `SchYoun1` lineage split on fused scaffolds (fused copies
+  are detected but not yet fed into te-markers/windowed); `drAriEdul1` chr01
   (~13 Mb breakpoint); `ddSalTria1` and `drRosSpin1` ploidy conflicts; PCA
   imputation.
 - `INTERPRETATION.md` (82 KB) is a lab notebook — methods, results and
@@ -77,7 +80,7 @@ Phase 1, not a later extra.
 1. [x] **Packaging**: `pyproject.toml` with a `ploidyspec` console script;
        `environment.yml` (python, numpy, matplotlib, samtools, FastK); README
        install section rewritten around `pip install` / conda. Container later.
-2. [ ] **Rediploidization as a core stage** (see design below).
+2. [x] **Rediploidization as a core stage** (see design below).
 3. [ ] **Fold per-species metrics into the package**: partition_consistency,
        distance_ratio_cv / pair_depth_cv, genome partition, reordered heatmap become
        stages run by `all`; cross-species tables + PCA become `ploidyspec panel`.

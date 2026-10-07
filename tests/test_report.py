@@ -25,6 +25,7 @@ def empty_data(species="testSpecies1"):
             "homeolog_pairs_plot": None,
         },
         "subgenomes": None,
+        "rediploidization": None,
     }
 
 
@@ -44,6 +45,11 @@ class TestRenderReportHtml(unittest.TestCase):
             "windows_summary": [{"unit": "HAP1_chr01", "pct_self": "90.0"}],
             "windowed_plots": ["data:image/png;base64,CCCC"],
         }
+        data["rediploidization"] = {
+            "summary": [{"metric": "n_fusions", "value": "1"}],
+            "fusions": [{"scaffold": "HAP3_chr19", "components": "chr19+chr22", "status": "fusion"}],
+            "by_chrom": [{"chrom": "chr19", "copy_state": "fusion_lineages"}],
+        }
 
         out = render_report_html(data)
         self.assertIn("<html>", out)
@@ -56,6 +62,8 @@ class TestRenderReportHtml(unittest.TestCase):
         self.assertIn("Subgenomes / auto-allo index", out)
         self.assertIn("0.22", out)
         self.assertIn("data:image/png;base64,CCCC", out)
+        self.assertIn("Rediploidization", out)
+        self.assertIn("fusion_lineages", out)
         self.assertNotIn("Not run yet", out)
         self.assertNotIn("te-markers not run", out)
 

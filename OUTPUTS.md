@@ -20,6 +20,7 @@ results/<species>/
   windowed/                       sliding-window divergence between haplotype copies of the same chromosome
   homeologs/                      ancient (paleopolyploid) homeolog pairs and their windowed tracks
   subgenomes/                     fossil-TE marker output, windowed subgenome painting, auto/allo index
+  rediploidization/               chromosome fusions, per-chromosome lineage structure and rediploidization state
 ```
 
 Everything under `matrix/`/`windowed/`/`homeologs/`/`subgenomes/` is derived,
@@ -449,3 +450,98 @@ cleanly as itself."
 sequence matched the *other* side's markers — candidate
 homeologous-exchange/introgression coordinates, ready to cross-reference
 against `windowed/`'s divergence track or an assembly viewer.
+
+## `rediploidization/` — fusions, lineage structure, rediploidization state
+
+Pulls together the rediploidization evidence the other stages compute, plus one
+new test (fusion detection), into one per-chromosome table. Run after `matrix`,
+`homeologs` and `windowed`; uses `te-markers` output when present. Only the
+unplaced-scaffold fusion test does new k-mer work, and only for the handful of
+unplaced sequences long enough to be whole chromosomes.
+
+**`fusions.tsv`**: one row per scaffold with a fusion signal. Two kinds of
+scaffold are tested:
+- `placed_long_copy`: a placed copy at >= `--long-ratio` (1.4) x the median
+  length of its same-chromosome siblings (e.g. `SchCurv1`'s 69.5 Mb `HAP3_chr19`
+  vs 38-40 Mb siblings). Uses the matrix stage's shared-k-mer counts.
+- `unplaced_scaffold`: a sequence in `unplaced.tsv` that matched no chromosome
+  number but is >= `--orphan-min-frac` (0.5) x the median chromosome length
+  (e.g. `SchYoun1`'s `Sy_Chr04_15_M2`). New k-mer table, intersected with
+  every placed copy. Results are cached in `orphan_containment.tsv`.
+
+`containment` = fraction of a chromosome copy's k-mers found in the scaffold
+(best copy per chromosome number). A chromosome counts as a component when its
+containment is >= `--containment-z` (10) robust z-scores above the species'
+background and >= 2x the background median. `SchCurv1`: chr22 in the fused chr19
+copies = 0.44-0.45, background median 0.063, z ~ 48.
+
+`lineage_divergence` = -ln(containment)/k: a Mash-style divergence between the
+fused lineage and the unfused copies of each component. Use it to rank fusions
+by age. `SchYoun1` gives chr19+22 ~0.053, chr04+15 / chr08+16 / chr20+23
+~0.026-0.028, and chr11+14 ~0.015. That is the three-wave grouping and order of
+Xie et al. 2026, oldest first, recovered without prior knowledge.
+
+`status`:
+- `fusion`: >= 2 component chromosomes, and every partner is missing from that
+  haplotype (it was absorbed into this scaffold, not duplicated).
+- `candidate_partner_present`: >= 2 components but the partner chromosome is
+  still present in the same haplotype. This can be a translocation, a
+  duplication, or (often, in two-haplotype assemblies where one haplotype is
+  fragmented) a long copy that shares repeats or ancient homeology with several
+  chromosomes. Not used as fusion evidence downstream.
+
+**`rediploidization_by_chrom.tsv`**: one row per chromosome number.
+- `n_copies`, `haps_missing`: copies placed under this number, and which
+  haplotypes lack one. In a fusion these are the haplotypes carrying it.
+- `fusion`: confirmed fusions involving this chromosome (`with chr22 in HAP3,HAP4`).
+- `group_a`/`group_b`: the 2-way split of copies by whole-chromosome distance
+  (same method as `te_marker_fraction_by_lineage.tsv`; >= 3 copies needed).
+- `dist_split`: mean cross-group / mean within-group whole-chromosome distance.
+  ~1 = no lineage structure. `SchCurv1` chr19 = 8.1, chr17 = 1.2, most
+  chromosomes 1.0-1.1.
+- `te_split`: the TE-marker `split_ratio` for the same chromosome, if te-markers ran.
+- `window_split_frac`, `split_extent`, `split_segments`: where along the
+  chromosome the split holds. Per window, the same cross/within ratio is computed
+  from `windowed/`. Windows >= `--window-split` (1.25) count as split. Runs of
+  split windows (one-window gaps bridged, >= `--min-segment-bp` 2 Mb) are
+  `split_segments`. `split_extent` is `whole` (segments cover >= half the
+  chromosome), `regional`, or `none`. `SchCurv1` chr17: `regional`, 5.0-8.2 Mb.
+  Coordinates are positional, so copies with large indels or inversions relative
+  to each other can show spurious split windows.
+- `copy_state`: the reading for this chromosome number:
+  - `fusion_lineages`: fused in some haplotypes, not others, which splits the
+    copies into a fused and an unfused lineage (the snow carp mechanism, Xie et al. 2026).
+  - `resolved_lineages`: balanced split, `dist_split` >= 2x threshold, and a
+    whole-chromosome windowed split.
+  - `partially_resolved`: >= 2 of {`dist_split` >= 1.25, `te_split` >= 2,
+    windowed segment}.
+  - `candidate`: exactly one of those.
+  - `tetrasomic_like`: none. The copies are interchangeable, as expected under
+    polysomic inheritance (or complete homogenization).
+  - `single_copy_outlier`: the split isolates a single copy. That points at one
+    odd haplotype (often assembly quality, see the assembly-quality confound
+    above), not two lineages. `outlier_hap` names it.
+  - `not_assessable`: < 3 copies. For two-haplotype assemblies, rediploidization
+    is read from ancient pairing instead.
+- `ancient_partner`, `distance_ratio`, `ancient_state`: the FDR-accepted
+  homeolog partner from `homeologs/` and its `distance_ratio`
+  (`ploidy_ancestry_summary.tsv`). `ancient_state` is `paired`, `unpaired`, or
+  `fusion_partner` when a detected fusion explains the pair (`SchCurv1`
+  chr19<->chr22). Those pairs are fused chromosomes, not retained WGD duplicates.
+
+**`rediploidization_summary.tsv`**: genome-level counts.
+- Chromosome numbers per `copy_state`; `n_distinct_fusions` (distinct
+  chromosome combinations) and `n_fused_scaffolds` (one per haplotype carrying
+  one: `SchCurv1` = 1 and 2).
+- `most_frequent_outlier_hap`: one haplotype isolated on many chromosomes is a
+  haplotype-level issue, not per-chromosome biology.
+- Ancient-paired chromosome count, with the median and coefficient of variation
+  of `distance_ratio`: tight and high = one synchronized, long-finished event;
+  wide spread = pairs resolving at different times.
+
+**Caveats.** Every state is a descriptive reading of one individual's
+assemblies, not a measurement of inheritance mode (that needs segregation
+data). The thresholds are provisional, tuned on the snow carp anchors
+(`SchCurv1`: chr19+22 fusion, chr17 regional split, the rest tetrasomic-like),
+and are all CLI flags. Simulated test genomes (ROADMAP Phase 1.6) are the
+planned calibration.

@@ -95,7 +95,12 @@ Cheap stages, always run by `all`:
    evidence (not just the FDR-accepted subset).
 5. **windowed** — sliding-window divergence along each chromosome between its haplotype
    copies.
-6. **report** — self-contained HTML report (`report.html` in the output directory),
+6. **rediploidization** — chromosome fusions between haplotype copies (k-mer
+   containment), lineage structure along each chromosome, and a per-chromosome
+   rediploidization state (`fusion_lineages`, `partially_resolved`,
+   `tetrasomic_like`, ...) alongside ancient pairing. Uses `te-markers` output
+   if present.
+7. **report** — self-contained HTML report (`report.html` in the output directory),
    embedding whatever plots/tables the stages that ran produced.
 
 Opt-in stages (moderate-to-expensive; flags on `all`, or run individually):

@@ -23,6 +23,9 @@ Pipeline:
                          they match -- the phaser
   subgenome-report   -> consolidates te-markers output into a continuous auto<->allo index
                          and subgenome-assignment summary
+  rediploidization   -> chromosome fusions between haplotype copies, lineage structure along
+                         each chromosome, and a per-chromosome rediploidization state
+                         (run by `all`; uses te-markers output if present)
 """
 
 import argparse
@@ -43,6 +46,16 @@ from .kmer_tables import build_all
 from .whole_matrix import compute_matrix
 from .windowed import compute_windowed, compute_windowed_homeologs
 from .homeologs import run as run_homeolog_detection
+from .rediploidization import (
+    DEFAULT_CONTAINMENT_Z,
+    DEFAULT_DIST_SPLIT,
+    DEFAULT_LONG_RATIO,
+    DEFAULT_MIN_SEGMENT_BP,
+    DEFAULT_ORPHAN_MIN_FRAC,
+    DEFAULT_TE_SPLIT,
+    DEFAULT_WINDOW_SPLIT,
+    compute_rediploidization,
+)
 from .report import generate_report
 from .subgenome_report import compute_subgenome_report
 from .te_markers import (
@@ -156,6 +169,30 @@ def add_marker_args(p):
         help=f"minimum count ratio between haplotype copies for a high-copy k-mer to "
         f"be called a differential marker (default {DEFAULT_MIN_RATIO}).",
     )
+
+
+def add_rediploidization_args(p):
+    p.add_argument("--long-ratio", type=float, default=DEFAULT_LONG_RATIO,
+                   help="a placed copy at >= this x its siblings' median length is tested as a "
+                   f"candidate fusion (default {DEFAULT_LONG_RATIO})")
+    p.add_argument("--orphan-min-frac", type=float, default=DEFAULT_ORPHAN_MIN_FRAC,
+                   help="unplaced scaffolds >= this x the median chromosome length are tested as "
+                   f"candidate fused chromosomes (default {DEFAULT_ORPHAN_MIN_FRAC})")
+    p.add_argument("--containment-z", type=float, default=DEFAULT_CONTAINMENT_Z,
+                   help="robust z above the species' background k-mer containment for a chromosome "
+                   f"to count as a fusion component (default {DEFAULT_CONTAINMENT_Z})")
+    p.add_argument("--dist-split", type=float, default=DEFAULT_DIST_SPLIT,
+                   help="cross/within whole-chromosome distance ratio counted as lineage-split "
+                   f"evidence (default {DEFAULT_DIST_SPLIT}; 2x this plus a whole-chromosome "
+                   "windowed split = resolved_lineages)")
+    p.add_argument("--te-split", type=float, default=DEFAULT_TE_SPLIT,
+                   help=f"TE-marker split_ratio counted as lineage-split evidence (default {DEFAULT_TE_SPLIT})")
+    p.add_argument("--window-split", type=float, default=DEFAULT_WINDOW_SPLIT,
+                   help="per-window cross/within distance ratio counted as a split window "
+                   f"(default {DEFAULT_WINDOW_SPLIT})")
+    p.add_argument("--min-segment-bp", type=int, default=DEFAULT_MIN_SEGMENT_BP,
+                   help="minimum length of a contiguous split region to count "
+                   f"(default {DEFAULT_MIN_SEGMENT_BP})")
 
 
 def resolve_tools(args):
@@ -341,6 +378,32 @@ def cmd_subgenome_report(args):
     compute_subgenome_report(args.outdir)
 
 
+def cmd_rediploidization(args):
+    seq_tsv = os.path.join(args.outdir, "sequences.tsv")
+    pairs_tsv = os.path.join(matrix_dir(args.outdir), "whole_chrom_pairs.tsv")
+    if not os.path.exists(seq_tsv) or not os.path.exists(pairs_tsv):
+        raise SystemExit(
+            f"need sequences.tsv and {pairs_tsv} -- run `prepare`, `kmers`, `matrix` first"
+        )
+    thresholds = dict(
+        long_ratio=args.long_ratio,
+        orphan_min_frac=args.orphan_min_frac,
+        containment_z=args.containment_z,
+        dist_split=args.dist_split,
+        te_split=args.te_split,
+        window_split=args.window_split,
+        min_segment_bp=args.min_segment_bp,
+    )
+
+    def tools():
+        samtools_bin, fastk_bin, logex_bin, histex_bin, _ = resolve_tools(args)
+        return samtools_bin, fastk_bin, logex_bin, histex_bin
+
+    compute_rediploidization(
+        args.outdir, args.k, args.min_len, thresholds, tools, args.threads
+    )
+
+
 def cmd_report(args):
     path = generate_report(args.outdir)
     log(f"wrote {path}")
@@ -361,6 +424,7 @@ def cmd_all(args):
         cmd_te_markers_windowed(args)
     if run_te_markers:
         cmd_subgenome_report(args)
+    cmd_rediploidization(args)
     cmd_report(args)
 
 
@@ -413,6 +477,7 @@ def main(argv=None):
     add_common_args(p_all)
     add_window_k_arg(p_all)
     add_marker_args(p_all)
+    add_rediploidization_args(p_all)
     p_all.add_argument(
         "--window", type=int, default=250_000, help="window size in bp (default 250000)"
     )
@@ -526,6 +591,15 @@ def main(argv=None):
     )
     add_common_args(p_subgenome)
     p_subgenome.set_defaults(func=cmd_subgenome_report)
+
+    p_redip = sub.add_parser(
+        "rediploidization",
+        help="chromosome fusions, per-chromosome lineage structure and rediploidization "
+        "state (run after matrix/homeologs/windowed; uses te-markers output if present)",
+    )
+    add_common_args(p_redip)
+    add_rediploidization_args(p_redip)
+    p_redip.set_defaults(func=cmd_rediploidization)
 
     args = parser.parse_args(argv)
     os.makedirs(args.outdir, exist_ok=True)
