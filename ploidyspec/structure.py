@@ -1,92 +1,62 @@
-#!/usr/bin/env python3
 """
-Three inheritance-mode-based metrics for the auto<->allo spectrum, all
-derived from data the pipeline already computes (no new FastK/k-mer work):
+Per-species genome-structure metrics, read from the matrix, homeologs and
+windowed outputs (no new k-mer work). Formerly scripts/auto_allo_spectrum.py and
+scripts/genome_partition.py, which ran over the whole panel at once; the
+cross-species tables are now built by `ploidyspec panel` from each species'
+structure/ outputs.
+
+Writes, in results/<species>/structure/:
+- inheritance_metrics.tsv: one row of auto/allo-spectrum metrics --
+  partition_consistency, run length / flip rate, windowed CV, pair-depth CV,
+  distance-ratio CV and a heuristic combined score. See OUTPUTS.md and
+  INTERPRETATION.md ("A continuous auto/allo spectrum") for what each means and
+  which ones failed as discriminators on the panel.
+- genome_partition.tsv: diffuse genome-wide chromosome partitions -- whether the
+  chromosome numbers factor into k groups more than chance, at every k with
+  |z| >= 2 (INTERPRETATION.md, "Diffuse, genome-wide partitions").
+
+Metric details (from the original panel script):
 
 1. partition_consistency: does the same lineage-partition of >=3 haplotype
    copies recur across every chromosome (disomic/allo signature), or does
    the "odd one out" rotate between different haplotype labels on different
-   chromosomes (tetrasomic/auto signature)? Reuses
-   subgenome_report.bipartition_by_distance on matrix/whole_chrom_distance_
-   matrix.csv, generalizing the by-hand check that caught drLytSali1's
-   rotating singleton.
+   chromosomes (tetrasomic/auto signature)? When the recurring (modal)
+   partition is one copy vs the rest (modal_singleton_hap is set), it measures
+   one consistently divergent haplotype -- an assembly artefact or an AAAB-like
+   copy, not two subgenomes (ddLepDrab1: HAP4 on 15/16 chromosomes). Read it
+   that way; it still enters combined_allo_score, since dropping it there leaves
+   only the near-constant CV terms.
+2. mean_windowed_cv: average coefficient of variation of the windowed
+   distance track across accepted homeolog pairs. Low = uniform divergence.
+3. pair_depth_cv: CV of accepted homeolog pairs' mean_distance.
+4. mean_run_length_windows / flip_rate: window-by-window agreement with the
+   whole-chromosome partition. Did NOT separate confirmed autos from allos on
+   the panel -- informational only, not in the combined score.
+5. distance_ratio_cv: CV of accepted pairs' distance_ratio. Confounded by
+   tetrasomic homogenization (drLytSali1) -- not in the combined score.
 
-2. mean_windowed_cv: average coefficient-of-variation of the raw windowed
-   jaccard-distance track across every accepted homeolog pair's windowed
-   file (homeologs/windowed_chrAAxBB.tsv). Low = uniform divergence along
-   the whole chromosome pair (one clean historical split, allo-like). High
-   = patchy/mosaic (frequent local exchange, auto-like or introgression).
-
-3. pair_depth_cv: coefficient-of-variation of homeolog_pairs.tsv's
-   mean_distance across all of a species' accepted pairs. Low = every pair
-   diverged to about the same depth (single historical event, allo-like).
-   High = wide spread (auto-like/complex history).
-
-4. mean_run_length_windows / flip_rate: the DIRECT run-length/switching-rate
-   test (as opposed to mean_windowed_cv's magnitude-patchiness proxy) --
-   for each chromosome's whole-chromosome partition (same grouping as
-   metric 1), walks the within-chromosome windowed track and asks, window
-   by window, whether the local self-vs-cross distance ordering still
-   agrees with the global partition. Long runs/low flip rate = the split
-   holds up almost everywhere (rare exchange, allo-like); short runs/high
-   flip rate = the local pattern keeps flipping (routine recombination,
-   auto-like). EMPIRICALLY, across the 12 species this is computable for,
-   this does NOT cleanly separate confirmed autos from allo-leaning
-   species -- SchCurv1 (confirmed auto, Xie et al. 2026) and SchYoun1
-   (also confirmed auto) sit at opposite ends of the observed range
-   (4.12 vs 5.31 mean run length), so whatever this signal mostly reflects
-   at 250kb window resolution (likely per-species noise level: genome
-   size, repeat content, window count), it isn't primarily inheritance
-   mode. The one genuine standout is ddHesMatr1 (2.25, flip_rate 0.44,
-   roughly double any other species) -- consistent with its literature
-   description as a "segmental allotetraploid" (mixed bivalent/quadrivalent
-   meiotic pairing, i.e. a real patchwork of disomic- and tetrasomic-like
-   regions, which is exactly what very frequent local flipping would look
-   like). Deliberately NOT folded into combined_allo_score given this null
-   result on the panel as a whole -- report as informational only.
-
-5. distance_ratio_cv: coefficient of variation of homeolog_pairs' `distance_
-   ratio` (homeolog-pair distance / mean of both chromosomes' own within-
-   chromosome distance, from homeologs/ploidy_ancestry_summary.tsv) across
-   a species' accepted pairs -- the actual "cross-chromosome divergence-
-   depth consistency" test, distinct from pair_depth_cv's raw mean_distance
-   version. Low = every pair diverged to the same depth relative to its own
-   baseline (one clean historical event, allo-like); high = wide,
-   inconsistent spread (messier/multi-event history, auto-like). Confirms
-   the daLatSqua1 (CV 1.01) / llColAutu1 (CV 0.59) outlier status already
-   flagged ad hoc as `distance_ratio` spread in INTERPRETATION.md, now a
-   formal statistic. Also lands very low (0.08) for drLytSali1 -- the SAME
-   tetrasomic-homogenization confound as metrics 2/3 (multivalent
-   recombination equalizes divergence across the whole genome, not just
-   within one pair), so this is deliberately NOT folded into
-   combined_allo_score either, for the same reason.
-
-Metrics 1-3 are each directionally mapped to an "allo-likeness" score in
-(0,1] (1/(1+x) for the two CV-based metrics, direct value for partition
-consistency), then averaged over whichever are actually available for that
-species into a single heuristic combined_score. This combined score is
-explicitly NOT a classifier -- report it alongside the raw metrics and
-te_marker_fraction, never in place of them.
-
-Usage: python3 scripts/auto_allo_spectrum.py > meta/auto_allo_spectrum.tsv
+combined_allo_score averages the allo-direction mapping of metrics 1-3 that
+are available (1/(1+x) for the CVs). It is a heuristic, NOT a classifier.
 """
 import csv
 import os
+import random
 import re
 import statistics
-import sys
 
-REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, REPO)
+from .common import homeologs_dir, log, matrix_dir, windowed_dir
+from .kmer_tables import load_sequences
+from .subgenome_report import bipartition_by_distance, load_whole_chrom_distances
 
-from ploidyspec.common import homeologs_dir, matrix_dir, windowed_dir  # noqa: E402
-from ploidyspec.kmer_tables import load_sequences  # noqa: E402
-from ploidyspec.subgenome_report import (  # noqa: E402
-    bipartition_by_distance,
-    load_whole_chrom_distances,
-)
+N_PERMUTATIONS = 500
+MIN_Z = 2.0  # only report k's whose observed separation clears this
+PARTITION_SEED = 20260906
 
-RESULTS_DIR = os.path.join(REPO, "results")
+
+def structure_dir(outdir):
+    d = os.path.join(outdir, "structure")
+    os.makedirs(d, exist_ok=True)
+    return d
 
 
 def hap_of(unit_id):
@@ -416,77 +386,223 @@ def metric_distance_ratio_cv(species_dir):
     return statistics.pstdev(ratios) / mean, len(ratios)
 
 
-def main():
-    species_list = sorted(
-        d for d in os.listdir(RESULTS_DIR) if os.path.isdir(os.path.join(RESULTS_DIR, d))
-    )
+def load_chrom_distance_matrix(species_dir):
+    path = os.path.join(species_dir, "homeologs", "homeolog_candidates_ranked.tsv")
+    if not os.path.exists(path):
+        return None, None
+    dist = {}
+    chroms = set()
+    with open(path) as f:
+        for r in csv.DictReader(f, delimiter="\t"):
+            a, b = r["chrom_a"], r["chrom_b"]
+            d = float(r["distance"])
+            dist[(a, b)] = d
+            dist[(b, a)] = d
+            chroms.add(a)
+            chroms.add(b)
+    return dist, sorted(chroms, key=lambda x: int(x[3:]))
 
-    fieldnames = [
-        "species",
-        "partition_consistency",
-        "n_chroms_split",
-        "modal_singleton_hap",
-        "singleton_artifact_suspected",
-        "mean_run_length_windows",
-        "flip_rate",
-        "n_windows_for_run_length",
-        "mean_windowed_cv",
-        "n_pairs_cv",
-        "pair_depth_cv",
-        "distance_ratio_cv",
-        "n_pairs_for_ratio_cv",
-        "n_accepted_pairs",
-        "combined_allo_score",
-        "n_metrics_available",
-    ]
-    writer = csv.DictWriter(sys.stdout, fieldnames=fieldnames, delimiter="\t")
-    writer.writeheader()
 
-    for species in species_list:
-        species_dir = os.path.join(RESULTS_DIR, species)
-        if not os.path.exists(os.path.join(matrix_dir(species_dir), "whole_chrom_distance_matrix.csv")):
+def cluster_mean_dist(dist, c1, c2):
+    vals = [dist[(a, b)] for a in c1 for b in c2 if (a, b) in dist]
+    if not vals:
+        return None
+    return sum(vals) / len(vals)
+
+
+def agglomerative_merge_sequence(dist, chroms):
+    """Returns a list of (k, clusters) from k=len(chroms) down to k=1,
+    average-linkage, greedy nearest-pair merge at every step."""
+    clusters = [[c] for c in chroms]
+    sequence = [(len(clusters), [list(c) for c in clusters])]
+    while len(clusters) > 1:
+        best = None
+        for i in range(len(clusters)):
+            for j in range(i + 1, len(clusters)):
+                d = cluster_mean_dist(dist, clusters[i], clusters[j])
+                if d is None:
+                    continue
+                if best is None or d < best[0]:
+                    best = (d, i, j)
+        if best is None:
+            break
+        _, i, j = best
+        clusters[i] = clusters[i] + clusters[j]
+        del clusters[j]
+        sequence.append((len(clusters), [list(c) for c in clusters]))
+    return sequence
+
+
+def separation_ratio(dist, clusters):
+    within = []
+    between = []
+    for idx, c in enumerate(clusters):
+        for a_i, a in enumerate(c):
+            for b in c[a_i + 1 :]:
+                if (a, b) in dist:
+                    within.append(dist[(a, b)])
+        for other in clusters[idx + 1 :]:
+            for a in c:
+                for b in other:
+                    if (a, b) in dist:
+                        between.append(dist[(a, b)])
+    if not within or not between:
+        return None
+    return statistics.mean(between) / statistics.mean(within)
+
+
+def null_distribution(dist, chroms, sizes, rng, n=N_PERMUTATIONS):
+    ratios = []
+    pool = list(chroms)
+    for _ in range(n):
+        rng.shuffle(pool)
+        clusters = []
+        idx = 0
+        for s in sizes:
+            clusters.append(pool[idx : idx + s])
+            idx += s
+        r = separation_ratio(dist, clusters)
+        if r is not None:
+            ratios.append(r)
+    return ratios
+
+
+def analyze_species(species_dir, species_name, seed=PARTITION_SEED):
+    """Every k with a valid partition, strongest |z| first. The null uses its own
+    RNG seeded per species, so a species' z-scores don't depend on which other
+    species were analysed before it (the old panel script shared one RNG)."""
+    rng = random.Random(seed)
+    dist, chroms = load_chrom_distance_matrix(species_dir)
+    if dist is None or len(chroms) < 4:
+        return []
+
+    sequence = agglomerative_merge_sequence(dist, chroms)
+    results = []
+    for k, clusters in sequence:
+        if k < 2 or k > len(chroms) - 2:
             continue
-
-        pc, n_split, singleton_hap = metric_partition_consistency(species_dir)
-        artifact = check_singleton_artifact(species_dir, singleton_hap)
-        mrl, flip_rate, n_windows = metric_run_length(species_dir)
-        wcv, n_wcv = metric_windowed_cv(species_dir)
-        dcv, n_pairs = metric_pair_depth_cv(species_dir)
-        rcv, n_rcv = metric_distance_ratio_cv(species_dir)
-
-        scores = []
-        if pc is not None:
-            scores.append(pc)
-        if wcv is not None:
-            scores.append(1.0 / (1.0 + wcv))
-        if dcv is not None:
-            scores.append(1.0 / (1.0 + dcv))
-
-        combined = statistics.mean(scores) if scores else None
-
-        writer.writerow(
+        sizes = sorted(len(c) for c in clusters)
+        if min(sizes) < 2:
+            continue
+        obs = separation_ratio(dist, clusters)
+        if obs is None:
+            continue
+        null = null_distribution(dist, chroms, sizes, rng)
+        if len(null) < 10:
+            continue
+        null_mean = statistics.mean(null)
+        null_std = statistics.pstdev(null)
+        if null_std == 0:
+            continue
+        z = (obs - null_mean) / null_std
+        results.append(
             {
-                "species": species,
-                "partition_consistency": f"{pc:.4f}" if pc is not None else "",
-                "n_chroms_split": n_split,
-                "modal_singleton_hap": singleton_hap or "",
-                "singleton_artifact_suspected": (
-                    "" if artifact is None else ("yes" if artifact else "no")
-                ),
-                "mean_run_length_windows": f"{mrl:.3f}" if mrl is not None else "",
-                "flip_rate": f"{flip_rate:.4f}" if flip_rate is not None else "",
-                "n_windows_for_run_length": n_windows,
-                "mean_windowed_cv": f"{wcv:.4f}" if wcv is not None else "",
-                "n_pairs_cv": n_wcv,
-                "pair_depth_cv": f"{dcv:.4f}" if dcv is not None else "",
-                "distance_ratio_cv": f"{rcv:.4f}" if rcv is not None else "",
-                "n_pairs_for_ratio_cv": n_rcv,
-                "n_accepted_pairs": n_pairs,
-                "combined_allo_score": f"{combined:.4f}" if combined is not None else "",
-                "n_metrics_available": len(scores),
+                "species": species_name,
+                "k": k,
+                "group_sizes": ",".join(str(s) for s in sizes),
+                "separation_ratio": obs,
+                "null_mean_ratio": null_mean,
+                "z_score": z,
+                "groups": clusters,
             }
         )
+    results.sort(key=lambda r: -abs(r["z_score"]))
+    return results
 
 
-if __name__ == "__main__":
-    main()
+
+INHERITANCE_FIELDS = [
+    "species",
+    "partition_consistency",
+    "n_chroms_split",
+    "modal_singleton_hap",
+    "singleton_artifact_suspected",
+    "mean_run_length_windows",
+    "flip_rate",
+    "n_windows_for_run_length",
+    "mean_windowed_cv",
+    "n_pairs_cv",
+    "pair_depth_cv",
+    "distance_ratio_cv",
+    "n_pairs_for_ratio_cv",
+    "n_accepted_pairs",
+    "combined_allo_score",
+    "n_metrics_available",
+]
+PARTITION_FIELDS = ["species", "k", "group_sizes", "separation_ratio", "null_mean_ratio",
+                    "z_score", "groups"]
+
+
+def inheritance_metrics(species_dir, species):
+    pc, n_split, singleton_hap = metric_partition_consistency(species_dir)
+    artifact = check_singleton_artifact(species_dir, singleton_hap)
+    mrl, flip_rate, n_windows = metric_run_length(species_dir)
+    wcv, n_wcv = metric_windowed_cv(species_dir)
+    dcv, n_pairs = metric_pair_depth_cv(species_dir)
+    rcv, n_rcv = metric_distance_ratio_cv(species_dir)
+
+    scores = []
+    if pc is not None:
+        scores.append(pc)
+    if wcv is not None:
+        scores.append(1.0 / (1.0 + wcv))
+    if dcv is not None:
+        scores.append(1.0 / (1.0 + dcv))
+    combined = statistics.mean(scores) if scores else None
+
+    def f(v, nd):
+        return f"{v:.{nd}f}" if v is not None else ""
+
+    return {
+        "species": species,
+        "partition_consistency": f(pc, 4),
+        "n_chroms_split": n_split,
+        "modal_singleton_hap": singleton_hap or "",
+        "singleton_artifact_suspected": "" if artifact is None else ("yes" if artifact else "no"),
+        "mean_run_length_windows": f(mrl, 3),
+        "flip_rate": f(flip_rate, 4),
+        "n_windows_for_run_length": n_windows,
+        "mean_windowed_cv": f(wcv, 4),
+        "n_pairs_cv": n_wcv,
+        "pair_depth_cv": f(dcv, 4),
+        "distance_ratio_cv": f(rcv, 4),
+        "n_pairs_for_ratio_cv": n_rcv,
+        "n_accepted_pairs": n_pairs,
+        "combined_allo_score": f(combined, 4),
+        "n_metrics_available": len(scores),
+    }
+
+
+def partition_rows(species_dir, species):
+    rows = []
+    for r in analyze_species(species_dir, species):
+        if abs(r["z_score"]) < MIN_Z:
+            continue
+        rows.append({
+            "species": species,
+            "k": r["k"],
+            "group_sizes": r["group_sizes"],
+            "separation_ratio": f"{r['separation_ratio']:.4f}",
+            "null_mean_ratio": f"{r['null_mean_ratio']:.4f}",
+            "z_score": f"{r['z_score']:.2f}",
+            "groups": " | ".join(",".join(g) for g in r["groups"]),
+        })
+    return rows
+
+
+def write_rows(path, fields, rows):
+    with open(path, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=fields, delimiter="\t")
+        w.writeheader()
+        w.writerows(rows)
+
+
+def compute_structure(outdir):
+    species = os.path.basename(os.path.normpath(outdir))
+    sdir = structure_dir(outdir)
+    write_rows(os.path.join(sdir, "inheritance_metrics.tsv"), INHERITANCE_FIELDS,
+               [inheritance_metrics(outdir, species)])
+    parts = partition_rows(outdir, species)
+    write_rows(os.path.join(sdir, "genome_partition.tsv"), PARTITION_FIELDS, parts)
+    log(f"wrote inheritance_metrics.tsv and genome_partition.tsv "
+        f"({len(parts)} partition(s) with |z| >= {MIN_Z}) in {sdir}")

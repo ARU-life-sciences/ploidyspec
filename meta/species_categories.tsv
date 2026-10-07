@@ -1,0 +1,22 @@
+# Hand-assigned reads from meta/literature_ploidy.tsv and INTERPRETATION.md.
+# Used only to colour `ploidyspec panel` plots, never as an input to any analysis.
+species	category
+daGleHede1	allo (confirmed)
+lpTriTurg1_A	allo (confirmed)
+lpTriTurg1_B	allo (confirmed)
+lpTriTurg1_AB	allo (confirmed)
+drTriRepe1	allo (confirmed)
+drSorDevo1	allo (confirmed)
+drMyrSpic1	allo (confirmed)
+SchCurv1	auto (confirmed)
+SchYoun1	auto (confirmed)
+drLytSali1	auto (confirmed)
+ddEmpNigr1	auto (lit, tension)
+ddHypMacu1	auto (lit, tension)
+ddHesMatr1	third category (segmental)
+llColAutu1	third category (demi-dup)
+ddHypPerf1	contested
+daInuConz1	cryptic allo candidate
+dcCerAlpi1	cryptic allo candidate
+dmRanRepe1	cryptic allo candidate
+daBudDavi1	allo (lit, weak data)

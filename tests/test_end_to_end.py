@@ -16,6 +16,7 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ploidyspec.cli import main
+from ploidyspec.panel import build_panel
 from ploidyspec.simulate import SCENARIOS, simulate
 
 TOOLS = ("samtools", "FastK", "Logex", "Histex", "Tabex")
@@ -38,9 +39,9 @@ class TestEndToEnd(unittest.TestCase):
         cls.tmp = tempfile.mkdtemp(prefix="ploidyspec_e2e_")
         simulate("all", cls.tmp, seed=7, params=SIM_PARAMS)
         for name in SCENARIOS:
-            sdir = os.path.join(cls.tmp, name)
-            main(["all", "--manifest", os.path.join(sdir, "manifest.tsv"),
-                  "--outdir", os.path.join(sdir, "out")] + RUN_ARGS)
+            main(["all", "--manifest", os.path.join(cls.tmp, name, "manifest.tsv"),
+                  "--outdir", os.path.join(cls.tmp, "results", name)] + RUN_ARGS)
+        build_panel(os.path.join(cls.tmp, "results"), os.path.join(cls.tmp, "panel"))
 
     @classmethod
     def tearDownClass(cls):
@@ -48,7 +49,7 @@ class TestEndToEnd(unittest.TestCase):
             shutil.rmtree(cls.tmp, ignore_errors=True)
 
     def out(self, scenario, *parts):
-        return os.path.join(self.tmp, scenario, "out", *parts)
+        return os.path.join(self.tmp, "results", scenario, *parts)
 
     def states(self, scenario):
         rows = read_tsv(self.out(scenario, "rediploidization", "rediploidization_by_chrom.tsv"))
@@ -86,6 +87,20 @@ class TestEndToEnd(unittest.TestCase):
         for scenario in ("diploid", "autotetraploid", "autotetraploid_2hap", "allotetraploid"):
             rows = read_tsv(self.out(scenario, "rediploidization", "fusions.tsv"))
             self.assertEqual([r for r in rows if r["status"] == "fusion"], [], scenario)
+
+    def test_panel_tables(self):
+        spectrum = read_tsv(os.path.join(self.tmp, "panel", "auto_allo_spectrum.tsv"))
+        self.assertEqual({r["species"] for r in spectrum}, set(SCENARIOS))
+        redip = {r["species"]: r for r in
+                 read_tsv(os.path.join(self.tmp, "panel", "rediploidization_panel.tsv"))}
+        self.assertEqual(redip["rediploidized"]["n_distinct_fusions"], "2")
+
+    def test_structure_outputs(self):
+        for scenario in SCENARIOS:
+            self.assertTrue(os.path.exists(self.out(scenario, "structure", "inheritance_metrics.tsv")))
+        rows = read_tsv(self.out("allotetraploid", "structure", "genome_partition.tsv"))
+        # 7 homeolog pairs: the chromosome numbers factor into pairs
+        self.assertIn(str(N_CHROM), {r["k"] for r in rows})
 
 
 if __name__ == "__main__":

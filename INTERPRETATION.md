@@ -436,7 +436,7 @@ Several specific findings here map directly onto their vocabulary:
   `meta/auto_allo_spectrum.tsv` + `meta/genome_partition.tsv` already
   are, just not yet combined into one analysis.
 
-**A first attempt at that poly-space** (`scripts/poly_space_pca.py` →
+**A first attempt at that poly-space** (now `ploidyspec panel` →
 `meta/poly_space_pca.png` / `meta/poly_space_features.tsv`): a plain-NumPy
 PCA over 7 standardized metrics (`te_marker_fraction`,
 `partition_consistency`, `distance_ratio_cv`, `pair_depth_cv`,
@@ -556,8 +556,9 @@ inheritance: two subgenomes recombine only within themselves, staying
 stable) from autopolyploidy (tetrasomic inheritance: all copies exchange
 freely) is *consistency of lineage identity*, not divergence magnitude.
 
-Four new statistics, computed by `scripts/auto_allo_spectrum.py` and
-written to `meta/auto_allo_spectrum.tsv` — all reanalysis of data the
+Four new statistics, computed per species by the `structure` stage
+(`structure/inheritance_metrics.tsv`) and collected by `ploidyspec panel`
+into `meta/auto_allo_spectrum.tsv` — all reanalysis of data the
 pipeline already produces, no new FastK/k-mer work (the fourth,
 `mean_run_length_windows`/`flip_rate`, is described further down —
 it's the direct version of what `mean_windowed_cv` only proxies, and it
@@ -776,7 +777,8 @@ equal-weighted inputs to one score.
 `homeolog_pairs.tsv`'s FDR test looks for discrete 1:1 ancestral-duplicate
 *pairs* — it can miss a real, weaker, genome-wide structure where no single
 pair is individually significant but the chromosome set as a whole still
-factors into subgenome-sized groups. `scripts/genome_partition.py` tests
+factors into subgenome-sized groups. The `structure` stage
+(`structure/genome_partition.tsv`; panel-wide via `ploidyspec panel`) tests
 for exactly this: average-linkage agglomerative clustering over the
 *complete* all-pairs distance matrix (`homeolog_candidates_ranked.tsv`,
 every cross-chromosome pair already tested, no new k-mer work), recording
@@ -899,8 +901,8 @@ Several species with complete or near-complete accepted homeolog pairing
 (`drTriRepe1`, `drRosSpin1`, `daSenVulg1`, `drSorDevo1`, `llColAutu1`, and
 others) show a scattered, checkerboard-like pattern in the default
 chromosome-number-ordered heatmap, distinct from the smooth two-block
-pattern of the diffuse-partition species above. `scripts/
-reorder_heatmap.py` reorders the chromosome-number distance matrix
+pattern of the diffuse-partition species above. The `homeologs` stage's
+`homeolog_pairs_reordered_heatmap.png` reorders the chromosome-number distance matrix
 (`homeolog_candidates_ranked.tsv`, no new k-mer work) to test whether this
 is a numbering-order artifact of already-strong, individually significant
 pairs, or something unresolved. Output: `results/<species>/homeologs/

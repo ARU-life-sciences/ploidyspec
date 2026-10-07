@@ -27,6 +27,9 @@ Pipeline:
                          each chromosome, and a per-chromosome rediploidization state
                          (run by `all`; uses te-markers output if present)
 
+  structure          -> inheritance-mode metrics (partition consistency, divergence-depth
+                         CVs) and diffuse genome-wide chromosome partitions (run by `all`)
+  panel              -> cross-species tables and poly-space PCA from a results directory
   simulate           -> synthetic haplotype assemblies with a known answer (diploid,
                          autotetraploid x2 layouts, allotetraploid, rediploidized)
 """
@@ -61,6 +64,8 @@ from .rediploidization import (
 )
 from .report import generate_report
 from .simulate import DEFAULTS as SIM_DEFAULTS, SCENARIOS, simulate
+from .structure import compute_structure
+from .panel import build_panel
 from .subgenome_report import compute_subgenome_report
 from .te_markers import (
     DEFAULT_MARKER_K,
@@ -408,6 +413,17 @@ def cmd_rediploidization(args):
     )
 
 
+def cmd_structure(args):
+    # every metric degrades to blank when its input (homeolog pairs, windowed
+    # tracks) is missing, so this never blocks `all` on a species with too few
+    # chromosomes for the homeolog search
+    compute_structure(args.outdir)
+
+
+def cmd_panel(args):
+    build_panel(args.results, args.outdir, args.categories)
+
+
 def cmd_simulate(args):
     params = dict(n_chrom=args.n_chrom, chrom_len=args.chrom_len)
     for d in simulate(args.scenario, args.outdir, args.seed, params):
@@ -427,6 +443,7 @@ def cmd_all(args):
     cmd_windowed(args)
     if args.with_windowed_homeologs:
         cmd_windowed_homeologs(args)
+    cmd_structure(args)
     run_te_markers = args.with_te_markers or args.with_te_markers_windowed
     if run_te_markers:
         cmd_te_markers(args)
@@ -481,8 +498,8 @@ def main(argv=None):
 
     p_all = sub.add_parser(
         "all",
-        help="run prepare -> kmers -> matrix -> homeologs -> windowed -> report in "
-        "sequence (cheap stages only by default; see --with-* flags for the rest)",
+        help="run prepare -> kmers -> matrix -> homeologs -> windowed -> structure -> "
+        "rediploidization -> report in sequence (see --with-* flags for the opt-in stages)",
     )
     add_common_args(p_all)
     add_window_k_arg(p_all)
@@ -610,6 +627,26 @@ def main(argv=None):
     add_common_args(p_redip)
     add_rediploidization_args(p_redip)
     p_redip.set_defaults(func=cmd_rediploidization)
+
+    p_struct = sub.add_parser(
+        "structure",
+        help="inheritance-mode metrics and diffuse genome-wide chromosome partitions "
+        "(from matrix/homeologs/windowed output, no new k-mer work)",
+    )
+    p_struct.add_argument("--outdir", required=True, help="species results directory")
+    p_struct.set_defaults(func=cmd_structure)
+
+    p_panel = sub.add_parser(
+        "panel",
+        help="cross-species tables (auto/allo spectrum, genome partitions, rediploidization) "
+        "and the poly-space PCA, from a directory of species results",
+    )
+    p_panel.add_argument("--results", required=True,
+                         help="directory with one results subdirectory per species")
+    p_panel.add_argument("--outdir", required=True, help="where to write the panel tables")
+    p_panel.add_argument("--categories", default=None,
+                         help="optional TSV (species, category) used only to colour the PCA plot")
+    p_panel.set_defaults(func=cmd_panel)
 
     p_sim = sub.add_parser(
         "simulate",

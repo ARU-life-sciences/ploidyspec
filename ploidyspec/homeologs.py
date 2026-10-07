@@ -420,6 +420,7 @@ def run(seq_tsv, outdir, fdr_alpha=0.05):
     )
 
     plot_ranked_distances(outdir, pair_dist, accepted)
+    plot_reordered_heatmap(outdir, chrom_nums, pair_dist, accepted)
     return [(i, j) for i, j, *_ in accepted]
 
 
@@ -461,4 +462,71 @@ def plot_ranked_distances(outdir, pair_dist, accepted):
     )
     fig.tight_layout()
     fig.savefig(os.path.join(homeologs_dir(outdir), "homeolog_pairs.png"), dpi=150)
+    plt.close(fig)
+
+
+def plot_reordered_heatmap(outdir, chrom_nums, pair_dist, accepted):
+    """
+    Chromosome-number distance matrix (haplotype copies averaged away),
+    reordered by average-linkage clustering -- the same ordering the
+    whole-chromosome heatmap uses at the unit level. Nests pairs inside larger
+    related groups (llColAutu1's 3-6 chromosome demi-duplication groups,
+    ddLepDrab1's pairs of pairs) at whatever level the data supports, which a
+    flat sort of accepted pairs can't. FDR-accepted pairs are outlined, so
+    individually significant adjacencies stand apart from clustering-implied
+    ones. Writes homeologs/homeolog_pairs_reordered_heatmap.png.
+    """
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    from .whole_matrix import average_linkage_order
+
+    n = len(chrom_nums)
+    if n < 3:
+        return
+    labels = [f"chr{c:02d}" for c in chrom_nums]
+    mat = np.zeros((n, n))
+    for a, i in enumerate(chrom_nums):
+        for b, j in enumerate(chrom_nums):
+            if a != b:
+                mat[a, b] = pair_dist.get((min(i, j), max(i, j)), np.nan)
+    order = average_linkage_order(mat)
+    ordered = [labels[i] for i in order]
+    ordered_mat = mat[np.ix_(order, order)].copy()
+    off_diag = ordered_mat[~np.eye(n, dtype=bool)]
+    off_diag = off_diag[~np.isnan(off_diag)]
+    if off_diag.size == 0:
+        return
+    vmin, vmax = np.percentile(off_diag, [2, 98])
+    np.fill_diagonal(ordered_mat, np.nan)
+    accepted_keys = {frozenset([f"chr{i:02d}", f"chr{j:02d}"]) for i, j, *_ in accepted}
+
+    cmap = plt.get_cmap("viridis_r").copy()
+    cmap.set_bad("white")
+    fig_w = max(6, n * 0.28)
+    fig, ax = plt.subplots(figsize=(fig_w, fig_w))
+    im = ax.imshow(ordered_mat, cmap=cmap, vmin=vmin, vmax=vmax)
+    ax.set_xticks(range(n))
+    ax.set_yticks(range(n))
+    ax.set_xticklabels(ordered, rotation=90, fontsize=max(4, 9 - n // 15))
+    ax.set_yticklabels(ordered, fontsize=max(4, 9 - n // 15))
+    for a, x in enumerate(ordered):
+        for b, y in enumerate(ordered):
+            if a != b and frozenset([x, y]) in accepted_keys:
+                ax.add_patch(plt.Rectangle((b - 0.5, a - 0.5), 1, 1, fill=False,
+                                           edgecolor="red", linewidth=1.4))
+    fig.colorbar(im, ax=ax, shrink=0.7, label="distance")
+    species = os.path.basename(os.path.normpath(outdir))
+    ax.set_title(
+        f"{species}: chromosome-number distance, hierarchically reordered "
+        f"(average-linkage)\nred outline = individually FDR-accepted pair "
+        f"({len(accepted_keys)} total)\n2nd-98th pct: {vmin:.3f}-{vmax:.3f}",
+        fontsize=8,
+        wrap=True,
+    )
+    fig.tight_layout()
+    fig.savefig(os.path.join(homeologs_dir(outdir), "homeolog_pairs_reordered_heatmap.png"), dpi=150)
     plt.close(fig)

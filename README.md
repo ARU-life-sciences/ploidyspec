@@ -111,12 +111,15 @@ Cheap stages, always run by `all`:
    evidence (not just the FDR-accepted subset).
 5. **windowed** — sliding-window divergence along each chromosome between its haplotype
    copies.
-6. **rediploidization** — chromosome fusions between haplotype copies (k-mer
+6. **structure** — inheritance-mode metrics (does the same split of copies recur
+   across chromosomes; how consistent is divergence depth across homeolog pairs) and
+   diffuse genome-wide chromosome partitions. No new k-mer work.
+7. **rediploidization** — chromosome fusions between haplotype copies (k-mer
    containment), lineage structure along each chromosome, and a per-chromosome
    rediploidization state (`fusion_lineages`, `partially_resolved`,
    `tetrasomic_like`, ...) alongside ancient pairing. Uses `te-markers` output
    if present.
-7. **report** — self-contained HTML report (`report.html` in the output directory),
+8. **report** — self-contained HTML report (`report.html` in the output directory),
    embedding whatever plots/tables the stages that ran produced.
 
 Opt-in stages (moderate-to-expensive; flags on `all`, or run individually):
@@ -144,6 +147,10 @@ index in the same run. Every stage is also runnable individually with the same f
 (`./ploidyspec.sh <stage> --manifest ... --outdir ...`) — each stage skips work it's
 already done, so re-running after an interruption (or after adding `--with-*` flags to
 an already-completed run) picks up where it left off rather than redoing everything.
+
+For several species, `ploidyspec panel --results results --outdir meta` builds the
+cross-species tables (auto/allo spectrum, genome partitions, rediploidization states)
+and an exploratory PCA from every species' outputs.
 
 See [`OUTPUTS.md`](OUTPUTS.md) for what every output file and column means, with worked
 examples from real species in this project's panel.

@@ -20,6 +20,7 @@ results/<species>/
   windowed/                       sliding-window divergence between haplotype copies of the same chromosome
   homeologs/                      ancient (paleopolyploid) homeolog pairs and their windowed tracks
   subgenomes/                     fossil-TE marker output, windowed subgenome painting, auto/allo index
+  structure/                      inheritance-mode metrics, diffuse genome-wide chromosome partitions
   rediploidization/               chromosome fusions, per-chromosome lineage structure and rediploidization state
 ```
 
@@ -567,3 +568,48 @@ data). The thresholds are provisional, tuned on the snow carp anchors
 (`SchCurv1`: chr19+22 fusion, chr17 regional split, the rest tetrasomic-like),
 and are all CLI flags. Simulated test genomes (ROADMAP Phase 1.6) are the
 planned calibration.
+
+## `structure/` — inheritance-mode metrics and genome-wide partitions
+
+Read from `matrix/`, `homeologs/` and `windowed/` (no new k-mer work). The
+metrics and their track record on the panel are described in
+INTERPRETATION.md ("A continuous auto/allo spectrum", "Diffuse, genome-wide
+partitions").
+
+**`inheritance_metrics.tsv`**: one row.
+- `partition_consistency` / `n_chroms_split`: how often the same split of >= 3
+  copies recurs across chromosomes.
+- `modal_singleton_hap`: set when the recurring split is one copy against the
+  rest. The score then measures one consistently divergent haplotype, not two
+  subgenomes (`ddLepDrab1` HAP4).
+- `singleton_artifact_suspected`: whether that haplotype's `unplaced.tsv`
+  count is >= 3x off its siblings' median.
+- `mean_run_length_windows` / `flip_rate`: did not discriminate on the panel.
+  Informational only.
+- `mean_windowed_cv`, `pair_depth_cv`, `distance_ratio_cv`: divergence-depth
+  consistency across homeolog pairs.
+- `combined_allo_score`: a heuristic average of the first three, not a
+  classifier.
+
+**`genome_partition.tsv`**: every k at which the chromosome numbers factor into
+k groups (average-linkage clustering of the chromosome-number distance matrix)
+more than random partitions with the same group sizes, at |z| >= 2. The null is
+500 permutations with a fixed per-species seed, so z-scores are reproducible
+for a species. They differ by permutation noise (about ±1) from the numbers
+quoted from the old panel-wide script, which shared one random stream across
+species.
+
+## `ploidyspec panel` — cross-species tables
+
+`ploidyspec panel --results results --outdir meta --categories meta/species_categories.tsv`
+collects every species' outputs:
+- `auto_allo_spectrum.tsv` and `genome_partition.tsv`: the `structure/` tables
+  stacked, computed in memory for species that haven't run the stage.
+- `rediploidization_panel.tsv`: one row per species from
+  `rediploidization_summary.tsv`.
+- `poly_space_features.tsv` / `poly_space_loadings.tsv` / `poly_space_pca.png`:
+  an exploratory PCA over seven metrics. Missing values are mean-imputed, so
+  species with few real features (`n_features_present`) sit near the origin by
+  construction.
+
+`--categories` only colours the plot.
