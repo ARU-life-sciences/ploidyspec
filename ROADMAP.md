@@ -162,3 +162,28 @@ Hold broad expansion until Phase 2. Prioritise species that add *anchors*:
 confirmed diploids with two chromosome-scale haplotypes, confirmed autopolyploids,
 and systems with mapped rediploidization (salmonids, other fusion-rich
 autopolyploid lineages).
+
+---
+
+## Progress log
+
+Newest first. Check a running batch with the command given for it.
+
+- **2026-10-07 — panel-wide rediploidization run submitted** (Phase 1.2
+  follow-up). 43 LSF jobs (`redip_<species>`, 2 cores, 4 GB), one per species
+  with a matrix; snow carps were already done. Job IDs in
+  `logs/redip_panel_jobs.txt`. Check progress with
+  `scripts/rediploidization_status.sh` (per-species state + non-zero
+  `copy_state` counts + distinct fusions; totals on the last line). Results land
+  in `results/<species>/rediploidization/` and each `report.html`.
+  Species with many chromosome-length unplaced scaffolds (`ddSalCine1` 38,
+  `ddPopNigr1`, `drIngLaur1`, the wheat runs) take longest: ~2.7 min per scaffold.
+  **To do when finished:** review fusions and `candidate_partner_present` hits
+  and false-positive states across the panel, then write the results into
+  `INTERPRETATION.md`.
+- **2026-10-07 — rediploidization stage added** (`60c333b`). Validated blind
+  on the snow carps: `SchCurv1` chr19+22 (HAP3/HAP4) and the regional chr17
+  split; all five `SchYoun1` fusions, ranked by `lineage_divergence` in the
+  published wave order.
+- **2026-10-07 — Phase 0 done, packaging done** (`d127213`, `4f756ba`,
+  `4d0ca74`).
