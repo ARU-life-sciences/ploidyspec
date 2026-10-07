@@ -131,13 +131,22 @@ one table.
       copy number · ancient pairing · copy divergence · lineage/inheritance
       structure · repeat-content divergence · **rediploidization state**.
       Everything else → supplementary.
-- [ ] Diploid anchor with two chromosome-scale haplotypes (`ddMalSylv1` after
-      literature check, or a new outbred diploid).
+- [x] Diploid anchor: `ddMalSylv1` (confirmed diploid by the user). Allele
+      distance 0.0038, cross-chromosome 31x that, no pairs, no partition;
+      per-chromosome te_frac up to 0.25 (see INTERPRETATION.md corrections).
 - [ ] Rediploidization anchors: snow carps (fusions + chr17 arm-level);
       `drLytSali1` (tetrasomic by classical genetics); ideally a salmonid, where
       residual-tetrasomy regions are already mapped from segregation data —
       `windowed-homeologs` should recover them even from one haplotype.
-- [ ] Re-run the 4 stale species on their Darwin reassemblies.
+- [ ] Re-run the 4 stale species on their Darwin reassemblies (submitted
+      2026-10-07 from scratch, plus `ddLepDrab1`; jobs in
+      `logs/rerun4_jobs.txt`, old dirs in `superseded/`).
+- [ ] Fix `windowed`: windows are compared at equal coordinates, which breaks
+      once assemblies drift (see corrections). Proposed: per window of each
+      copy, k-mer containment in each other copy's whole chromosome
+      (position-free), turned into a distance with -ln(c)/k.
+- [ ] Decide `ddHesMatr1`'s chr01/chr02 swap: lower the relabelling threshold
+      for mutual swaps, or add a manual relabel option.
 - [ ] Close or explicitly park the open threads listed above.
 
 ## Phase 3 — write-up
@@ -172,6 +181,23 @@ autopolyploid lineages).
 ## Progress log
 
 Newest first. Check a running batch with the command given for it.
+
+- **2026-10-07 — Phase 2 start: hand-checks and re-runs.** Details in
+  INTERPRETATION.md "Phase 2 hand-check: corrections".
+  - `ddLepDrab1`'s allo signal was HAP4 chromosome-numbering left
+    uncorrected: the relabelling check now matches units to chromosome
+    numbers one-to-one. Clean re-run submitted.
+  - `ddHesMatr1` HAP1 chr01/chr02 swap found by hand; below the auto
+    threshold. Its only homeolog pair is an artefact. Decision pending.
+  - Cached per-unit FASTAs/k-mer tables were reused across assemblies:
+    `drLytSali1`'s September run used the old assembly. `kmers` now
+    rebuilds a unit whose source, name or length changed. `dcCerAlpi1`,
+    `ddHypMacu1`, `drLytSali1`, `lpElePalu1` re-running from scratch (LSF
+    330623–330626, `ddLepDrab1` 330864). Check with
+    `bjobs -w | grep rerun`.
+  - Windowed tracks compare equal coordinates and are out of register for
+    most of most chromosomes, panel-wide. Fix proposed above.
+  - `ddMalSylv1` adopted as diploid anchor.
 
 - **2026-10-07 — rediploidization: sibling-enrichment fusion check and
   partition pooling.**

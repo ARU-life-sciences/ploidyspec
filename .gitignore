@@ -18,3 +18,4 @@ te_markers_*x*.tsv
 build/
 tmp_rediploidization
 /.worktrees
+superseded/

@@ -213,6 +213,34 @@ class TestDetectRelabeling(unittest.TestCase):
         self.assertEqual(corrections, [])
         self.assertEqual(ambiguous, [])
 
+    def test_two_units_nearest_the_same_chrom_are_matched_one_to_one(self):
+        # ddLepDrab1 HAP4: chromosomes numbered differently in one file. The
+        # unit declared chr02 is clearly chr03; the unit declared chr01 is far
+        # from chr01 and nearly tied between chr03 (0.040) and chr02 (0.041).
+        # Picking each unit's nearest group independently sends both to chr03,
+        # which used to fail the whole batch and leave every unit mislabelled;
+        # matching gives the tied unit chr02.
+        units = [
+            unit("HAP1_chr01", "HAP1", "1", "fileA"),
+            unit("HAP1_chr02", "HAP1", "2", "fileA"),
+            unit("HAP1_chr03", "HAP1", "3", "fileA"),
+            unit("HAP2_chr01", "HAP2", "1", "fileA"),
+            unit("HAP2_chr02", "HAP2", "2", "fileA"),
+            unit("HAP2_chr03", "HAP2", "3", "fileA"),
+            unit("HAP4_chr01", "HAP4", "1", "fileB"),  # truly chr02
+            unit("HAP4_chr02", "HAP4", "2", "fileB"),  # truly chr03
+            unit("HAP4_chr03", "HAP4", "3", "fileB"),  # truly chr01
+        ]
+        pairs = {(0, 3): 0.02, (1, 4): 0.02, (2, 5): 0.02}
+        pairs.update({(6, 1): 0.041, (6, 4): 0.041, (6, 2): 0.040, (6, 5): 0.040})
+        pairs.update({(7, 2): 0.02, (7, 5): 0.02})
+        pairs.update({(8, 0): 0.02, (8, 3): 0.02})
+        distance = symmetric_matrix(9, pairs, default=0.14)
+        corrections, ambiguous = detect_relabeling(units, distance)
+        self.assertEqual(ambiguous, [])
+        self.assertEqual({c["unit_id"]: c["new_chrom"] for c in corrections},
+                         {"HAP4_chr01": "2", "HAP4_chr02": "3", "HAP4_chr03": "1"})
+
     def test_move_into_occupied_non_moving_slot_is_rejected_not_applied(self):
         # regression: real lpElePalu1 run crashed because HAP2_chr12 was
         # "corrected" to chr11 while the genuinely-correct HAP2_chr11 stayed

@@ -440,6 +440,79 @@ That caveat applies beyond the fish — worth revisiting any panel species
 called "allo" primarily from asymmetry rather than independent (e.g.
 phylogenomic) evidence.
 
+## Phase 2 hand-check: corrections (2026-10-07)
+
+Read this before anything below; it overrides earlier readings of the
+species named.
+
+- **`ddLepDrab1`: the "strongest allo candidate" was a labelling artefact.**
+  HAP4's file numbers 14 of its 16 chromosomes differently from the other
+  three haplotypes: HAP4_chr02 is chr04 (0.010 to HAP2_chr04), HAP4_chr03 is
+  chr05, and so on, a clean one-to-one permutation. The matrix stage's
+  relabelling check corrected HAP2 and HAP3 but rejected HAP4's whole batch:
+  two units (HAP4_chr07 at 0.040/0.041 between chr06 and chr03, and
+  HAP4_chr08) both picked chr06 as nearest. It logged "manual review
+  recommended" and nothing acted on it. Everything built on HAP4 is
+  therefore wrong: `partition_consistency` 0.94, `te_frac` 0.637, HAP4 as the
+  divergent copy on 15/16 chromosomes, the k=7 "quartet" partition. The
+  check now matches units to chromosome numbers one-to-one and fixes all 14;
+  a clean re-run is queued. Until it lands, ignore every `ddLepDrab1` number
+  in this file.
+- **`ddHesMatr1`: HAP1 chr01 and chr02 are swapped.** HAP1_chr01 sits at
+  0.020–0.025 from every other haplotype's chr02 and HAP1_chr02 at
+  0.027–0.034 from their chr01s; every other cross-chromosome distance is
+  ~0.070. The two are nearly the same length (828 vs 825 Mb). The swap ratio
+  (3.1 and 2.3) falls below the automatic 3x threshold because this species'
+  allele distances are only 2–4x below its between-chromosome distance. Its
+  single accepted homeolog pair, chr01↔chr02, and HAP1 as the divergent copy
+  on chr01/chr02 are artefacts of the swap.
+- **`drLytSali1`'s September run used its previous assembly.** Per-unit
+  FASTAs and k-mer tables are cached by name (`HAP1_chr01.fa`) and were never
+  re-extracted for the new assembly, which also renumbered chromosomes (the
+  cached HAP1_chr01 held what is now chr02). All its 2026-09 numbers, including
+  the 10/15 pairs and 11/15 `tetrasomic_like`, came from the old sequence. The
+  same reuse hit `dcCerAlpi1`, `ddHypMacu1` and `lpElePalu1`, but there the
+  release is length-identical to the cached sequence chromosome by chromosome.
+  `kmers` now records each unit's source and rebuilds on mismatch; all four
+  are being re-run from scratch.
+- **The windowed stage compares windows at the same coordinates**, assuming
+  the copies are collinear. Any indel, gap or repeat array larger than a
+  window between two assemblies puts every later window out of register:
+  `ddEmpNigr1` chr03's two closest copies are 0.004 apart over the whole
+  chromosome but at Jaccard distance ~0.99 in almost every window. Across
+  the panel, a median of 0–34% of windows of each chromosome's closest pair
+  are consistent with that pair's whole-chromosome distance. Every
+  windowed-derived reading is unreliable until this is fixed: `split_extent`
+  (which `resolved_lineages` needs for ≥3-copy chromosomes), regional splits
+  such as `SchCurv1` chr17 and `drAriEdul1` chr01, run length / `flip_rate`,
+  `mean_windowed_cv`, `windowed_distance_cv`, and `windowed-homeologs`.
+- **Diploid anchor `ddMalSylv1`:** allele distance 0.0038 (0.0018–0.0061),
+  cross-chromosome 0.116 (31x), 0/21 homeolog pairs, no significant genome
+  partition. Its per-chromosome `te_marker_fraction` is 0.14 median but
+  reaches 0.25, above the allo anchor `daGleHede1` (0.22): absolute
+  `te_marker_fraction` cannot separate diploid from allopolyploid.
+
+Hand-check readings from whole-chromosome distances (unaffected by the
+windowed problem):
+
+- **`ddEmpNigr1`: two lineages per chromosome.** On most of its 13
+  chromosomes one copy pair is very close (0.004–0.010), the other pair
+  looser or unpaired, and the cross-lineage distance is uniform
+  (0.019–0.024). That is AABB-like (disomic) structure at one consistent
+  depth, i.e. a single origin, not the equidistant copies expected of
+  tetrasomic inheritance. Its `partially_resolved`/`candidate` calls are
+  under-calls caused by the windowed problem. The literature "auto" label
+  and the high `te_frac` are reconciled if it is an old autotetraploid that
+  has become disomic, or a low-divergence allotetraploid; these data cannot
+  tell which.
+- **`drAriEdul1`: mostly equidistant copies.** Most chromosomes have all six
+  copy distances within 0.010–0.016, the autotetraploid-like pattern. Three
+  chromosomes have one clearly divergent copy (chr01 HAP4 at 0.026 vs
+  0.006–0.012; chr04 HAP4 at 0.025; chr07 HAP1 at 0.035 vs 0.013). Its
+  `partially_resolved` calls rest on windowed segments and should not be
+  used. The chr01 "13 Mb breakpoint" thread is windowed-derived and is
+  parked until the windowed fix.
+
 ## Caveats to carry into any discussion
 
 - No confirmed diploid-vs-autopolyploid calibration anchor existed until the

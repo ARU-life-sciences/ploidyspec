@@ -63,6 +63,28 @@ def mean_distance(i, group_indices, distance):
     return sum(distance[i][j] for j in group_indices) / len(group_indices)
 
 
+def match_to_reference(units, idxs, ref_groups, distance):
+    """
+    One-to-one assignment of the units `idxs` (one source file) to reference
+    chrom groups: greedy on mean distance, closest pairs first, with a unit's
+    own declared chrom winning ties. Returns {unit index: chrom}; units left
+    over when chroms run out are absent.
+    """
+    pairs = []
+    for i in idxs:
+        for chrom, members in ref_groups.items():
+            d = mean_distance(i, members, distance)
+            if d is not None:
+                pairs.append((d, chrom != units[i]["chrom"], i, chrom))
+    pairs.sort(key=lambda p: (p[0], p[1]))
+    assigned, taken = {}, set()
+    for _, _, i, chrom in pairs:
+        if i not in assigned and chrom not in taken:
+            assigned[i] = chrom
+            taken.add(chrom)
+    return assigned
+
+
 def detect_relabeling(units, distance, ratio_threshold=DEFAULT_RATIO_THRESHOLD):
     """
     Designates a reference source file (see choose_reference_source), then for
@@ -70,6 +92,15 @@ def detect_relabeling(units, distance, ratio_threshold=DEFAULT_RATIO_THRESHOLD):
     declared chrom's reference-group members against every other reference
     chrom-group's members. If the best alternative is decisively closer
     (ratio > ratio_threshold), it's a confident mislabeling candidate.
+
+    Each flagged source file's units are then matched one-to-one to the
+    reference chrom groups (match_to_reference), so two units can't both claim
+    the same chrom: ddLepDrab1's HAP4 numbered 14 of its 16 chromosomes
+    differently, and with independent nearest-group choices HAP4_chr07 (0.040
+    to chr06, 0.041 to chr03) and HAP4_chr08 (0.028 to chr06) both picked chr06,
+    which failed the batch and left the whole haplotype mislabelled. A move is
+    applied when the matched chrom is decisively closer than the declared one
+    (ratio >= ratio_threshold).
 
     Candidates are validated as a batch per non-reference source file, not
     accepted independently: a source file's set of qualifying moves is only
@@ -132,28 +163,42 @@ def detect_relabeling(units, distance, ratio_threshold=DEFAULT_RATIO_THRESHOLD):
                 )
             )
 
-    qualifying = [c for c in candidates if c["ratio"] >= ratio_threshold]
-    ambiguous = [c for c in candidates if c["ratio"] < ratio_threshold]
-
+    flagged = {c["index"]: c for c in candidates}
     by_source = defaultdict(list)
-    for c in qualifying:
-        by_source[units[c["index"]]["source"]].append(c)
+    for i, u in enumerate(units):
+        if u["source"] != ref_source:
+            by_source[u["source"]].append(i)
 
-    corrections = []
-    for src, cands in by_source.items():
-        moving_chroms = {c["old_chrom"] for c in cands}
-        targets = [c["new_chrom"] for c in cands]
-        injective = len(set(targets)) == len(targets)
-        occupied_chroms = {
-            u["chrom"] for u in units if u["source"] == src
-        }
-        closed = all(
-            t in moving_chroms or t not in occupied_chroms for t in targets
-        )
-        if injective and closed:
-            corrections.extend(cands)
+    corrections, ambiguous = [], []
+    for src, idxs in by_source.items():
+        if not any(i in flagged for i in idxs):
+            continue
+        assigned = match_to_reference(units, idxs, ref_groups, distance)
+        moves, held = [], []
+        for i in idxs:
+            own = units[i]["chrom"]
+            new = assigned.get(i)
+            if new is None or new == own:
+                if i in flagged:
+                    held.append(flagged[i])
+                continue
+            own_dist = mean_distance(i, ref_groups.get(own, []), distance)
+            new_dist = mean_distance(i, ref_groups[new], distance)
+            ratio = own_dist / new_dist if new_dist > 0 else float("inf")
+            move = dict(index=i, unit_id=units[i]["unit_id"], old_chrom=own, new_chrom=new,
+                        own_dist=own_dist, alt_dist=new_dist, ratio=ratio)
+            (moves if ratio >= ratio_threshold else held).append(move)
+        moving_chroms = {c["old_chrom"] for c in moves}
+        occupied_chroms = {units[i]["chrom"] for i in idxs}
+        closed = all(c["new_chrom"] in moving_chroms or c["new_chrom"] not in occupied_chroms
+                     for c in moves)
+        # a held move below the floor is only the matching's leftover, not evidence
+        held = [c for c in held if c["ratio"] >= AMBIGUOUS_RATIO_FLOOR]
+        if closed:
+            corrections.extend(moves)
+            ambiguous.extend(held)
         else:
-            ambiguous.extend(cands)
+            ambiguous.extend(moves + held)
 
     return corrections, ambiguous
 

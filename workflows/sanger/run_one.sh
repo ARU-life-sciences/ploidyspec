@@ -10,6 +10,7 @@ species_id="$1"
 manifest="$2"
 regex_field="${3:-}"
 hap_regex="${4:-}"
+# PLOIDYSPEC_ALL_EXTRA: extra flags for `all`, e.g. "--with-te-markers --with-windowed-homeologs"
 
 outdir="results/${species_id}"
 mkdir -p "$outdir"
@@ -32,7 +33,7 @@ echo "=== ${species_id}: all ==="
     --k 11,13,15,17,19,23 --window-k 15 --min-len 1000000 \
     --window 250000 \
     --threads "${LSB_DJOB_NUMPROC:-8}" \
-    "${extra_args[@]}"
+    "${extra_args[@]}" ${PLOIDYSPEC_ALL_EXTRA:-}
 
 echo "=== ${species_id}: homeologs (bonus, non-fatal) ==="
 ./ploidyspec.sh homeologs --manifest "$manifest" --outdir "$outdir" --k 11,13,15,17,19,23 "${extra_args[@]}" || true
