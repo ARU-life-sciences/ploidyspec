@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Progress of the panel-wide rediploidization run (ROADMAP.md, Progress log).
 # Usage: scripts/rediploidization_status.sh   -- one line per species + totals
-cd "$(dirname "${BASH_SOURCE[0]}")/.."
+cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 printf "%-14s %-6s %s\n" species state summary
 while read -r sp job; do
     if bjobs "$job" 2>/dev/null | grep -qE 'PEND|RUN'; then

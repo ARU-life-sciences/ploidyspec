@@ -208,7 +208,7 @@ def simulate(scenario, outdir, seed, params):
             for hap, records in haps.items():
                 path = os.path.join(sdir, f"{name}.{hap}.fa")
                 write_fasta(path, records)
-                m.write(f"{path}\t{hap}\n")
+                m.write(f"{os.path.basename(path)}\t{hap}\n")
         with open(os.path.join(sdir, "truth.tsv"), "w", newline="") as f:
             w = csv.DictWriter(f, fieldnames=["chrom", "copy_state", "fusion", "homeolog"],
                                delimiter="\t")

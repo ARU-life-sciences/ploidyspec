@@ -12,7 +12,7 @@ import gzip
 import os
 import subprocess
 
-REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 DATA = os.path.join(REPO, "data")
 MANIFESTS = os.path.join(REPO, "manifests")
 
@@ -157,7 +157,7 @@ def main():
         jobs.append((species, manifest_path, "|".join(GLOBAL_CHROM_REGEX), hap_regex))
 
     # merge into jobs.tsv: replace existing rows for these species, keep the rest
-    jobs_path = os.path.join(REPO, "scripts", "jobs.tsv")
+    jobs_path = os.path.join(REPO, "workflows", "sanger", "jobs.tsv")
     existing = []
     species_set = set(SPECIES)
     if os.path.exists(jobs_path):

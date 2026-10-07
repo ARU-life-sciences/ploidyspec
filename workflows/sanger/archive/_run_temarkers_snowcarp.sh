@@ -2,7 +2,7 @@
 set -euo pipefail
 source /etc/profile.d/modules.sh
 module load fastk/1.2-c1 samtools/1.20--h50ea8bc_0
-HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 cd "$HERE"
 
 species_id="$1"

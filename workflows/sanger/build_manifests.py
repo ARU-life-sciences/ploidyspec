@@ -6,7 +6,7 @@ Paths are listed in haplotype order (hap1, hap2, [hap3, hap4] or hap1, alternate
 """
 import os
 
-REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 META = os.path.join(REPO, "meta", "meta.tsv")
 MANIFEST_DIR = os.path.join(REPO, "manifests")
 
@@ -78,7 +78,7 @@ def resolve(path):
 
 def restage_if_curated(species, path):
     """Curated assemblies are plain-gzip (not bgzip) in read-only dirs -- samtools
-    faidx can't index them in place. build_manifests assumes scripts/stage_curated.sh
+    faidx can't index them in place. build_manifests assumes workflows/sanger/stage_curated.sh
     has already re-bgzipped them into data/<species>/<basename>."""
     if "/assembly/curated/" in path:
         staged = os.path.join(REPO, "data", species, os.path.basename(path))
@@ -148,11 +148,11 @@ def main():
             jobs.append((species, manifest_path, GLOBAL_CHROM_REGEX, hap_regex))
             print(f"NEW {species}: {len(paths)} paths" + (f" (AUTO positions: {sorted(auto_positions)})" if auto_positions else ""))
 
-    with open(os.path.join(REPO, "scripts", "jobs.tsv"), "w") as jf:
+    with open(os.path.join(REPO, "workflows", "sanger", "jobs.tsv"), "w") as jf:
         for outdir_id, manifest_path, extra_regex, hap_regex in jobs:
             regex_field = "|".join(extra_regex) if extra_regex else ""
             jf.write(f"{outdir_id}\t{manifest_path}\t{regex_field}\t{hap_regex or ''}\n")
-    print(f"\n{len(jobs)} jobs written to scripts/jobs.tsv")
+    print(f"\n{len(jobs)} jobs written to workflows/sanger/jobs.tsv")
 
 
 if __name__ == "__main__":

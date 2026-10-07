@@ -56,7 +56,7 @@ If your assembly's headers don't match either pattern — e.g. the opposite nami
 (`SUPER_<N>_HAP<M>`, chromosome-then-haplotype, which several species in this project's
 own panel actually use) — override with `--chrom-regex`/`--hap-regex` (each takes a
 regex with exactly one capturing group, the number). Two real examples from this
-project's `scripts/jobs.tsv`:
+project's `workflows/sanger/jobs.tsv`:
 
 ```
 # daGalBore1: headers mix "chromosome: N" free text with plain "SUPER_N" scaffold

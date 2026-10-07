@@ -64,6 +64,9 @@ def match_hap(desc, hap_regex):
 
 
 def read_manifest(manifest_path):
+    """[(fasta_path, hap_label)]. Relative FASTA paths are resolved against the
+    manifest's own directory, so a manifest and its FASTAs can be moved together."""
+    base = os.path.dirname(os.path.abspath(manifest_path))
     rows = []
     with open(manifest_path) as f:
         for line in f:
@@ -75,7 +78,8 @@ def read_manifest(manifest_path):
                 raise SystemExit(
                     f"manifest line malformed (need <fasta>\\t<hap_label|AUTO>): {line!r}"
                 )
-            rows.append((parts[0], parts[1]))
+            fasta = os.path.expanduser(parts[0])
+            rows.append((fasta if os.path.isabs(fasta) else os.path.join(base, fasta), parts[1]))
     return rows
 
 
@@ -86,7 +90,6 @@ def prepare(manifest_path, outdir, samtools_bin, min_len, chrom_regexes, hap_reg
     rows = []
     unplaced = []
     for fasta, hap_label in read_manifest(manifest_path):
-        fasta = os.path.abspath(fasta)
         if not os.path.exists(fasta):
             raise SystemExit(f"manifest references missing file: {fasta}")
         lengths = read_fai(samtools_bin, fasta)

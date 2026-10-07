@@ -3,7 +3,7 @@ set -euo pipefail
 source /etc/profile.d/modules.sh
 module load samtools/1.20--h50ea8bc_0
 
-HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$HERE"
 
 # curated (plain-gzip, read-only) assembly paths, derived straight from meta/meta.tsv
