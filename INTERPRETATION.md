@@ -491,6 +491,19 @@ species named.
   (which `resolved_lineages` needs for ≥3-copy chromosomes), regional splits
   such as `SchCurv1` chr17 and `drAriEdul1` chr01, run length / `flip_rate`,
   `mean_windowed_cv`, `windowed_distance_cv`, and `windowed-homeologs`.
+  **Fixed (2026-10-07):** windows are now read along each copy's own
+  coordinates and looked up anywhere in the other copy's whole chromosome
+  (FastK profile, distance = -ln(containment)/k), so no shared coordinates
+  are needed. On `ddEmpNigr1` the window distances now track the
+  whole-chromosome distances pair for pair, and chr03 reads
+  `resolved_lineages` (split in 92% of windows). `SchCurv1` chr19 stays
+  `resolved_lineages` (92%). **`SchCurv1` chr17's split moves:** every copy,
+  on its own coordinates, puts it in the last ~8 Mb (HAP1 24.8–32.5,
+  HAP2 25.0–33.0, HAP3 25.0–33.3, HAP4 27.3–35.9 Mb), not at 5.0–8.2 Mb as
+  the equal-coordinate windows had it. A terminal 8 Mb block fits the
+  paper's short-arm-only disomic shift if the short arm is at that end;
+  check against the paper's coordinates before citing it. Panel-wide
+  re-run: `workflows/sanger/rerun_windowed.sh`.
 - **Diploid anchor `ddMalSylv1`:** allele distance 0.0038 (0.0018–0.0061),
   cross-chromosome 0.116 (31x), 0/21 homeolog pairs, no significant genome
   partition. Its per-chromosome `te_marker_fraction` is 0.14 median but

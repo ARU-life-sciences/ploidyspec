@@ -52,6 +52,7 @@ from .common import (
     run_logex_batch,
     subgenomes_dir,
     sum_hist_distinct,
+    window_rows,
     windowed_dir,
 )
 from .kmer_tables import build_one, ktab_prefix_path, load_sequences
@@ -344,29 +345,37 @@ def detect_orphan_fusions(outdir, units, orphans, k, tools, threads, z_min):
 
 
 def load_windowed(outdir):
-    """{chrom_label: {win_start: (win_end, {(unit_a, unit_b): jaccard_distance})}}"""
+    """{chrom_label: {anchor_unit: {win_start: (win_end, {other_unit: distance})}}}
+    -- each copy's windows along its own coordinates, with the distance of each
+    window to every other copy (see windowed.py)."""
     path = os.path.join(windowed_dir(outdir), "windowed_all.tsv")
-    out = defaultdict(dict)
+    out = defaultdict(lambda: defaultdict(dict))
     if not os.path.exists(path):
         return out
-    with open(path) as f:
-        for r in csv.DictReader(f, delimiter="\t"):
-            start = int(r["win_start"])
-            # older runs wrote a bare `chrom` number instead of the `group` label
-            label = r["group"] if "group" in r else f"chr{int(r['chrom']):02d}"
-            entry = out[label].setdefault(start, (int(r["win_end"]), {}))
-            entry[1][(r["unit_a"], r["unit_b"])] = float(r["jaccard_distance"])
+    for r, d in window_rows(path):
+        # older runs wrote a bare `chrom` number instead of the `group` label
+        label = r["group"] if "group" in r else f"chr{int(r['chrom']):02d}"
+        entry = out[label][r["unit_a"]].setdefault(int(r["win_start"]), (int(r["win_end"]), {}))
+        entry[1][r["unit_b"]] = d
     return out
 
 
-def window_split_track(windows, group_a):
-    """[(start, end, cross/within ratio)] per window, for a fixed bipartition."""
-    a = set(group_a)
+def window_split_track(windows, anchor, group_a):
+    """[(start, end, cross/within ratio)] along one anchor copy, for a fixed
+    bipartition: mean distance from the anchor's window to the other group's
+    copies over mean distance to its own group's other copies. Empty when the
+    anchor has no other copy in its own group (the lone copy of a 1-vs-rest
+    split)."""
+    own = set(group_a) if anchor in group_a else None
     track = []
     for start in sorted(windows):
-        end, pairs = windows[start]
-        within = [d for (u, v), d in pairs.items() if (u in a) == (v in a)]
-        cross = [d for (u, v), d in pairs.items() if (u in a) != (v in a)]
+        end, dists = windows[start]
+        if own is None:
+            own_group = {u for u in dists} - set(group_a)
+        else:
+            own_group = own
+        within = [d for u, d in dists.items() if u in own_group and u != anchor]
+        cross = [d for u, d in dists.items() if u not in own_group]
         if within and cross:
             w = statistics.mean(within)
             track.append((start, end, statistics.mean(cross) / w if w > 0 else float("inf")))
@@ -493,15 +502,23 @@ def chromosome_lineages(units, dist, windowed, te_split, thresholds):
             ga, gb, balanced, ratio = split
             row.update(group_a=",".join(ga), group_b=",".join(gb), balanced=balanced,
                        dist_split=ratio)
-            track = window_split_track(windowed.get(label, {}), ga)
-            if track:
+            reads = []  # one reading per anchor copy, along its own coordinates
+            for anchor, windows in sorted(windowed.get(label, {}).items()):
+                track = window_split_track(windows, anchor, ga)
+                if not track:
+                    continue
                 n_split = sum(1 for _, _, r in track if r >= thresholds["window_split"])
-                row["window_split_frac"] = n_split / len(track)
                 segs = split_segments(track, thresholds["window_split"], thresholds["min_segment_bp"])
                 span = track[-1][1] - track[0][0] + 1
-                covered = sum(e - s + 1 for s, e in segs)
-                row["extent"] = "whole" if covered >= 0.5 * span else ("regional" if segs else "none")
-                row["segments"] = ";".join(f"{s / 1e6:.1f}-{e / 1e6:.1f}Mb" for s, e in segs)
+                covered = sum(e - s + 1 for s, e in segs) / span
+                reads.append((covered, n_split / len(track), anchor, segs))
+            if reads:
+                # the median anchor: a real lineage split is seen from every copy
+                covered, frac, anchor, segs = sorted(reads)[(len(reads) - 1) // 2]
+                row["window_split_frac"] = statistics.median(r[1] for r in reads)
+                row["extent"] = "whole" if covered >= 0.5 else ("regional" if segs else "none")
+                row["segments"] = ";".join(
+                    f"{anchor.split('_')[0]}:{s / 1e6:.1f}-{e / 1e6:.1f}Mb" for s, e in segs)
         rows[chrom] = row
     return rows
 

@@ -19,7 +19,7 @@ from ploidyspec.cli import main
 from ploidyspec.panel import build_panel
 from ploidyspec.simulate import SCENARIOS, simulate
 
-TOOLS = ("samtools", "FastK", "Logex", "Histex", "Tabex")
+TOOLS = ("samtools", "FastK", "Logex", "Histex", "Tabex", "Profex")
 ENABLED = os.environ.get("PLOIDYSPEC_E2E") == "1" and all(shutil.which(t) for t in TOOLS)
 N_CHROM = 7
 SIM_PARAMS = dict(n_chrom=N_CHROM, chrom_len=800_000)

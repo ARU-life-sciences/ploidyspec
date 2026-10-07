@@ -141,10 +141,12 @@ one table.
 - [ ] Re-run the 4 stale species on their Darwin reassemblies (submitted
       2026-10-07 from scratch, plus `ddLepDrab1`; jobs in
       `logs/rerun4_jobs.txt`, old dirs in `superseded/`).
-- [ ] Fix `windowed`: windows are compared at equal coordinates, which breaks
-      once assemblies drift (see corrections). Proposed: per window of each
-      copy, k-mer containment in each other copy's whole chromosome
-      (position-free), turned into a distance with -ln(c)/k.
+- [x] Fix `windowed` (2026-10-07): position-free. Each copy's windows are
+      looked up in each other copy's whole-chromosome k-mer table (FastK
+      `-p:table` + Profex), distance -ln(c)/k; rows directional. Lineage
+      splits are read along every copy and the median copy reported.
+- [ ] Panel-wide windowed re-run (`workflows/sanger/rerun_windowed.sh`), then
+      re-read `split_extent`-dependent states and regional calls.
 - [x] `ddHesMatr1`'s chr01/chr02 swap: mutual swaps now need 2.0x per unit
       instead of 3.0x (user decision 2026-10-07). Matrix onward re-running
       (LSF 332545).

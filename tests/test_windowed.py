@@ -17,7 +17,7 @@ def _row(chrom_a, chrom_b, hap_a, hap_b, win_start, win_end, dist):
         unit_b=f"{hap_b}_chr{chrom_b:02d}",
         win_start=win_start,
         win_end=win_end,
-        jaccard_distance=dist,
+        distance=dist,
     )
 
 

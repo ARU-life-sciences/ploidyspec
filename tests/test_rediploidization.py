@@ -174,10 +174,18 @@ class TestSplitSegments(unittest.TestCase):
         self.assertEqual(split_segments(self.track("........"), 1.25, 1), [])
 
     def test_window_track_uses_bipartition(self):
-        windows = {1: (250_000, {("A", "B"): 0.1, ("C", "D"): 0.1, ("A", "C"): 0.5,
-                                 ("A", "D"): 0.5, ("B", "C"): 0.5, ("B", "D"): 0.5})}
-        (_, _, ratio), = window_split_track(windows, ["A", "B"])
+        # windows along copy A: distance to B (same lineage) 0.1, to C and D 0.5
+        windows = {1: (250_000, {"B": 0.1, "C": 0.5, "D": 0.5})}
+        (_, _, ratio), = window_split_track(windows, "A", ["A", "B"])
         self.assertAlmostEqual(ratio, 5.0)
+        # the same split read from C, a member of the other group
+        windows = {1: (250_000, {"D": 0.1, "A": 0.5, "B": 0.5})}
+        (_, _, ratio), = window_split_track(windows, "C", ["A", "B"])
+        self.assertAlmostEqual(ratio, 5.0)
+
+    def test_lone_copy_has_no_track(self):
+        windows = {1: (250_000, {"B": 0.5, "C": 0.5, "D": 0.5})}
+        self.assertEqual(window_split_track(windows, "A", ["A"]), [])
 
 
 class TestCopyState(unittest.TestCase):

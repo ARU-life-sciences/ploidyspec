@@ -2,19 +2,17 @@ import csv
 import math
 import os
 import shutil
+import subprocess
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from .common import (
-    group_pair_batches,
     homeologs_dir,
     log,
     run,
-    run_logex_batch,
-    sum_hist_distinct,
     windowed_dir,
 )
-from .kmer_tables import load_sequences
+from .kmer_tables import build_one, chrom_fasta_path, ktab_prefix_path, load_sequences
 
 FIELDNAMES = [
     "group",
@@ -27,11 +25,29 @@ FIELDNAMES = [
     "chrom_a",
     "chrom_b",
     "kmers_a",
-    "kmers_b",
     "shared",
-    "union",
-    "jaccard_distance",
+    "containment",
+    "distance",
 ]
+
+# Measured FastK -p memory: ~13 bytes per bp of the table's sequence (723 MB
+# for a 56 Mb chromosome), so a job needs threads x this x longest chromosome.
+PROFILE_BYTES_PER_BP = 14
+
+# Profex -z prints "  <start> -   <end> (<count>)" runs, zeros omitted. This awk
+# program sums run lengths into fixed bins of `g` k-mer positions, so the
+# per-position profile (one line per run, ~10M lines for a 50 Mb chromosome)
+# never reaches Python.
+_BIN_AWK = r"""
+$2 == "-" && $3 ~ /^[0-9]+$/ {
+    s = $1; e = $3
+    while (s <= e) {
+        b = int(s / g); be = (b + 1) * g - 1; t = (e < be) ? e : be
+        n[b] += t - s + 1; s = t + 1
+    }
+}
+END { for (b in n) print b "\t" n[b] }
+"""
 
 
 def make_windows(minlen, window, step):
@@ -63,75 +79,56 @@ def build_window_ktab(
     return ktab_prefix
 
 
-def process_window(
-    label,
-    win_idx,
-    start,
-    end,
-    group,
-    samtools_bin,
-    fastk_bin,
-    logex_bin,
-    histex_bin,
-    k,
-    base_tmp,
-):
-    tmp_dir = os.path.join(base_tmp, f"w{win_idx}")
-    os.makedirs(tmp_dir, exist_ok=True)
-    try:
-        prefixes = []
-        totals = []
-        for u in group:
-            p = build_window_ktab(
-                samtools_bin,
-                fastk_bin,
-                k,
-                u["source"],
-                u["seq_id"],
-                start,
-                end,
-                tmp_dir,
-                u["unit_id"],
-            )
-            prefixes.append(p)
-            totals.append(sum_hist_distinct(histex_bin, p))
+def find_profex(fastk_bin):
+    sibling = os.path.join(os.path.dirname(fastk_bin), "Profex")
+    if os.path.exists(sibling):
+        return sibling
+    found = shutil.which("Profex")
+    if not found:
+        raise SystemExit("Profex (part of FastK) not found next to FastK or on PATH")
+    return found
 
-        n = len(group)
-        shared = {}
-        for idxs, local_pairs in group_pair_batches(n, letter_cap=8):
-            source_prefixes = [prefixes[i] for i in idxs]
-            batch_tmp = os.path.join(tmp_dir, "lx")
-            res = run_logex_batch(
-                logex_bin, histex_bin, source_prefixes, local_pairs, batch_tmp
-            )
-            for (a, b), count in res.items():
-                shared[(idxs[a], idxs[b])] = count
 
-        rows = []
-        for (i, j), count in shared.items():
-            union = totals[i] + totals[j] - count
-            dist = 1.0 - count / union if union > 0 else 0.0
-            rows.append(
-                dict(
-                    group=label,
-                    win_start=start,
-                    win_end=end,
-                    unit_a=group[i]["unit_id"],
-                    unit_b=group[j]["unit_id"],
-                    hap_a=group[i]["hap"],
-                    hap_b=group[j]["hap"],
-                    chrom_a=int(group[i]["chrom"]),
-                    chrom_b=int(group[j]["chrom"]),
-                    kmers_a=totals[i],
-                    kmers_b=totals[j],
-                    shared=count,
-                    union=union,
-                    jaccard_distance=dist,
-                )
-            )
-        return rows
-    finally:
-        shutil.rmtree(tmp_dir, ignore_errors=True)
+def profile_bins(fastk_bin, profex_bin, k, fasta, table_prefix, tmp_dir, name, bin_size):
+    """
+    {bin: number of k-mer positions of `fasta` whose k-mer is present in the
+    table}, bins of `bin_size` positions along the sequence. Uses FastK's
+    profile mode against another sequence's table (-p:table), so it needs no
+    alignment and no shared coordinates.
+    """
+    root = os.path.join(tmp_dir, name)
+    run([fastk_bin, f"-k{k}", "-T1", f"-p:{table_prefix}", f"-N{root}", f"-P{tmp_dir}", fasta])
+    profex = subprocess.Popen([profex_bin, "-z", root, "1"], stdout=subprocess.PIPE)
+    out = subprocess.run(["awk", "-v", f"g={bin_size}", _BIN_AWK], stdin=profex.stdout,
+                         capture_output=True, text=True, check=True).stdout
+    profex.stdout.close()
+    if profex.wait() != 0:
+        raise RuntimeError(f"Profex failed on {root}")
+    for f in os.listdir(tmp_dir):
+        if f.startswith((name + ".", "." + name + ".")):
+            os.remove(os.path.join(tmp_dir, f))
+    bins = {}
+    for line in out.splitlines():
+        b, n = line.split("\t")
+        bins[int(b)] = int(n)
+    return bins
+
+
+def window_counts(bins, windows, bin_size):
+    """Sum per-bin counts into windows given as 1-based (start, end) bp."""
+    out = []
+    for s, e in windows:
+        lo, hi = (s - 1) // bin_size, (e - 1) // bin_size
+        out.append(sum(bins.get(b, 0) for b in range(lo, hi + 1)))
+    return out
+
+
+def containment_distance(shared, total, k):
+    """Mash-style containment distance -ln(c)/k; 1.0 when nothing is shared."""
+    if total <= 0:
+        return None, None
+    c = shared / total
+    return c, (-math.log(c) / k if c > 0 else 1.0)
 
 
 def compute_windowed_groups(
@@ -149,69 +146,80 @@ def compute_windowed_groups(
     all_tsv_name,
     overview_png_name,
     only_cross_chrom=False,
+    species_outdir=None,
 ):
     """
-    Core windowed-comparison loop: for each label -> list-of-units group, tile the
-    shortest member into windows and compute pairwise k-mer Jaccard distance at
-    every window between every pair of units in that group. Used both for same-
-    chromosome-number haplotype comparisons and for cross-chromosome homeolog pairs.
+    Core windowed-comparison loop. For each label -> group of units, every unit
+    is tiled along its *own* coordinates, and each window's k-mers are looked up
+    in every other unit's whole-sequence k-mer table: containment c = share of the
+    window's k-mer positions present anywhere in the other copy, distance =
+    -ln(c)/k. Rows are directional (positions are along unit_a).
+
+    This replaced comparing windows at equal coordinates across copies, which
+    assumed the assemblies were collinear and fell out of register after the
+    first indel or gap larger than a window: a pair 0.004 apart over the whole
+    chromosome (ddEmpNigr1 chr03) read ~0.99 Jaccard distance in most windows.
+
+    Valid k-mer positions per window come from profiling each unit against its
+    own table, so assembly gaps (Ns) reduce the denominator rather than reading
+    as divergence. Memory per concurrent FastK profile scales with the table
+    size (~14 bytes per distinct k-mer of the other copy).
     """
+    species_outdir = species_outdir or os.path.dirname(outdir.rstrip("/"))
+    profex_bin = find_profex(fastk_bin)
+    bin_size = math.gcd(window, step)
     rows_by_label = {}
     for label in sorted(labeled_groups):
         group = sorted(labeled_groups[label], key=lambda u: (u["hap"], int(u["chrom"])))
         if len(group) < 2:
-            log(
-                f"{label}: only {len(group)} unit present, skipping windowed comparison"
-            )
+            log(f"{label}: only {len(group)} unit present, skipping windowed comparison")
             continue
+        for u in group:  # whole-unit FASTA and k-mer table at the window k
+            build_one(samtools_bin, fastk_bin, u, k, species_outdir)
 
-        lengths = [int(u["length"]) for u in group]
-        minlen = min(lengths)
-        if max(lengths) > 0 and (max(lengths) - minlen) / max(lengths) > 0.2:
-            log(
-                f"{label}: member lengths vary by >20% (min={minlen}, max={max(lengths)}); "
-                f"windows are bounded by the shortest member, assuming rough colinearity"
-            )
-
-        windows = make_windows(minlen, window, step)
-        log(
-            f"{label}: {len(group)} units x {len(windows)} windows ({window}bp, step {step}bp)"
-        )
-
+        pairs = [(a, b) for a in group for b in group
+                 if a is not b and not (only_cross_chrom and a["chrom"] == b["chrom"])]
+        peak_gb = min(threads, len(group) ** 2) * PROFILE_BYTES_PER_BP * max(
+            int(u["length"]) for u in group) / 1e9
+        log(f"{label}: {len(group)} units, {len(pairs)} directional comparisons "
+            f"({window}bp windows, step {step}bp; ~{peak_gb:.1f} GB peak with {threads} threads)")
         tmp_root = os.path.join(outdir, "tmp_windowed", label)
         os.makedirs(tmp_root, exist_ok=True)
-        label_rows = []
+
+        def profile(a, b):
+            tmp = os.path.join(tmp_root, f"{a['unit_id']}__{b['unit_id']}")
+            os.makedirs(tmp, exist_ok=True)
+            bins = profile_bins(fastk_bin, profex_bin, k, chrom_fasta_path(species_outdir, a["unit_id"]),
+                                ktab_prefix_path(species_outdir, b["unit_id"], k), tmp, "p", bin_size)
+            shutil.rmtree(tmp, ignore_errors=True)
+            return a["unit_id"], b["unit_id"], bins
+
+        jobs = [(u, u) for u in group] + pairs  # self-profile = valid positions
+        bins = {}
         with ThreadPoolExecutor(max_workers=threads) as ex:
-            futs = [
-                ex.submit(
-                    process_window,
-                    label,
-                    wi,
-                    s,
-                    e,
-                    group,
-                    samtools_bin,
-                    fastk_bin,
-                    logex_bin,
-                    histex_bin,
-                    k,
-                    tmp_root,
-                )
-                for wi, (s, e) in enumerate(windows)
-            ]
-            done = 0
-            report_every = max(1, len(windows) // 10)
-            for fut in as_completed(futs):
-                label_rows.extend(fut.result())
-                done += 1
-                if done % report_every == 0 or done == len(windows):
-                    log(f"  {label}: [{done}/{len(windows)}] windows done")
+            futs = [ex.submit(profile, a, b) for a, b in jobs]
+            for i, fut in enumerate(as_completed(futs), 1):
+                ua, ub, bb = fut.result()
+                bins[(ua, ub)] = bb
+                if i % max(1, len(jobs) // 5) == 0 or i == len(jobs):
+                    log(f"  {label}: [{i}/{len(jobs)}] profiles done")
         shutil.rmtree(tmp_root, ignore_errors=True)
 
-        if only_cross_chrom:
-            # drop same-chromosome-number (already-known haplotype homolog) pairs -- those are
-            # covered by the `windowed` stage; here we only want the cross-number ancestral signal
-            label_rows = [r for r in label_rows if r["chrom_a"] != r["chrom_b"]]
+        label_rows = []
+        for a, b in pairs:
+            windows = make_windows(int(a["length"]) - k + 1, window, step)
+            valid = window_counts(bins[(a["unit_id"], a["unit_id"])], windows, bin_size)
+            shared = window_counts(bins[(a["unit_id"], b["unit_id"])], windows, bin_size)
+            for (s, e), n, m in zip(windows, valid, shared):
+                c, d = containment_distance(m, n, k)
+                if c is None:
+                    continue
+                label_rows.append(dict(
+                    group=label, win_start=s, win_end=e,
+                    unit_a=a["unit_id"], unit_b=b["unit_id"], hap_a=a["hap"], hap_b=b["hap"],
+                    chrom_a=int(a["chrom"]), chrom_b=int(b["chrom"]),
+                    kmers_a=n, shared=m, containment=c, distance=d,
+                ))
 
         write_group_tsv(outdir, label, label_rows)
         plot_group(outdir, label, label_rows)
@@ -257,6 +265,7 @@ def compute_windowed(
         overview_title="Genome-wide windowed haplotype k-mer divergence (relative chromosome position)",
         all_tsv_name="windowed_all.tsv",
         overview_png_name="windowed_genome_overview.png",
+        species_outdir=outdir,
     )
 
 
@@ -299,6 +308,7 @@ def compute_windowed_homeologs(
         all_tsv_name="windowed_homeologs_all.tsv",
         overview_png_name="windowed_homeologs_overview.png",
         only_cross_chrom=True,
+        species_outdir=outdir,
     )
 
 
@@ -310,7 +320,7 @@ def write_group_tsv(outdir, label, rows):
         for r in sorted(rows, key=lambda r: (r["win_start"], r["hap_a"], r["hap_b"])):
             w.writerow(
                 {
-                    k: (f"{v:.6f}" if k == "jaccard_distance" else v)
+                    k: (f"{v:.6f}" if k in ("containment", "distance") else v)
                     for k, v in r.items()
                 }
             )
@@ -328,7 +338,7 @@ def write_all_windows_tsv(outdir, rows_by_label, filename):
             ):
                 w.writerow(
                     {
-                        k: (f"{v:.6f}" if k == "jaccard_distance" else v)
+                        k: (f"{v:.6f}" if k in ("containment", "distance") else v)
                         for k, v in r.items()
                     }
                 )
@@ -368,12 +378,12 @@ def plot_group(outdir, label, rows):
         lbl, sub = keyed[key]
         sub = sorted(sub, key=lambda r: r["win_start"])
         xs = [(r["win_start"] + r["win_end"]) / 2 / 1e6 for r in sub]
-        ys = [r["jaccard_distance"] for r in sub]
+        ys = [r["distance"] for r in sub]
         ax.plot(xs, ys, marker="o", markersize=2, linewidth=1, label=lbl)
     ax.set_xlabel("position (Mb)")
-    ax.set_ylabel("windowed k-mer Jaccard distance")
+    ax.set_ylabel("windowed k-mer distance (-ln c / k)")
     ax.set_title(f"{label} windowed divergence")
-    ax.set_ylim(0, 1)
+    ax.set_ylim(bottom=0)
     ax.legend(fontsize=7, ncol=2)
     fig.tight_layout()
     fig.savefig(os.path.join(outdir, f"windowed_{label}.png"), dpi=150)
@@ -381,10 +391,10 @@ def plot_group(outdir, label, rows):
 
 
 def _pair_matrix(rows):
-    """rows -> (row_labels, windows, 2D array of jaccard_distance, NaN where a pair
-    has no value at a given window). All pairs in `rows` are assumed to share the
-    same window grid (true within one compute_windowed_groups label -- windows are
-    computed once per group and applied to every pair in it)."""
+    """rows -> (row_labels, windows, 2D array of distance, NaN where a pair has no
+    value at a given window). Each row is one directional pair along its unit_a's
+    own coordinates; window starts are a shared grid, so copies of different
+    lengths simply end at different columns."""
     import numpy as np
 
     keyed = {}
@@ -403,7 +413,7 @@ def _pair_matrix(rows):
         for r in sub:
             j = win_index.get((r["win_start"], r["win_end"]))
             if j is not None:
-                mat[i, j] = r["jaccard_distance"]
+                mat[i, j] = r["distance"]
     return row_labels, windows, mat
 
 
@@ -443,7 +453,7 @@ def plot_group_heatmap(outdir, label, rows):
     ax.set_yticklabels(row_labels, fontsize=7)
     ax.set_xlabel("position (Mb)")
     ax.set_title(f"{label} windowed divergence (2nd-98th pct: {vmin:.3f}-{vmax:.3f})")
-    fig.colorbar(im, ax=ax, shrink=0.7, label="jaccard distance")
+    fig.colorbar(im, ax=ax, shrink=0.7, label="distance (-ln c / k)")
     fig.tight_layout()
     fig.savefig(os.path.join(outdir, f"windowed_{label}_heatmap.png"), dpi=150)
     plt.close(fig)
@@ -463,7 +473,7 @@ def plot_overview_heatmap(outdir, rows_by_label, title, filename):
     all_rows = [r for rows in rows_by_label.values() for r in rows]
     if not all_rows:
         return
-    all_dist = np.array([r["jaccard_distance"] for r in all_rows])
+    all_dist = np.array([r["distance"] for r in all_rows])
     vmin, vmax = np.percentile(all_dist, [2, 98])
     if vmin == vmax:
         vmax = vmin + 1e-6
@@ -506,7 +516,7 @@ def plot_overview_heatmap(outdir, rows_by_label, title, filename):
     fig.suptitle(f"{title}\n(2nd-98th pct: {vmin:.3f}-{vmax:.3f})")
     fig.tight_layout(rect=[0, 0, 0.93, 0.90])
     fig.colorbar(
-        im, ax=axes[: len(labels)].tolist(), shrink=0.6, label="jaccard distance"
+        im, ax=axes[: len(labels)].tolist(), shrink=0.6, label="distance (-ln c / k)"
     )
     fig.savefig(os.path.join(outdir, filename), dpi=150)
     plt.close(fig)
@@ -550,7 +560,7 @@ def plot_overview(outdir, rows_by_label, title, filename):
             lbl = label_of[key]
             sub = sorted(sub, key=lambda r: r["win_start"])
             xs = [100 * (r["win_start"] + r["win_end"]) / 2 / maxend for r in sub]
-            ys = [r["jaccard_distance"] for r in sub]
+            ys = [r["distance"] for r in sub]
             ax.plot(
                 xs,
                 ys,
@@ -559,7 +569,7 @@ def plot_overview(outdir, rows_by_label, title, filename):
                 label=lbl if not same_chrom_mode else None,
             )
         ax.set_title(label, fontsize=9)
-        ax.set_ylim(0, 1)
+        ax.set_ylim(bottom=0)
         if not same_chrom_mode:
             ax.legend(fontsize=5, loc="lower left")
 

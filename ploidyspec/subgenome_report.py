@@ -10,7 +10,7 @@ import os
 import statistics
 from collections import Counter, defaultdict
 
-from .common import log, matrix_dir, subgenomes_dir, windowed_dir
+from .common import log, matrix_dir, subgenomes_dir, window_rows, windowed_dir
 
 
 def te_marker_fraction(n_markers_a, n_markers_b, n_highcopy_a, n_highcopy_b):
@@ -31,24 +31,16 @@ def te_marker_fraction(n_markers_a, n_markers_b, n_highcopy_a, n_highcopy_b):
 
 def windowed_distance_cv(outdir, chrom_str, unit_a, unit_b):
     """
-    Coefficient of variation (std/mean) of the raw-Jaccard windowed
-    divergence track for this haplotype pair -- a secondary corroborating
-    signal alongside the primary te-marker-based index. Uses windowed/'s
-    output as-is (raw Jaccard, not Mash-corrected: windowed deliberately
-    stayed uncorrected for cost reasons), so this is about relative
-    variability/patchiness across the chromosome, not an absolute calibrated
-    divergence estimate. None if the windowed track isn't available.
+    Coefficient of variation (std/mean) of the windowed divergence track of
+    unit_a's windows against unit_b -- a secondary corroborating signal
+    alongside the primary te-marker-based index, about relative
+    variability/patchiness along the chromosome. None if the windowed track
+    isn't available.
     """
     path = os.path.join(windowed_dir(outdir), f"windowed_{chrom_str}.tsv")
     if not os.path.exists(path):
         return None
-    hap_a = unit_a.rsplit("_chr", 1)[0]
-    hap_b = unit_b.rsplit("_chr", 1)[0]
-    values = []
-    with open(path) as f:
-        for row in csv.DictReader(f, delimiter="\t"):
-            if {row["hap_a"], row["hap_b"]} == {hap_a, hap_b}:
-                values.append(float(row["jaccard_distance"]))
+    values = [d for r, d in window_rows(path) if (r["unit_a"], r["unit_b"]) == (unit_a, unit_b)]
     if len(values) < 2:
         return None
     mean = statistics.mean(values)

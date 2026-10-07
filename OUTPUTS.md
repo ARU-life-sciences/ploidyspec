@@ -108,12 +108,30 @@ back can this k-mer sweep actually see."
 ## `windowed/` — divergence along the chromosome
 
 **`windowed_chrNN.tsv`** (one per chromosome number) and **`windowed_all.tsv`**:
-`jaccard_distance` per window per haplotype-copy pair. **This track is raw
-Jaccard, not Mash-corrected** — `windowed` stayed uncorrected deliberately
-(re-deriving Mash correction per window would multiply the already-dominant
-cost of this stage). Use it for *relative* shape along the chromosome
-(where does divergence spike/dip), not as a calibrated divergence estimate —
-for that, use `matrix/`'s `distance`.
+one row per window of one copy (`unit_a`, positions along *its own*
+coordinates) against another copy (`unit_b`). Each window's k-mers are looked
+up anywhere in `unit_b`'s whole chromosome (FastK profile against `unit_b`'s
+k-mer table, `--window-k`), so no alignment or shared coordinates are needed:
+- `kmers_a`: valid k-mer positions in the window (assembly gaps excluded).
+- `shared`: how many of them occur anywhere in `unit_b`.
+- `containment` = `shared`/`kmers_a`; `distance` = -ln(`containment`)/k
+  (Mash-style; 1.0 when nothing is shared).
+
+Rows are directional: A→B and B→A are separate tracks along each copy.
+Window distances run lower than `matrix/`'s whole-chromosome `distance`
+(about 0.6x on `ddEmpNigr1`, because a window is matched against the whole
+other copy), with the same ordering of pairs. Use them for shape along the
+chromosome, and `matrix/` for calibrated divergence.
+
+Before 2026-10-07 this stage compared windows at *equal coordinates* in every
+copy (column `jaccard_distance`). That assumed collinear assemblies and fell
+out of register after the first indel or gap larger than a window: a pair
+0.004 apart over the whole chromosome read ~0.99 Jaccard distance in most
+windows. Outputs with a `jaccard_distance` column are from that version and
+should be re-run.
+
+Memory: FastK's profile holds the other copy's table, ~14 bytes per bp of
+the longest chromosome per thread (the stage logs its estimated peak).
 
 **`windowed_genome_overview.png`**: small-multiples of every chromosome's
 track on one page, x-axis normalized to % of chromosome length so different
@@ -236,8 +254,8 @@ clean."
 `windowed_homeologs_all.tsv`, `windowed_homeologs_overview.png`,
 `windowed_homeologs_overview_heatmap.png`**: same shape as `windowed/`'s
 files (including the heatmap variants), but tracking divergence along the
-*ancestral* pairing instead of true haplotype copies — same raw-Jaccard
-caveat applies.
+*ancestral* pairing instead of true haplotype copies (each copy's windows
+against the other chromosome number's copies).
 
 ## `subgenomes/` — differential fossil-TE markers (the resolver/phaser)
 
@@ -438,7 +456,7 @@ actually correlates with elevated fraction values before assuming
 inflation.
 
 `windowed_distance_cv` (coefficient of variation of the
-raw-Jaccard `windowed/` track for that pair) is a secondary, corroborating
+`windowed/` track of `unit_a`'s windows against `unit_b`) is a secondary, corroborating
 column — higher means more patchy/heterogeneous divergence along the
 chromosome, consistent with (but not proof of) mosaic subgenome structure.
 
@@ -514,13 +532,16 @@ Xie et al. 2026, oldest first, recovered without prior knowledge.
   chromosomes 1.0-1.1.
 - `te_split`: the TE-marker `split_ratio` for the same chromosome, if te-markers ran.
 - `window_split_frac`, `split_extent`, `split_segments`: where along the
-  chromosome the split holds. Per window, the same cross/within ratio is computed
-  from `windowed/`. Windows >= `--window-split` (1.25) count as split. Runs of
-  split windows (one-window gaps bridged, >= `--min-segment-bp` 2 Mb) are
-  `split_segments`. `split_extent` is `whole` (segments cover >= half the
-  chromosome), `regional`, or `none`. `SchCurv1` chr17: `regional`, 5.0-8.2 Mb.
-  Coordinates are positional, so copies with large indels or inversions relative
-  to each other can show spurious split windows.
+  chromosome the split holds. Read along each copy that has another copy in its
+  own group: per window, mean distance to the other group's copies over mean
+  distance to its own group's (from `windowed/`). Windows >= `--window-split`
+  (1.25) count as split. Runs of split windows (one-window gaps bridged, >=
+  `--min-segment-bp` 2 Mb) are segments; `split_extent` is `whole` (segments
+  cover >= half the chromosome), `regional`, or `none`. A real lineage split is
+  seen from every copy, so the reported reading is the median copy's
+  (`window_split_frac` is the median over copies), and `split_segments` are on
+  that copy's coordinates, prefixed with its haplotype (`HAP2:0.0-17.8Mb`).
+  `ddEmpNigr1` chr03: `whole`, 92% of windows split.
 - `copy_state`: the reading for this chromosome number:
   - `fusion_lineages`: fused in some haplotypes, not others, which splits the
     copies into a fused and an unfused lineage (the snow carp mechanism, Xie et al. 2026).

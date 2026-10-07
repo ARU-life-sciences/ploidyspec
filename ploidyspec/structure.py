@@ -44,7 +44,7 @@ import random
 import re
 import statistics
 
-from .common import homeologs_dir, log, matrix_dir, windowed_dir
+from .common import homeologs_dir, log, matrix_dir, window_rows, windowed_dir
 from .kmer_tables import load_sequences
 from .subgenome_report import bipartition_by_distance, load_whole_chrom_distances
 
@@ -167,16 +167,7 @@ def metric_run_length(species_dir):
         group_a, group_b = split
         set_a, set_b = set(group_a), set(group_b)
 
-        self_pairs = set()
-        cross_pairs = set()
-        for g in (set_a, set_b):
-            for i, u in enumerate(sorted(g)):
-                for v in sorted(g)[i + 1 :]:
-                    self_pairs.add(frozenset([u, v]))
-        for u in set_a:
-            for v in set_b:
-                cross_pairs.add(frozenset([u, v]))
-        if not self_pairs or not cross_pairs:
+        if min(len(set_a), len(set_b)) < 2:
             continue
 
         chrom_str = f"chr{chrom:02d}"
@@ -184,40 +175,40 @@ def metric_run_length(species_dir):
         if not os.path.exists(path):
             continue
 
-        by_window = {}
-        with open(path) as f:
-            for r in csv.DictReader(f, delimiter="\t"):
-                key = frozenset([r["unit_a"], r["unit_b"]])
-                win = int(r["win_start"])
-                by_window.setdefault(win, {})[key] = float(r["jaccard_distance"])
+        # each copy's windows along its own coordinates: {anchor: {win: {other: d}}}
+        by_anchor = {}
+        for r, d in window_rows(path):
+            by_anchor.setdefault(r["unit_a"], {}).setdefault(int(r["win_start"]), {})[r["unit_b"]] = d
 
-        agreements = []
-        for win in sorted(by_window):
-            vals = by_window[win]
-            self_vals = [vals[p] for p in self_pairs if p in vals]
-            cross_vals = [vals[p] for p in cross_pairs if p in vals]
-            if not self_vals or not cross_vals:
+        for anchor, by_window in by_anchor.items():
+            own = set_a if anchor in set_a else set_b
+            agreements = []
+            for win in sorted(by_window):
+                vals = by_window[win]
+                self_vals = [d for u, d in vals.items() if u in own]
+                cross_vals = [d for u, d in vals.items() if u not in own]
+                if not self_vals or not cross_vals:
+                    continue
+                agreements.append(statistics.mean(self_vals) < statistics.mean(cross_vals))
+
+            if len(agreements) < 4:
                 continue
-            agreements.append(statistics.mean(self_vals) < statistics.mean(cross_vals))
 
-        if len(agreements) < 4:
-            continue
+            run_lengths = []
+            current = 1
+            flips = 0
+            for i in range(1, len(agreements)):
+                if agreements[i] == agreements[i - 1]:
+                    current += 1
+                else:
+                    run_lengths.append(current)
+                    current = 1
+                    flips += 1
+            run_lengths.append(current)
 
-        run_lengths = []
-        current = 1
-        flips = 0
-        for i in range(1, len(agreements)):
-            if agreements[i] == agreements[i - 1]:
-                current += 1
-            else:
-                run_lengths.append(current)
-                current = 1
-                flips += 1
-        run_lengths.append(current)
-
-        all_run_lengths.extend(run_lengths)
-        all_flips += flips
-        all_windows += len(agreements)
+            all_run_lengths.extend(run_lengths)
+            all_flips += flips
+            all_windows += len(agreements)
 
     if not all_run_lengths or all_windows == 0:
         return None, None, 0
@@ -242,10 +233,8 @@ def metric_windowed_cv(species_dir):
         if not os.path.exists(path):
             continue
         by_pair = {}
-        with open(path) as f:
-            for r in csv.DictReader(f, delimiter="\t"):
-                key = frozenset([r["hap_a"], r["hap_b"]])
-                by_pair.setdefault(key, []).append(float(r["jaccard_distance"]))
+        for r, d in window_rows(path):
+            by_pair.setdefault((r["unit_a"], r["unit_b"]), []).append(d)
         for key, values in by_pair.items():
             if len(values) < 3:
                 continue

@@ -1,3 +1,4 @@
+import csv
 import glob
 import itertools
 import os
@@ -26,6 +27,23 @@ def _output_subdir(outdir, name):
 def matrix_dir(outdir):
     """Whole-chromosome distance matrix, ploidy/homology reports, heatmaps."""
     return _output_subdir(outdir, "matrix")
+
+
+def window_rows(path):
+    """Rows of a windowed TSV as (row, distance). Current files carry a directional
+    `distance` (-ln containment / k, positions along unit_a). Files from before
+    the position-free rewrite carry a symmetric `jaccard_distance` at equal
+    coordinates; each such row is yielded once per direction so readers see one
+    format."""
+    with open(path) as f:
+        for r in csv.DictReader(f, delimiter="\t"):
+            if "distance" in r:
+                yield r, float(r["distance"])
+            else:
+                d = float(r["jaccard_distance"])
+                yield r, d
+                yield dict(r, unit_a=r["unit_b"], unit_b=r["unit_a"],
+                           hap_a=r.get("hap_b"), hap_b=r.get("hap_a")), d
 
 
 def windowed_dir(outdir):
