@@ -60,6 +60,20 @@ class TestCachedFasta(unittest.TestCase):
             f.write(unit_signature(unit()))
         self.assertTrue(cached_fasta_matches(self.fa, unit()))
 
+    def test_rewritten_source_invalidates_signature(self):
+        src = os.path.join(self.tmp, "asm.fa")
+        with open(src, "w") as f:
+            f.write(">SUPER_1_HAP1\nACGT\n")
+        u = unit(source=src)
+        self.write_fasta("SUPER_1_HAP1", 150)
+        with open(self.fa + ".src", "w") as f:
+            f.write(unit_signature(u))
+        self.assertTrue(cached_fasta_matches(self.fa, u))
+        with open(src, "w") as f:  # same names and lengths, new content
+            f.write(">SUPER_1_HAP1\nTTTTACGT\n")
+        os.utime(src, ns=(1, 1))
+        self.assertFalse(cached_fasta_matches(self.fa, u))
+
     def test_remove_unit_cache_clears_tables_at_every_k(self):
         self.write_fasta("SUPER_1_HAP1", 150)
         keep = []

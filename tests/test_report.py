@@ -26,6 +26,7 @@ def empty_data(species="testSpecies1"):
         },
         "subgenomes": None,
         "rediploidization": None,
+        "structure": None,
     }
 
 
@@ -51,15 +52,24 @@ class TestRenderReportHtml(unittest.TestCase):
             "by_chrom": [{"chrom": "chr19", "copy_state": "fusion_lineages"}],
         }
 
+        data["structure"] = {
+            "synchrony": [{"species": "testSpecies1", "pair_depth_cv": "0.04"}],
+            "partitions": [{"k": "2", "z_score": "10.6"}],
+        }
+
         out = render_report_html(data)
         self.assertIn("<html>", out)
         self.assertIn("testSpecies1", out)
-        self.assertIn("Whole-chromosome matrix", out)
+        self.assertIn("Genome partition", out)
+        self.assertIn("10.6", out)
+        self.assertLess(out.index("Rediploidization"), out.index("Supplementary"))
+        self.assertLess(out.index("Supplementary"), out.index("TE markers"))
+        self.assertIn("Copy number and copy divergence", out)
         self.assertIn("data:image/png;base64,AAAA", out)
-        self.assertIn("Windowed divergence", out)
+        self.assertIn("Divergence along chromosomes", out)
         self.assertIn("data:image/png;base64,BBBB", out)
         self.assertIn("Ancient homeolog pairing", out)
-        self.assertIn("Subgenomes / auto-allo index", out)
+        self.assertIn("TE markers", out)
         self.assertIn("0.22", out)
         self.assertIn("data:image/png;base64,CCCC", out)
         self.assertIn("Rediploidization", out)
@@ -78,12 +88,12 @@ class TestRenderReportHtml(unittest.TestCase):
         out = render_report_html(data)
         # no exception, valid-looking document, and the missing stages say so
         self.assertIn("<html>", out)
-        self.assertIn("Whole-chromosome matrix", out)
+        self.assertIn("Copy number and copy divergence", out)
         self.assertIn("chr01", out)  # the populated ploidy_summary table rendered
-        self.assertIn("Windowed divergence", out)
+        self.assertIn("Divergence along chromosomes", out)
         self.assertIn("Not run yet", out)
         self.assertIn("Ancient homeolog pairing", out)
-        self.assertIn("Subgenomes / auto-allo index", out)
+        self.assertIn("TE markers", out)
         self.assertIn("te-markers not run", out)
 
     def test_completely_empty_species_does_not_crash(self):

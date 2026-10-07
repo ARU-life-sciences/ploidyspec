@@ -109,11 +109,10 @@ Cheap stages, always run by `all`:
 4. **homeologs** — FDR-controlled search for retained ancestral (paleopolyploid)
    chromosome pairs among *different* chromosome numbers, plus the full ranked-candidate
    evidence (not just the FDR-accepted subset).
-5. **windowed** — sliding-window divergence along each chromosome between its haplotype
-   copies.
-6. **structure** — inheritance-mode metrics (does the same split of copies recur
-   across chromosomes; how consistent is divergence depth across homeolog pairs) and
-   diffuse genome-wide chromosome partitions. No new k-mer work.
+5. **windowed** — divergence along each chromosome: every copy's windows are looked up
+   in each other copy's whole chromosome, so assemblies needn't be collinear.
+6. **structure** — diffuse genome-wide chromosome partitions, and how uniform
+   divergence depth is across the accepted homeolog pairs. No new k-mer work.
 7. **rediploidization** — chromosome fusions between haplotype copies (k-mer
    containment), lineage structure along each chromosome, and a per-chromosome
    rediploidization state (`fusion_lineages`, `partially_resolved`,
@@ -155,8 +154,8 @@ already done, so re-running after an interruption (or after adding `--with-*` fl
 an already-completed run) picks up where it left off rather than redoing everything.
 
 For several species, `ploidyspec panel --results results --outdir meta` builds the
-cross-species tables (auto/allo spectrum, genome partitions, rediploidization states)
-and an exploratory PCA from every species' outputs.
+cross-species tables (per-species summary, genome partitions, rediploidization states)
+and, under `supplementary/`, the TE-marker table and an exploratory PCA.
 
 See [`OUTPUTS.md`](OUTPUTS.md) for what every output file and column means, with worked
 examples from real species in this project's panel.

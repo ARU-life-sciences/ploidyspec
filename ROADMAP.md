@@ -145,6 +145,17 @@ one table.
       looked up in each other copy's whole-chromosome k-mer table (FastK
       `-p:table` + Profex), distance -ln(c)/k; rows directional. Lineage
       splits are read along every copy and the median copy reported.
+- [x] Option B in code (2026-10-07): `structure` writes `genome_partition.tsv`
+      and `pair_synchrony.tsv` only (other inheritance metrics retired, last
+      values in `meta/archive/`); `panel` writes `panel_summary.tsv` plus
+      `supplementary/` (TE-marker table, PCA over core numbers); report puts
+      core sections first and TE markers under Supplementary.
+- [x] Simulations now include what broke on real data: a deletion and an
+      inversion in every haplotype but HAP1 (non-collinear copies), a
+      `mislabelled` scenario (shifted chromosome numbering in one file, a
+      chr05/chr06 swap in another), and a re-run test on a changed assembly
+      in the same output directory. Cache signatures now include the source
+      file's size and mtime.
 - [ ] Panel-wide windowed re-run (`workflows/sanger/rerun_windowed.sh`), then
       re-read `split_extent`-dependent states and regional calls.
 - [x] `ddHesMatr1`'s chr01/chr02 swap: mutual swaps now need 2.0x per unit

@@ -4,6 +4,7 @@
 # One LSF job per species; threads and memory sized from the longest
 # chromosome (~14 bytes/bp per concurrent FastK profile, see windowed.py).
 # Usage: rerun_windowed.sh [species ...]   (default: all eligible)
+# Queue: $QUEUE (default normal; jobs take minutes to ~2 h, under its 12 h limit).
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$HERE"
@@ -38,7 +39,7 @@ export MPLCONFIGDIR=\${TMPDIR:-/tmp}; set -e; \
 ./ploidyspec.sh report --outdir $d"
     dep=()
     [ -n "${WAIT_FOR:-}" ] && [[ " ${WAIT_FOR_SPECIES:-} " == *" $sp "* ]] && dep=(-w "done($WAIT_FOR)")
-    bsub -q long -n "$threads" -M "$mem" -R "span[hosts=1] select[mem>=$mem] rusage[mem=$mem]" \
+    bsub -q "${QUEUE:-normal}" -n "$threads" -M "$mem" -R "span[hosts=1] select[mem>=$mem] rusage[mem=$mem]" \
         "${dep[@]}" -o "$d/lsf.windowed.%J.out" -e "$d/lsf.windowed.%J.err" \
         -J "windowed.$sp" "bash -c $(printf '%q' "$job")" | tee -a logs/rerun_windowed_jobs.txt
     echo "  $sp: max chrom $((maxlen / 1000000)) Mb, $threads threads, ${mem} MB"

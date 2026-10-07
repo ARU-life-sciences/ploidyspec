@@ -611,11 +611,11 @@ Several specific findings here map directly onto their vocabulary:
 - **Twyford et al.'s call for a multidimensional "poly-space"** (PCA over
   multiple genomic-divergence axes, to visualize where real polyploids
   actually cluster rather than assuming a binary) is essentially what
-  `meta/auto_allo_spectrum.tsv` + `meta/genome_partition.tsv` already
+  `meta/archive/auto_allo_spectrum.tsv` + `meta/genome_partition.tsv` already
   are, just not yet combined into one analysis.
 
 **A first attempt at that poly-space** (now `ploidyspec panel` →
-`meta/poly_space_pca.png` / `meta/poly_space_features.tsv`): a plain-NumPy
+`meta/archive/poly_space_pca.png` / `meta/archive/poly_space_features.tsv`): a plain-NumPy
 PCA over 7 standardized metrics (`te_marker_fraction`,
 `partition_consistency`, `distance_ratio_cv`, `pair_depth_cv`,
 `mean_windowed_cv`, `flip_rate`, `genome_partition_best_z`) for the 36
@@ -736,7 +736,7 @@ freely) is *consistency of lineage identity*, not divergence magnitude.
 
 Four new statistics, computed per species by the `structure` stage
 (`structure/inheritance_metrics.tsv`) and collected by `ploidyspec panel`
-into `meta/auto_allo_spectrum.tsv` — all reanalysis of data the
+into `meta/archive/auto_allo_spectrum.tsv` — all reanalysis of data the
 pipeline already produces, no new FastK/k-mer work (the fourth,
 `mean_run_length_windows`/`flip_rate`, is described further down —
 it's the direct version of what `mean_windowed_cv` only proxies, and it
@@ -920,7 +920,7 @@ after this process — like `daSenVulg1`'s low `te_frac` against its
 literature lean — is a genuine open question, not something to force an
 answer onto.
 
-**Selected results** (full panel in `meta/auto_allo_spectrum.tsv`):
+**Selected results** (full panel in `meta/archive/auto_allo_spectrum.tsv`):
 
 | species | partition_consistency | singleton (artifact?) | run length / flip rate | mean_windowed_cv | pair_depth_cv | read |
 |---|---|---|---|---|---|---|

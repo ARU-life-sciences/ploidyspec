@@ -2,6 +2,15 @@
 Synthetic haplotype-resolved assemblies with a known answer, for end-to-end
 testing and for calibrating thresholds against ground truth.
 
+Every haplotype except HAP1 also carries a transposition (a block of 8-14% of
+the chromosome, cut from 42-50% along it and reinserted at the start) and an
+inversion (8%, at 65-85%), so copies are not collinear: coordinates are out of
+register from the start of the chromosome, as between real independently
+assembled haplotypes. Equal-coordinate window comparisons break on this;
+position-free ones must not. Both keep sequence content unchanged: a deletion
+of that size is presence/absence variation larger than the simulated allelic
+divergence, and reads (correctly) as a divergent copy.
+
 Each scenario writes one FASTA per haplotype (`chromosome: N` in placed
 sequences' headers, the format `prepare` reads by default), a manifest, and
 `truth.tsv` listing what the pipeline should recover. Sequence is random
@@ -31,6 +40,11 @@ Scenarios:
     chr3+chr4 fused in HAP3/HAP4, placed as chr3    -> fusion_lineages (placed long copy)
     chr5+chr6 fused in HAP3/HAP4, unplaced scaffold -> fusion_lineages (unplaced scaffold)
     remaining chromosomes untouched                 -> tetrasomic_like
+- mislabelled: the autotetraploid, but HAP4's file numbers its chromosomes in a
+  shifted order (its chr1 is really chr2, ...) and HAP3's file swaps chr5 and
+  chr6 -- the ddLepDrab1 and ddHesMatr1 assembly-labelling problems. The
+  matrix stage must relabel them and the result must read like the
+  autotetraploid (every chromosome tetrasomic_like).
 """
 
 import csv
@@ -40,7 +54,9 @@ import numpy as np
 
 from .common import log
 
-SCENARIOS = ("diploid", "autotetraploid", "autotetraploid_2hap", "allotetraploid", "rediploidized")
+SCENARIOS = ("diploid", "autotetraploid", "autotetraploid_2hap", "allotetraploid", "rediploidized",
+             "mislabelled")
+COMPLEMENT = np.array([3, 2, 1, 0], dtype=np.uint8)  # A<->T, C<->G in 0..3 coding
 LETTERS = np.frombuffer(b"ACGT", dtype=np.uint8)
 
 DEFAULTS = dict(
@@ -53,6 +69,7 @@ DEFAULTS = dict(
     te_len=1000,
     te_copies=120,  # per chromosome per family: clears te-markers' --min-count 100
     te_copy_div=0.01,
+    rearrange=True,  # transposition + inversion in every haplotype but HAP1
 )
 
 
@@ -101,6 +118,20 @@ class Simulator:
 
     def haplotypes(self, chroms, n_hap):
         return [[self.mutate(c, self.p["het"]) for c in chroms] for _ in range(n_hap)]
+
+    def rearrange(self, seq):
+        """A transposition (a block of 8-14% of chrom_len cut from 42-50% along
+        and reinserted at the start) and an inversion (8% of chrom_len,
+        starting 65-85% along). Content and length are unchanged."""
+        L = self.p["chrom_len"]
+        n = len(seq)
+        t_start = int(self.rng.uniform(0.42, 0.50) * n)
+        t_len = int(self.rng.uniform(0.08, 0.14) * L)
+        block = seq[t_start:t_start + t_len]
+        seq = np.concatenate([block, seq[:t_start], seq[t_start + t_len:]])
+        i_start = int(self.rng.uniform(0.65, 0.85) * len(seq))
+        i_end = min(len(seq), i_start + int(0.08 * L))
+        return np.concatenate([seq[:i_start], COMPLEMENT[seq[i_start:i_end][::-1]], seq[i_end:]])
 
 
 def to_text(seq):
@@ -191,8 +222,23 @@ def build_scenario(name, seed, params):
         for c in range(1, n + 1):
             state, partner = expected.get(c, ("tetrasomic_like", ""))
             truth.append(dict(chrom=f"chr{c:02d}", copy_state=state, fusion=partner, homeolog=""))
+    elif name == "mislabelled":
+        genome = sim.genome(n, ancestral)
+        for i, chroms in enumerate(sim.haplotypes(genome, 4), 1):
+            labels = list(range(1, n + 1))
+            if i == 4:  # file numbers chromosomes shifted by one: its chr k is chr k+1
+                labels = [n] + labels[:-1]
+            if i == 3:  # chr5 and chr6 swapped
+                labels[4], labels[5] = 6, 5
+            haps[f"HAP{i}"] = [placed(f"HAP{i}", lab, s) for lab, s in sorted(
+                zip(labels, chroms), key=lambda x: x[0])]
+        truth = [dict(chrom=f"chr{c:02d}", copy_state="tetrasomic_like", fusion="", homeolog="")
+                 for c in range(1, n + 1)]
     else:
         raise SystemExit(f"unknown scenario {name!r}; choose from {', '.join(SCENARIOS)}")
+    if p["rearrange"]:
+        for hap in list(haps)[1:]:
+            haps[hap] = [(nm, desc, sim.rearrange(s)) for nm, desc, s in haps[hap]]
     return haps, truth
 
 

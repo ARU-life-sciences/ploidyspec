@@ -8,9 +8,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ploidyspec.structure import (
     agglomerative_merge_sequence,
-    canonical_partition,
-    metric_distance_ratio_cv,
     null_distribution,
+    pair_synchrony,
     separation_ratio,
 )
 
@@ -28,11 +27,6 @@ def paired_distances(n_pairs, within=0.05, between=0.5):
 
 
 class TestPartitions(unittest.TestCase):
-    def test_canonical_partition_ignores_side_order(self):
-        a = canonical_partition(["HAP1_chr01", "HAP2_chr01"], ["HAP3_chr01", "HAP4_chr01"])
-        b = canonical_partition(["HAP4_chr02", "HAP3_chr02"], ["HAP2_chr02", "HAP1_chr02"])
-        self.assertEqual(a, b)
-
     def test_merge_sequence_recovers_pairs(self):
         dist, chroms = paired_distances(4)
         clusters = dict(agglomerative_merge_sequence(dist, chroms))[4]
@@ -46,16 +40,22 @@ class TestPartitions(unittest.TestCase):
         self.assertGreater(separation_ratio(dist, true), max(null))
 
 
-class TestDistanceRatioCv(unittest.TestCase):
-    def test_dedupes_pairs_listed_from_both_sides(self):
+class TestPairSynchrony(unittest.TestCase):
+    def test_uniform_pair_depth_has_low_cv(self):
         with tempfile.TemporaryDirectory() as d:
             os.makedirs(os.path.join(d, "homeologs"))
-            with open(os.path.join(d, "homeologs", "ploidy_ancestry_summary.tsv"), "w") as f:
-                f.write("chrom\thomeolog_partner\tdistance_ratio\n")
-                f.write("chr01\tchr02\t2.0\nchr02\tchr01\t2.0\nchr03\tchr04\t4.0\nchr04\tchr03\t4.0\n")
-            cv, n = metric_distance_ratio_cv(d)
-        self.assertEqual(n, 2)
-        self.assertAlmostEqual(cv, 1 / 3)
+            with open(os.path.join(d, "homeologs", "homeolog_pairs.tsv"), "w") as f:
+                f.write("chrom_a\tchrom_b\tmean_distance\n")
+                f.write("chr01\tchr02\t0.10\nchr03\tchr04\t0.10\nchr05\tchr06\t0.40\n")
+            row = pair_synchrony(d, "sp")
+        self.assertEqual(row["n_accepted_pairs"], 3)
+        self.assertEqual(row["pair_depth_median"], "0.1000")
+        self.assertAlmostEqual(float(row["pair_depth_cv"]), 0.7071, places=3)
+
+    def test_no_pairs_gives_blank_values(self):
+        with tempfile.TemporaryDirectory() as d:
+            row = pair_synchrony(d, "sp")
+        self.assertEqual((row["n_accepted_pairs"], row["pair_depth_cv"]), (0, ""))
 
 
 if __name__ == "__main__":

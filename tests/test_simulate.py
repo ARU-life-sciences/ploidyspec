@@ -62,6 +62,32 @@ class TestScenarios(unittest.TestCase):
         self.assertEqual(states["chr01"], "resolved_lineages")
         self.assertEqual(states["chr07"], "tetrasomic_like")
 
+    def test_mislabelled_hap4_is_shifted_and_hap3_swapped(self):
+        p = dict(SMALL, rearrange=False)
+        ref, _ = build_scenario("autotetraploid", 1, p)  # same seed -> same genome
+        haps, truth = build_scenario("mislabelled", 1, p)
+        self.assertEqual({r["copy_state"] for r in truth}, {"tetrasomic_like"})
+        hap4 = {r[0]: r[2] for r in haps["HAP4"]}
+        hap3 = {r[0]: r[2] for r in haps["HAP3"]}
+        self.assertEqual(len(hap4["HAP4_chr1"]), len(ref["HAP4"][1][2]))  # holds chr2
+        self.assertEqual(len(hap3["HAP3_chr5"]), len(ref["HAP3"][5][2]))  # holds chr6
+
+    def test_rearranged_copies_keep_content_but_not_coordinates(self):
+        sim = Simulator(2, chrom_len=20_000)
+        seq = sim.random_seq(20_000)
+        out = sim.rearrange(seq)
+        self.assertEqual(len(out), len(seq))
+        # an inversion complements bases (A<->T, C<->G), so only A+T and C+G totals are kept
+        self.assertEqual(int(np.isin(out, [0, 3]).sum()), int(np.isin(seq, [0, 3]).sum()))
+        # out of register from the start: the first part no longer matches in place
+        self.assertLess(np.mean(out[1000:2000] == seq[1000:2000]), 0.5)
+
+    def test_hap1_is_never_rearranged(self):
+        a, _ = build_scenario("diploid", 3, SMALL)
+        b, _ = build_scenario("diploid", 3, dict(SMALL, rearrange=False))
+        self.assertTrue(np.array_equal(a["HAP1"][0][2], b["HAP1"][0][2]))
+        self.assertFalse(np.array_equal(a["HAP2"][0][2], b["HAP2"][0][2]))
+
     def test_same_seed_same_genome(self):
         a, _ = build_scenario("diploid", 3, SMALL)
         b, _ = build_scenario("diploid", 3, SMALL)

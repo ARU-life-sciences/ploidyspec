@@ -17,7 +17,7 @@ section) — that's a real gap, not an oversight.
 results/<species>/
   sequences.tsv, unplaced.tsv     prepare's output -- every stage below reads sequences.tsv
   matrix/                         whole-chromosome distance, ploidy, homologous-chromosome reports
-  windowed/                       sliding-window divergence between haplotype copies of the same chromosome
+  windowed/                       divergence along each copy against the other copies of the same chromosome
   homeologs/                      ancient (paleopolyploid) homeolog pairs and their windowed tracks
   subgenomes/                     fossil-TE marker output, windowed subgenome painting, auto/allo index
   structure/                      inheritance-mode metrics, diffuse genome-wide chromosome partitions
@@ -563,6 +563,13 @@ Xie et al. 2026, oldest first, recovered without prior knowledge.
 
     With 3 copies every split is one-vs-two, so triploids land here by
     construction.
+
+    Presence/absence differences count too. In simulations at 0.2% allelic
+    divergence, giving every copy but one an 8-14% deletion made the complete
+    copy the divergent one (split 1.1-1.4) and put a `regional` split over the
+    missing region. A copy assembled less completely than its siblings can
+    therefore read as divergent; compare lengths and `unplaced.tsv` before
+    reading it as biology.
   - `not_assessable`: < 3 copies and no homeolog or partition partner to pool with.
 - `state_basis`, `pooled_with`: what the state was read from:
   - `copies`: the chromosome's own >= 3 copies (all three lines of evidence).
@@ -620,27 +627,15 @@ data). The thresholds are provisional, tuned on the snow carp anchors
 and are all CLI flags. Simulated test genomes (ROADMAP Phase 1.6) are the
 planned calibration.
 
-## `structure/` — inheritance-mode metrics and genome-wide partitions
+## `structure/` — genome-wide partitions and pair synchrony
 
-Read from `matrix/`, `homeologs/` and `windowed/` (no new k-mer work). The
-metrics and their track record on the panel are described in
-INTERPRETATION.md ("A continuous auto/allo spectrum", "Diffuse, genome-wide
-partitions").
+Read from `homeologs/` (no new k-mer work).
 
-**`inheritance_metrics.tsv`**: one row.
-- `partition_consistency` / `n_chroms_split`: how often the same split of >= 3
-  copies recurs across chromosomes.
-- `modal_singleton_hap`: set when the recurring split is one copy against the
-  rest. The score then measures one consistently divergent haplotype, not two
-  subgenomes (`ddLepDrab1` HAP4).
-- `singleton_artifact_suspected`: whether that haplotype's `unplaced.tsv`
-  count is >= 3x off its siblings' median.
-- `mean_run_length_windows` / `flip_rate`: did not discriminate on the panel.
-  Informational only.
-- `mean_windowed_cv`, `pair_depth_cv`, `distance_ratio_cv`: divergence-depth
-  consistency across homeolog pairs.
-- `combined_allo_score`: a heuristic average of the first three, not a
-  classifier.
+**`pair_synchrony.tsv`**: one row. `n_accepted_pairs`, `pair_depth_median` and
+`pair_depth_cv` of the accepted homeolog pairs' `mean_distance`. One
+whole-genome duplication diverges every pair to about the same depth (low CV,
+`daGleHede1` 0.04); several events, or pairs resolving at different times,
+spread them out.
 
 **`genome_partition.tsv`**: every k at which the chromosome numbers factor into
 k groups (average-linkage clustering of the chromosome-number distance matrix)
@@ -650,17 +645,38 @@ for a species. They differ by permutation noise (about ±1) from the numbers
 quoted from the old panel-wide script, which shared one random stream across
 species.
 
+Retired 2026-10-07 (`inheritance_metrics.tsv`): `partition_consistency`, run
+length / `flip_rate`, `mean_windowed_cv`, `distance_ratio_cv` and
+`combined_allo_score`. `partition_consistency` and the windowed metrics were
+driven by haplotype-labelling and window-registration artefacts
+(INTERPRETATION.md, "Phase 2 hand-check: corrections"), and `distance_ratio_cv`
+is confounded by tetrasomic homogenization. Their last panel values are in
+`meta/archive/auto_allo_spectrum.tsv`.
+
 ## `ploidyspec panel` — cross-species tables
 
 `ploidyspec panel --results results --outdir meta --categories meta/species_categories.tsv`
-collects every species' outputs:
-- `auto_allo_spectrum.tsv` and `genome_partition.tsv`: the `structure/` tables
-  stacked, computed in memory for species that haven't run the stage.
+collects every species' outputs. Core tables:
+- `panel_summary.tsv`: one row per species: chromosome numbers and modal copies
+  per chromosome; median allele (same-number) and cross-number distance; accepted
+  homeolog pairs and their synchrony; the k=2 and strongest genome partition z;
+  distinct fusions; and the number of chromosomes in each rediploidization
+  state.
+- `genome_partition.tsv`: the `structure/` partitions stacked, computed in memory
+  for species that haven't run the stage.
 - `rediploidization_panel.tsv`: one row per species from
   `rediploidization_summary.tsv`.
+
+Supplementary (`supplementary/`):
+- `te_markers_panel.tsv`: `te_split_median` (the within-genome contrast:
+  median TE-marker `split_ratio` over chromosomes with >= 3 copies) and the
+  absolute `te_marker_fraction_mean`, for reference only. A confirmed diploid
+  (`ddMalSylv1`) reaches 0.25 per chromosome, above the allo anchor
+  `daGleHede1`'s 0.22.
 - `poly_space_features.tsv` / `poly_space_loadings.tsv` / `poly_space_pca.png`:
-  an exploratory PCA over seven metrics. Missing values are mean-imputed, so
-  species with few real features (`n_features_present`) sit near the origin by
-  construction.
+  an exploratory PCA over seven core numbers (allele distance, paired fraction,
+  pair-depth CV, best partition z, resolved and tetrasomic fractions, TE split).
+  Missing values are mean-imputed, so species with few real features
+  (`n_features_present`) sit near the origin by construction.
 
 `--categories` only colours the plot.

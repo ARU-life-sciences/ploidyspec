@@ -89,7 +89,15 @@ def collect_species_data(outdir):
         },
         "subgenomes": None,
         "rediploidization": None,
+        "structure": None,
     }
+
+    stdir = os.path.join(outdir, "structure")
+    if os.path.isdir(stdir):
+        data["structure"] = {
+            "synchrony": _read_tsv(os.path.join(stdir, "pair_synchrony.tsv")),
+            "partitions": _read_tsv(os.path.join(stdir, "genome_partition.tsv")),
+        }
 
     rdir = os.path.join(outdir, "rediploidization")
     if os.path.isdir(rdir):
@@ -156,7 +164,7 @@ def render_report_html(data):
     if m.get("ploidy_summary") is not None or m.get("heatmap"):
         sections.append(
             f"""<section>
-  <h2>Whole-chromosome matrix</h2>
+  <h2>Copy number and copy divergence (whole-chromosome matrix)</h2>
   {_img_html(m.get('heatmap'), 'distance heatmap')}
   {_img_html(m.get('heatmap_contrast'), 'contrast-stretched distance heatmap')}
   {_img_html(m.get('k_resolution'), 'k-resolution diagnostic')}
@@ -177,22 +185,7 @@ def render_report_html(data):
         )
     else:
         sections.append(
-            '<section><h2>Whole-chromosome matrix</h2>'
-            '<p class="empty">Not run yet.</p></section>'
-        )
-
-    w = data.get("windowed") or {}
-    if w.get("overview"):
-        sections.append(
-            f"""<section>
-  <h2>Windowed divergence</h2>
-  {_img_html(w.get('overview'), 'windowed genome overview')}
-  {_img_html(w.get('overview_heatmap'), 'windowed genome overview heatmap')}
-</section>"""
-        )
-    else:
-        sections.append(
-            '<section><h2>Windowed divergence</h2>'
+            '<section><h2>Copy number and copy divergence (whole-chromosome matrix)</h2>'
             '<p class="empty">Not run yet.</p></section>'
         )
 
@@ -202,9 +195,13 @@ def render_report_html(data):
   <h2>Ancient homeolog pairing</h2>
   {_img_html(h.get('homeolog_pairs_plot'), 'homeolog pairs')}
   <p class="note">See the hierarchically-reordered chromosome-number
-  heatmap in the "Whole-chromosome matrix" section above.</p>
+  heatmap in the "Copy number and copy divergence" section above.</p>
   <h3>Accepted pairs</h3>
   {_table_html(h.get('homeolog_pairs'))}
+  <h3>Pair synchrony</h3>
+  <p class="note">Spread of divergence depth across the accepted pairs:
+  one duplication diverges every pair to about the same depth.</p>
+  {_table_html((data.get('structure') or dict()).get('synchrony'))}
   <h3>Ploidy / ancestry summary</h3>
   {_table_html(h.get('ploidy_ancestry_summary'))}
   <h3>All candidates (ranked by distance)</h3>
@@ -217,29 +214,21 @@ def render_report_html(data):
             '<p class="empty">Not run yet.</p></section>'
         )
 
-    s = data.get("subgenomes")
-    if s:
-        plot_imgs = "".join(
-            _img_html(p, "te-marker windowed track")
-            for p in s.get("windowed_plots", [])
-            if p
-        )
+    st = data.get("structure") or {}
+    if st.get("partitions") is not None:
         sections.append(
             f"""<section>
-  <h2>Subgenomes / auto-allo index</h2>
-  <h3>Auto/allo index</h3>
-  {_table_html(s.get('auto_allo_index'))}
-  <h3>te_marker_fraction by lineage (chromosomes with &ge;3 copies, split by whole-chromosome distance)</h3>
-  {_table_html(s.get('by_lineage'))}
-  <h3>Window assignment summary</h3>
-  {_table_html(s.get('windows_summary'))}
-  {plot_imgs}
+  <h2>Genome partition</h2>
+  <p class="note">Whether the chromosome numbers factor into k groups more
+  than chance (permutation null), at every k with |z| &ge; 2. Picks up
+  subgenome structure that no single homeolog pair shows.</p>
+  {_table_html(st.get('partitions'))}
 </section>"""
         )
     else:
         sections.append(
-            '<section><h2>Subgenomes / auto-allo index</h2>'
-            '<p class="empty">te-markers not run for this species.</p></section>'
+            '<section><h2>Genome partition</h2>'
+            '<p class="empty">Not run yet.</p></section>'
         )
 
     r = data.get("rediploidization")
@@ -264,6 +253,54 @@ def render_report_html(data):
         sections.append(
             '<section><h2>Rediploidization</h2>'
             '<p class="empty">Not run yet.</p></section>'
+        )
+
+    w = data.get("windowed") or {}
+    if w.get("overview"):
+        sections.append(
+            f"""<section>
+  <h2>Divergence along chromosomes (windowed)</h2>
+  <p class="note">Each copy's windows against each other copy's whole
+  chromosome (position-free), along the first copy's own coordinates.</p>
+  {_img_html(w.get('overview'), 'windowed genome overview')}
+  {_img_html(w.get('overview_heatmap'), 'windowed genome overview heatmap')}
+</section>"""
+        )
+    else:
+        sections.append(
+            '<section><h2>Divergence along chromosomes (windowed)</h2>'
+            '<p class="empty">Not run yet.</p></section>'
+        )
+
+    sections.append('<h2 class="part">Supplementary</h2>')
+
+    s = data.get("subgenomes")
+    if s:
+        plot_imgs = "".join(
+            _img_html(p, "te-marker windowed track")
+            for p in s.get("windowed_plots", [])
+            if p
+        )
+        sections.append(
+            f"""<section>
+  <h2>TE markers</h2>
+  <p class="note">Supplementary. Read the within-genome contrast
+  (split_ratio by lineage), not absolute te_marker_fraction: a confirmed
+  diploid (ddMalSylv1) reaches 0.25 per chromosome, above some allo
+  anchors.</p>
+  <h3>te_marker_fraction per chromosome</h3>
+  {_table_html(s.get('auto_allo_index'))}
+  <h3>te_marker_fraction by lineage (chromosomes with &ge;3 copies, split by whole-chromosome distance)</h3>
+  {_table_html(s.get('by_lineage'))}
+  <h3>Window assignment summary</h3>
+  {_table_html(s.get('windows_summary'))}
+  {plot_imgs}
+</section>"""
+        )
+    else:
+        sections.append(
+            '<section><h2>TE markers</h2>'
+            '<p class="empty">te-markers not run for this species.</p></section>'
         )
 
     body = "\n".join(sections)
@@ -293,6 +330,7 @@ th, td { border: 1px solid #ccc; padding: 4px 8px; text-align: left; }
 th { background: #f0f0f0; }
 img { max-width: 100%; display: block; margin: 0.5rem 0; }
 .empty { color: #888; font-style: italic; }
+h2.part { border-top: 2px solid #333; padding-top: 1rem; color: #555; }
 .note { color: #888; font-size: 0.85rem; }
 """
 

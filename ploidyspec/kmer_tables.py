@@ -20,7 +20,15 @@ def ktab_prefix_path(outdir, unit_id, k):
 
 
 def unit_signature(unit):
-    return f"{unit['source']}\t{unit['seq_id']}\t{int(unit['length'])}\n"
+    """Where a unit's cached FASTA came from: source file (with its size and
+    modification time, so a rewritten assembly is re-extracted even when names
+    and lengths are unchanged), sequence name and length."""
+    try:
+        st = os.stat(unit["source"])
+        stamp = f"{st.st_size}\t{st.st_mtime_ns}"
+    except OSError:
+        stamp = "missing"
+    return f"{unit['source']}\t{stamp}\t{unit['seq_id']}\t{int(unit['length'])}\n"
 
 
 def cached_fasta_matches(chrom_fa, unit):

@@ -1,42 +1,60 @@
 """
-Cross-species tables and the poly-space PCA, built from each species' own
-outputs under a results directory (one subdirectory per species). Replaces the
-panel-wide scripts (auto_allo_spectrum.py, genome_partition.py,
-poly_space_pca.py). Species that haven't run the `structure` stage get their
-structure metrics computed in memory here (no files written under results/).
+Cross-species tables built from each species' own outputs under a results
+directory (one subdirectory per species). Species that haven't run the
+`structure` stage get its outputs computed in memory here (no files written
+under results/).
 
-Writes to --outdir:
-- auto_allo_spectrum.tsv: one row of structure/inheritance_metrics.tsv per species
-- genome_partition.tsv: every species' significant diffuse partitions
-- rediploidization_panel.tsv: one row per species from rediploidization_summary.tsv
+Writes to --outdir (core outputs, ROADMAP Phase 2 option B):
+- panel_summary.tsv: one row per species -- copy number, copy divergence,
+  ancient pairing and its synchrony, the strongest genome partition, and the
+  rediploidization state counts.
+- genome_partition.tsv: every species' significant diffuse partitions.
+- rediploidization_panel.tsv: one row per species from rediploidization_summary.tsv.
+
+and to --outdir/supplementary/:
+- te_markers_panel.tsv: TE-marker readings. The within-genome contrast
+  (te_split_median) is the usable one; absolute te_marker_fraction overlaps
+  between a confirmed diploid (ddMalSylv1, up to 0.25 per chromosome) and the
+  allo anchors, so it is reported for reference only.
 - poly_space_features.tsv / poly_space_loadings.tsv / poly_space_pca.png: an
-  exploratory PCA over seven metrics (Twyford et al. 2025's "poly-space").
+  exploratory PCA over the core numbers (Twyford et al. 2025's "poly-space").
   Missing values are mean-imputed, so species with few features sit near the
   origin by construction; n_features_present says how many were real.
 """
 
 import csv
 import os
+import statistics
+from collections import Counter
 
 import numpy as np
 
 from .common import log
-from .structure import (
-    INHERITANCE_FIELDS,
-    PARTITION_FIELDS,
-    inheritance_metrics,
-    partition_rows,
+from .structure import PARTITION_FIELDS, pair_synchrony, partition_rows
+
+STATES = ("tetrasomic_like", "candidate", "partially_resolved", "resolved_lineages",
+          "fusion_lineages", "one_divergent_copy", "not_assessable")
+
+SUMMARY_FIELDS = (
+    ["species", "n_chromosome_numbers", "copies_per_chromosome",
+     "allelic_distance_median", "cross_chrom_distance_median",
+     "n_accepted_pairs", "pair_depth_median", "pair_depth_cv",
+     "partition_k2_z", "partition_best_k", "partition_best_z",
+     "n_distinct_fusions"]
+    + [f"n_{s}" for s in STATES]
 )
 
 FEATURE_COLS = [
-    "te_marker_fraction",
-    "partition_consistency",
-    "distance_ratio_cv",
+    "allelic_distance_median",
+    "paired_fraction",
     "pair_depth_cv",
-    "mean_windowed_cv",
-    "flip_rate",
-    "genome_partition_best_z",
+    "partition_best_z",
+    "resolved_fraction",
+    "tetrasomic_fraction",
+    "te_split_median",
 ]
+
+TE_FIELDS = ["species", "n_chromosomes", "te_split_median", "te_marker_fraction_mean"]
 
 
 def read_tsv(path):
@@ -64,17 +82,45 @@ def species_dirs(results_dir):
 
 def species_structure(species, path):
     sdir = os.path.join(path, "structure")
-    inh = read_tsv(os.path.join(sdir, "inheritance_metrics.tsv"))
+    sync = read_tsv(os.path.join(sdir, "pair_synchrony.tsv"))
     parts = read_tsv(os.path.join(sdir, "genome_partition.tsv"))
-    if inh is None or parts is None:
-        return inheritance_metrics(path, species), partition_rows(path, species)
-    return inh[0], parts
+    if sync is None or parts is None:
+        return pair_synchrony(path, species), partition_rows(path, species)
+    return sync[0], parts
 
 
-def mean_te_marker_fraction(path):
-    rows = read_tsv(os.path.join(path, "subgenomes", "auto_allo_index.tsv")) or []
-    vals = [float(r["te_marker_fraction"]) for r in rows if r.get("te_marker_fraction")]
-    return sum(vals) / len(vals) if vals else None
+def copy_divergence(path):
+    """(median same-chromosome-number distance, median cross-number distance)
+    from the matrix stage's pairs."""
+    rows = read_tsv(os.path.join(path, "matrix", "whole_chrom_pairs.tsv")) or []
+    same, cross = [], []
+    for r in rows:
+        ca, cb = r["unit_a"].rsplit("_chr", 1)[1], r["unit_b"].rsplit("_chr", 1)[1]
+        (same if ca == cb else cross).append(float(r["distance"]))
+    med = lambda v: statistics.median(v) if v else None  # noqa: E731
+    return med(same), med(cross)
+
+
+def modal_copies(path):
+    rows = read_tsv(os.path.join(path, "matrix", "ploidy_summary.tsv")) or []
+    counts = Counter(r["n_haplotype_copies"] for r in rows)
+    return (counts.most_common(1)[0][0], len(rows)) if counts else ("", 0)
+
+
+def te_markers_row(species, path):
+    sdir = os.path.join(path, "subgenomes")
+    index = read_tsv(os.path.join(sdir, "auto_allo_index.tsv"))
+    if index is None:
+        return None
+    fracs = [float(r["te_marker_fraction"]) for r in index if r.get("te_marker_fraction")]
+    lineage = read_tsv(os.path.join(sdir, "te_marker_fraction_by_lineage.tsv")) or []
+    splits = [float(r["split_ratio"]) for r in lineage if r.get("split_ratio")]
+    return {
+        "species": species,
+        "n_chromosomes": len({r["chrom"] for r in index}),
+        "te_split_median": f"{statistics.median(splits):.3f}" if splits else "",
+        "te_marker_fraction_mean": f"{statistics.mean(fracs):.4f}" if fracs else "",
+    }
 
 
 def rediploidization_row(species, path):
@@ -84,25 +130,63 @@ def rediploidization_row(species, path):
     return {"species": species, **{r["metric"]: r["value"] for r in rows}}
 
 
-def poly_space(spectrum, partitions, te_frac, categories, outdir):
-    best_z = {}
-    for r in partitions:
-        best_z[r["species"]] = max(best_z.get(r["species"], 0.0), abs(float(r["z_score"])))
+def fmt(v, nd=4):
+    return "" if v is None else f"{v:.{nd}f}"
 
+
+def summary_row(species, path, sync, parts, redip):
+    copies, n_chrom = modal_copies(path)
+    same, cross = copy_divergence(path)
+    k2 = [float(r["z_score"]) for r in parts if str(r["k"]) == "2"]
+    best = max(parts, key=lambda r: float(r["z_score"]), default=None)
+    row = {
+        "species": species,
+        "n_chromosome_numbers": n_chrom,
+        "copies_per_chromosome": copies,
+        "allelic_distance_median": fmt(same),
+        "cross_chrom_distance_median": fmt(cross),
+        "n_accepted_pairs": sync.get("n_accepted_pairs", ""),
+        "pair_depth_median": sync.get("pair_depth_median", ""),
+        "pair_depth_cv": sync.get("pair_depth_cv", ""),
+        "partition_k2_z": fmt(k2[0], 2) if k2 else "",
+        "partition_best_k": best["k"] if best else "",
+        "partition_best_z": best["z_score"] if best else "",
+        "n_distinct_fusions": (redip or {}).get("n_distinct_fusions", ""),
+    }
+    for s in STATES:
+        row[f"n_{s}"] = (redip or {}).get(f"copy_state:{s}", "")
+    return row
+
+
+def features(summary, te_rows, redip):
     def num(v):
         return float(v) if v not in (None, "") else None
 
-    raw = {}
-    for sp, row in spectrum.items():
-        raw[sp] = {
-            "te_marker_fraction": te_frac.get(sp),
-            "partition_consistency": num(row.get("partition_consistency")),
-            "distance_ratio_cv": num(row.get("distance_ratio_cv")),
-            "pair_depth_cv": num(row.get("pair_depth_cv")),
-            "mean_windowed_cv": num(row.get("mean_windowed_cv")),
-            "flip_rate": num(row.get("flip_rate")),
-            "genome_partition_best_z": best_z.get(sp),
+    out = {}
+    for sp, row in summary.items():
+        r = redip.get(sp, {})
+        n = num(r.get("n_chromosome_numbers"))
+        assessable = (n - (num(r.get("copy_state:not_assessable")) or 0)) if n else None
+
+        def frac(*states):
+            if not assessable:
+                return None
+            return sum(num(r.get(f"copy_state:{s}")) or 0 for s in states) / assessable
+
+        paired = num(r.get("ancient_paired_chromosomes"))
+        out[sp] = {
+            "allelic_distance_median": num(row["allelic_distance_median"]),
+            "paired_fraction": paired / n if paired is not None and n else None,
+            "pair_depth_cv": num(row["pair_depth_cv"]),
+            "partition_best_z": num(row["partition_best_z"]),
+            "resolved_fraction": frac("resolved_lineages", "fusion_lineages"),
+            "tetrasomic_fraction": frac("tetrasomic_like"),
+            "te_split_median": num((te_rows.get(sp) or {}).get("te_split_median")),
         }
+    return out
+
+
+def poly_space(raw, categories, outdir):
     # below 2 real features a point is pure column-mean imputation
     kept = [sp for sp in sorted(raw) if sum(v is not None for v in raw[sp].values()) >= 2]
     if len(kept) < 3:
@@ -131,9 +215,9 @@ def poly_space(spectrum, partitions, te_frac, categories, outdir):
 
     with open(os.path.join(outdir, "poly_space_loadings.tsv"), "w", newline="") as f:
         w = csv.writer(f, delimiter="\t")
-        w.writerow(["component", "explained_variance"] + FEATURE_COLS)
-        for c in range(min(3, len(S))):
-            w.writerow([f"PC{c + 1}", f"{explained[c]:.4f}"] + [f"{v:+.3f}" for v in Vt[c]])
+        w.writerow(["feature", "PC1", "PC2"])
+        for j, col in enumerate(FEATURE_COLS):
+            w.writerow([col, f"{Vt[0, j]:.4f}", f"{Vt[1, j]:.4f}"])
 
     import matplotlib
 
@@ -156,7 +240,7 @@ def poly_space(spectrum, partitions, te_frac, categories, outdir):
     ax.legend(fontsize=8, loc="best")
     ax.set_xlabel(f"PC1 ({explained[0] * 100:.1f}% variance)")
     ax.set_ylabel(f"PC2 ({explained[1] * 100:.1f}% variance)")
-    ax.set_title("Poly-space: PCA over inheritance-mode/divergence metrics\n"
+    ax.set_title("Poly-space (exploratory): PCA over the core per-species numbers\n"
                  "(colours are prior reads from --categories, not PCA input)", fontsize=10)
     fig.tight_layout()
     fig.savefig(os.path.join(outdir, "poly_space_pca.png"), dpi=150)
@@ -166,31 +250,37 @@ def poly_space(spectrum, partitions, te_frac, categories, outdir):
 
 
 def build_panel(results_dir, outdir, categories_path=None):
-    os.makedirs(outdir, exist_ok=True)
-    spectrum, partitions, redip, te_frac = {}, [], [], {}
+    supp = os.path.join(outdir, "supplementary")
+    os.makedirs(supp, exist_ok=True)
+    summary, synchrony, partitions, redip, te_rows = {}, [], [], {}, {}
     for species, path in species_dirs(results_dir):
-        inh, parts = species_structure(species, path)
-        spectrum[species] = inh
+        sync, parts = species_structure(species, path)
+        synchrony.append(sync)
         partitions.extend(parts)
-        te = mean_te_marker_fraction(path)
-        if te is not None:
-            te_frac[species] = te
-        row = rediploidization_row(species, path)
-        if row:
-            redip.append(row)
-    log(f"panel: {len(spectrum)} species from {results_dir}")
+        r = rediploidization_row(species, path)
+        if r:
+            redip[species] = r
+        t = te_markers_row(species, path)
+        if t:
+            te_rows[species] = t
+        summary[species] = summary_row(species, path, sync, parts, r)
+    log(f"panel: {len(summary)} species from {results_dir}")
 
-    write_tsv(os.path.join(outdir, "auto_allo_spectrum.tsv"), INHERITANCE_FIELDS,
-              [spectrum[s] for s in sorted(spectrum)])
+    write_tsv(os.path.join(outdir, "panel_summary.tsv"), SUMMARY_FIELDS,
+              [summary[s] for s in sorted(summary)])
     write_tsv(os.path.join(outdir, "genome_partition.tsv"), PARTITION_FIELDS, partitions)
     if redip:
-        fields = ["species"] + sorted({k for r in redip for k in r if k != "species"},
+        rows = [redip[s] for s in sorted(redip)]
+        fields = ["species"] + sorted({k for r in rows for k in r if k != "species"},
                                       key=lambda k: (not k.startswith("n_chrom"), k))
-        write_tsv(os.path.join(outdir, "rediploidization_panel.tsv"), fields, redip)
+        write_tsv(os.path.join(outdir, "rediploidization_panel.tsv"), fields, rows)
+    write_tsv(os.path.join(supp, "te_markers_panel.tsv"), TE_FIELDS,
+              [te_rows[s] for s in sorted(te_rows)])
 
     categories = {}
     if categories_path:
         categories = {r["species"]: r["category"] for r in read_tsv(categories_path) or []}
-    poly_space(spectrum, partitions, te_frac, categories, outdir)
-    log(f"wrote auto_allo_spectrum.tsv, genome_partition.tsv"
-        f"{', rediploidization_panel.tsv' if redip else ''} and poly_space_* in {outdir}")
+    poly_space(features(summary, te_rows, redip), categories, supp)
+    log(f"wrote panel_summary.tsv, genome_partition.tsv"
+        f"{', rediploidization_panel.tsv' if redip else ''} in {outdir}; "
+        f"te_markers_panel.tsv and poly_space_* in {supp}")

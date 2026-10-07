@@ -60,12 +60,13 @@ class TestEndToEnd(unittest.TestCase):
                 for r in read_tsv(os.path.join(self.tmp, scenario, "truth.tsv"))}
 
     def test_copy_counts(self):
-        for scenario, copies in (("diploid", "2"), ("autotetraploid", "4")):
+        for scenario, copies in (("diploid", "2"), ("autotetraploid", "4"), ("mislabelled", "4")):
             rows = read_tsv(self.out(scenario, "matrix", "ploidy_summary.tsv"))
             self.assertEqual({r["n_haplotype_copies"] for r in rows}, {copies}, scenario)
 
     def test_states_match_truth(self):
-        for scenario in ("diploid", "autotetraploid", "autotetraploid_2hap", "allotetraploid"):
+        for scenario in ("diploid", "autotetraploid", "autotetraploid_2hap", "allotetraploid",
+                         "mislabelled"):
             self.assertEqual(self.states(scenario), self.expected_states(scenario), scenario)
 
     def test_rediploidized_states(self):
@@ -83,21 +84,41 @@ class TestEndToEnd(unittest.TestCase):
             rows = read_tsv(self.out(scenario, "homeologs", "homeolog_pairs.tsv"))
             self.assertEqual({(r["chrom_a"], r["chrom_b"]) for r in rows}, expected, scenario)
 
+    def test_mislabelled_chromosomes_are_relabelled(self):
+        rows = read_tsv(self.out("mislabelled", "matrix", "chrom_label_corrections.tsv"))
+        fixed = {(r["unit_id"], r["new_chrom"]) for r in rows if r["status"] == "corrected"}
+        expected = {(f"HAP4_chr{c:02d}", str(c % N_CHROM + 1)) for c in range(1, N_CHROM + 1)}
+        expected |= {("HAP3_chr05", "6"), ("HAP3_chr06", "5")}
+        self.assertEqual(fixed, expected)
+
+    def test_window_tracks_follow_whole_chromosome_distance(self):
+        # every copy but HAP1 carries a deletion and an inversion, so equal-
+        # coordinate windows would fall out of register halfway along; the
+        # closest pair's windows must stay close all along the chromosome
+        rows = read_tsv(self.out("autotetraploid", "windowed", "windowed_all.tsv"))
+        far = [float(r["distance"]) for r in rows if float(r["distance"]) > 0.05]
+        self.assertLess(len(far) / len(rows), 0.05)
+
     def test_no_fusions_without_rediploidization(self):
         for scenario in ("diploid", "autotetraploid", "autotetraploid_2hap", "allotetraploid"):
             rows = read_tsv(self.out(scenario, "rediploidization", "fusions.tsv"))
             self.assertEqual([r for r in rows if r["status"] == "fusion"], [], scenario)
 
     def test_panel_tables(self):
-        spectrum = read_tsv(os.path.join(self.tmp, "panel", "auto_allo_spectrum.tsv"))
-        self.assertEqual({r["species"] for r in spectrum}, set(SCENARIOS))
+        summary = {r["species"]: r for r in
+                   read_tsv(os.path.join(self.tmp, "panel", "panel_summary.tsv"))}
+        self.assertEqual(set(summary), set(SCENARIOS))
+        self.assertEqual(summary["autotetraploid"]["copies_per_chromosome"], "4")
+        self.assertEqual(summary["allotetraploid"]["n_resolved_lineages"], str(2 * N_CHROM))
+        self.assertTrue(os.path.exists(os.path.join(self.tmp, "panel", "supplementary",
+                                                    "te_markers_panel.tsv")))
         redip = {r["species"]: r for r in
                  read_tsv(os.path.join(self.tmp, "panel", "rediploidization_panel.tsv"))}
         self.assertEqual(redip["rediploidized"]["n_distinct_fusions"], "2")
 
     def test_structure_outputs(self):
         for scenario in SCENARIOS:
-            self.assertTrue(os.path.exists(self.out(scenario, "structure", "inheritance_metrics.tsv")))
+            self.assertTrue(os.path.exists(self.out(scenario, "structure", "pair_synchrony.tsv")))
         rows = read_tsv(self.out("allotetraploid", "structure", "genome_partition.tsv"))
         # 7 homeolog pairs: the chromosome numbers factor into pairs
         self.assertIn(str(N_CHROM), {r["k"] for r in rows})
@@ -105,3 +126,43 @@ class TestEndToEnd(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+@unittest.skipUnless(ENABLED, "set PLOIDYSPEC_E2E=1 with samtools + FastK on PATH")
+class TestRerunOnChangedAssembly(unittest.TestCase):
+    """A re-run on a changed assembly in the same output directory must rebuild
+    the cached per-unit FASTA, not reuse it by name (drLytSali1, 2026-09)."""
+
+    def test_changed_sequence_is_re_extracted(self):
+        from ploidyspec.simulate import build_scenario, write_fasta
+
+        tmp = tempfile.mkdtemp(prefix="ploidyspec_rerun_")
+        try:
+            params = dict(n_chrom=2, chrom_len=60_000, te_copies=5, te_len=200)
+            haps, _ = build_scenario("diploid", 1, params)
+            manifest = os.path.join(tmp, "manifest.tsv")
+            with open(manifest, "w") as m:
+                for hap, recs in haps.items():
+                    path = os.path.join(tmp, f"{hap}.fa")
+                    write_fasta(path, recs)
+                    m.write(f"{path}\t{hap}\n")
+            out = os.path.join(tmp, "out")
+            stage = ["--manifest", manifest, "--outdir", out, "--min-len", "10000", "--k", "15"]
+            main(["prepare"] + stage)
+            main(["kmers"] + stage)
+            # new assembly: HAP2's chr1 and chr2 sequences exchanged under the same names
+            recs = haps["HAP2"]
+            write_fasta(os.path.join(tmp, "HAP2.fa"),
+                        [(recs[0][0], recs[0][1], recs[1][2]), (recs[1][0], recs[1][1], recs[0][2])])
+            for f in os.listdir(tmp):
+                if f.startswith("HAP2.fa."):
+                    os.remove(os.path.join(tmp, f))
+            main(["prepare"] + stage)
+            main(["kmers"] + stage)
+            with open(os.path.join(out, "chroms", "HAP2_chr01.fa")) as f:
+                f.readline()
+                cached = "".join(line.strip() for line in f)
+            from ploidyspec.simulate import to_text
+            self.assertEqual(cached, to_text(recs[1][2]))
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
