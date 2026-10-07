@@ -13,10 +13,17 @@ Scenarios:
 - diploid: 2 haplotypes of one genome.
 - autotetraploid: 4 haplotypes, all equally related -- polysomic,
   every chromosome tetrasomic_like.
+- autotetraploid_2hap: the same four equivalent copies, but assembled the way a
+  two-haplotype curated assembly of a tetraploid is -- each base chromosome
+  numbered twice (i and i+n), two copies in each haplotype. The homeologs stage
+  pairs (i, i+n); the rediploidization stage pools them and should read the
+  four copies as interchangeable (tetrasomic_like).
 - allotetraploid: two progenitor genomes diverged from a common ancestor, each
   with its own TE burst, numbered as separate chromosomes (1..n from A,
   n+1..2n from B) in 2 haplotypes -- the usual layout of a curated
-  allopolyploid assembly. Homeolog pairs (i, i+n) are the expected finding.
+  allopolyploid assembly. Homeolog pairs (i, i+n) are the expected finding,
+  and pooling each pair should read as two separate lineages
+  (resolved_lineages).
 - rediploidized: an autotetraploid where HAP3/HAP4 have partly split off as a
   second lineage, one mechanism per chromosome:
     chr1  whole-chromosome lineage split           -> resolved_lineages
@@ -33,7 +40,7 @@ import numpy as np
 
 from .common import log
 
-SCENARIOS = ("diploid", "autotetraploid", "allotetraploid", "rediploidized")
+SCENARIOS = ("diploid", "autotetraploid", "autotetraploid_2hap", "allotetraploid", "rediploidized")
 LETTERS = np.frombuffer(b"ACGT", dtype=np.uint8)
 
 DEFAULTS = dict(
@@ -129,6 +136,17 @@ def build_scenario(name, seed, params):
         truth = [dict(chrom=f"chr{c:02d}", copy_state=state, fusion="", homeolog="")
                  for c in range(1, n + 1)]
 
+    elif name == "autotetraploid_2hap":
+        genome = sim.genome(n, ancestral)
+        copies = sim.haplotypes(genome, 4)
+        for i in (1, 2):
+            chroms = copies[i - 1] + copies[i + 1]
+            haps[f"HAP{i}"] = [placed(f"HAP{i}", c, s) for c, s in enumerate(chroms, 1)]
+        for c in range(1, 2 * n + 1):
+            partner = c + n if c <= n else c - n
+            truth.append(dict(chrom=f"chr{c:02d}", copy_state="tetrasomic_like",
+                              fusion="", homeolog=f"chr{partner:02d}"))
+
     elif name == "allotetraploid":
         ancestor = sim.genome(n, ancestral)
         progenitors = []
@@ -140,7 +158,7 @@ def build_scenario(name, seed, params):
             haps[f"HAP{i}"] = [placed(f"HAP{i}", c, s) for c, s in enumerate(chroms, 1)]
         for c in range(1, 2 * n + 1):
             partner = c + n if c <= n else c - n
-            truth.append(dict(chrom=f"chr{c:02d}", copy_state="not_assessable",
+            truth.append(dict(chrom=f"chr{c:02d}", copy_state="resolved_lineages",
                               fusion="", homeolog=f"chr{partner:02d}"))
 
     elif name == "rediploidized":

@@ -28,7 +28,7 @@ Pipeline:
                          (run by `all`; uses te-markers output if present)
 
   simulate           -> synthetic haplotype assemblies with a known answer (diploid,
-                         autotetraploid, allotetraploid, rediploidized) for testing
+                         autotetraploid x2 layouts, allotetraploid, rediploidized)
 """
 
 import argparse

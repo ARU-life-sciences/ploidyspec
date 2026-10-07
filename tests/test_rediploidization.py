@@ -11,6 +11,7 @@ from ploidyspec.rediploidization import (
     fusion_row,
     lineage_divergence,
     long_copy_outliers,
+    pooled_state,
     robust_background,
     split_segments,
     summarize,
@@ -105,11 +106,25 @@ class TestCopyState(unittest.TestCase):
     def test_no_evidence_is_tetrasomic_like(self):
         self.assertEqual(copy_state(4, True, 1.05, 0.9, "none", THRESHOLDS), "tetrasomic_like")
 
-    def test_unbalanced_split_is_single_copy_outlier(self):
-        self.assertEqual(copy_state(4, False, 3.45, 1.7, "none", THRESHOLDS), "single_copy_outlier")
+    def test_unbalanced_split_is_one_divergent_copy(self):
+        self.assertEqual(copy_state(4, False, 3.45, 1.7, "none", THRESHOLDS), "one_divergent_copy")
 
     def test_two_copies_not_assessable(self):
         self.assertEqual(copy_state(2, False, None, None, "", THRESHOLDS), "not_assessable")
+
+
+class TestPooledState(unittest.TestCase):
+    def test_separate_lineages_across_homeologs(self):
+        self.assertEqual(pooled_state(True, 3.5, THRESHOLDS), "resolved_lineages")
+
+    def test_interchangeable_copies_across_homeologs(self):
+        self.assertEqual(pooled_state(True, 1.05, THRESHOLDS), "tetrasomic_like")
+
+    def test_intermediate_is_candidate(self):
+        self.assertEqual(pooled_state(True, 1.6, THRESHOLDS), "candidate")
+
+    def test_one_copy_apart(self):
+        self.assertEqual(pooled_state(False, 1.45, THRESHOLDS), "one_divergent_copy")
 
 
 class TestChromosomeLineages(unittest.TestCase):

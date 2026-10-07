@@ -16,7 +16,7 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ploidyspec.cli import main
-from ploidyspec.simulate import simulate
+from ploidyspec.simulate import SCENARIOS, simulate
 
 TOOLS = ("samtools", "FastK", "Logex", "Histex", "Tabex")
 ENABLED = os.environ.get("PLOIDYSPEC_E2E") == "1" and all(shutil.which(t) for t in TOOLS)
@@ -37,7 +37,7 @@ class TestEndToEnd(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = tempfile.mkdtemp(prefix="ploidyspec_e2e_")
         simulate("all", cls.tmp, seed=7, params=SIM_PARAMS)
-        for name in ("diploid", "autotetraploid", "allotetraploid", "rediploidized"):
+        for name in SCENARIOS:
             sdir = os.path.join(cls.tmp, name)
             main(["all", "--manifest", os.path.join(sdir, "manifest.tsv"),
                   "--outdir", os.path.join(sdir, "out")] + RUN_ARGS)
@@ -63,8 +63,8 @@ class TestEndToEnd(unittest.TestCase):
             rows = read_tsv(self.out(scenario, "matrix", "ploidy_summary.tsv"))
             self.assertEqual({r["n_haplotype_copies"] for r in rows}, {copies}, scenario)
 
-    def test_diploid_and_autotetraploid_states(self):
-        for scenario in ("diploid", "autotetraploid"):
+    def test_states_match_truth(self):
+        for scenario in ("diploid", "autotetraploid", "autotetraploid_2hap", "allotetraploid"):
             self.assertEqual(self.states(scenario), self.expected_states(scenario), scenario)
 
     def test_rediploidized_states(self):
@@ -76,14 +76,14 @@ class TestEndToEnd(unittest.TestCase):
         expected = {(h, c) for h in ("HAP3", "HAP4") for c in ("chr03+chr04", "chr05+chr06")}
         self.assertEqual(found, expected)
 
-    def test_allotetraploid_homeolog_pairs(self):
-        rows = read_tsv(self.out("allotetraploid", "homeologs", "homeolog_pairs.tsv"))
-        found = {(r["chrom_a"], r["chrom_b"]) for r in rows}
+    def test_homeolog_pairs_in_two_haplotype_tetraploids(self):
         expected = {(f"chr{i:02d}", f"chr{i + N_CHROM:02d}") for i in range(1, N_CHROM + 1)}
-        self.assertEqual(found, expected)
+        for scenario in ("allotetraploid", "autotetraploid_2hap"):
+            rows = read_tsv(self.out(scenario, "homeologs", "homeolog_pairs.tsv"))
+            self.assertEqual({(r["chrom_a"], r["chrom_b"]) for r in rows}, expected, scenario)
 
     def test_no_fusions_without_rediploidization(self):
-        for scenario in ("diploid", "autotetraploid", "allotetraploid"):
+        for scenario in ("diploid", "autotetraploid", "autotetraploid_2hap", "allotetraploid"):
             rows = read_tsv(self.out(scenario, "rediploidization", "fusions.tsv"))
             self.assertEqual([r for r in rows if r["status"] == "fusion"], [], scenario)
 

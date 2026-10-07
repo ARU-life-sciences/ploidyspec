@@ -44,6 +44,12 @@ class TestScenarios(unittest.TestCase):
         self.assertEqual(len(haps["HAP1"]), 2 * SMALL["n_chrom"])
         self.assertEqual({r["chrom"]: r["homeolog"] for r in truth}["chr01"], "chr08")
 
+    def test_autotetraploid_2hap_numbers_copies_twice(self):
+        haps, truth = build_scenario("autotetraploid_2hap", 1, SMALL)
+        self.assertEqual(len(haps), 2)
+        self.assertEqual(len(haps["HAP1"]), 2 * SMALL["n_chrom"])
+        self.assertEqual({r["copy_state"] for r in truth}, {"tetrasomic_like"})
+
     def test_rediploidized_layout(self):
         haps, truth = build_scenario("rediploidized", 1, SMALL)
         names = [r[0] for r in haps["HAP3"]]

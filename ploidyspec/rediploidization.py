@@ -376,8 +376,10 @@ def copy_state(n_copies, balanced, dist_split, te_split, extent, thresholds):
     partially_resolved: >=2 of {distance split, TE split, windowed segment}
       (e.g. SchCurv1 chr17 -- regional split, strong TE signal).
     candidate: exactly one line of evidence.
-    single_copy_outlier: the split isolates one copy -- an odd haplotype (often an
-      assembly difference), not two lineages.
+    one_divergent_copy: the split isolates one copy from the rest. Either one
+      odd haplotype (assembly quality -- check whether the same haplotype recurs,
+      see most_frequent_outlier_hap) or a genuinely divergent genome copy (AAAB-
+      like; every split of a triploid looks like this). Not two lineages.
     """
     if n_copies < 3:
         return "not_assessable"
@@ -387,11 +389,53 @@ def copy_state(n_copies, balanced, dist_split, te_split, extent, thresholds):
         extent in ("whole", "regional"),
     ]
     if not balanced:
-        return "single_copy_outlier" if any(support) else "tetrasomic_like"
+        return "one_divergent_copy" if any(support) else "tetrasomic_like"
     if dist_split is not None and dist_split >= 2 * thresholds["dist_split"] and extent == "whole":
         return "resolved_lineages"
     n = sum(support)
     return {0: "tetrasomic_like", 1: "candidate"}.get(n, "partially_resolved")
+
+
+def split_lineages(ids, dist):
+    """2-way split of copies by whole-chromosome distance. Returns
+    (group_a, group_b, balanced, dist_split) or None when < 3 copies. dist_split
+    is mean cross-group / mean within-group distance; balanced = both groups
+    have >= 2 copies (a 1-vs-rest split isolates one odd copy, not a lineage)."""
+    split = bipartition_by_distance(sorted(ids), dist)
+    if not split:
+        return None
+    ga, gb = split
+    within = [dist[(x, y)] for g in (ga, gb) for i, x in enumerate(g) for y in g[i + 1 :]]
+    cross = [dist[(x, y)] for x in ga for y in gb]
+    ratio = None
+    if within and statistics.mean(within) > 0:
+        ratio = statistics.mean(cross) / statistics.mean(within)
+    return ga, gb, min(len(ga), len(gb)) >= 2, ratio
+
+
+def pooled_state(balanced, dist_split, thresholds):
+    """
+    State for a homeolog-pooled group: the copies of two chromosome numbers that
+    the homeologs stage paired, read as one group. This is how a two-haplotype
+    assembly of a tetraploid is assessed -- each number has only 2 copies, but a
+    number plus its homeolog has 4. Only whole-chromosome distance is available
+    across different numbers (windowed and TE-marker tracks compare same-number
+    copies), so one line of evidence decides:
+    resolved_lineages: the two numbers' copies form separate lineages,
+      dist_split >= 2x threshold (allopolyploid subgenomes, or a long-diploidized
+      autopolyploid).
+    candidate: dist_split between 1x and 2x threshold.
+    tetrasomic_like: the homeolog is as close as the same-number copy --
+      the copies are interchangeable across the two numbers.
+    """
+    if dist_split is None:
+        return "not_assessable"
+    t = thresholds["dist_split"]
+    if not balanced:
+        return "one_divergent_copy" if dist_split >= t else "tetrasomic_like"
+    if dist_split >= 2 * t:
+        return "resolved_lineages"
+    return "candidate" if dist_split >= t else "tetrasomic_like"
 
 
 def chromosome_lineages(units, dist, windowed, te_split, thresholds):
@@ -404,15 +448,11 @@ def chromosome_lineages(units, dist, windowed, te_split, thresholds):
         row = dict(n_copies=len(ids), group_a="", group_b="", dist_split=None,
                    te_split=te_split.get(label), window_split_frac=None,
                    extent="", segments="", balanced=False)
-        split = bipartition_by_distance(sorted(ids), dist)
+        split = split_lineages(ids, dist)
         if split:
-            ga, gb = split
-            within = [dist[(x, y)] for g in (ga, gb) for i, x in enumerate(g) for y in g[i + 1 :]]
-            cross = [dist[(x, y)] for x in ga for y in gb]
-            row.update(group_a=",".join(ga), group_b=",".join(gb),
-                       balanced=min(len(ga), len(gb)) >= 2)
-            if within and statistics.mean(within) > 0:
-                row["dist_split"] = statistics.mean(cross) / statistics.mean(within)
+            ga, gb, balanced, ratio = split
+            row.update(group_a=",".join(ga), group_b=",".join(gb), balanced=balanced,
+                       dist_split=ratio)
             track = window_split_track(windowed.get(label, {}), ga)
             if track:
                 n_split = sum(1 for _, _, r in track if r >= thresholds["window_split"])
@@ -489,24 +529,41 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
     all_haps = sorted({u["hap"] for u in units})
     chrom_haps = haps_by_chrom(units)
 
+    ids_by_chrom = defaultdict(list)
+    for u in units:
+        ids_by_chrom[u["chrom"]].append(u["unit_id"])
+
     rows = []
     for chrom, lin in sorted(lineages.items()):
         fusion_desc = "; ".join(
             f"with chr{p:02d} in {','.join(sorted(h))}" for p, h in sorted(fused_in[chrom].items())
         )
-        if fused_in[chrom]:
-            state = "fusion_lineages"
-        else:
-            state = copy_state(lin["n_copies"], lin["balanced"], lin["dist_split"],
-                               lin["te_split"], lin["extent"], thresholds)
         partner = ancient.get(chrom)
         if partner is None:
             ancient_state, partner_str, ratio = "unpaired", "", None
         else:
             partner_str, ratio = f"chr{partner[0]:02d}", partner[1]
             ancient_state = "fusion_partner" if partner[0] in fused_in[chrom] else "paired"
+        pooled_with = ""
+        if fused_in[chrom]:
+            state, basis = "fusion_lineages", "fusion"
+        elif lin["n_copies"] >= 3:
+            state, basis = copy_state(lin["n_copies"], lin["balanced"], lin["dist_split"],
+                                      lin["te_split"], lin["extent"], thresholds), "copies"
+        elif ancient_state == "paired" and partner[0] in ids_by_chrom:
+            pooled = split_lineages(ids_by_chrom[chrom] + ids_by_chrom[partner[0]], dist)
+            if pooled:
+                ga, gb, balanced, pooled_ratio = pooled
+                lin = dict(lin, group_a=",".join(ga), group_b=",".join(gb),
+                           dist_split=pooled_ratio)
+                state, basis = pooled_state(balanced, pooled_ratio, thresholds), "homeolog_pool"
+                pooled_with = partner_str
+            else:
+                state, basis = "not_assessable", "none"
+        else:
+            state, basis = "not_assessable", "none"
         outlier = ""
-        if state == "single_copy_outlier":
+        if state == "one_divergent_copy":
             ga, gb = lin["group_a"].split(","), lin["group_b"].split(",")
             outlier = (ga if len(ga) == 1 else gb)[0].split("_")[0]
         rows.append(
@@ -523,6 +580,8 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
                 split_extent=lin["extent"],
                 split_segments=lin["segments"],
                 copy_state=state,
+                state_basis=basis,
+                pooled_with=pooled_with,
                 outlier_hap=outlier,
                 ancient_partner=partner_str,
                 distance_ratio=_fmt(ratio),
@@ -544,8 +603,11 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
 def summarize(rows, fusions):
     n = len(rows)
     out = [dict(metric="n_chromosome_numbers", value=n)]
+    for basis in ("copies", "homeolog_pool", "fusion", "none"):
+        out.append(dict(metric=f"state_basis:{basis}",
+                        value=sum(1 for r in rows if r.get("state_basis") == basis)))
     for state in ("tetrasomic_like", "candidate", "partially_resolved", "resolved_lineages",
-                  "fusion_lineages", "single_copy_outlier", "not_assessable"):
+                  "fusion_lineages", "one_divergent_copy", "not_assessable"):
         k = sum(1 for r in rows if r["copy_state"] == state)
         out.append(dict(metric=f"copy_state:{state}", value=k))
     outliers = Counter(r["outlier_hap"] for r in rows if r.get("outlier_hap"))

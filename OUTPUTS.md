@@ -518,11 +518,33 @@ Xie et al. 2026, oldest first, recovered without prior knowledge.
   - `candidate`: exactly one of those.
   - `tetrasomic_like`: none. The copies are interchangeable, as expected under
     polysomic inheritance (or complete homogenization).
-  - `single_copy_outlier`: the split isolates a single copy. That points at one
-    odd haplotype (often assembly quality, see the assembly-quality confound
-    above), not two lineages. `outlier_hap` names it.
-  - `not_assessable`: < 3 copies. For two-haplotype assemblies, rediploidization
-    is read from ancient pairing instead.
+  - `one_divergent_copy`: the split isolates one copy from the rest
+    (`outlier_hap` names it). It has two readings, so check which:
+    - One haplotype is odd on most chromosomes (`most_frequent_outlier_hap`):
+      likely assembly quality, see the assembly-quality confound above
+      (`ddHypMacu1` HAP1, 8/8).
+    - The isolated copy changes haplotype between chromosomes, at a consistent
+      magnitude: a genuinely divergent genome copy (AAAB-like; `daPilAura1`, one
+      copy at split 1.3-1.7 on all 9 base chromosomes).
+
+    With 3 copies every split is one-vs-two, so triploids land here by
+    construction.
+  - `not_assessable`: < 3 copies and no homeolog partner to pool with.
+- `state_basis`, `pooled_with`: what the state was read from:
+  - `copies`: the chromosome's own >= 3 copies (all three lines of evidence).
+  - `fusion`: a confirmed fusion.
+  - `homeolog_pool`: the chromosome has < 3 copies (two-haplotype assemblies),
+    so its copies were pooled with those of its FDR-accepted homeolog partner
+    (`pooled_with`) and split as one group. A two-haplotype tetraploid has 2
+    copies per number but 4 per homeolog pair. `group_a`/`group_b`/`dist_split`
+    then describe the pooled group. Only whole-chromosome distance exists across
+    different numbers, so the state is `resolved_lineages` (`dist_split` >= 2x
+    threshold: the two numbers are separate lineages, e.g. every allo anchor,
+    `daGleHede1` 3.2-4.6), `candidate` (1-2x), `tetrasomic_like` (< 1x: the
+    homeolog is as close as the same-number copy, so the copies are
+    interchangeable across numbers, e.g. most of `lpElePalu1`), or
+    `one_divergent_copy`.
+  - `none`: nothing to read it from.
 - `ancient_partner`, `distance_ratio`, `ancient_state`: the FDR-accepted
   homeolog partner from `homeologs/` and its `distance_ratio`
   (`ploidy_ancestry_summary.tsv`). `ancient_state` is `paired`, `unpaired`, or

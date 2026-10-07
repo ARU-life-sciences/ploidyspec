@@ -82,12 +82,13 @@ single file contains multiple haplotype copies distinguished by header (matched 
 
 ## Testing on simulated genomes
 
-`ploidyspec simulate --outdir sims` writes four synthetic assemblies with a known
-answer — diploid, autotetraploid, allotetraploid, and a partially rediploidized
+`ploidyspec simulate --outdir sims` writes five synthetic assemblies with a known
+answer — diploid, autotetraploid (as four haplotypes, and as two haplotypes with each
+chromosome numbered twice), allotetraploid, and a partially rediploidized
 autotetraploid (a whole-chromosome lineage split, a regional split, one placed and
 one unplaced fusion) — each with a `manifest.tsv` and the expected results in
 `truth.tsv`. Run any stage on them like a real species. The end-to-end test runs the
-whole pipeline on all four and checks it recovers the truth (needs samtools + FastK,
+whole pipeline on all five and checks it recovers the truth (needs samtools + FastK,
 about 25 minutes):
 
 ```
