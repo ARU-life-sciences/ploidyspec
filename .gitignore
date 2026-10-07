@@ -17,3 +17,4 @@ te_markers_*x*.tsv
 *.egg-info/
 build/
 tmp_rediploidization
+/.worktrees
