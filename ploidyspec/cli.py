@@ -40,6 +40,7 @@ import os
 import sys
 
 from .common import (
+    cleanup_intermediates,
     find_tool,
     homeologs_dir,
     log,
@@ -100,8 +101,12 @@ def add_common_args(p):
     p.add_argument(
         "--k",
         type=parse_k_list,
-        default=[15],
-        help="k-mer size, or comma-separated list for a multi-k sweep (default 15). "
+        default=[15, 23],
+        help="k-mer size, or comma-separated list for a multi-k sweep (default 15,23). "
+        "The distance comes from the largest k that clears the chance-collision floor; "
+        "on the 45-species panel that was k=23 for every pair, so 15 is a fallback for "
+        "very divergent pairs. The panel itself ran 11,13,15,17,19,23 (identical "
+        "distances, ~3x the k-mer counting). "
         "Used by kmers/matrix/homeologs -- matrix/homeologs combine the swept k's into "
         "a Mash-corrected consensus distance per pair (see ploidyspec/mash.py), flagging "
         "pairs whose shared-kmer count never clears the chance-collision noise floor as "
@@ -424,6 +429,12 @@ def cmd_panel(args):
     build_panel(args.results, args.outdir, args.categories)
 
 
+def cmd_cleanup(args):
+    removed = cleanup_intermediates(args.outdir)
+    log(f"removed {len(removed)} intermediate dir(s) from {args.outdir}"
+        + "".join(f"\n  {p}" for p in removed))
+
+
 def cmd_simulate(args):
     params = dict(n_chrom=args.n_chrom, chrom_len=args.chrom_len)
     for d in simulate(args.scenario, args.outdir, args.seed, params):
@@ -453,6 +464,8 @@ def cmd_all(args):
         cmd_subgenome_report(args)
     cmd_rediploidization(args)
     cmd_report(args)
+    if args.cleanup:
+        cmd_cleanup(args)
 
 
 def main(argv=None):
@@ -538,6 +551,12 @@ def main(argv=None):
         help="also run te-markers-windowed (implies --with-te-markers) + "
         "subgenome-report (opt-in: the most expensive stage -- builds a fresh k-mer "
         "table per window)",
+    )
+    p_all.add_argument(
+        "--cleanup",
+        action="store_true",
+        help="delete k-mer tables, per-chromosome FASTAs and temp dirs after the run "
+        "(keeps every table and plot; re-running a stage later rebuilds what it needs)",
     )
     p_all.set_defaults(func=cmd_all)
 
@@ -647,6 +666,14 @@ def main(argv=None):
     p_panel.add_argument("--categories", default=None,
                          help="optional TSV (species, category) used only to colour the PCA plot")
     p_panel.set_defaults(func=cmd_panel)
+
+    p_clean = sub.add_parser(
+        "cleanup",
+        help="delete a species' k-mer tables, per-chromosome FASTAs and temp dirs "
+        "(the bulk of its disk use), keeping all outputs",
+    )
+    p_clean.add_argument("--outdir", required=True, help="species results directory")
+    p_clean.set_defaults(func=cmd_cleanup)
 
     p_sim = sub.add_parser(
         "simulate",

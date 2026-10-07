@@ -134,13 +134,19 @@ Opt-in stages (moderate-to-expensive; flags on `all`, or run individually):
 ## Usage
 
 ```
-./ploidyspec.sh all \
+ploidyspec all \
   --manifest manifests/daBudDavi1.tsv \
   --outdir results/daBudDavi1 \
-  --k 15 --min-len 1000000 \
-  --window 250000 \
   --threads 8
 ```
+
+Defaults are the settings the project's panel used: chromosome-scale = >= 1 Mb,
+250 kb windows, window k = 15, marker k = 13. The one difference is the k-mer sweep
+(`--k`, default `15,23`). The panel ran `11,13,15,17,19,23`, but the distance is taken
+from the largest k that clears the chance-collision floor, and that was k = 23 for all
+53,309 chromosome pairs in the panel. The default gives identical distances for about a
+third of the k-mer counting. Pass the six-value sweep to reproduce the panel's runs
+exactly.
 
 Add `--with-te-markers` (or `--with-te-markers-windowed`) to also get the auto&harr;allo
 index in the same run. Every stage is also runnable individually with the same flags
@@ -154,6 +160,29 @@ and an exploratory PCA from every species' outputs.
 
 See [`OUTPUTS.md`](OUTPUTS.md) for what every output file and column means, with worked
 examples from real species in this project's panel.
+
+## Runtime, memory and disk
+
+From the panel's runs (`all` with the six-k sweep and the windowed stage, 8 threads,
+Sanger farm):
+
+- **Memory** scales with the longest chromosome, not total genome size: roughly
+  40 MB of RAM per Mb of the largest chromosome-scale sequence, with ~1-5 GB for
+  typical 30-100 Mb chromosomes. Larger examples:
+  - 359 Mb (`daInuConz1`): 13.7 GB
+  - 458 Mb (`lpElePalu1`): 18.6 GB
+  - 875 Mb (`ddHesMatr1`): 26.5 GB
+  - 842 Mb (wheat): 32.6 GB
+
+  Wheat ran out of memory at 4 GB in the `rediploidization` stage alone. Size jobs
+  from the longest chromosome.
+- **Runtime**: 0.2-13 hours per species, mostly k-mer counting and the windowed
+  stage. Scales with genome size and copy number. The 15,23 default roughly halves
+  the k-mer part.
+- **Disk**: k-mer tables and per-chromosome FASTAs dominate (the 45-species panel's
+  `results/` is ~1.6 TB). `ploidyspec all --cleanup`, or `ploidyspec cleanup
+  --outdir <dir>` afterwards, deletes them and keeps every table and plot. Stages
+  re-run later rebuild what they need (re-run `kmers` before `matrix`).
 
 ---
 

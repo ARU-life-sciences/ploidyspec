@@ -252,6 +252,8 @@ def orphan_containments(outdir, orphan, units, k, tools, threads):
     per_unit = cached.get(orphan["unit_id"])
     if not per_unit:
         build_one(samtools_bin, fastk_bin, orphan, k, outdir)
+        for u in units:  # rebuilds tables removed by --cleanup; no-op otherwise
+            build_one(samtools_bin, fastk_bin, u, k, outdir)
         o_prefix = ktab_prefix_path(outdir, orphan["unit_id"], k)
         per_unit = {}
 

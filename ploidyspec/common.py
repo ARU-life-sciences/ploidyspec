@@ -48,6 +48,32 @@ def rediploidization_dir(outdir):
     return _output_subdir(outdir, "rediploidization")
 
 
+INTERMEDIATE_GLOBS = (
+    "ktabs_k*",
+    "chroms",
+    "tmp_matrix",
+    "tmp_windowed",
+    "tmp_rediploidization",
+    os.path.join("windowed", "tmp_windowed"),
+    os.path.join("homeologs", "tmp_windowed"),
+)
+
+
+def cleanup_intermediates(outdir):
+    """Delete per-unit FASTAs, FastK k-mer tables and temp dirs -- the bulk of a
+    run's disk use (the panel's results/ is ~1.6 TB, almost all of it these).
+    Every output table and plot is kept. Stages that need the tables rebuild
+    them on demand, so a stage re-run after cleanup costs k-mer counting time
+    again but nothing else. Returns the removed paths."""
+    removed = []
+    for pattern in INTERMEDIATE_GLOBS:
+        for path in sorted(glob.glob(os.path.join(outdir, pattern))):
+            if os.path.isdir(path):
+                shutil.rmtree(path, ignore_errors=True)
+                removed.append(path)
+    return removed
+
+
 def find_tool(explicit, dir_glob, binary_name):
     """Locate a binary: explicit path/dir > sibling dir matching dir_glob > PATH."""
     if explicit:

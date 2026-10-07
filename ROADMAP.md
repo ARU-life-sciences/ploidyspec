@@ -81,13 +81,17 @@ Phase 1, not a later extra.
        `environment.yml` (python, numpy, matplotlib, samtools, FastK); README
        install section rewritten around `pip install` / conda. Container later.
 2. [x] **Rediploidization as a core stage** (see design below).
-3. [ ] **Fold per-species metrics into the package**: partition_consistency,
+3. [x] **Fold per-species metrics into the package**: partition_consistency,
        distance_ratio_cv / pair_depth_cv, genome partition, reordered heatmap become
        stages run by `all`; cross-species tables + PCA become `ploidyspec panel`.
-4. [ ] **Separate cluster glue**: `workflows/sanger/` for LSF/module scripts;
+4. [x] **Separate cluster glue**: `workflows/sanger/` for LSF/module scripts;
        manifests accept paths relative to the manifest file.
-5. [ ] **Defaults = what the panel used** (k sweep 11–23 etc.); `--cleanup` to
+5. [x] **Defaults = what the panel used** (k sweep 11–23 etc.); `--cleanup` to
        drop k-mer tables after a run; document runtime/memory.
+       *Done with one deliberate deviation:* `--k` defaults to `15,23`, since
+       k=23 was chosen for all 53,309 panel pairs (identical distances, ~1/3 the
+       k-mer work). README documents memory (~40 MB per Mb of longest chromosome),
+       runtime and disk.
 6. [x] **Simulated test data + end-to-end test + CI**: small synthetic genomes —
        diploid, autotetraploid, allotetraploid, and a *partially rediploidized*
        autotetraploid (one fused/disomic chromosome, one arm-level disomic region).
@@ -215,7 +219,7 @@ Newest first. Check a running batch with the command given for it.
   follow-up). 43 LSF jobs (`redip_<species>`, 2 cores, 4 GB), one per species
   with a matrix; snow carps were already done. Job IDs in
   `logs/redip_panel_jobs.txt`. Check progress with
-  `scripts/rediploidization_status.sh` (per-species state + non-zero
+  `workflows/sanger/rediploidization_status.sh` (per-species state + non-zero
   `copy_state` counts + distinct fusions; totals on the last line). Results land
   in `results/<species>/rediploidization/` and each `report.html`.
   Species with many chromosome-length unplaced scaffolds (`ddSalCine1` 38,
