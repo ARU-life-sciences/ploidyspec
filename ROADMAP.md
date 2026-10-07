@@ -145,8 +145,15 @@ one table.
       once assemblies drift (see corrections). Proposed: per window of each
       copy, k-mer containment in each other copy's whole chromosome
       (position-free), turned into a distance with -ln(c)/k.
-- [ ] Decide `ddHesMatr1`'s chr01/chr02 swap: lower the relabelling threshold
-      for mutual swaps, or add a manual relabel option.
+- [x] `ddHesMatr1`'s chr01/chr02 swap: mutual swaps now need 2.0x per unit
+      instead of 3.0x (user decision 2026-10-07). Matrix onward re-running
+      (LSF 332545).
+- [x] Core outputs: option B (user decision 2026-10-07) — copy number, copy
+      divergence, ancient pairing, lineage split with where-along-the-
+      chromosome, genome partition, fusions, rediploidization state; TE
+      markers as a within-genome contrast in supplementary; drop the
+      inheritance metrics except one ancient-pair synchrony measure; PCA
+      supplementary. Needs the windowed fix.
 - [ ] Close or explicitly park the open threads listed above.
 
 ## Phase 3 — write-up

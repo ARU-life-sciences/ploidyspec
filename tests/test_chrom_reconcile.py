@@ -110,8 +110,9 @@ class TestDetectRelabeling(unittest.TestCase):
             self.assertNotIn(f"HAP4_chr{c:02d}", by_unit)
 
     def test_mid_range_ratio_is_ambiguous_not_corrected(self):
-        # ratio ~2x: between the ambiguous floor (1.5) and the correction
-        # threshold (3.0, default) -- flagged for review, not auto-applied.
+        # ratio ~1.8x on both sides of a swap: above the ambiguous floor (1.5)
+        # but below even the mutual-swap threshold (2.0) -- flagged for
+        # review, not auto-applied.
         units = [
             unit("HAP2_chr04", "HAP2", "4", "fileB"),
             unit("HAP1_chr04", "HAP1", "4", "fileA"),
@@ -122,9 +123,9 @@ class TestDetectRelabeling(unittest.TestCase):
             4,
             {
                 (1, 0): 0.020,  # declared partner
-                (1, 2): 0.010,  # alternative -- 2x closer, not decisive enough
+                (1, 2): 0.011,  # alternative -- 1.8x closer, not decisive enough
                 (3, 2): 0.020,
-                (3, 0): 0.010,
+                (3, 0): 0.011,
             },
         )
         corrections, ambiguous = detect_relabeling(units, distance)
@@ -240,6 +241,44 @@ class TestDetectRelabeling(unittest.TestCase):
         self.assertEqual(ambiguous, [])
         self.assertEqual({c["unit_id"]: c["new_chrom"] for c in corrections},
                          {"HAP4_chr01": "2", "HAP4_chr02": "3", "HAP4_chr03": "1"})
+
+    def test_mutual_swap_needs_less_evidence_than_a_single_move(self):
+        # ddHesMatr1 HAP1: chr01 and chr02 swapped, ratios 3.1 and 2.3. Each
+        # unit matches the other's slot, so the pair is corrected together.
+        units = [
+            unit("HAP2_chr01", "HAP2", "1", "fileB"),
+            unit("HAP2_chr02", "HAP2", "2", "fileB"),
+            unit("HAP3_chr01", "HAP3", "1", "fileB"),
+            unit("HAP3_chr02", "HAP3", "2", "fileB"),
+            unit("HAP1_chr01", "HAP1", "1", "fileA"),
+            unit("HAP1_chr02", "HAP1", "2", "fileA"),
+        ]
+        distance = symmetric_matrix(
+            6,
+            {(0, 2): 0.02, (1, 3): 0.02,
+             (4, 1): 0.022, (4, 3): 0.022,   # HAP1_chr01 is really chr02
+             (5, 0): 0.030, (5, 2): 0.030},  # HAP1_chr02 is really chr01
+            default=0.070,
+        )
+        corrections, ambiguous = detect_relabeling(units, distance)
+        self.assertEqual(ambiguous, [])
+        self.assertEqual({c["unit_id"]: c["new_chrom"] for c in corrections},
+                         {"HAP1_chr01": "2", "HAP1_chr02": "1"})
+
+    def test_one_sided_mid_range_move_is_not_a_mutual_swap(self):
+        # one unit 2.3x closer to another chrom whose own unit stays put
+        units = [
+            unit("HAP2_chr01", "HAP2", "1", "fileB"),
+            unit("HAP2_chr02", "HAP2", "2", "fileB"),
+            unit("HAP3_chr01", "HAP3", "1", "fileB"),
+            unit("HAP3_chr02", "HAP3", "2", "fileB"),
+            unit("HAP1_chr02", "HAP1", "2", "fileA"),
+            unit("HAP1_chr03", "HAP1", "3", "fileA"),
+        ]
+        distance = symmetric_matrix(6, {(0, 2): 0.02, (1, 3): 0.02, (4, 1): 0.02, (4, 3): 0.02,
+                                        (5, 0): 0.030, (5, 2): 0.030}, default=0.070)
+        corrections, _ = detect_relabeling(units, distance)
+        self.assertEqual(corrections, [])
 
     def test_move_into_occupied_non_moving_slot_is_rejected_not_applied(self):
         # regression: real lpElePalu1 run crashed because HAP2_chr12 was

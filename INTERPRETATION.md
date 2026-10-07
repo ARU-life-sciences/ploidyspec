@@ -458,6 +458,9 @@ species named.
   check now matches units to chromosome numbers one-to-one and fixes all 14;
   a clean re-run is queued. Until it lands, ignore every `ddLepDrab1` number
   in this file.
+  Base number x=8 (user, 2026-10-07; `meta/literature_ploidy.tsv` has 2n=64
+  octoploid in Europe): 4 haplotypes x 16 chromosome numbers = 2n=64 = 8x,
+  and the 8 homeolog pairs are the two x=8 sets within each haplotype.
 - **`ddHesMatr1`: HAP1 chr01 and chr02 are swapped.** HAP1_chr01 sits at
   0.020–0.025 from every other haplotype's chr02 and HAP1_chr02 at
   0.027–0.034 from their chr01s; every other cross-chromosome distance is
@@ -466,6 +469,8 @@ species named.
   allele distances are only 2–4x below its between-chromosome distance. Its
   single accepted homeolog pair, chr01↔chr02, and HAP1 as the divergent copy
   on chr01/chr02 are artefacts of the swap.
+  The relabelling check now accepts a mutual swap when both units clear 2.0x
+  (only `ddHesMatr1` changes panel-wide); its matrix onward is re-running.
 - **`drLytSali1`'s September run used its previous assembly.** Per-unit
   FASTAs and k-mer tables are cached by name (`HAP1_chr01.fa`) and were never
   re-extracted for the new assembly, which also renumbered chromosomes (the

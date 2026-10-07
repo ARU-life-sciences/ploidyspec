@@ -41,6 +41,11 @@ from .common import log, matrix_dir
 
 AMBIGUOUS_RATIO_FLOOR = 1.5
 DEFAULT_RATIO_THRESHOLD = 3.0
+# Two units that each match the other's declared chrom corroborate each other,
+# so a mutual swap needs less per-unit evidence. ddHesMatr1's HAP1 chr01/chr02
+# swap (ratios 3.1 and 2.3) sits below the single-unit threshold because its
+# allele distances are only 2-4x below its between-chromosome distance.
+MUTUAL_SWAP_RATIO = 2.0
 
 
 def choose_reference_source(units):
@@ -188,12 +193,24 @@ def detect_relabeling(units, distance, ratio_threshold=DEFAULT_RATIO_THRESHOLD):
             move = dict(index=i, unit_id=units[i]["unit_id"], old_chrom=own, new_chrom=new,
                         own_dist=own_dist, alt_dist=new_dist, ratio=ratio)
             (moves if ratio >= ratio_threshold else held).append(move)
+        # mutual swaps: a held unit whose matched slot belongs to a unit matched
+        # into its own slot moves too, if both clear MUTUAL_SWAP_RATIO
+        by_old = {c["old_chrom"]: c for c in moves + held if assigned.get(c["index"]) == c["new_chrom"]}
+        for c in list(held):
+            partner = by_old.get(c["new_chrom"])
+            if (assigned.get(c["index"]) == c["new_chrom"] and partner is not None
+                    and partner is not c and partner["new_chrom"] == c["old_chrom"]
+                    and min(c["ratio"], partner["ratio"]) >= MUTUAL_SWAP_RATIO):
+                for x in (c, partner):
+                    if x in held:
+                        held.remove(x)
+                        moves.append(x)
+        # a held move below the floor is only the matching's leftover, not evidence
+        held = [c for c in held if c["ratio"] >= AMBIGUOUS_RATIO_FLOOR]
         moving_chroms = {c["old_chrom"] for c in moves}
         occupied_chroms = {units[i]["chrom"] for i in idxs}
         closed = all(c["new_chrom"] in moving_chroms or c["new_chrom"] not in occupied_chroms
                      for c in moves)
-        # a held move below the floor is only the matching's leftover, not evidence
-        held = [c for c in held if c["ratio"] >= AMBIGUOUS_RATIO_FLOOR]
         if closed:
             corrections.extend(moves)
             ambiguous.extend(held)
