@@ -372,6 +372,104 @@ phylogenomic) evidence.
   convergent repeat content (e.g. shared satellite DNA). A real,
   non-artifact, localized block of similarity could still be either.
 
+## Where this fits in the field: the polyploid continuum
+
+Twyford, Conover, Doyle, Mason, Soltis, Soltis & Wendel (2025, *American
+Journal of Botany*, "The polyploid continuum and the landscape of
+polyploid genomic variation") is the right framing paper for this whole
+project, and worth citing prominently in any write-up. Their central
+argument — that auto/allo is not a clean binary but a continuum/
+multidimensional landscape, with genomic features that are temporally
+dynamic rather than fixed at formation — is exactly what this panel found
+empirically, species by species, before this framing was applied to it.
+Several specific findings here map directly onto their vocabulary:
+
+- **`ddHesMatr1`'s "segmental allotetraploid" read** (mixed
+  bivalent/quadrivalent meiosis, sparse pairing) is literally Stebbins
+  1947's original segmental-allopolyploidy category, which Twyford et al.
+  revive with concrete mechanisms: partial homoeologous exchange,
+  structural-rearrangement-driven partial preferential pairing, or
+  hybridization between parental species that were never fully
+  differentiated to begin with. Worth a closer look at which of these
+  three actually fits `ddHesMatr1`'s pattern before writing it up further
+  — "segmental allopolyploid" names the category, not the mechanism.
+- **`drLytSali1`'s resolved metric conflict is their "diploidized
+  autopolyploid" concept (their Box 2) in action.** They warn explicitly
+  that a true autopolyploid can become genomically indistinguishable from
+  an allopolyploid once enough time has passed for sequence divergence to
+  accumulate between copies — which is precisely why `drLytSali1`'s
+  magnitude-based metrics (bulk distance, `distance_ratio_cv`) read
+  allo-like despite tetrasomic inheritance being definitively established
+  by classical genetics. `partition_consistency`'s rotating-singleton
+  result is the one metric here that tests *inheritance mode* rather than
+  *accumulated divergence*, which is exactly why it saw through this and
+  the others didn't.
+- **`daInuConz1`/`dcCerAlpi1`/`dmRanRepe1`'s still-intact block structure
+  is the opposite pole of the same diploidization timeline** — young (or
+  at least undegraded) enough that the genome-wide parental-origin
+  fingerprint hasn't yet blurred the way `daGleHede1`'s has. The "young
+  vs. eroded" axis already built into this document (see "Diffuse,
+  genome-wide partitions" below) is a direct empirical instance of
+  Twyford et al.'s diploidization concept, not an ad hoc observation
+  specific to this panel.
+- **Becher, Brown, Powell, Metherell, Riddiford & Twyford (2020, *Plant
+  Communications*)**, cited by Twyford et al. 2025 as the closest prior
+  art, introduced **Tetmer** — an R package fitting population-genetic
+  models directly to raw k-mer spectra to jointly estimate genome-wide
+  heterozygosity (theta) and, for allopolyploids, subgenome divergence
+  time (T), with the product theta×T giving a per-k-mer subgenome
+  divergence robust to population-structure/selfing confounds. This is
+  methodologically close to `ploidyspec` but works from raw unassembled
+  reads rather than an assembly, and is explicitly "currently only
+  applicable to tetraploids" — `ploidyspec` already handles triploid
+  (`ddSalTria1`) and the snow carps' mixed 2/4-copy fusion architecture, a
+  real citable advantage. Tetmer's theta/T separation is also a more
+  principled way to handle exactly the confound found in `daSenVulg1`'s
+  `distance_ratio_cv` (a noisy heterozygosity denominator unrelated to the
+  ancient WGD) than this project's current distance-ratio construction —
+  worth a direct comparison on a shared species (`daEupConf1` is an
+  *Euphrasia* congener of Becher et al.'s own study species) if this
+  becomes a paper.
+- **Twyford et al.'s call for a multidimensional "poly-space"** (PCA over
+  multiple genomic-divergence axes, to visualize where real polyploids
+  actually cluster rather than assuming a binary) is essentially what
+  `meta/auto_allo_spectrum.tsv` + `meta/genome_partition.tsv` already
+  are, just not yet combined into one analysis.
+
+**A first attempt at that poly-space** (`scripts/poly_space_pca.py` →
+`meta/poly_space_pca.png` / `meta/poly_space_features.tsv`): a plain-NumPy
+PCA over 7 standardized metrics (`te_marker_fraction`,
+`partition_consistency`, `distance_ratio_cv`, `pair_depth_cv`,
+`mean_windowed_cv`, `flip_rate`, `genome_partition_best_z`) for the 36
+species with ≥2 non-missing values (mean-imputed where a metric doesn't
+apply — see the script's own caveat about not over-reading heavily-imputed
+points). Two honest results, not a clean success story: PC1/PC2 together
+explain only ~49% of variance, and **the confirmed-auto species do not
+cluster together** (`SchCurv1`, `SchYoun1`, `drLytSali1` sit in three
+different parts of the plot) — which is a real limitation of the current
+feature set, but also arguably exactly what Twyford et al.'s thesis
+predicts: there's no reason a shared *origin category* should produce a
+shared *point in divergence-metric space*, since the metrics track
+accumulated post-formation change, not origin directly. More
+encouragingly, the three cryptic-allo candidates from the diffuse-
+partition analysis (`daInuConz1`, `dcCerAlpi1`, `dmRanRepe1`) do sit
+close together, and the two best-evidenced confirmed allo anchors with
+full data (`daGleHede1`, `drTriRepe1`) cluster tightly too. `ddHesMatr1`
+(segmental) and `llColAutu1` (demi-duplication) — this project's two
+clearest "third category" cases — sit far apart from each other, which is
+appropriate: they're different mechanisms, not the same intermediate
+point. Read this as a genuinely exploratory first pass, not a finished
+result — the feature set and imputation strategy both need more thought
+before this could support a real claim.
+
+**Xie et al. 2026** (*Nature*, the snow carp paper — `SchCurv1`/
+`SchYoun1`'s confirmed-auto anchor) also warns, and Twyford et al. cite
+this directly, that biased gene retention/expression following
+rediploidization can *mimic* allopolyploid subgenome dominance without
+any independent parental origin — an independently published version of
+the caution already stated above about magnitude-based metrics being
+unreliable auto/allo signals on their own.
+
 ## 2026-09 Darwin assembly batch
 
 A batch of 15 species with new/updated Darwin Tree of Life `hap1`/`hap2`(+)
