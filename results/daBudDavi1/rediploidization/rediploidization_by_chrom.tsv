@@ -1,0 +1,20 @@
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
+chr01	4			HAP1_chr01,HAP4_chr01	HAP2_chr01,HAP3_chr01	1.10	1.06	0.05	none		tetrasomic_like	copies					unpaired
+chr02	4			HAP1_chr02,HAP4_chr02	HAP2_chr02,HAP3_chr02	1.11	1.17	0.01	none		tetrasomic_like	copies					unpaired
+chr03	4			HAP1_chr03,HAP4_chr03	HAP3_chr03,HAP2_chr03	1.03	1.00	0.03	none		tetrasomic_like	copies					unpaired
+chr04	4			HAP2_chr04,HAP1_chr04	HAP4_chr04,HAP3_chr04	1.30	1.11	0.18	regional	6.8-11.5Mb	partially_resolved	copies					unpaired
+chr05	4			HAP2_chr05	HAP4_chr05,HAP1_chr05,HAP3_chr05	1.44	6.13	0.01	none		one_divergent_copy	copies		HAP2			unpaired
+chr06	4			HAP2_chr06,HAP1_chr06,HAP3_chr06	HAP4_chr06	1.04	1.11	0.00	none		tetrasomic_like	copies					unpaired
+chr07	4			HAP1_chr07	HAP3_chr07,HAP2_chr07,HAP4_chr07	1.35	1.16	0.05	none		one_divergent_copy	copies		HAP1			unpaired
+chr08	4			HAP1_chr08,HAP4_chr08	HAP2_chr08,HAP3_chr08	1.57	1.33	0.47	regional	7.5-10.2Mb;14.5-17.2Mb;18.0-27.0Mb	partially_resolved	copies					unpaired
+chr09	4			HAP1_chr09,HAP2_chr09	HAP4_chr09,HAP3_chr09	1.18	1.17	0.00	none		tetrasomic_like	copies					unpaired
+chr10	4			HAP1_chr10	HAP4_chr10,HAP2_chr10,HAP3_chr10	1.17	1.13	0.04	none		tetrasomic_like	copies					unpaired
+chr11	4			HAP1_chr11,HAP2_chr11,HAP3_chr11	HAP4_chr11	1.13	0.81	0.02	none		tetrasomic_like	copies					unpaired
+chr12	4			HAP3_chr12	HAP4_chr12,HAP1_chr12,HAP2_chr12	1.24	1.10	0.00	none		tetrasomic_like	copies					unpaired
+chr13	4			HAP1_chr13	HAP4_chr13,HAP2_chr13,HAP3_chr13	1.06	0.98	0.00	none		tetrasomic_like	copies					unpaired
+chr14	4			HAP1_chr14	HAP3_chr14,HAP2_chr14,HAP4_chr14	1.04	0.90	0.00	none		tetrasomic_like	copies					unpaired
+chr15	4			HAP2_chr15,HAP4_chr15	HAP3_chr15,HAP1_chr15	1.03	1.01	0.11	none		tetrasomic_like	copies					unpaired
+chr16	4			HAP1_chr16	HAP2_chr16,HAP3_chr16,HAP4_chr16	1.20	1.02	0.00	none		tetrasomic_like	copies					unpaired
+chr17	4			HAP1_chr17,HAP2_chr17	HAP4_chr17,HAP3_chr17	1.11	1.64	0.02	none		tetrasomic_like	copies					unpaired
+chr18	4			HAP2_chr18,HAP3_chr18	HAP4_chr18,HAP1_chr18	1.04	1.34	0.10	none		tetrasomic_like	copies					unpaired
+chr19	4			HAP1_chr19,HAP3_chr19	HAP4_chr19,HAP2_chr19	1.08	1.20	0.00	none		tetrasomic_like	copies					unpaired

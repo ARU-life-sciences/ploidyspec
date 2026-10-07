@@ -1,0 +1,10 @@
+species	k	group_sizes	separation_ratio	null_mean_ratio	z_score	groups
+laPotLuce1	10	2,2,2,2,2,2,2,2,5,5	1.1938	0.9998	14.97	chr01,chr06,chr22,chr16,chr20 | chr02,chr07 | chr03,chr12,chr19,chr21,chr24 | chr04,chr05 | chr08,chr10 | chr09,chr11 | chr13,chr14 | chr15,chr18 | chr17,chr26 | chr23,chr25
+laPotLuce1	8	2,2,2,2,2,4,5,7	1.1325	1.0002	12.03	chr01,chr06,chr22,chr16,chr20,chr09,chr11 | chr02,chr07 | chr03,chr12,chr19,chr21,chr24 | chr04,chr05,chr08,chr10 | chr13,chr14 | chr15,chr18 | chr17,chr26 | chr23,chr25
+laPotLuce1	9	2,2,2,2,2,2,2,5,7	1.1455	1.0012	10.73	chr01,chr06,chr22,chr16,chr20,chr09,chr11 | chr02,chr07 | chr03,chr12,chr19,chr21,chr24 | chr04,chr05 | chr08,chr10 | chr13,chr14 | chr15,chr18 | chr17,chr26 | chr23,chr25
+laPotLuce1	7	2,2,2,2,2,5,11	1.0858	1.0009	9.19	chr01,chr06,chr22,chr16,chr20,chr09,chr11,chr04,chr05,chr08,chr10 | chr02,chr07 | chr03,chr12,chr19,chr21,chr24 | chr13,chr14 | chr15,chr18 | chr17,chr26 | chr23,chr25
+laPotLuce1	6	2,2,2,4,5,11	1.0822	1.0001	8.62	chr01,chr06,chr22,chr16,chr20,chr09,chr11,chr04,chr05,chr08,chr10 | chr02,chr07 | chr03,chr12,chr19,chr21,chr24 | chr13,chr14 | chr15,chr18,chr17,chr26 | chr23,chr25
+laPotLuce1	4	2,5,6,13	1.0633	1.0004	7.40	chr01,chr06,chr22,chr16,chr20,chr09,chr11,chr04,chr05,chr08,chr10,chr13,chr14 | chr02,chr07 | chr03,chr12,chr19,chr21,chr24 | chr15,chr18,chr17,chr26,chr23,chr25
+laPotLuce1	5	2,2,4,5,13	1.0677	1.0006	7.11	chr01,chr06,chr22,chr16,chr20,chr09,chr11,chr04,chr05,chr08,chr10,chr13,chr14 | chr02,chr07 | chr03,chr12,chr19,chr21,chr24 | chr15,chr18,chr17,chr26 | chr23,chr25
+laPotLuce1	3	2,5,19	1.0409	0.9994	4.91	chr01,chr06,chr22,chr16,chr20,chr09,chr11,chr04,chr05,chr08,chr10,chr13,chr14,chr15,chr18,chr17,chr26,chr23,chr25 | chr02,chr07 | chr03,chr12,chr19,chr21,chr24
+laPotLuce1	2	2,24	1.0325	1.0013	2.51	chr01,chr06,chr22,chr16,chr20,chr09,chr11,chr04,chr05,chr08,chr10,chr13,chr14,chr15,chr18,chr17,chr26,chr23,chr25,chr03,chr12,chr19,chr21,chr24 | chr02,chr07

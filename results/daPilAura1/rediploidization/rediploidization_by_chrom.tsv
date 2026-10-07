@@ -1,0 +1,19 @@
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
+chr01	2			HAP1_chr01	HAP2_chr14,HAP1_chr14,HAP2_chr01	1.30					one_divergent_copy	homeolog_pool	chr14	HAP1	chr14	0.94	paired
+chr02	2			HAP1_chr02,HAP1_chr03,HAP2_chr02	HAP2_chr03	1.45					one_divergent_copy	homeolog_pool	chr03	HAP2	chr03	1.37	paired
+chr03	2			HAP1_chr02,HAP1_chr03,HAP2_chr02	HAP2_chr03	1.45					one_divergent_copy	homeolog_pool	chr02	HAP2	chr02	1.37	paired
+chr04	2			HAP1_chr05,HAP1_chr04,HAP2_chr04	HAP2_chr05	1.61					one_divergent_copy	homeolog_pool	chr05	HAP2	chr05	1.08	paired
+chr05	2			HAP1_chr05,HAP1_chr04,HAP2_chr04	HAP2_chr05	1.61					one_divergent_copy	homeolog_pool	chr04	HAP2	chr04	1.08	paired
+chr06	2			HAP1_chr06,HAP1_chr07,HAP2_chr06	HAP2_chr07	1.48					one_divergent_copy	homeolog_pool	chr07	HAP2	chr07	1.02	paired
+chr07	2			HAP1_chr06,HAP1_chr07,HAP2_chr06	HAP2_chr07	1.48					one_divergent_copy	homeolog_pool	chr06	HAP2	chr06	1.02	paired
+chr08	2			HAP1_chr08	HAP2_chr08,HAP1_chr13,HAP2_chr13	1.45					one_divergent_copy	homeolog_pool	chr13	HAP1	chr13	1.04	paired
+chr09	2			HAP1_chr09	HAP2_chr11,HAP1_chr11,HAP2_chr09	1.61					one_divergent_copy	homeolog_pool	chr11	HAP1	chr11	1.13	paired
+chr10	2			HAP1_chr10	HAP2_chr12,HAP1_chr12,HAP2_chr10	1.71					one_divergent_copy	homeolog_pool	chr12	HAP1	chr12	1.14	paired
+chr11	2			HAP1_chr09	HAP2_chr11,HAP1_chr11,HAP2_chr09	1.61					one_divergent_copy	homeolog_pool	chr09	HAP1	chr09	1.13	paired
+chr12	2			HAP1_chr10	HAP2_chr12,HAP1_chr12,HAP2_chr10	1.71					one_divergent_copy	homeolog_pool	chr10	HAP1	chr10	1.14	paired
+chr13	2			HAP1_chr08	HAP2_chr08,HAP1_chr13,HAP2_chr13	1.45					one_divergent_copy	homeolog_pool	chr08	HAP1	chr08	1.04	paired
+chr14	2			HAP1_chr01	HAP2_chr14,HAP1_chr14,HAP2_chr01	1.30					one_divergent_copy	homeolog_pool	chr01	HAP1	chr01	0.94	paired
+chr15	2			HAP1_chr15	HAP2_chr15,HAP1_chr16,HAP2_chr16	1.41					one_divergent_copy	homeolog_pool	chr16	HAP1	chr16	1.03	paired
+chr16	2			HAP1_chr15	HAP2_chr15,HAP1_chr16,HAP2_chr16	1.41					one_divergent_copy	homeolog_pool	chr15	HAP1	chr15	1.03	paired
+chr17	2			HAP2_chr17	HAP2_chr18,HAP1_chr17,HAP1_chr18	1.28					one_divergent_copy	homeolog_pool	chr18	HAP2	chr18	1.02	paired
+chr18	2			HAP2_chr17	HAP2_chr18,HAP1_chr17,HAP1_chr18	1.28					one_divergent_copy	homeolog_pool	chr17	HAP2	chr17	1.02	paired

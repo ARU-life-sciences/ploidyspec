@@ -1,0 +1,9 @@
+species	k	group_sizes	separation_ratio	null_mean_ratio	z_score	groups
+lpElePalu1	9	2,2,2,2,2,2,2,2,3	2.5059	1.0016	22.77	chr01,chr18 | chr02,chr03 | chr04,chr05 | chr06,chr09,chr10 | chr07,chr08 | chr11,chr12 | chr13,chr17 | chr14,chr15 | chr16,chr19
+lpElePalu1	8	2,2,2,2,2,2,3,4	1.9662	1.0050	16.87	chr01,chr18,chr02,chr03 | chr04,chr05 | chr06,chr09,chr10 | chr07,chr08 | chr11,chr12 | chr13,chr17 | chr14,chr15 | chr16,chr19
+lpElePalu1	7	2,2,2,2,2,4,5	1.6547	1.0033	14.03	chr01,chr18,chr02,chr03 | chr04,chr05 | chr06,chr09,chr10,chr11,chr12 | chr07,chr08 | chr13,chr17 | chr14,chr15 | chr16,chr19
+lpElePalu1	6	2,2,2,4,4,5	1.5522	1.0032	11.60	chr01,chr18,chr02,chr03 | chr04,chr05 | chr06,chr09,chr10,chr11,chr12 | chr07,chr08,chr14,chr15 | chr13,chr17 | chr16,chr19
+lpElePalu1	5	2,4,4,4,5	1.4794	1.0016	11.38	chr01,chr18,chr02,chr03 | chr04,chr05,chr13,chr17 | chr06,chr09,chr10,chr11,chr12 | chr07,chr08,chr14,chr15 | chr16,chr19
+lpElePalu1	4	2,4,5,8	1.2962	1.0008	9.05	chr01,chr18,chr02,chr03,chr07,chr08,chr14,chr15 | chr04,chr05,chr13,chr17 | chr06,chr09,chr10,chr11,chr12 | chr16,chr19
+lpElePalu1	3	4,5,10	1.2246	1.0011	7.83	chr01,chr18,chr02,chr03,chr07,chr08,chr14,chr15,chr16,chr19 | chr04,chr05,chr13,chr17 | chr06,chr09,chr10,chr11,chr12
+lpElePalu1	2	9,10	1.1737	0.9988	5.79	chr01,chr18,chr02,chr03,chr07,chr08,chr14,chr15,chr16,chr19 | chr04,chr05,chr13,chr17,chr06,chr09,chr10,chr11,chr12

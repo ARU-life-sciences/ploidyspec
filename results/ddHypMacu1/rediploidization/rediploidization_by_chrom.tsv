@@ -1,0 +1,9 @@
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
+chr01	4			HAP1_chr01	HAP3_chr01,HAP2_chr01,HAP4_chr01	6.18	3.62	0.01	none		one_divergent_copy	copies		HAP1	chr03	3.21	paired
+chr02	4			HAP1_chr02	HAP3_chr02,HAP2_chr02,HAP4_chr02	1.78	1.74	0.00	none		one_divergent_copy	copies		HAP1			unpaired
+chr03	4			HAP1_chr03	HAP2_chr03,HAP3_chr03,HAP4_chr03	3.77	2.03	0.02	none		one_divergent_copy	copies		HAP1	chr01	3.21	paired
+chr04	4			HAP1_chr04	HAP2_chr04,HAP3_chr04,HAP4_chr04	1.70	1.18	0.00	none		one_divergent_copy	copies		HAP1			unpaired
+chr05	4			HAP1_chr05	HAP4_chr05,HAP2_chr05,HAP3_chr05	3.18	2.57	0.04	none		one_divergent_copy	copies		HAP1			unpaired
+chr06	4			HAP1_chr06	HAP2_chr06,HAP3_chr06,HAP4_chr06	3.03	4.73	0.00	none		one_divergent_copy	copies		HAP1			unpaired
+chr07	4			HAP1_chr07	HAP4_chr07,HAP2_chr07,HAP3_chr07	3.00	1.54	0.04	none		one_divergent_copy	copies		HAP1			unpaired
+chr08	4			HAP1_chr08	HAP4_chr08,HAP2_chr08,HAP3_chr08	2.95	2.32	0.02	none		one_divergent_copy	copies		HAP1			unpaired

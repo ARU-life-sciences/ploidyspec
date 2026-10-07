@@ -1,0 +1,7 @@
+species	k	group_sizes	separation_ratio	null_mean_ratio	z_score	groups
+drRosSpin1	7	2,2,2,2,2,2,2	1.9952	1.0008	13.98	chr01,chr03 | chr02,chr04 | chr05,chr09 | chr06,chr10 | chr07,chr12 | chr08,chr11 | chr13,chr14
+drRosSpin1	6	2,2,2,2,2,4	1.4877	1.0018	9.16	chr01,chr03,chr08,chr11 | chr02,chr04 | chr05,chr09 | chr06,chr10 | chr07,chr12 | chr13,chr14
+drRosSpin1	5	2,2,2,2,6	1.2478	1.0006	6.74	chr01,chr03,chr08,chr11,chr05,chr09 | chr02,chr04 | chr06,chr10 | chr07,chr12 | chr13,chr14
+drRosSpin1	4	2,2,2,8	1.1465	1.0008	5.12	chr01,chr03,chr08,chr11,chr05,chr09,chr02,chr04 | chr06,chr10 | chr07,chr12 | chr13,chr14
+drRosSpin1	3	2,2,10	1.0988	0.9998	4.23	chr01,chr03,chr08,chr11,chr05,chr09,chr02,chr04,chr07,chr12 | chr06,chr10 | chr13,chr14
+drRosSpin1	2	2,12	1.0763	1.0009	3.07	chr01,chr03,chr08,chr11,chr05,chr09,chr02,chr04,chr07,chr12,chr06,chr10 | chr13,chr14

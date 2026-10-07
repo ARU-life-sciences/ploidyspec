@@ -1,0 +1,4 @@
+component	explained_variance	te_marker_fraction	partition_consistency	distance_ratio_cv	pair_depth_cv	mean_windowed_cv	flip_rate	genome_partition_best_z
+PC1	0.2699	+0.391	+0.155	-0.471	-0.534	-0.466	-0.008	-0.315
+PC2	0.2052	+0.352	+0.674	+0.287	+0.357	-0.131	+0.435	-0.080
+PC3	0.1792	-0.371	-0.284	+0.437	+0.023	-0.504	+0.180	-0.551

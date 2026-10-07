@@ -1,0 +1,7 @@
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
+chr01	4			HAP1_chr01	HAP2_chr01,HAP3_chr01,HAP4_chr01	2.33	1.20	0.00	none		one_divergent_copy	copies		HAP1	chr02	1.12	paired
+chr02	4			HAP1_chr02	HAP3_chr02,HAP2_chr02,HAP4_chr02	3.21	1.85	0.00	none		one_divergent_copy	copies		HAP1	chr01	1.12	paired
+chr03	4			HAP2_chr03,HAP4_chr03	HAP3_chr03,HAP1_chr03	3.88	2.55	0.00	none		partially_resolved	copies					unpaired
+chr04	4			HAP1_chr04	HAP2_chr04,HAP3_chr04,HAP4_chr04	1.51	1.28	0.00	none		one_divergent_copy	copies		HAP1			unpaired
+chr05	4			HAP1_chr05	HAP4_chr05,HAP2_chr05,HAP3_chr05	1.74	1.66	0.00	none		one_divergent_copy	copies		HAP1			unpaired
+chr06	4			HAP2_chr06,HAP1_chr06,HAP4_chr06	HAP3_chr06	1.26	1.16	0.09	regional	1.3-5.2Mb;6.8-22.5Mb;25.0-29.0Mb;38.5-42.0Mb	one_divergent_copy	copies		HAP3			unpaired

@@ -241,23 +241,92 @@ beyond what k-mer comparison alone can do.
 
 ## Detecting chromosome fusion (and fission)
 
-Currently a manual cross-reference of existing files, not its own pipeline
-stage:
+The `rediploidization` stage does this automatically (see `OUTPUTS.md`,
+`rediploidization/`). It tests two kinds of sequence:
 
-1. Compare a chromosome's length across its own haplotype copies
-   (`sequences.tsv`). One copy at roughly double (or some other clean
-   multiple) of its siblings is a candidate fusion.
-2. Cross-check `ploidy_summary.tsv`: is another chromosome number missing
-   entirely from exactly the same haplotype(s)? That's the fusion-partner
-   candidate.
-3. Confirm with the windowed heatmap between the candidate scaffold and both
-   candidate partners. A real fusion shows the low-distance match *confined
-   to one block* — the part of the scaffold that really is the other
-   chromosome — absent from haplotype copies that don't carry the fusion.
+1. **Placed long copies.** A chromosome copy at least 1.4× the median length
+   of its sibling copies.
+2. **Large unplaced scaffolds.** Scaffolds at least half the median
+   chromosome length that carry no chromosome number.
+
+For each one it measures k-mer containment against every other
+chromosome's copies. A chromosome counts as a fused component when its
+containment is far above background (robust z ≥ 10, at least 2× the
+background median, and at least a quarter of the top hit). The result is
+`fusion` only if that partner chromosome is missing from the same
+haplotype; otherwise it is `candidate_partner_present`. Containment also
+gives `lineage_divergence` (−ln(c)/k), which dates the fused lineage
+against the copies it was compared with.
 
 **Fission** would be the mirror image: a copy unusually short relative to
 its siblings, paired with an extra chromosome number present only in that
-haplotype set.
+haplotype set. The stage does not test for it yet.
+
+### Panel results (2026-10-07, `meta/rediploidization_panel.tsv`)
+
+Run on all 45 panel assemblies with the default thresholds. Chromosomes
+with fewer than three copies are pooled with their accepted homeolog
+partner before a state is assigned (`state_basis = homeolog_pool`).
+
+- **Fusions: only the snow carps.** `SchCurv1` has chr19+chr22 fused in
+  HAP3 and HAP4 (containment 0.44–0.45, z ≈ 48). `SchYoun1`'s five fusions
+  are all recovered from unplaced scaffolds (10 scaffolds across HAP3/HAP4).
+  Their `lineage_divergence` puts them in the paper's wave order: 19+22
+  oldest (≈0.053), then 04+15, 08+16 and 20+23 (≈0.026–0.028), then 11+14
+  (≈0.015). No other species has a `fusion` call.
+- **Candidates with the partner present are homeologs, not fusions.**
+  `daPilAura1` HAP1 chr01 (273 Mb) and chr07 contain chr06/chr07/chr14 at
+  0.37–0.50, but all those partners are present, and chr01–chr14 and
+  chr06–chr07 are accepted homeolog pairs. HAP2's chr07 is short, so this
+  is most likely a scaffolding difference between the haplotypes.
+  `drMyrSpic1` HAP1 chr13 is flagged only because its sibling copy is a
+  15 Mb fragment, so it reads as "long" (open follow-up in `ROADMAP.md`).
+  Its chr03/chr09 hits look like the third member of the chr03–chr09
+  homeolog set, as expected for an AABBCC allohexaploid.
+- **Allopolyploid anchors read as resolved lineages.** Every chromosome of
+  `daGleHede1`, `drTriRepe1`, `drSorDevo1`, `ddSalPent1`, `drMyrVert1`,
+  `drRosSpin1`, `laPotNodo1` and `laPotPerf1` is `resolved_lineages` via
+  pooling. The other *Potamogeton* species, `drMyrSpic1`, `daLatClan1`,
+  `daLatSqua1`, `daSenVulg1` and `llColAutu1` are resolved on every pooled
+  chromosome; their few `not_assessable` chromosomes have no accepted
+  partner.
+- **Autopolyploid anchors read as tetrasomic.** `drLytSali1` is 11/15
+  `tetrasomic_like`. `SchCurv1` is 15/25, with the fusion pair, one
+  partially resolved chromosome (chr17, 5.0–8.2 Mb) and five chromosomes
+  with one divergent copy.
+- **One odd copy, the same haplotype every time.** `ddLepDrab1` (HAP4 on
+  15/16 chromosomes), `ddHypMacu1` (HAP1 on 8/8) and `ddHesMatr1` (HAP1 on
+  4 of its 5 one-divergent-copy chromosomes). In a curated assembly the
+  haplotype label is arbitrary per chromosome unless phasing was carried
+  across chromosomes, so a consistent label means one whole copy-set
+  differs from the rest. That fits either an AAAB-like origin (an
+  autopolyploid plus one divergent genome) or an assembly problem in that
+  haplotype.
+  - `ddHypMacu1` has a known HAP1 assembly-quality problem, so its result
+    shows the metric finds a bad haplotype.
+  - `ddLepDrab1`'s HAP4 is what drove its 0.94 `partition_consistency`.
+    Its "strongest allo candidate" status should be re-read as one
+    consistently divergent copy, not a two-subgenome split.
+- **One odd copy, alternating haplotype.** `daPilAura1` has one divergent
+  copy in four on all 9 base chromosomes (pooled), with the odd copy
+  alternating between haplotypes. Same AAAB-like reading, without the
+  phasing caveat.
+- **Triploid `ddSalTria1`.** Nine of 19 chromosomes have one divergent
+  copy, HAP3 on 8 of them; the other 10 are tetrasomic-like. That is the
+  pattern expected of an AAB triploid with partial homogenization, or a
+  phasing artefact as above.
+- **Mixed, partly resolving genomes.** `ddEmpNigr1` (6 partially resolved,
+  4 candidate, 3 one-divergent-copy, none tetrasomic), `drAriEdul1`
+  (5 partially resolved, 5 one-divergent-copy, 4 tetrasomic, 3 candidate)
+  and `lpElePalu1` (8 tetrasomic, 4 resolved, 4 candidate, 2 one-divergent)
+  are the panel's best candidates for rediploidization in progress.
+  `ddEmpNigr1` and `drAriEdul1` are already on the hand-check list.
+- **Not assessable: two-haplotype species with no homeolog pairs.** That
+  includes all the diploid references, but also the cryptic
+  allopolyploid candidates `daInuConz1`, `dcCerAlpi1` and `dmRanRepe1`.
+  Their signal is a diffuse genome-wide partition (below), not discrete
+  pairs, so there is nothing to pool. Pooling by partition group instead
+  of by pair is the obvious extension.
 
 ## The snow carps: what we found, what the paper found, and a correction
 
@@ -786,12 +855,15 @@ the partition at every possible k in one merge pass, then testing each k's
 separation ratio (mean between-group distance ÷ mean within-group
 distance) against a permutation null of ~500 random partitions with the
 same group-size profile. Output in `meta/genome_partition.tsv`.
+The null is seeded per species, so z-values are reproducible; they moved by
+up to ~±2 against the first, unseeded run, and every value quoted below is
+from the seeded run (2026-10-07).
 
 **Validated flagship case: `daInuConz1`** (*Inula conyza*, now
 *Pentanema conyzae*). Filed as a clean diploid floor reference — lowest
 `te_marker_fraction` in the panel (0.017), 0/16 accepted pairs. Wrong
-resolution, not wrong instinct: `genome_partition.py` finds a highly
-significant (z=10.5) 8-vs-8 chromosome-number bipartition, independently
+resolution, not wrong instinct: the genome-partition test finds a highly
+significant (z=10.6) 8-vs-8 chromosome-number bipartition, independently
 confirmed by a clean, **non-overlapping** repeat-density split between the
 two groups (1354 vs. 1074 high-copy k-mers/Mb — length alone doesn't
 separate them, but density does). Cytology confirms this species is
@@ -814,10 +886,11 @@ every significant k per species, not just the best one — several species
 show nested structure at multiple k simultaneously):
 
 - **Previously "zero signal," now real structure**: `dcCerAlpi1` (k=2,
-  uneven 16/20 split, z=21.7 — the highest-confidence new finding in the
-  panel, and a plausible explanation for its previously-unexplained
+  uneven 16/20 split, z=18.9, with k=3/k=4 refinements at z≈20.5–20.8
+  that split two small 2-chromosome groups off the same 16/20 core — the
+  highest-confidence new finding in the panel, and a plausible explanation for its previously-unexplained
   moderate `te_frac` of 0.198 despite 0 accepted pairs), `dmRanRepe1` (k=2,
-  8/8, z=11.1), `daInuConz1` (above).
+  8/8, z=10.9), `daInuConz1` (above).
 - **Extends/refines already-known pairing into a coarser layer**:
   `drLytSali1` (k=5, five groups of 3 — each one is a known accepted pair
   plus one extra chromosome), `ddLepDrab1` (k=8 exactly reproduces the 8
@@ -834,11 +907,12 @@ show nested structure at multiple k simultaneously):
   literature for this genus).
 - **Weak, statistically fragile — flag but don't trust yet**: `daSonOler1`
   (z=5.4, notable because this was previously the panel's *cleanest*
-  diploid reference), `ddSalTria1` (z=3.2), `ddHesMatr1` (z=2.1). **Real
+  diploid reference), `ddSalTria1` (z=3.4); `ddHesMatr1` (z=2.1 in the first run) no
+  longer reaches significance with the seeded null. **Real
   caveat**: every k from 2 to N−2 is scanned per species (10–30 values for
   most of the panel), so z>2 alone will turn up somewhere by chance for
   some species even under a true null — the z>10 findings above are robust
-  to this, these three are not.
+  to this, these are not.
 - **Everything else** in the panel reproduces its already-known accepted
   pairs almost exactly (e.g. `drSorDevo1`, `ddSalPent1`, `drTriRepe1`, the
   *Potamogeton* species) — a useful consistency check between the two
@@ -852,10 +926,11 @@ check that validated `daInuConz1`'s 8/8 split) separates real whole-genome
 bipartitions from degenerate clustering:
 
 - **Balanced, with clean reciprocal 1:1 matching — real candidate block
-  structure**: `daInuConz1` (8/8, z=11.4, 7/8 pairs cleanly reciprocal),
-  `dcCerAlpi1` (16/20, z=21.5 — the highest in the panel — 16/20
+  structure**: `daInuConz1` (8/8, z=10.6, 7/8 pairs cleanly reciprocal),
+  `dcCerAlpi1` (16/20, z=18.9 — the highest k=2 split among species
+  without accepted pairs — 16/20
   chromosomes reciprocally clean, 4 unresolved), and, most strikingly,
-  **`dmRanRepe1` (8/8, z=10.7, all 8 pairs perfectly reciprocal, zero
+  **`dmRanRepe1` (8/8, z=10.9, all 8 pairs perfectly reciprocal, zero
   exceptions — cleaner than `daInuConz1`'s own matching)**. `lpElePalu1`
   (9/10, z=5.8) also qualifies but more weakly, and this genus has a
   documented alternative explanation (fission-fusion/agmatoploidy) that
@@ -927,7 +1002,7 @@ individually-significant adjacencies stay visible alongside the coarser,
 unsupervised structure. This version also works for species with **zero**
 accepted pairs (it only needs the distance matrix, not the pairs table),
 so it now runs for the diffuse-partition species too — and independently
-*recovers the exact same block structure* `genome_partition.py` found for
+*recovers the exact same block structure* the genome-partition test found for
 `daInuConz1` (the same 8-vs-8 split, found by a completely different
 method), a good cross-validation of both tools.
 
@@ -954,7 +1029,7 @@ now actually preserves:**
   `chr01`/`chr02` additionally show unusually elevated distance reaching
   into large, otherwise-unrelated parts of the genome (worth a dedicated
   look). This corroborates the uneven, non-pairwise group sizes
-  `genome_partition.py` already found (3,4,4,5,5,6,6,6,6,6) and the
+  the genome-partition test already found (3,4,4,5,5,6,6,6,6,6) and the
   literature's proposed "demi-duplication" mechanism (repeated fusion of
   mismatched-ploidy gametes) — a single clean WGD should produce the flat
   background every simple-pairing species shows; this persistent nested
@@ -962,7 +1037,7 @@ now actually preserves:**
 - **`ddLepDrab1`**: a clearly visible tighter sub-block spanning
   `chr05,chr16,chr10,chr12,chr03,chr06` — three of its eight pairs
   clustering with each other more than with the rest, matching the nested
-  quartet structure `genome_partition.py` found underneath the primary 8
+  quartet structure the genome-partition test found underneath the primary 8
   pairs (k=7 merges exactly `chr05,chr16` with `chr10,chr12`, more
   significant than the primary k=8 pairing itself) — corroborating
   evidence for the allo-octaploid-block hypothesis from two independent
@@ -970,7 +1045,7 @@ now actually preserves:**
   z-score table.
 - **`daSenVulg1`**: the 4 chromosomes left unpaired by the strict FDR test
   (`chr03,chr04,chr11,chr19`) still cluster together, consistent with the
-  `genome_partition.py` k=10 result that extended this species' 8 known
+  the genome-partition test k=10 result that extended this species' 8 known
   pairs to 10.
 
 **On making this the default view**: not a full replacement, for one
@@ -1003,13 +1078,13 @@ treat those as provisional.
 | `daBudDavi1` (*Buddleja davidii*) | 4 | 0/19 | 0.167 | **allo** *(lit, phylogenomic)*, but heatmap alone reads auto — see caveat above; one localized chr08 block found in windowed heatmap, candidate incomplete homogenization. Yang et al. 2023 documents a specific cytonuclear conflict for this species (nests with diploids in the plastid tree, polyploids in ASTRAL/nrDNA) — plausibly *why* our raw-sequence read is auto-like despite the allo call; reframed from unexplained tension to corroborated complexity |
 | `daGalBore1` (*Galium boreale*) | 4 | 4/11 | 0.129 | unresolved *(lit: ploidy confirmed — part of a documented 2n=22/44/66 polyploid complex — origin not addressed)* |
 | `daEupConf1` (*Euphrasia confusa*) | 1 | 22/22 | – | **allo** *(lit, pre-existing annotation)*; only 1 usable haplotype but strong ancient-pairing signal within it |
-| `daInuConz1` (*Inula conyza*, now *Pentanema conyzae*) | 2 | 0/16 | 0.017 | **not diploid** — confirmed tetraploid, 2n=4x=32, x=8 (7+ karyological studies since 1977); `te_frac`/0 accepted pairs only reflect ordinary heterozygosity, the real subgenome signal is a diffuse 8-vs-8 chromosome-number split (`genome_partition.py`, z=10.5) matching x=8 exactly, confirmed by non-overlapping repeat density between the two groups — allo-leaning per clade-level hybridization/reticulation evidence (Gutiérrez-Larruscain et al. 2018/2019), see dedicated section above |
+| `daInuConz1` (*Inula conyza*, now *Pentanema conyzae*) | 2 | 0/16 | 0.017 | **not diploid** — confirmed tetraploid, 2n=4x=32, x=8 (7+ karyological studies since 1977); `te_frac`/0 accepted pairs only reflect ordinary heterozygosity, the real subgenome signal is a diffuse 8-vs-8 chromosome-number split (the genome-partition test, z=10.6) matching x=8 exactly, confirmed by non-overlapping repeat density between the two groups — allo-leaning per clade-level hybridization/reticulation evidence (Gutiérrez-Larruscain et al. 2018/2019), see dedicated section above |
 | `daLatClan1` | 2 | 18/21 | 0.254 | near-fully-resolved ancient pairing; hexaploid genus (2n=42, PHYA gene duplication confirmed in this species too), but auto/allo origin not addressed by any source found — moderate te_frac, similar magnitude to several confirmed allos, but on its own not decisive given the literature gap. 2026-09 Darwin batch. |
 | `daLatSqua1` (*Lathraea squamaria*) | 2 | 16/18 | 0.320 | strong ancient-pairing + high te_frac — allo-leaning; wide `distance_ratio` spread (20×; `distance_ratio_cv` = **1.01, the widest in the panel** except `lpElePalu1`) is now explicit auto-vs-allo evidence, not just "candidate asynchronous resolution" — this level of pair-to-pair inconsistency is more consistent with a messier/multi-event history than one clean allopolyploidization. Hexaploid (2n=42) and PHYA gene-duplication confirmed independently across nearly a century of sources, but origin (auto vs allo) genuinely unaddressed in the literature found |
 | `daPilAura1` | 2 | 18/18 (full) | 0.207 | fully-resolved ancient pairing, all 18 chromosomes paired into 9 pairs, tight/consistent divergence (0.031–0.044) — consistent single-age WGD signature, and te_frac (0.207) sits close to `daGleHede1`'s confirmed-allo value (0.223). Tetraploid (2n=36), facultatively apomictic, extensively studied as a hybridizing *parent* of further crosses (e.g. *P. rubra*), but its own tetraploidy's origin is never directly addressed. 2026-09 Darwin batch. |
 | `daSenVulg1` | 2 | 16/20 | 0.041 | near-fully-resolved ancient pairing, uniform divergence (~0.06–0.07 across all 8 pairs, raw `pair_depth_cv` = 0.031, tight) — consistent single-age WGD signature by the raw distance. **Traced the apparent `distance_ratio_cv` = 0.90 "conflict" to its source: it's not messy ancient divergence, it's the *normalization denominator*** — each chromosome's own within-chromosome (HAP1-vs-HAP2) baseline distance varies 116× across the genome (0.000016–0.001859), for reasons unrelated to the ancient WGD (ordinary heterozygosity/recombination-rate variation). The ancient signal itself stays uniform; only the ratio to a noisy denominator looks inconsistent. So this isn't really a metric conflict — `pair_depth_cv` and the ancient-pairing uniformity agree with each other and with an allo-consistent read; `distance_ratio_cv` is simply the wrong tool here, and `te_frac` (0.041, low) is the one genuine outstanding disagreement, on a completely different axis (repeat content, not divergence depth). Genuinely contested historically (auto-from-*S.-vernalis*, Kadereit 1984, later refuted by isozyme evidence), but more recent molecular work (Chapman & Abbott 2010's RAY2b homeolog finding; Kim et al. 2008, *Science*) leans **allo** — the low te_frac is the one thing still at odds with that lean. 2026-09 Darwin batch. |
 | `daSonOler1` (*Sonchus oleraceus*) | 2 | 0/16 | 0.039 | diploid-looking, low te signal |
-| `dcCerAlpi1` (*Cerastium alpinum*) | 2 | 0/36 | 0.198 *(stale, prior assembly)* | **no longer treated as diploid** — moderate te signal despite no accepted ancient pairs is now explained: `genome_partition.py` finds the panel's strongest (z=21.5) 16-vs-20 diffuse bipartition, 16/20 chromosomes reciprocally clean, unusually low cross-group distance (0.080–0.088) suggesting a young/undegraded candidate allopolyploid — see dedicated section above. No species-level literature check exists yet; reconfirmed 0/36 on 2026-09 Darwin reassembly, see batch note above |
+| `dcCerAlpi1` (*Cerastium alpinum*) | 2 | 0/36 | 0.198 *(stale, prior assembly)* | **no longer treated as diploid** — moderate te signal despite no accepted ancient pairs is now explained: the genome-partition test finds the strongest no-pair (z=18.9) 16-vs-20 diffuse bipartition, 16/20 chromosomes reciprocally clean, unusually low cross-group distance (0.080–0.088) suggesting a young/undegraded candidate allopolyploid — see dedicated section above. No species-level literature check exists yet; reconfirmed 0/36 on 2026-09 Darwin reassembly, see batch note above |
 | `dcHonPepl1` (*Honckenya peploides*) | 2 | 0/34 | 0.028 | mostly diploid-looking; some tetraploid-like clusters noted visually earlier, not yet reconciled with this low te value |
 | `ddAraThal4` (*Arabidopsis thaliana*) | 1 | 0/5 | – | **true diploid** *(lit, confirmed)* — panel's diploid anchor |
 | `ddEmpNigr1` (*Empetrum nigrum*) | 4 | 2/13 | 0.239 | **auto** *(lit)*, but te_frac sits at/above the confirmed-allo range — unresolved tension, flagged in `meta/literature_ploidy.tsv` |
@@ -1022,7 +1097,7 @@ treat those as provisional.
 | `ddSalCine1` (*Salix cinerea*) | 1 | 0/18 | – | diploid-looking (alt haplotype too fragmentary) |
 | `ddSalPent1` (*Salix pentandra*) | 2 | 38/38 | 0.200 | strong, complete ancient-pairing signal — allo-leaning. Gulyaev et al. 2022 gives real (if hedged, "might have arisen") phylogenomic evidence: the polyploid group containing *S. pentandra* shows nuclear/chloroplast tree conflict plus admixture-analysis support for a hybrid origin between the *Salix* and *Vetrix* clades — medium confidence, consistent with our complete pairing signal |
 | `ddSalTria1` (*Salix triandra*) | 3 (triploid) | 4/19 | 0.247 | sparse pairing — most chromosome copies look interchangeable rather than distinctly diverged, consistent with a fairly homogeneous triploid rather than three diverged subgenomes; te_frac (0.247) sits moderate, close to several confirmed allos, but a wide range (0.055–0.816) suggests very uneven divergence across pairs — hard to interpret cleanly given the ploidy-identity conflict below. **Only literature found (Blackburn & Harrison 1924) reports this species as diploid** (haploid n=19 or 22) — a direct conflict with our assembly's triploid structure, with no modern source addressing the discrepancy; worth treating the triploid call itself with some caution pending a second look at header/manifest parsing for this species. 2026-09 Darwin batch. |
-| `dmRanRepe1` (*Ranunculus repens*) | 2 | 0/16 | 0.066 | **no longer treated as diploid** — no chromosome pair shows significant divergence signal at strict FDR, but `genome_partition.py` finds a *perfect* 8-vs-8 reciprocal bipartite match (z=10.7, zero exceptions, cleaner than `daInuConz1`'s own matching) with the lowest cross-group distance of any candidate block structure in the panel (0.070–0.073) — the low te_frac now reads as consistent with a genuinely *young* allopolyploid rather than no polyploidy at all. Currently the strongest "young cryptic allopolyploid" candidate in the whole panel; no species-level literature check exists yet (genus *Ranunculus* has documented polyploid complexes generally). 2026-09 Darwin batch. |
+| `dmRanRepe1` (*Ranunculus repens*) | 2 | 0/16 | 0.066 | **no longer treated as diploid** — no chromosome pair shows significant divergence signal at strict FDR, but the genome-partition test finds a *perfect* 8-vs-8 reciprocal bipartite match (z=10.9, zero exceptions, cleaner than `daInuConz1`'s own matching) with the lowest cross-group distance of any candidate block structure in the panel (0.070–0.073) — the low te_frac now reads as consistent with a genuinely *young* allopolyploid rather than no polyploidy at all. Currently the strongest "young cryptic allopolyploid" candidate in the whole panel; no species-level literature check exists yet (genus *Ranunculus* has documented polyploid complexes generally). 2026-09 Darwin batch. |
 | `drAriEdul1` (*Aria edulis*) | 4 | 16/17 | 0.219/0.209 (no inflation found) | ambiguous per *A. edulis* diploid literature; allo-consistent if sample is actually the tetraploid relative *A. wyensis* — Green 2024's own hypothesis is that *A. wyensis* is an allotetraploid derived from *A. edulis* × a member of the *A. porrigentiformis* group. Misidentification under "*S. aria*"-type names is well documented (Pellicer et al. 2012: 14 specimens collected as *S. aria* were actually triploid), and the *Aria* complex contains *both* confirmed allo- and autotetraploid species (Dickinson 2018) — origin still hinges on resolving exact species ID first. `chr01` lineage split (4.66×) passes both artifact checks and manual digging — `HAP4` (a clean assembly) sits 2.2–4.7× further from `HAP1`/`HAP2`/`HAP3` than they do from each other, with a specific ~13Mb breakpoint; strongest surviving real-signal candidate in the panel, unconfirmed |
 | `drIngLaur1` (*Inga laurina*) | 1 | 0/13 | – | diploid-looking |
 | `drLytSali1` (*Lythrum salicaria*) | 4 | 10/15 | 0.307 *(stale, prior assembly)* | **auto** *(lit)*, but high te_frac and substantial ancient-pairing signal both lean allo — worth revisiting given the fusion-mimics-dominance caveat above; reconfirmed 10/15 on 2026-09 Darwin reassembly, see batch note above |

@@ -1,0 +1,8 @@
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
+chr01	2										not_assessable	none					unpaired
+chr02	2										not_assessable	none					unpaired
+chr03	2										not_assessable	none					unpaired
+chr04	2										not_assessable	none					unpaired
+chr05	2										not_assessable	none					unpaired
+chr06	2										not_assessable	none					unpaired
+chr07	2										not_assessable	none					unpaired

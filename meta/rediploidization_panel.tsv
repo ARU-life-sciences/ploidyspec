@@ -1,0 +1,46 @@
+species	n_chromosome_numbers	ancient_distance_ratio_cv	ancient_distance_ratio_median	ancient_paired_chromosomes	copy_state:candidate	copy_state:fusion_lineages	copy_state:not_assessable	copy_state:one_divergent_copy	copy_state:partially_resolved	copy_state:resolved_lineages	copy_state:tetrasomic_like	most_frequent_outlier_hap	n_distinct_fusions	n_fused_scaffolds	n_fusion_candidates_partner_present	state_basis:copies	state_basis:fusion	state_basis:homeolog_pool	state_basis:none
+SchCurv1	25	0.00	7.59	2	2	2	0	5	1	0	15	HAP4 (2 chromosomes)	1	2	0	23	2	0	0
+SchYoun1	25			0	1	10	0	2	0	0	12	HAP3 (1 chromosomes)	5	10	0	15	10	0	0
+daBudDavi1	19			0	0	0	0	2	2	0	15	HAP2 (1 chromosomes)	0	0	0	19	0	0	0
+daEupConf1	22			22	0	0	22	0	0	0	0		0	0	0	0	0	0	22
+daGalBore1	11	0.10	4.09	4	1	0	0	3	0	0	7	HAP3 (1 chromosomes)	0	0	0	11	0	0	0
+daGleHede1	18	0.11	3.50	18	0	0	0	0	0	18	0		0	0	0	0	0	18	0
+daInuConz1	16			0	0	0	16	0	0	0	0		0	0	0	0	0	0	16
+daLatClan1	21	0.19	29.95	18	0	0	3	0	0	18	0		0	0	0	0	0	18	3
+daLatSqua1	18	1.04	235.23	16	0	0	2	0	0	16	0		0	0	0	0	0	16	2
+daPilAura1	18	0.11	1.04	18	0	0	0	18	0	0	0	HAP1 (10 chromosomes)	0	0	2	0	0	18	0
+daSenVulg1	20	0.93	494.70	16	0	0	4	0	0	16	0		0	0	0	0	0	16	4
+daSonOler1	16			0	0	0	16	0	0	0	0		0	0	0	0	0	0	16
+dcCerAlpi1	36			0	0	0	36	0	0	0	0		0	0	0	0	0	0	36
+dcHonPepl1	34			0	0	0	34	0	0	0	0		0	0	0	0	0	0	34
+ddAraThal4	5			0	0	0	5	0	0	0	0		0	0	0	0	0	0	5
+ddEmpNigr1	13	0.00	4.67	2	4	0	0	3	6	0	0	HAP4 (2 chromosomes)	0	0	0	13	0	0	0
+ddHesMatr1	6	0.00	1.12	2	0	0	0	5	1	0	0	HAP1 (4 chromosomes)	0	0	0	6	0	0	0
+ddHypMacu1	8	0.00	3.21	2	0	0	0	8	0	0	0	HAP1 (8 chromosomes)	0	0	0	8	0	0	0
+ddHypPerf1	8			0	1	0	0	5	1	0	1	HAP2 (3 chromosomes)	0	0	0	8	0	0	0
+ddLepDrab1	16	0.14	1.25	16	0	0	0	15	0	0	1	HAP4 (15 chromosomes)	0	0	0	16	0	0	0
+ddMalSylv1	21			0	0	0	21	0	0	0	0		0	0	0	0	0	0	21
+ddPopNigr1	19			0	0	0	19	0	0	0	0		0	0	0	0	0	0	19
+ddSalCine1	18			0	0	0	18	0	0	0	0		0	0	0	0	0	0	18
+ddSalPent1	38	0.13	8.40	38	0	0	0	0	0	38	0		0	0	0	0	0	38	0
+ddSalTria1	19	0.13	7.41	4	0	0	0	9	0	0	10	HAP3 (8 chromosomes)	0	0	0	19	0	0	0
+dmRanRepe1	16			0	0	0	16	0	0	0	0		0	0	0	0	0	0	16
+drAriEdul1	17	0.16	7.38	16	3	0	0	5	5	0	4	HAP4 (3 chromosomes)	0	0	0	17	0	0	0
+drIngLaur1	13			0	0	0	13	0	0	0	0		0	0	0	0	0	0	13
+drLytSali1	15	0.09	3.89	10	2	0	0	2	0	0	11	HAP2 (2 chromosomes)	0	0	0	15	0	0	0
+drMyrSpic1	21	0.33	6.98	16	0	0	5	0	0	16	0		0	0	1	0	0	16	5
+drMyrVert1	14	0.06	4.81	14	0	0	0	0	0	14	0		0	0	0	0	0	14	0
+drRosSpin1	14	0.13	3.93	14	0	0	0	0	0	14	0		0	0	0	0	0	14	0
+drSorDevo1	34	0.23	4.06	34	0	0	0	0	0	34	0		0	0	0	0	0	34	0
+drTriDubi3	15			14	0	0	15	0	0	0	0		0	0	0	0	0	0	15
+drTriRepe1	16	0.04	3.41	16	0	0	0	0	0	16	0		0	0	0	0	0	16	0
+drUrtDioi1	13			0	0	0	13	0	0	0	0		0	0	0	0	0	0	13
+laPotCris1	26	0.50	45.12	24	0	0	2	0	0	24	0		0	0	0	0	0	24	2
+laPotLuce1	26	0.19	8.28	24	0	0	2	0	0	24	0		0	0	0	0	0	24	2
+laPotNata1	25	0.22	16.11	24	0	0	1	0	0	24	0		0	0	0	0	0	24	1
+laPotNodo1	26	0.46	27.55	26	0	0	0	0	0	26	0		0	0	0	0	0	26	0
+laPotPerf1	26	0.13	6.10	26	0	0	0	0	0	26	0		0	0	0	0	0	26	0
+llColAutu1	51	0.59	568.19	48	0	0	3	0	0	48	0		0	0	0	0	0	48	3
+lpElePalu1	19	1.34	0.99	18	4	0	1	2	0	4	8	HAP1 (2 chromosomes)	0	0	0	0	0	18	1
+lpTriTurg1_A	7			0	0	0	7	0	0	0	0		0	0	0	0	0	0	7
+lpTriTurg1_B	7			0	0	0	7	0	0	0	0		0	0	0	0	0	0	7

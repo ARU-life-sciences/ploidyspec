@@ -1,0 +1,17 @@
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
+chr01	4			HAP3_chr01,HAP1_chr01,HAP2_chr01	HAP4_chr01	1.15	5.90	0.01	none		one_divergent_copy	copies		HAP4	chr08	1.71	paired
+chr02	4			HAP1_chr02,HAP2_chr02,HAP3_chr02	HAP4_chr02	2.81	1.22	0.15	regional	0.0-4.0Mb	one_divergent_copy	copies		HAP4	chr04	1.25	paired
+chr03	4			HAP3_chr03,HAP1_chr03,HAP2_chr03	HAP4_chr03	7.38	1.65	0.09	none		one_divergent_copy	copies		HAP4	chr06	1.23	paired
+chr04	4			HAP1_chr04,HAP2_chr04,HAP3_chr04	HAP4_chr04	9.10	2.48	0.01	none		one_divergent_copy	copies		HAP4	chr02	1.25	paired
+chr05	4			HAP3_chr05,HAP1_chr05,HAP2_chr05	HAP4_chr05	7.63	1.54	0.21	regional	0.0-3.2Mb;4.0-6.2Mb	one_divergent_copy	copies		HAP4	chr16	1.22	paired
+chr06	4			HAP1_chr06,HAP2_chr06,HAP3_chr06	HAP4_chr06	5.15	1.17	0.06	none		one_divergent_copy	copies		HAP4	chr03	1.23	paired
+chr07	4			HAP1_chr07,HAP2_chr07,HAP3_chr07	HAP4_chr07	5.26	1.32	0.00	none		one_divergent_copy	copies		HAP4	chr15	1.24	paired
+chr08	4			HAP1_chr08,HAP2_chr08,HAP3_chr08	HAP4_chr08	5.65	1.36	0.02	none		one_divergent_copy	copies		HAP4	chr01	1.71	paired
+chr09	4			HAP1_chr09,HAP2_chr09,HAP3_chr09	HAP4_chr09	8.36	2.34	0.21	regional	7.5-10.5Mb	one_divergent_copy	copies		HAP4	chr13	1.30	paired
+chr10	4			HAP1_chr10,HAP2_chr10,HAP3_chr10	HAP4_chr10	7.87	1.83	0.29	regional	2.5-8.0Mb	one_divergent_copy	copies		HAP4	chr12	1.23	paired
+chr11	4			HAP3_chr11	HAP4_chr11,HAP1_chr11,HAP2_chr11	1.18	1.14	0.01	none		tetrasomic_like	copies			chr14	1.58	paired
+chr12	4			HAP1_chr12,HAP2_chr12,HAP3_chr12	HAP4_chr12	5.77	1.50	0.00	none		one_divergent_copy	copies		HAP4	chr10	1.23	paired
+chr13	4			HAP1_chr13,HAP2_chr13,HAP3_chr13	HAP4_chr13	5.38	1.16	0.05	none		one_divergent_copy	copies		HAP4	chr09	1.30	paired
+chr14	4			HAP1_chr14,HAP2_chr14,HAP3_chr14	HAP4_chr14	8.92	1.84	0.02	none		one_divergent_copy	copies		HAP4	chr11	1.58	paired
+chr15	4			HAP2_chr15,HAP1_chr15,HAP3_chr15	HAP4_chr15	8.57	1.77	0.14	none		one_divergent_copy	copies		HAP4	chr07	1.24	paired
+chr16	4			HAP1_chr16,HAP2_chr16,HAP3_chr16	HAP4_chr16	5.23	1.21	0.13	regional	0.0-3.2Mb	one_divergent_copy	copies		HAP4	chr05	1.22	paired

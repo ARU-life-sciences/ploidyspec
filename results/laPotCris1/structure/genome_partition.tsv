@@ -1,0 +1,12 @@
+species	k	group_sizes	separation_ratio	null_mean_ratio	z_score	groups
+laPotCris1	12	2,2,2,2,2,2,2,2,2,2,3,3	1.2582	1.0000	18.14	chr01,chr22,chr24 | chr02,chr10 | chr03,chr04 | chr05,chr09,chr21 | chr06,chr07 | chr08,chr14 | chr11,chr12 | chr13,chr20 | chr15,chr16 | chr17,chr23 | chr18,chr26 | chr19,chr25
+laPotCris1	11	2,2,2,2,2,2,2,2,3,3,4	1.2109	0.9998	16.73	chr01,chr22,chr24 | chr02,chr10,chr17,chr23 | chr03,chr04 | chr05,chr09,chr21 | chr06,chr07 | chr08,chr14 | chr11,chr12 | chr13,chr20 | chr15,chr16 | chr18,chr26 | chr19,chr25
+laPotCris1	10	2,2,2,2,2,2,3,3,4,4	1.1793	0.9999	14.56	chr01,chr22,chr24 | chr02,chr10,chr17,chr23 | chr03,chr04 | chr05,chr09,chr21 | chr06,chr07,chr11,chr12 | chr08,chr14 | chr13,chr20 | chr15,chr16 | chr18,chr26 | chr19,chr25
+laPotCris1	9	2,2,2,2,3,3,4,4,4	1.1568	1.0006	13.14	chr01,chr22,chr24 | chr02,chr10,chr17,chr23 | chr03,chr04 | chr05,chr09,chr21 | chr06,chr07,chr11,chr12 | chr08,chr14,chr15,chr16 | chr13,chr20 | chr18,chr26 | chr19,chr25
+laPotCris1	8	2,2,2,2,3,3,4,8	1.1110	0.9992	10.73	chr01,chr22,chr24 | chr02,chr10,chr17,chr23 | chr03,chr04 | chr05,chr09,chr21 | chr06,chr07,chr11,chr12,chr08,chr14,chr15,chr16 | chr13,chr20 | chr18,chr26 | chr19,chr25
+laPotCris1	7	2,2,2,3,4,5,8	1.1012	1.0013	9.65	chr01,chr22,chr24 | chr02,chr10,chr17,chr23 | chr03,chr04 | chr05,chr09,chr21,chr19,chr25 | chr06,chr07,chr11,chr12,chr08,chr14,chr15,chr16 | chr13,chr20 | chr18,chr26
+laPotCris1	5	2,3,4,7,10	1.0747	1.0001	9.07	chr01,chr22,chr24 | chr02,chr10,chr17,chr23 | chr03,chr04,chr06,chr07,chr11,chr12,chr08,chr14,chr15,chr16 | chr05,chr09,chr21,chr19,chr25,chr13,chr20 | chr18,chr26
+laPotCris1	6	2,2,3,4,5,10	1.0837	1.0004	8.99	chr01,chr22,chr24 | chr02,chr10,chr17,chr23 | chr03,chr04,chr06,chr07,chr11,chr12,chr08,chr14,chr15,chr16 | chr05,chr09,chr21,chr19,chr25 | chr13,chr20 | chr18,chr26
+laPotCris1	4	2,3,7,14	1.0552	1.0006	6.64	chr01,chr22,chr24 | chr02,chr10,chr17,chr23,chr03,chr04,chr06,chr07,chr11,chr12,chr08,chr14,chr15,chr16 | chr05,chr09,chr21,chr19,chr25,chr13,chr20 | chr18,chr26
+laPotCris1	3	2,3,21	1.0479	1.0000	4.45	chr01,chr22,chr24 | chr02,chr10,chr17,chr23,chr03,chr04,chr06,chr07,chr11,chr12,chr08,chr14,chr15,chr16,chr05,chr09,chr21,chr19,chr25,chr13,chr20 | chr18,chr26
+laPotCris1	2	2,24	1.0594	0.9995	4.17	chr01,chr22,chr24,chr02,chr10,chr17,chr23,chr03,chr04,chr06,chr07,chr11,chr12,chr08,chr14,chr15,chr16,chr05,chr09,chr21,chr19,chr25,chr13,chr20 | chr18,chr26

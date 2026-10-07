@@ -1,0 +1,15 @@
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
+chr01	2			HAP1_chr06,HAP2_chr06	HAP2_chr01,HAP1_chr01	4.48					resolved_lineages	homeolog_pool	chr06		chr06	4.48	paired
+chr02	2			HAP1_chr02,HAP2_chr02	HAP2_chr14,HAP1_chr14	5.37					resolved_lineages	homeolog_pool	chr14		chr14	5.37	paired
+chr03	2			HAP1_chr03,HAP2_chr03	HAP2_chr12,HAP1_chr12	5.13					resolved_lineages	homeolog_pool	chr12		chr12	5.13	paired
+chr04	2			HAP1_chr04,HAP2_chr04	HAP2_chr08,HAP1_chr08	4.70					resolved_lineages	homeolog_pool	chr08		chr08	4.70	paired
+chr05	2			HAP1_chr11,HAP2_chr11	HAP2_chr05,HAP1_chr05	4.60					resolved_lineages	homeolog_pool	chr11		chr11	4.60	paired
+chr06	2			HAP1_chr06,HAP2_chr06	HAP2_chr01,HAP1_chr01	4.48					resolved_lineages	homeolog_pool	chr01		chr01	4.48	paired
+chr07	2			HAP2_chr07,HAP1_chr07	HAP2_chr09,HAP1_chr09	4.81					resolved_lineages	homeolog_pool	chr09		chr09	4.81	paired
+chr08	2			HAP1_chr04,HAP2_chr04	HAP2_chr08,HAP1_chr08	4.70					resolved_lineages	homeolog_pool	chr04		chr04	4.70	paired
+chr09	2			HAP2_chr07,HAP1_chr07	HAP2_chr09,HAP1_chr09	4.81					resolved_lineages	homeolog_pool	chr07		chr07	4.81	paired
+chr10	2			HAP2_chr10,HAP1_chr10	HAP2_chr13,HAP1_chr13	5.10					resolved_lineages	homeolog_pool	chr13		chr13	5.10	paired
+chr11	2			HAP1_chr11,HAP2_chr11	HAP2_chr05,HAP1_chr05	4.60					resolved_lineages	homeolog_pool	chr05		chr05	4.60	paired
+chr12	2			HAP1_chr03,HAP2_chr03	HAP2_chr12,HAP1_chr12	5.13					resolved_lineages	homeolog_pool	chr03		chr03	5.13	paired
+chr13	2			HAP2_chr10,HAP1_chr10	HAP2_chr13,HAP1_chr13	5.10					resolved_lineages	homeolog_pool	chr10		chr10	5.10	paired
+chr14	2			HAP1_chr02,HAP2_chr02	HAP2_chr14,HAP1_chr14	5.37					resolved_lineages	homeolog_pool	chr02		chr02	5.37	paired

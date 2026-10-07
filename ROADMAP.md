@@ -173,6 +173,28 @@ autopolyploid lineages).
 
 Newest first. Check a running batch with the command given for it.
 
+- **2026-10-07 — panel refresh on the merged code.** Homeolog pooling
+  (2-copy chromosomes pooled with their accepted partner), the
+  `one_divergent_copy` state, ROADMAP 1.3–1.5 and the homeolog min-effect
+  floor (`--min-effect 0.02`; stops chance pairs in a simulated diploid,
+  changes no accepted pair on the panel) are all on `main`. All 8 end-to-end
+  tests pass. `structure` and `rediploidization` re-run for all 45
+  species with no failures; `meta/` regenerated with `ploidyspec panel`.
+  - `auto_allo_spectrum.tsv` reproduces exactly. Partition z-values moved
+    by up to ~±2 now that the null is seeded per species. `ddHesMatr1`'s
+    weak k=3 partition and `daLatClan1`'s k=2 drop out; `dcCerAlpi1`'s best k
+    is now 3 (z=20.8) on the same 16/20 core. Citations in
+    `INTERPRETATION.md` updated.
+  - With pooling, every allo anchor reads `resolved_lineages`, and so do the
+    *Potamogeton* species and `llColAutu1`. `daPilAura1` reads one
+    divergent copy in four on all 9 base chromosomes (AAAB-like).
+    `lpElePalu1` is mixed.
+  - Still `not_assessable`: two-haplotype species with no pairs, including
+    the cryptic allo candidates. Next step for the stage: pool by partition
+    group, not only by pair.
+  - Write-up: panel results are in `INTERPRETATION.md` under "Detecting
+    chromosome fusion".
+
 - **2026-10-07 — first review of the panel rediploidization run** (40/43
   species done; `ddSalCine1`, `drIngLaur1` running, wheat resubmitted at 32 GB
   after `TERM_MEMLIMIT` at 4 GB).
