@@ -247,3 +247,18 @@ class TestBuildPloidyAncestryRows(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestMinEffect(unittest.TestCase):
+    def test_tiny_but_significant_difference_rejected(self):
+        from ploidyspec.homeologs import detect_homeolog_pairs
+        import random
+        rng = random.Random(1)
+        nums = list(range(1, 9))
+        pair_dist = {(i, j): 0.175 + rng.uniform(-0.0004, 0.0004)
+                     for i in nums for j in nums if i < j}
+        pair_dist[(6, 7)] = 0.1732  # ~1% below a very tight background
+        accepted = detect_homeolog_pairs(pair_dist, nums, 0.05, min_effect=0.02)[0]
+        self.assertEqual(accepted, [])
+        accepted = detect_homeolog_pairs(pair_dist, nums, 0.05, min_effect=0.0)[0]
+        self.assertEqual([(i, j) for i, j, *_ in accepted], [(6, 7)])

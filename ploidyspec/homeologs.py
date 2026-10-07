@@ -8,6 +8,8 @@ from collections import defaultdict
 from .common import homeologs_dir, log, matrix_dir
 from .kmer_tables import load_sequences
 
+DEFAULT_MIN_EFFECT = 0.02
+
 
 def load_distance_matrix(outdir):
     path = os.path.join(matrix_dir(outdir), "whole_chrom_distance_matrix.csv")
@@ -146,14 +148,15 @@ def bh_qvalues(p_by_key):
     return {items[idx][0]: q_values[idx] for idx in range(n)}
 
 
-def detect_homeolog_pairs(pair_dist, chrom_nums, fdr_alpha=0.05):
+def detect_homeolog_pairs(pair_dist, chrom_nums, fdr_alpha=0.05, min_effect=DEFAULT_MIN_EFFECT):
     """
     Look for a retained ancestral (paleopolyploid/WGD) subgenome pairing among
     *different* chromosome numbers: chromosome pairs whose whole-chromosome
     k-mer distance is unusually low relative to the empirical background of
     every other cross-chromosome-number comparison (see empirical_pvalues),
     with Benjamini-Hochberg FDR correction across all candidates tested
-    simultaneously. Pairs with q <= fdr_alpha are accepted, then greedily
+    simultaneously. Pairs with q <= fdr_alpha AND at least min_effect closer
+    than the median cross-chromosome distance are accepted, then greedily
     resolved into a 1:1 matching (ascending distance order, each chromosome
     number gets at most one partner) since a chromosome can only have one
     true ancestral partner.
@@ -167,15 +170,26 @@ def detect_homeolog_pairs(pair_dist, chrom_nums, fdr_alpha=0.05):
     a many-chromosome species can fail significance for the same reason a
     small effect on a few-chromosome species would -- without the full
     p/q/z alongside, that signal just silently disappears.
+
+    The effect-size floor exists because significance alone isn't enough when
+    the background is very tight: on simulated diploids (unrelated random
+    chromosomes sharing only TE families) the background spans ~0.174-0.176, so
+    a pair at 0.173 -- 1.25% below the median, pure noise -- reaches z = -4.
+    The 2% default sits between that and the weakest accepted panel pairs
+    (daGalBore1 chr01-chr02 and chr03-chr08, ~2.4-2.7% below the median, which
+    a 3% floor would drop) and changes no panel call. The margin is narrow on
+    both sides: treat pairs within a few percent of background as weak evidence
+    whatever their q-value.
     """
     p_values, z_scores = empirical_pvalues(pair_dist)
     q_values = bh_qvalues(p_values)
+    max_distance = (1 - min_effect) * statistics.median(pair_dist.values())
 
     sorted_pairs = sorted(pair_dist.items(), key=lambda kv: kv[1])
     matched = {}
     accepted = []
     for (i, j), d in sorted_pairs:
-        if q_values[(i, j)] > fdr_alpha:
+        if q_values[(i, j)] > fdr_alpha or d > max_distance:
             continue
         if i in matched or j in matched:
             continue
@@ -326,7 +340,7 @@ def write_ploidy_ancestry_summary(outdir, rows):
             )
 
 
-def run(seq_tsv, outdir, fdr_alpha=0.05):
+def run(seq_tsv, outdir, fdr_alpha=0.05, min_effect=DEFAULT_MIN_EFFECT):
     units = load_sequences(seq_tsv)
     ids, mat = load_distance_matrix(outdir)
     groups = chrom_groups(units)
@@ -339,7 +353,7 @@ def run(seq_tsv, outdir, fdr_alpha=0.05):
 
     pair_dist = cross_chrom_distances(groups, mat)
     accepted, unmatched, background, p_values, q_values, z_scores = detect_homeolog_pairs(
-        pair_dist, chrom_nums, fdr_alpha
+        pair_dist, chrom_nums, fdr_alpha, min_effect
     )
     flags = load_pair_resolution_flags(outdir)
     status_by_pair = {

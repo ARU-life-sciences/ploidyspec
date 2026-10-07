@@ -52,7 +52,7 @@ from .manifest import DEFAULT_CHROM_REGEXES, DEFAULT_HAP_REGEX, prepare
 from .kmer_tables import build_all
 from .whole_matrix import compute_matrix
 from .windowed import compute_windowed, compute_windowed_homeologs
-from .homeologs import run as run_homeolog_detection
+from .homeologs import DEFAULT_MIN_EFFECT, run as run_homeolog_detection
 from .rediploidization import (
     DEFAULT_CONTAINMENT_Z,
     DEFAULT_DIST_SPLIT,
@@ -292,7 +292,7 @@ def cmd_homeologs(args):
         raise SystemExit(
             f"need sequences.tsv and {matrix_csv} -- run `prepare`, `kmers`, `matrix` first"
         )
-    run_homeolog_detection(seq_tsv, args.outdir, args.fdr_alpha)
+    run_homeolog_detection(seq_tsv, args.outdir, args.fdr_alpha, args.min_effect)
     log(
         f"wrote {os.path.join(homeologs_dir(args.outdir), 'homeolog_pairs.tsv')} and homeolog_pairs.png"
     )
@@ -534,6 +534,14 @@ def main(argv=None):
         help="Benjamini-Hochberg FDR threshold for the homeologs stage (default 0.05)",
     )
     p_all.add_argument(
+        "--min-effect",
+        type=float,
+        default=DEFAULT_MIN_EFFECT,
+        help="a homeolog pair must also be at least this fraction closer than the median "
+        f"cross-chromosome distance (default {DEFAULT_MIN_EFFECT}; guards against "
+        "significant-but-tiny differences when the background is very tight)",
+    )
+    p_all.add_argument(
         "--with-windowed-homeologs",
         action="store_true",
         help="also run windowed-homeologs after homeologs (moderate cost, scales with "
@@ -572,6 +580,14 @@ def main(argv=None):
         help="Benjamini-Hochberg FDR threshold for accepting a candidate ancestral "
         "chromosome pair (default 0.05). Empirical p-value per pair = fraction of "
         "all cross-chromosome-number distances that are as small or smaller.",
+    )
+    p_homeo.add_argument(
+        "--min-effect",
+        type=float,
+        default=DEFAULT_MIN_EFFECT,
+        help="a homeolog pair must also be at least this fraction closer than the median "
+        f"cross-chromosome distance (default {DEFAULT_MIN_EFFECT}; guards against "
+        "significant-but-tiny differences when the background is very tight)",
     )
     p_homeo.set_defaults(func=cmd_homeologs)
 
