@@ -12,22 +12,29 @@ examples from real runs. This README covers installation and how to run it.
 
 ## Install / setup
 
-Python dependencies are stdlib plus `numpy` and `matplotlib` only (no `scipy`).
+With conda (recommended — brings samtools and FastK from bioconda):
+
+```
+git clone <repo-url> ploidyspec && cd ploidyspec
+conda env create -f environment.yml
+conda activate ploidyspec
+pip install .
+ploidyspec --help
+```
+
+Or, if you already have `samtools` and FastK, just `pip install .` (Python ≥3.9; the only
+Python dependencies are `numpy` and `matplotlib`). Running from a checkout without
+installing also works: `./ploidyspec.sh` is a thin wrapper around
+`python3 -m ploidyspec.cli`.
 
 External tools this shells out to: `samtools`, and FastK's `FastK`/`Logex`/`Histex`/
-`Tabex` (github.com/thegenemyers/FASTK). Ploidyspec auto-detects these three ways, tried
-in order:
+`Tabex` (github.com/thegenemyers/FASTK). Ploidyspec finds them three ways, tried in
+order:
 1. `--samtools <path>` / `--fastk-dir <path>` (a directory containing the FastK
    binaries) passed explicitly.
-2. Sibling directories next to the repo checkout matching `samtools*` / `FASTK*` (e.g.
-   `../samtools-1.24/samtools`, `../FASTK-1.2/FastK` — this is how the binaries are laid
-   out on this project's cluster; see `.gitignore`'s `/samtools-1.24` and `/FASTK-1.2`
-   entries).
-3. `$PATH`.
-
-No install step beyond having those binaries reachable one of those three ways —
-`ploidyspec.sh` is a thin wrapper (`exec python3 -m ploidyspec.cli "$@"`), nothing to
-build.
+2. Directories inside the repo checkout matching `samtools*` / `FASTK*` (e.g.
+   `samtools-1.24/samtools`, `FASTK-1.2/FastK` — see `.gitignore`).
+3. `$PATH` (what the conda environment provides).
 
 ## Naming your chromosome-scale sequences
 

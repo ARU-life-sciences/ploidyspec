@@ -66,15 +66,15 @@ Phase 1, not a later extra.
 
 ## Phase 0 — housekeeping
 
-- [ ] Commit the outstanding work (poly-space PCA, field-positioning section,
+- [x] Commit the outstanding work (poly-space PCA, field-positioning section,
       per-species READMEs).
-- [ ] Gitignore `logs/`.
-- [ ] Move one-off scripts (`_rerun_*`, `_repair_*`, `_run_*`, `_setup_darwin_batch.py`)
+- [x] Gitignore `logs/`.
+- [x] Move one-off scripts (`_rerun_*`, `_repair_*`, `_run_*`, `_setup_darwin_batch.py`)
       to `scripts/archive/`.
 
 ## Phase 1 — software runnable by others
 
-1. [ ] **Packaging**: `pyproject.toml` with a `ploidyspec` console script;
+1. [x] **Packaging**: `pyproject.toml` with a `ploidyspec` console script;
        `environment.yml` (python, numpy, matplotlib, samtools, FastK); README
        install section rewritten around `pip install` / conda. Container later.
 2. [ ] **Rediploidization as a core stage** (see design below).

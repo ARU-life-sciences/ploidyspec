@@ -1,0 +1,11 @@
+# conda env create -f environment.yml && conda activate ploidyspec && pip install .
+name: ploidyspec
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python>=3.9
+  - numpy
+  - matplotlib
+  - samtools
+  - fastk>=1.2

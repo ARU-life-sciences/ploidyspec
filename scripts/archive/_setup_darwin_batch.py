@@ -12,7 +12,7 @@ import gzip
 import os
 import subprocess
 
-REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DATA = os.path.join(REPO, "data")
 MANIFESTS = os.path.join(REPO, "manifests")
 
