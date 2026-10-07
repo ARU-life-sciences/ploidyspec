@@ -169,6 +169,48 @@ autopolyploid lineages).
 
 Newest first. Check a running batch with the command given for it.
 
+- **2026-10-07 — first review of the panel rediploidization run** (40/43
+  species done; `ddSalCine1`, `drIngLaur1` running, wheat resubmitted at 32 GB
+  after `TERM_MEMLIMIT` at 4 GB).
+  - **Fusions:** confirmed only in the snow carps. Three
+    `candidate_partner_present` hits, both explained: `daPilAura1` HAP1_chr01
+    (273 Mb vs 185 Mb sibling) contains its very young homeolog chr14 and
+    chr06/chr07 material (HAP2_chr07 is short), likely a scaffolding difference
+    between haplotypes; `drMyrSpic1` HAP1_chr13 is only "long" because HAP2_chr13
+    is a 15 Mb fragment, and its chr03/chr09 hits look like the third member of
+    the chr03–chr09 homeolog set, consistent with the AABBCC allohexaploid
+    origin. The partner-missing rule kept all three from being called fusions.
+  - **`drLytSali1`: 11/15 chromosomes `tetrasomic_like`**, matching the
+    tetrasomic inheritance known from classical genetics — the magnitude
+    metrics read this species as allo-like, this one doesn't.
+  - **Recurring outlier haplotypes:** `ddHypMacu1` HAP1 on 8/8 (the known
+    HAP1 assembly-quality problem — validates the summary metric);
+    `ddLepDrab1` HAP4 on 15/16 — this is what drove its 0.94
+    `partition_consistency`, so its "strongest allo candidate" status needs
+    re-reading as one consistently divergent haplotype (assembly or a
+    different-origin copy) rather than a two-subgenome split; `ddSalTria1`
+    HAP3 on 8/19.
+  - **Partial structure on many chromosomes:** `drAriEdul1` (5 partial, 3
+    candidate of 17) and `ddEmpNigr1` (6 partial, 4 candidate of 13) — a
+    partly diploidized autopolyploid reading for `ddEmpNigr1` would explain
+    its literature-auto vs high-`te_frac` tension. Not yet checked by hand.
+  - **Most of the panel is `not_assessable`** (two-haplotype assemblies).
+    But `ploidy_ancestry_summary.tsv` already shows a pattern there:
+    `daPilAura1`, `lpElePalu1` (some pairs) have `distance_ratio` ~1 — the
+    homeolog partner is as close as the other copy of the same number, i.e.
+    the four copies across the two numbers look interchangeable, while the
+    allo anchors sit at 3.4–4.6. See follow-ups.
+  - **Follow-ups for the stage** (do in the `simulate` worktree, test on
+    simulations):
+    1. Assess two-haplotype assemblies by pooling each homeolog pair's copies
+       into one group (copies of chrA + chrB) and running the same lineage
+       reading on it. This would turn most `not_assessable` rows into a real
+       state.
+    2. Triploids (`ddSalTria1`): with 3 copies every split is 1-vs-2, so
+       `single_copy_outlier` is the wrong label when the same haplotype
+       recurs (possible AAB structure). Give 3-copy splits their own state.
+    3. Long-copy fusion test: don't call a copy "long" when its only sibling
+       is a fragment (`drMyrSpic1` HAP2_chr13 at 15 Mb).
 - **2026-10-07 — panel-wide rediploidization run submitted** (Phase 1.2
   follow-up). 43 LSF jobs (`redip_<species>`, 2 cores, 4 GB), one per species
   with a matrix; snow carps were already done. Job IDs in
