@@ -37,6 +37,7 @@ CLI flags; see OUTPUTS.md.
 """
 
 import csv
+import itertools
 import math
 import os
 import re
@@ -429,6 +430,11 @@ def copy_state(n_copies, balanced, dist_split, te_split, extent, thresholds):
       odd haplotype (assembly quality -- check whether the same haplotype recurs,
       see most_frequent_outlier_hap) or a genuinely divergent genome copy (AAAB-
       like; every split of a triploid looks like this). Not two lineages.
+      Needs chromosome-wide evidence (distance or TE split): a windowed segment
+      alone isolating one copy is ordinary haplotype structure in a polysomic
+      genome -- one of four copies carrying a divergent block somewhere
+      (drLytSali1, tetrasomic by classical genetics, had 12/15 chromosomes
+      called one_divergent_copy on regional segments alone).
     """
     if n_copies < 3:
         return "not_assessable"
@@ -438,7 +444,7 @@ def copy_state(n_copies, balanced, dist_split, te_split, extent, thresholds):
         extent in ("whole", "regional"),
     ]
     if not balanced:
-        return "one_divergent_copy" if any(support) else "tetrasomic_like"
+        return "one_divergent_copy" if support[0] or support[1] else "tetrasomic_like"
     if dist_split is not None and dist_split >= 2 * thresholds["dist_split"] and extent == "whole":
         return "resolved_lineages"
     n = sum(support)
@@ -487,39 +493,105 @@ def pooled_state(balanced, dist_split, thresholds):
     return "candidate" if dist_split >= t else "tetrasomic_like"
 
 
+WINDOW_NULL_QUANTILE = 0.95
+
+
+def windowed_reading(windows_by_anchor, group_a, thresholds):
+    """The windowed split for one grouping of a chromosome's copies, read along
+    every copy that has another copy in its own group. Returns the median copy's
+    (covered fraction, split-window fraction, anchor, segments), with the
+    split-window fraction as the median over copies, or None if no copy has a
+    track."""
+    reads = []
+    for anchor, windows in sorted(windows_by_anchor.items()):
+        track = window_split_track(windows, anchor, group_a)
+        if not track:
+            continue
+        n_split = sum(1 for _, _, r in track if r >= thresholds["window_split"])
+        segs = split_segments(track, thresholds["window_split"], thresholds["min_segment_bp"])
+        span = track[-1][1] - track[0][0] + 1
+        covered = sum(e - s + 1 for s, e in segs) / span
+        reads.append((covered, n_split / len(track), anchor, segs))
+    if not reads:
+        return None
+    # the median anchor: a real lineage split is seen from every copy
+    covered, _, anchor, segs = sorted(reads)[(len(reads) - 1) // 2]
+    return covered, statistics.median(r[1] for r in reads), anchor, segs
+
+
+def crossing_groupings(ids, group_a):
+    """Alternative groupings of the same copies that cut across group_a, for the
+    windowed null. A balanced split is compared with the other balanced splits;
+    a split isolating one copy, with the splits isolating each other copy.
+    Groupings that keep the observed groups together would inherit a real
+    split's signal (any grouping that keeps a tight pair together looks split)."""
+    ids = sorted(ids)
+    small = group_a if len(group_a) <= len(ids) - len(group_a) else [x for x in ids if x not in group_a]
+    if len(small) == 1:
+        return [[x] for x in ids if x != small[0]]
+    out = []
+    for g in itertools.combinations(ids, len(small)):
+        g = list(g)
+        if set(g) in (set(small), set(ids) - set(small)) or ids[0] not in g:
+            continue
+        out.append(g)
+    return out
+
+
+def quantile(values, q):
+    v = sorted(values)
+    return v[int(q * (len(v) - 1))] if v else 0.0
+
+
 def chromosome_lineages(units, dist, windowed, te_split, thresholds):
+    """
+    Per chromosome number: the distance split of its copies, the TE split, and
+    where along the chromosome the split holds.
+
+    The windowed extent is tested against a null before it counts. Window
+    distances carry real noise, so a run of split windows can appear by chance
+    (daBudDavi1: single 2-3 Mb segments on chromosomes whose whole-chromosome
+    split is ~1.0). The same scan is run for groupings that cut across the
+    observed one (crossing_groupings); their covered fractions, pooled over the
+    genome, give the species' noise level. A split counts as `whole`/`regional`
+    only when its covered fraction exceeds both that null's 95th percentile and
+    every crossing grouping of its own chromosome. `extent_raw` keeps the
+    untested reading.
+    """
     by_chrom = defaultdict(list)
     for u in units:
         by_chrom[u["chrom"]].append(u["unit_id"])
-    rows = {}
+    rows, null = {}, []
     for chrom, ids in sorted(by_chrom.items()):
         label = f"chr{chrom:02d}"
         row = dict(n_copies=len(ids), group_a="", group_b="", dist_split=None,
                    te_split=te_split.get(label), window_split_frac=None,
-                   extent="", segments="", balanced=False)
+                   extent="", extent_raw="", segments="", balanced=False,
+                   covered=None, own_null=None)
         split = split_lineages(ids, dist)
         if split:
             ga, gb, balanced, ratio = split
             row.update(group_a=",".join(ga), group_b=",".join(gb), balanced=balanced,
                        dist_split=ratio)
-            reads = []  # one reading per anchor copy, along its own coordinates
-            for anchor, windows in sorted(windowed.get(label, {}).items()):
-                track = window_split_track(windows, anchor, ga)
-                if not track:
-                    continue
-                n_split = sum(1 for _, _, r in track if r >= thresholds["window_split"])
-                segs = split_segments(track, thresholds["window_split"], thresholds["min_segment_bp"])
-                span = track[-1][1] - track[0][0] + 1
-                covered = sum(e - s + 1 for s, e in segs) / span
-                reads.append((covered, n_split / len(track), anchor, segs))
-            if reads:
-                # the median anchor: a real lineage split is seen from every copy
-                covered, frac, anchor, segs = sorted(reads)[(len(reads) - 1) // 2]
-                row["window_split_frac"] = statistics.median(r[1] for r in reads)
-                row["extent"] = "whole" if covered >= 0.5 else ("regional" if segs else "none")
+            reading = windowed_reading(windowed.get(label, {}), ga, thresholds)
+            if reading:
+                covered, frac, anchor, segs = reading
+                alts = [windowed_reading(windowed.get(label, {}), g, thresholds)
+                        for g in crossing_groupings(ids, ga)]
+                alts = [a[0] for a in alts if a]
+                null.extend(alts)
+                row.update(window_split_frac=frac, covered=covered, own_null=max(alts, default=0.0),
+                           extent_raw="whole" if covered >= 0.5 else ("regional" if segs else "none"))
                 row["segments"] = ";".join(
                     f"{anchor.split('_')[0]}:{s / 1e6:.1f}-{e / 1e6:.1f}Mb" for s, e in segs)
         rows[chrom] = row
+    q = quantile(null, WINDOW_NULL_QUANTILE)
+    for row in rows.values():
+        row["window_null"] = q
+        if row["covered"] is None:
+            continue
+        passes = row["covered"] > q and row["covered"] > row["own_null"]
+        row["extent"] = row["extent_raw"] if passes else "none"
     return rows
 
 
@@ -700,6 +772,9 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
                 te_split=_fmt(lin["te_split"]),
                 window_split_frac=_fmt(lin["window_split_frac"]),
                 split_extent=lin["extent"],
+                split_extent_raw=lin.get("extent_raw", ""),
+                window_covered=_fmt(lin.get("covered")),
+                window_null_q95=_fmt(lin.get("window_null")),
                 split_segments=lin["segments"],
                 copy_state=state,
                 state_basis=basis,

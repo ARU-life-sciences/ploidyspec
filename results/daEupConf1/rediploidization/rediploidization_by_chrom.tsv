@@ -1,23 +1,23 @@
-chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
-chr01	1										not_assessable	none			chr03		paired
-chr02	1										not_assessable	none			chr05		paired
-chr03	1										not_assessable	none			chr01		paired
-chr04	1										not_assessable	none			chr13		paired
-chr05	1										not_assessable	none			chr02		paired
-chr06	1										not_assessable	none			chr07		paired
-chr07	1										not_assessable	none			chr06		paired
-chr08	1										not_assessable	none			chr14		paired
-chr09	1										not_assessable	none			chr17		paired
-chr10	1										not_assessable	none			chr12		paired
-chr11	1										not_assessable	none			chr16		paired
-chr12	1										not_assessable	none			chr10		paired
-chr13	1										not_assessable	none			chr04		paired
-chr14	1										not_assessable	none			chr08		paired
-chr15	1										not_assessable	none			chr19		paired
-chr16	1										not_assessable	none			chr11		paired
-chr17	1										not_assessable	none			chr09		paired
-chr18	1										not_assessable	none			chr21		paired
-chr19	1										not_assessable	none			chr15		paired
-chr20	1										not_assessable	none			chr22		paired
-chr21	1										not_assessable	none			chr18		paired
-chr22	1										not_assessable	none			chr20		paired
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
+chr01	1											0.00		not_assessable	none			chr03		paired
+chr02	1											0.00		not_assessable	none			chr05		paired
+chr03	1											0.00		not_assessable	none			chr01		paired
+chr04	1											0.00		not_assessable	none			chr13		paired
+chr05	1											0.00		not_assessable	none			chr02		paired
+chr06	1											0.00		not_assessable	none			chr07		paired
+chr07	1											0.00		not_assessable	none			chr06		paired
+chr08	1											0.00		not_assessable	none			chr14		paired
+chr09	1											0.00		not_assessable	none			chr17		paired
+chr10	1											0.00		not_assessable	none			chr12		paired
+chr11	1											0.00		not_assessable	none			chr16		paired
+chr12	1											0.00		not_assessable	none			chr10		paired
+chr13	1											0.00		not_assessable	none			chr04		paired
+chr14	1											0.00		not_assessable	none			chr08		paired
+chr15	1											0.00		not_assessable	none			chr19		paired
+chr16	1											0.00		not_assessable	none			chr11		paired
+chr17	1											0.00		not_assessable	none			chr09		paired
+chr18	1											0.00		not_assessable	none			chr21		paired
+chr19	1											0.00		not_assessable	none			chr15		paired
+chr20	1											0.00		not_assessable	none			chr22		paired
+chr21	1											0.00		not_assessable	none			chr18		paired
+chr22	1											0.00		not_assessable	none			chr20		paired

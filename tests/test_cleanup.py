@@ -30,3 +30,17 @@ class TestCleanup(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestWindowedHomeologsWithoutPairs(unittest.TestCase):
+    def test_no_pairs_is_skipped_not_fatal(self):
+        # dcCerAlpi1: `all --with-windowed-homeologs` stopped at this stage
+        # because the species has no accepted homeolog pairs
+        from ploidyspec.cli import main
+        with tempfile.TemporaryDirectory() as d:
+            open(os.path.join(d, "sequences.tsv"), "w").write("unit_id\thap\tchrom\tseq_id\tlength\tsource\tdesc\n")
+            os.makedirs(os.path.join(d, "homeologs"))
+            open(os.path.join(d, "homeologs", "homeolog_pairs.tsv"), "w").write("chrom_a\tchrom_b\tmean_distance\n")
+            manifest = os.path.join(d, "m.tsv")
+            open(manifest, "w").write("x.fa\tHAP1\n")
+            main(["windowed-homeologs", "--manifest", manifest, "--outdir", d])

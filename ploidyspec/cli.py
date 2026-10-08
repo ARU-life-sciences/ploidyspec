@@ -309,7 +309,6 @@ def cmd_homeologs(args):
 
 
 def cmd_windowed_homeologs(args):
-    samtools_bin, fastk_bin, logex_bin, histex_bin, _ = resolve_tools(args)
     seq_tsv = os.path.join(args.outdir, "sequences.tsv")
     pairs_tsv = os.path.join(homeologs_dir(args.outdir), "homeolog_pairs.tsv")
     if not os.path.exists(seq_tsv):
@@ -327,7 +326,11 @@ def cmd_windowed_homeologs(args):
             for row in csv.DictReader(f, delimiter="\t")
         ]
     if not pairs:
-        raise SystemExit(f"{pairs_tsv} has no candidate pairs -- nothing to do")
+        # not an error: many genomes have no accepted homeolog pairs, and `all`
+        # must carry on to the later stages (dcCerAlpi1 stopped here)
+        log(f"{pairs_tsv} has no accepted homeolog pairs -- skipping windowed-homeologs")
+        return
+    samtools_bin, fastk_bin, logex_bin, histex_bin, _ = resolve_tools(args)
     step = args.step or args.window
     compute_windowed_homeologs(
         seq_tsv,

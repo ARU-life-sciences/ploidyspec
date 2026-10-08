@@ -1,14 +1,14 @@
-chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
-chr01	1										not_assessable	none					unpaired
-chr02	1										not_assessable	none					unpaired
-chr03	1										not_assessable	none					unpaired
-chr04	1										not_assessable	none					unpaired
-chr05	1										not_assessable	none					unpaired
-chr06	1										not_assessable	none					unpaired
-chr07	1										not_assessable	none					unpaired
-chr08	1										not_assessable	none					unpaired
-chr09	1										not_assessable	none					unpaired
-chr10	1										not_assessable	none					unpaired
-chr11	1										not_assessable	none					unpaired
-chr12	1										not_assessable	none					unpaired
-chr13	1										not_assessable	none					unpaired
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
+chr01	1											0.00		not_assessable	none					unpaired
+chr02	1											0.00		not_assessable	none					unpaired
+chr03	1											0.00		not_assessable	none					unpaired
+chr04	1											0.00		not_assessable	none					unpaired
+chr05	1											0.00		not_assessable	none					unpaired
+chr06	1											0.00		not_assessable	none					unpaired
+chr07	1											0.00		not_assessable	none					unpaired
+chr08	1											0.00		not_assessable	none					unpaired
+chr09	1											0.00		not_assessable	none					unpaired
+chr10	1											0.00		not_assessable	none					unpaired
+chr11	1											0.00		not_assessable	none					unpaired
+chr12	1											0.00		not_assessable	none					unpaired
+chr13	1											0.00		not_assessable	none					unpaired

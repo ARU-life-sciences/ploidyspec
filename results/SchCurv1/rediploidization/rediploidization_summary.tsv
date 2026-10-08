@@ -5,14 +5,14 @@ state_basis:homeolog_pool	0
 state_basis:partition_pool	0
 state_basis:fusion	2
 state_basis:none	0
-copy_state:tetrasomic_like	15
+copy_state:tetrasomic_like	17
 copy_state:candidate	2
-copy_state:partially_resolved	1
+copy_state:partially_resolved	2
 copy_state:resolved_lineages	0
 copy_state:fusion_lineages	2
-copy_state:one_divergent_copy	5
+copy_state:one_divergent_copy	2
 copy_state:not_assessable	0
-most_frequent_outlier_hap	HAP4 (2 chromosomes)
+most_frequent_outlier_hap	HAP4 (1 chromosomes)
 n_distinct_fusions	1
 n_fused_scaffolds	2
 n_fusion_candidates_partner_present	0

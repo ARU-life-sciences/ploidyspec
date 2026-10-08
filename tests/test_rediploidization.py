@@ -9,6 +9,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from ploidyspec.rediploidization import (
     chromosome_lineages,
     containment_components,
+    crossing_groupings,
     copy_state,
     fusion_row,
     lineage_divergence,
@@ -188,6 +189,51 @@ class TestSplitSegments(unittest.TestCase):
         self.assertEqual(window_split_track(windows, "A", ["A"]), [])
 
 
+class TestWindowedNull(unittest.TestCase):
+    """A windowed split counts only when it beats groupings that cut across it."""
+
+    COPIES = ["A", "B", "C", "D"]
+
+    @staticmethod
+    def windows(close_pairs_by_window, n=40, win=250_000):
+        """{anchor: {start: (end, {other: d})}}: pairs listed for a window are
+        0.01 apart there, every other pair 0.05."""
+        out = {a: {} for a in TestWindowedNull.COPIES}
+        for i in range(n):
+            close = close_pairs_by_window(i)
+            for a in TestWindowedNull.COPIES:
+                d = {b: (0.01 if {a, b} in close else 0.05) for b in TestWindowedNull.COPIES if b != a}
+                out[a][i * win + 1] = ((i + 1) * win, d)
+        return out
+
+    def test_crossing_groupings(self):
+        self.assertEqual(sorted(map(sorted, crossing_groupings(["A", "B", "C", "D"], ["A", "B"]))),
+                         [["A", "C"], ["A", "D"]])
+        self.assertEqual(sorted(map(sorted, crossing_groupings(["A", "B", "C", "D"], ["C"]))),
+                         [["A"], ["B"], ["D"]])
+
+    def test_regional_split_beats_crossing_groupings(self):
+        lineage = [{"A", "B"}, {"C", "D"}]
+        real = self.windows(lambda i: lineage if i < 12 else [])
+        row = chromosome_lineages(
+            [dict(unit_id=u, chrom=1) for u in self.COPIES],
+            {(a, b): (0.02 if {a, b} in lineage else 0.022) for a in self.COPIES for b in self.COPIES if a != b},
+            {"chr01": real}, {}, THRESHOLDS)[1]
+        self.assertEqual(row["extent_raw"], "regional")
+        self.assertEqual(row["extent"], "regional")
+
+    def test_segment_matched_by_a_crossing_grouping_is_noise(self):
+        lineage = [{"A", "B"}, {"C", "D"}]
+        crossing = [{"A", "C"}, {"B", "D"}]
+        noisy = self.windows(lambda i: lineage if i < 10 else (crossing if 20 <= i < 30 else []))
+        row = chromosome_lineages(
+            [dict(unit_id=u, chrom=1) for u in self.COPIES],
+            {(a, b): (0.02 if {a, b} in lineage else 0.022) for a in self.COPIES for b in self.COPIES if a != b},
+            {"chr01": noisy}, {}, THRESHOLDS)[1]
+        self.assertEqual(row["extent_raw"], "regional")
+        self.assertEqual(row["extent"], "none")
+
+
 class TestCopyState(unittest.TestCase):
     def test_fusion_like_whole_chromosome_split_is_resolved(self):
         self.assertEqual(copy_state(4, True, 8.1, 5.6, "whole", THRESHOLDS), "resolved_lineages")
@@ -203,6 +249,9 @@ class TestCopyState(unittest.TestCase):
 
     def test_unbalanced_split_is_one_divergent_copy(self):
         self.assertEqual(copy_state(4, False, 3.45, 1.7, "none", THRESHOLDS), "one_divergent_copy")
+
+    def test_one_copy_apart_only_in_a_region_is_tetrasomic_like(self):
+        self.assertEqual(copy_state(4, False, 1.1, 1.0, "regional", THRESHOLDS), "tetrasomic_like")
 
     def test_two_copies_not_assessable(self):
         self.assertEqual(copy_state(2, False, None, None, "", THRESHOLDS), "not_assessable")

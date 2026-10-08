@@ -1,8 +1,8 @@
 species	k	group_sizes	separation_ratio	null_mean_ratio	z_score	groups
-ddLepDrab1	8	2,2,2,2,2,2,2,2	1.4564	1.0022	11.14	chr01,chr08 | chr02,chr04 | chr03,chr06 | chr05,chr16 | chr07,chr15 | chr09,chr13 | chr10,chr12 | chr11,chr14
-ddLepDrab1	7	2,2,2,2,2,2,4	1.3606	1.0021	10.79	chr01,chr08 | chr02,chr04 | chr03,chr06 | chr05,chr16,chr10,chr12 | chr07,chr15 | chr09,chr13 | chr11,chr14
-ddLepDrab1	6	2,2,2,2,4,4	1.2757	0.9990	9.41	chr01,chr08 | chr02,chr04 | chr03,chr06,chr07,chr15 | chr05,chr16,chr10,chr12 | chr09,chr13 | chr11,chr14
-ddLepDrab1	5	2,2,4,4,4	1.2297	0.9984	9.05	chr01,chr08,chr09,chr13 | chr02,chr04 | chr03,chr06,chr07,chr15 | chr05,chr16,chr10,chr12 | chr11,chr14
-ddLepDrab1	4	2,2,4,8	1.1439	0.9997	7.32	chr01,chr08,chr09,chr13,chr03,chr06,chr07,chr15 | chr02,chr04 | chr05,chr16,chr10,chr12 | chr11,chr14
-ddLepDrab1	3	4,4,8	1.1335	1.0001	6.30	chr01,chr08,chr09,chr13,chr03,chr06,chr07,chr15 | chr02,chr04,chr11,chr14 | chr05,chr16,chr10,chr12
-ddLepDrab1	2	4,12	1.0862	0.9984	5.16	chr01,chr08,chr09,chr13,chr03,chr06,chr07,chr15,chr05,chr16,chr10,chr12 | chr02,chr04,chr11,chr14
+ddLepDrab1	8	2,2,2,2,2,2,2,2	2.0527	1.0041	18.76	chr01,chr08 | chr02,chr04 | chr03,chr06 | chr05,chr16 | chr07,chr15 | chr09,chr13 | chr10,chr12 | chr11,chr14
+ddLepDrab1	7	2,2,2,2,2,2,4	1.5509	1.0020	12.36	chr01,chr08 | chr02,chr04 | chr03,chr06 | chr05,chr16 | chr07,chr15 | chr09,chr13,chr10,chr12 | chr11,chr14
+ddLepDrab1	6	2,2,2,2,2,6	1.2924	1.0001	9.44	chr01,chr08 | chr02,chr04 | chr03,chr06 | chr05,chr16 | chr07,chr15,chr09,chr13,chr10,chr12 | chr11,chr14
+ddLepDrab1	5	2,2,2,2,8	1.1780	0.9993	7.33	chr01,chr08 | chr02,chr04 | chr03,chr06,chr07,chr15,chr09,chr13,chr10,chr12 | chr05,chr16 | chr11,chr14
+ddLepDrab1	4	2,2,2,10	1.1213	1.0008	6.01	chr01,chr08,chr03,chr06,chr07,chr15,chr09,chr13,chr10,chr12 | chr02,chr04 | chr05,chr16 | chr11,chr14
+ddLepDrab1	3	2,2,12	1.0932	1.0006	5.23	chr01,chr08,chr03,chr06,chr07,chr15,chr09,chr13,chr10,chr12,chr11,chr14 | chr02,chr04 | chr05,chr16
+ddLepDrab1	2	2,14	1.0791	0.9997	4.43	chr01,chr08,chr03,chr06,chr07,chr15,chr09,chr13,chr10,chr12,chr11,chr14,chr05,chr16 | chr02,chr04

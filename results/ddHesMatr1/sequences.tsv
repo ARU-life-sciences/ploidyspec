@@ -1,6 +1,6 @@
 unit_id	hap	chrom	seq_id	length	source	desc
-HAP1_chr01	HAP1	1	SUPER_1_HAP1	827946405	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap1.1.primary.fa.gz	
-HAP1_chr02	HAP1	2	SUPER_2_HAP1	825393763	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap1.1.primary.fa.gz	
+HAP1_chr02	HAP1	2	SUPER_1_HAP1	827946405	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap1.1.primary.fa.gz	
+HAP1_chr01	HAP1	1	SUPER_2_HAP1	825393763	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap1.1.primary.fa.gz	
 HAP1_chr03	HAP1	3	SUPER_3_HAP1	536739713	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap1.1.primary.fa.gz	
 HAP1_chr04	HAP1	4	SUPER_4_HAP1	459262978	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap1.1.primary.fa.gz	
 HAP1_chr05	HAP1	5	SUPER_5_HAP1	454584747	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/data/ddHesMatr1/ddHesMatr1.hap1.1.primary.fa.gz	

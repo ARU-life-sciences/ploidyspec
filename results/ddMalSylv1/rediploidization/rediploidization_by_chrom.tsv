@@ -1,22 +1,22 @@
-chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
-chr01	2										not_assessable	none					unpaired
-chr02	2										not_assessable	none					unpaired
-chr03	2										not_assessable	none					unpaired
-chr04	2										not_assessable	none					unpaired
-chr05	2										not_assessable	none					unpaired
-chr06	2										not_assessable	none					unpaired
-chr07	2										not_assessable	none					unpaired
-chr08	2										not_assessable	none					unpaired
-chr09	2										not_assessable	none					unpaired
-chr10	2										not_assessable	none					unpaired
-chr11	2										not_assessable	none					unpaired
-chr12	2										not_assessable	none					unpaired
-chr13	2										not_assessable	none					unpaired
-chr14	2										not_assessable	none					unpaired
-chr15	2										not_assessable	none					unpaired
-chr16	2										not_assessable	none					unpaired
-chr17	2										not_assessable	none					unpaired
-chr18	2										not_assessable	none					unpaired
-chr19	2										not_assessable	none					unpaired
-chr20	2										not_assessable	none					unpaired
-chr21	2										not_assessable	none					unpaired
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
+chr01	2											0.00		not_assessable	none					unpaired
+chr02	2											0.00		not_assessable	none					unpaired
+chr03	2											0.00		not_assessable	none					unpaired
+chr04	2											0.00		not_assessable	none					unpaired
+chr05	2											0.00		not_assessable	none					unpaired
+chr06	2											0.00		not_assessable	none					unpaired
+chr07	2											0.00		not_assessable	none					unpaired
+chr08	2											0.00		not_assessable	none					unpaired
+chr09	2											0.00		not_assessable	none					unpaired
+chr10	2											0.00		not_assessable	none					unpaired
+chr11	2											0.00		not_assessable	none					unpaired
+chr12	2											0.00		not_assessable	none					unpaired
+chr13	2											0.00		not_assessable	none					unpaired
+chr14	2											0.00		not_assessable	none					unpaired
+chr15	2											0.00		not_assessable	none					unpaired
+chr16	2											0.00		not_assessable	none					unpaired
+chr17	2											0.00		not_assessable	none					unpaired
+chr18	2											0.00		not_assessable	none					unpaired
+chr19	2											0.00		not_assessable	none					unpaired
+chr20	2											0.00		not_assessable	none					unpaired
+chr21	2											0.00		not_assessable	none					unpaired

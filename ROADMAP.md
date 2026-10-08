@@ -127,7 +127,7 @@ one table.
 
 ## Phase 2 — lock down the method
 
-- [ ] Choose core outputs, one question each:
+- [x] Choose core outputs, one question each (option B, below):
       copy number · ancient pairing · copy divergence · lineage/inheritance
       structure · repeat-content divergence · **rediploidization state**.
       Everything else → supplementary.
@@ -138,7 +138,7 @@ one table.
       `drLytSali1` (tetrasomic by classical genetics); ideally a salmonid, where
       residual-tetrasomy regions are already mapped from segregation data —
       `windowed-homeologs` should recover them even from one haplotype.
-- [ ] Re-run the 4 stale species on their Darwin reassemblies (submitted
+- [x] Re-run the 4 stale species on their Darwin reassemblies (submitted
       2026-10-07 from scratch, plus `ddLepDrab1`; jobs in
       `logs/rerun4_jobs.txt`, old dirs in `superseded/`).
 - [x] Fix `windowed` (2026-10-07): position-free. Each copy's windows are
@@ -156,7 +156,7 @@ one table.
       chr05/chr06 swap in another), and a re-run test on a changed assembly
       in the same output directory. Cache signatures now include the source
       file's size and mtime.
-- [ ] Panel-wide windowed re-run (`workflows/sanger/rerun_windowed.sh`), then
+- [x] Panel-wide windowed re-run (`workflows/sanger/rerun_windowed.sh`), then
       re-read `split_extent`-dependent states and regional calls.
 - [x] `ddHesMatr1`'s chr01/chr02 swap: mutual swaps now need 2.0x per unit
       instead of 3.0x (user decision 2026-10-07). Matrix onward re-running
@@ -201,6 +201,30 @@ autopolyploid lineages).
 ## Progress log
 
 Newest first. Check a running batch with the command given for it.
+
+- **2026-10-08 — windowed splits tested against a null.** After the
+  position-free fix, single short segments (2-3 Mb, the minimum) on
+  chromosomes with whole-chromosome split ~1.0 were inflating
+  `one_divergent_copy`/`candidate`. The windowed scan is now repeated for
+  groupings of the copies that cut across the observed one; pooled over the
+  genome they give a per-species noise level, and a split extent counts only
+  above that null's 95th percentile and above the chromosome's own crossing
+  groupings. Removed 26 calls in six species (`daBudDavi1` 10, `daGalBore1`
+  4, `ddSalTria1` 4, `drAriEdul1` 4, `SchCurv1` 3, `SchYoun1` 1), all towards
+  `tetrasomic_like`/`candidate`; snow carp chr19 and chr17 and the simulated
+  regional split pass.
+  - `one_divergent_copy` now needs chromosome-wide evidence (distance or TE
+    split); a regional segment isolating one copy is ordinary haplotype
+    structure in a polysomic genome. `drLytSali1` (re-run on its new assembly)
+    goes from 12/15 one_divergent_copy to 13/15 tetrasomic_like, matching its
+    known tetrasomic inheritance; 32 calls change in nine species.
+  - `all --with-windowed-homeologs` no longer stops when a species has no
+    homeolog pairs (it aborted `dcCerAlpi1` before structure/te-markers/
+    rediploidization); finishing job submitted.
+  - Re-runs landed: `ddLepDrab1` (41 units relabelled; 8 pairs at uniform
+    depth, CV 0.06; mostly tetrasomic-like within each number: AAAABBBB-like
+    on x=8), `ddHesMatr1` (swap fixed; the chr01-chr02 "pair" is gone),
+    `drLytSali1`, `lpElePalu1` (38.5 GB peak), `ddHypMacu1`.
 
 - **2026-10-07 — Phase 2 start: hand-checks and re-runs.** Details in
   INTERPRETATION.md "Phase 2 hand-check: corrections".

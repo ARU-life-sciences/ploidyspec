@@ -542,6 +542,21 @@ Xie et al. 2026, oldest first, recovered without prior knowledge.
   (`window_split_frac` is the median over copies), and `split_segments` are on
   that copy's coordinates, prefixed with its haplotype (`HAP2:0.0-17.8Mb`).
   `ddEmpNigr1` chr03: `whole`, 92% of windows split.
+- `split_extent_raw`, `window_covered`, `window_null_q95`: the windowed split is
+  tested against a null before it counts. Window distances carry real noise, so
+  a run of split windows at the 2 Mb minimum can appear by chance
+  (`daBudDavi1`: single 2-3 Mb segments on chromosomes with a whole-chromosome
+  split of ~1.0). The same scan is run for groupings of the copies that cut
+  across the observed one (a balanced split against the other balanced splits;
+  a one-copy split against the splits isolating each other copy). Their covered
+  fractions, pooled over the genome, give the species' noise level.
+  `split_extent` is `whole`/`regional` only when `window_covered` (fraction of
+  the chromosome in split segments, median copy) exceeds both
+  `window_null_q95` (that null's 95th percentile) and every crossing grouping of
+  the same chromosome. Otherwise it is `none`; `split_extent_raw` keeps the
+  untested reading. On the panel this removed 26 split calls in six species,
+  all on short segments, and kept `SchCurv1` chr19 (0.89 vs null 0.07) and
+  chr17 (0.24).
 - `copy_state`: the reading for this chromosome number:
   - `fusion_lineages`: fused in some haplotypes, not others, which splits the
     copies into a fused and an unfused lineage (the snow carp mechanism, Xie et al. 2026).
@@ -553,7 +568,12 @@ Xie et al. 2026, oldest first, recovered without prior knowledge.
   - `tetrasomic_like`: none. The copies are interchangeable, as expected under
     polysomic inheritance (or complete homogenization).
   - `one_divergent_copy`: the split isolates one copy from the rest
-    (`outlier_hap` names it). It has two readings, so check which:
+    (`outlier_hap` names it), on chromosome-wide evidence (distance split >=
+    1.25 or TE split >= 2). A windowed segment alone does not count here: one
+    of four copies carrying a divergent block in some region is ordinary
+    haplotype structure in a polysomic genome (`drLytSali1`, tetrasomic by
+    classical genetics, had 12/15 chromosomes in this state on regional
+    segments alone; now 1/15). It has two readings, so check which:
     - One haplotype is odd on most chromosomes (`most_frequent_outlier_hap`):
       likely assembly quality, see the assembly-quality confound above
       (`ddHypMacu1` HAP1, 8/8).

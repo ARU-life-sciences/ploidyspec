@@ -1,2 +1,0 @@
-species	partition_consistency	n_chroms_split	modal_singleton_hap	singleton_artifact_suspected	mean_run_length_windows	flip_rate	n_windows_for_run_length	mean_windowed_cv	n_pairs_cv	pair_depth_cv	distance_ratio_cv	n_pairs_for_ratio_cv	n_accepted_pairs	combined_allo_score	n_metrics_available
-drLytSali1	0.4000	15	HAP4	yes	3.717	0.2628	2386	0.0117	50	0.0465	0.0835	5	5	0.7813	3

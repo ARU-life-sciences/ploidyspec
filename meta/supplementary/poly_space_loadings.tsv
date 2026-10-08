@@ -1,0 +1,8 @@
+feature	PC1	PC2
+allelic_distance_median	0.3861	-0.5235
+paired_fraction	-0.3549	-0.0792
+pair_depth_cv	0.0374	-0.1721
+partition_best_z	-0.2679	-0.2061
+resolved_fraction	-0.5831	0.2134
+tetrasomic_fraction	0.5435	0.2895
+te_split_median	-0.1282	-0.7199

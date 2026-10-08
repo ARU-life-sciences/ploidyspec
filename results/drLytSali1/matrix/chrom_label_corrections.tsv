@@ -1,1 +1,9 @@
 status	unit_id	old_chrom	new_chrom	own_group_dist	alt_group_dist	ratio
+corrected	HAP1_chr01	1	2	0.097858	0.021213	4.61
+corrected	HAP1_chr02	2	1	0.099415	0.022696	4.38
+corrected	HAP1_chr04	4	9	0.120367	0.028902	4.16
+corrected	HAP1_chr05	5	4	0.105634	0.024918	4.24
+corrected	HAP1_chr06	6	5	0.103190	0.022229	4.64
+corrected	HAP1_chr07	7	6	0.126981	0.022686	5.60
+corrected	HAP1_chr08	8	7	0.103746	0.022327	4.65
+corrected	HAP1_chr09	9	8	0.120976	0.021609	5.60

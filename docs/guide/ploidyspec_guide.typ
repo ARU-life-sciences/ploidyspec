@@ -83,9 +83,9 @@
       including what we got wrong and corrected.
     ],
     note(title: "Status")[
-      Written 7 October 2026. The software is on `main`. A panel-wide re-run
-      after three bug fixes is still in progress, so the results chapter is a
-      dated snapshot and says where numbers will change.
+      Written 7-8 October 2026. The software is on `main`. The panel was
+      re-run after the fixes described in Chapter 8, so the results chapter
+      reflects the current method.
     ],
   )
 
@@ -532,7 +532,9 @@ more copies it reads:
 - `te_split`: the TE-marker `split_ratio` for the same chromosome;
 - `split_extent`: along each copy, which windows show the split. Reported
   as `whole`, `regional` (with the segments) or `none`, from the median
-  copy.
+  copy. It counts only if it beats a null: the same scan for groupings of
+  the copies that cut across the observed one, pooled over the genome
+  (Section #link(<sec-q4>)[6.4]).
 
 *Pooling.* A two-haplotype assembly has only two copies of each chromosome
 number, too few to split. ploidyspec pools a chromosome with its accepted
@@ -550,7 +552,7 @@ Each chromosome then gets one `copy_state`:
   [`partially_resolved`], [Two or more of: distance split ≥ 1.25, TE split ≥ 2, a windowed split segment.],
   [`candidate`], [Exactly one of those.],
   [`tetrasomic_like`], [None: the copies are interchangeable. For a pooled group, the homeolog is as close as the allele.],
-  [`one_divergent_copy`], [One copy stands apart from the rest. This is an odd haplotype (assembly quality, or a divergent extra genome, AAAB-like), not two lineages. Every split of a triploid looks like this.],
+  [`one_divergent_copy`], [One copy stands apart from the rest along the chromosome (distance or TE split; a windowed segment alone does not count). This is an odd haplotype (assembly quality, or a divergent extra genome, AAAB-like), not two lineages. Every split of a triploid looks like this.],
   [`not_assessable`], [Fewer than three copies and nothing to pool with.],
 )
 
@@ -745,14 +747,27 @@ Rediploidization leaves four kinds of trace that ploidyspec can see:
   caption: [Reading rediploidization.],
 )
 
-#caution(title: "Regional splits need calibrating")[
-  Since the windowed fix, window distances are real measurements with real
-  noise. A single split segment at the 2 Mb minimum length, on a chromosome
-  whose whole-chromosome split is ≈ 1.0, can arise by chance. Several
-  `one_divergent_copy` and `candidate` calls in the current panel rest on
-  exactly that (Section #link(<sec-panel>)[7.3]). Until regional segments
-  are tested against a null, trust regional splits that are long, seen in
-  several copies, or backed by `dist_split` or `te_split`.
+#note(title: "How regional splits are kept honest")[
+  Window distances are real measurements with real noise, so a run of
+  split windows can occur by chance. Two rules guard against it.
+
+  - *A null for each species.* The window scan is repeated for groupings of
+    the copies that cut across the observed one: for a balanced split, the
+    other balanced splits; for a one-copy split, the splits isolating each
+    other copy. Their coverage, pooled over the genome, gives the species'
+    noise level. A split's extent counts only if it covers more of the
+    chromosome than that null's 95th percentile and more than every crossing
+    grouping of the same chromosome (`window_covered`, `window_null_q95`,
+    `split_extent_raw` show the working). In `daBudDavi1` this removed ten
+    calls resting on single 2-3 Mb segments. Snow carp chr19 (0.89 against a
+    null of 0.07) and chr17 (0.24) pass, as does the simulated regional split.
+  - *One copy apart needs chromosome-wide evidence.* In a polysomic genome,
+    one of four copies often carries a divergent haplotype block somewhere.
+    That is ordinary polymorphism, not a lineage. So `one_divergent_copy`
+    requires a distance or TE split across the chromosome. On regional
+    segments alone, `drLytSali1`, tetrasomic by classical genetics, read
+    12/15 chromosomes as `one_divergent_copy`; it now reads 13/15
+    `tetrasomic_like`.
 ]
 
 // ================================================================ 7
@@ -806,17 +821,15 @@ The end-to-end test runs the whole pipeline on each and checks the result.
   chr17: the copies separate only towards the end.],
 )
 
-== The panel: 45 assemblies, snapshot of 7 October 2026 <sec-panel>
+== The panel: 45 assemblies <sec-panel>
 
 #figure(
   image("fig/panel_states.png", width: 100%),
   caption: [Rediploidization state of each chromosome number, per species (label:
-  copies × chromosome numbers). Snapshot: `ddHesMatr1`, `ddLepDrab1`,
-  `drLytSali1`, `dcCerAlpi1`, `ddHypMacu1` and `lpElePalu1` are being re-run
-  after the corrections in Section #link(<sec-corrections>)[8.1], and some
-  windowed re-runs are still finishing. `daInuConz1` and `dmRanRepe1` read
-  `resolved_lineages` through partition pooling: the evidence there is the
-  partition z, not the bar.],
+  copies × chromosome numbers), after the corrections in Section
+  #link(<sec-corrections>)[8.1]. `daInuConz1`, `dmRanRepe1` and `dcCerAlpi1`
+  read `resolved_lineages` through partition pooling: the evidence there is
+  the partition z, not the bar.],
 )
 
 *Two-haplotype allopolyploid anchors* (`daGleHede1`, `drTriRepe1`,
@@ -832,8 +845,11 @@ its documented tetraploid count 2n = 4x = 32 on x = 8. `dmRanRepe1` (8 vs 8,
 z = 10.9) and `dcCerAlpi1` (16 vs 20, z = 18.9) show the same kind of
 signal.
 
-*Snow carps* combine fusions, whole-chromosome lineage splits and a
-tetrasomic-like majority: rediploidization in progress.
+*Autopolyploid anchors* read as they should. `drLytSali1`, tetrasomic by
+classical genetics, is 13/15 `tetrasomic_like` on its current assembly. The
+*snow carps* combine fusions and whole-chromosome lineage splits with a
+tetrasomic-like majority (`SchCurv1` 17/25, `SchYoun1` 14/25 plus 10
+fusion-lineage chromosomes): rediploidization in progress.
 
 *Two lineages per chromosome.* `ddEmpNigr1` shows, on most chromosomes, two
 lineages at a uniform cross distance (≈ 0.020). That suggests a single
@@ -842,11 +858,16 @@ origin with disomic-like structure; it is now 2 `resolved` and 8
 
 *One divergent copy.* `daPilAura1` shows one copy in four apart on all 9
 base chromosomes, with the odd copy changing haplotype. That is
-AAAB-like. Several four-copy species (`daBudDavi1`, `daGalBore1`,
-`ddHypPerf1`, `drAriEdul1`) and the triploid `ddSalTria1` now have many
-`one_divergent_copy` calls. These rest on single short regional segments
-with whole-chromosome splits near 1.0 and are provisional (Section
-#link(<sec-q4>)[6.4]).
+AAAB-like. `ddHypMacu1` has the same haplotype (HAP1) apart on all 8
+chromosomes, matching a known assembly problem in that haplotype.
+
+*An octoploid, read correctly at last.* `ddLepDrab1` has four haplotypes
+of 16 chromosome numbers in 8 homeolog pairs at a uniform depth (CV 0.06).
+Within each number the four copies are mostly tetrasomic-like. That fits two
+x = 8 sets each present four times (AAAABBBB-like), matching 2n = 64 on
+x = 8. Its earlier "strongest allopolyploid candidate" signals came from one
+haplotype file numbering 14 chromosomes differently (Section
+#link(<sec-corrections>)[8.1]).
 
 #figure(
   table(
@@ -858,13 +879,16 @@ with whole-chromosome splits near 1.0 and are provisional (Section
     [`drMyrSpic1`], [2 × 21], [0.009], [8], [0.332], [24.7 (7)], [hexaploid; asynchronous pairs],
     [`daInuConz1`], [2 × 16], [0.0007], [0], [-], [10.6 (2)], [cryptic 8 vs 8 split, x = 8],
     [`dmRanRepe1`], [2 × 16], [0.023], [0], [-], [10.9 (2)], [cryptic 8 vs 8 split],
+    [`dcCerAlpi1`], [2 × 36], [0.008], [0], [-], [20.8 (3)], [cryptic 16 vs 20 split],
     [`ddMalSylv1`], [2 × 21], [0.0038], [0], [-], [none], [diploid anchor],
-    [`SchCurv1`], [4 × 25], [0.013], [2], [-], [-], [auto; 1 fusion; rediploidizing],
-    [`SchYoun1`], [4 × 25], [0.017], [0], [-], [-], [auto; 5 fusions; rediploidizing],
+    [`drLytSali1`], [4 × 15], [0.025], [5], [0.047], [10.5 (5)], [auto anchor; 13/15 tetrasomic-like],
+    [`SchCurv1`], [4 × 25], [0.013], [2], [-], [-], [auto; 1 fusion; 17/25 tetrasomic-like],
+    [`SchYoun1`], [4 × 25], [0.017], [0], [-], [-], [auto; 5 fusions; 14/25 tetrasomic-like],
+    [`ddLepDrab1`], [4 × 16], [0.021], [8], [0.062], [18.8 (8)], [octoploid, AAAABBBB-like on x = 8],
     [`ddEmpNigr1`], [4 × 13], [0.020], [1], [-], [-], [two lineages per chromosome],
     [`daPilAura1`], [2 × 18], [0.039], [9], [0.105], [22.7 (9)], [one divergent copy in four],
   ),
-  caption: [Selected species from `panel_summary.tsv` (snapshot). Pairs:
+  caption: [Selected species from `panel_summary.tsv`. Pairs:
   accepted homeolog pairs. Partition: strongest genome partition. Allele
   distance: median distance between copies of the same chromosome number.],
 )
@@ -874,8 +898,8 @@ with whole-chromosome splits near 1.0 and are provisional (Section
 
 == What we got wrong, and fixed <sec-corrections>
 
-Checking results by hand during Phase 2 found three pipeline problems. All
-three are now fixed and covered by tests. They are listed here because
+Checking results by hand during Phase 2 found four problems. All four are
+now fixed and covered by tests. They are listed here because
 earlier write-ups quoted numbers that depended on them.
 
 #table(
@@ -900,6 +924,13 @@ earlier write-ups quoted numbers that depended on them.
   [Per-copy FASTAs and k-mer tables were reused by name. A re-run of
    `drLytSali1` on a new, renumbered assembly kept the old sequences.],
   [Cache records its source; rebuilt on any change.],
+
+  [Window noise],
+  [After the windowed fix, chance runs of split windows and ordinary
+   haplotype blocks were read as lineage splits, inflating
+   `one_divergent_copy` and `candidate`.],
+  [Null from crossing groupings; one copy apart needs chromosome-wide
+   evidence (Section #link(<sec-q4>)[6.4]).],
 )
 
 Several inheritance-mode metrics from earlier work (`partition_consistency`,
@@ -948,7 +979,6 @@ classifier.
 
 == Open questions
 
-- Calibrate regional window splits against a null (Section #link(<sec-q4>)[6.4]).
 - Confirm the `SchCurv1` chr17 block against the published coordinates.
 - Literature checks for the cryptic candidates (`dmRanRepe1`, `dcCerAlpi1`).
 - Assess two-haplotype genomes for tetrasomy more directly: the pooled test

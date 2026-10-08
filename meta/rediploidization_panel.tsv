@@ -1,9 +1,9 @@
 species	n_chromosome_numbers	ancient_distance_ratio_cv	ancient_distance_ratio_median	ancient_paired_chromosomes	copy_state:candidate	copy_state:fusion_lineages	copy_state:not_assessable	copy_state:one_divergent_copy	copy_state:partially_resolved	copy_state:resolved_lineages	copy_state:tetrasomic_like	most_frequent_outlier_hap	n_distinct_fusions	n_fused_scaffolds	n_fusion_candidates_partner_present	partition_pool_z	state_basis:copies	state_basis:fusion	state_basis:homeolog_pool	state_basis:none	state_basis:partition_pool
-SchCurv1	25	0.00	7.59	2	2	2	0	5	1	0	15	HAP4 (2 chromosomes)	1	2	0		23	2	0	0	0
-SchYoun1	25			0	1	10	0	2	0	0	12	HAP3 (1 chromosomes)	5	10	0		15	10	0	0	0
-daBudDavi1	19			0	0	0	0	2	2	0	15	HAP2 (1 chromosomes)	0	0	0		19	0	0	0	0
+SchCurv1	25	0.00	7.59	2	2	2	0	2	2	0	17	HAP4 (1 chromosomes)	1	2	0		23	2	0	0	0
+SchYoun1	25			0	1	10	0	0	0	0	14		5	10	0		15	10	0	0	0
+daBudDavi1	19			0	1	0	0	2	1	0	15	HAP2 (1 chromosomes)	0	0	0		19	0	0	0	0
 daEupConf1	22			22	0	0	22	0	0	0	0		0	0	0		0	0	0	22	0
-daGalBore1	11	0.10	4.09	4	1	0	0	3	0	0	7	HAP3 (1 chromosomes)	0	0	0		11	0	0	0	0
+daGalBore1	11	0.10	4.09	4	0	0	0	0	1	0	10		0	0	0		11	0	0	0	0
 daGleHede1	18	0.11	3.50	18	0	0	0	0	0	18	0		0	0	0		0	0	18	0	0
 daInuConz1	16			0	0	0	0	0	0	16	0		0	0	0	10.63	0	0	0	0	16
 daLatClan1	21	0.19	29.95	18	0	0	3	0	0	18	0		0	0	0		0	0	18	3	0
@@ -14,20 +14,20 @@ daSonOler1	16			0	0	0	16	0	0	0	0		0	0	0		0	0	0	16	0
 dcCerAlpi1	36			0	0	0	4	0	0	32	0		0	0	0	18.93	0	0	0	4	32
 dcHonPepl1	34			0	0	0	34	0	0	0	0		0	0	0		0	0	0	34	0
 ddAraThal4	5			0	0	0	5	0	0	0	0		0	0	0		0	0	0	5	0
-ddEmpNigr1	13	0.00	4.67	2	4	0	0	3	6	0	0	HAP4 (2 chromosomes)	0	0	0		13	0	0	0	0
-ddHesMatr1	6	0.00	1.12	2	0	0	0	5	1	0	0	HAP1 (4 chromosomes)	0	0	0		6	0	0	0	0
+ddEmpNigr1	13	0.00	4.67	2	0	0	0	3	8	2	0	HAP4 (2 chromosomes)	0	0	0		13	0	0	0	0
+ddHesMatr1	6			0	0	0	0	4	0	1	1	HAP1 (2 chromosomes)	0	0	0		6	0	0	0	0
 ddHypMacu1	8	0.00	3.21	2	0	0	0	8	0	0	0	HAP1 (8 chromosomes)	0	0	0		8	0	0	0	0
-ddHypPerf1	8			0	1	0	0	5	1	0	1	HAP2 (3 chromosomes)	0	0	0		8	0	0	0	0
-ddLepDrab1	16	0.14	1.25	16	0	0	0	15	0	0	1	HAP4 (15 chromosomes)	0	0	0		16	0	0	0	0
+ddHypPerf1	8			0	0	0	0	4	2	0	2	HAP2 (2 chromosomes)	0	0	0		8	0	0	0	0
+ddLepDrab1	16	0.10	3.09	16	1	0	0	6	1	0	8	HAP4 (4 chromosomes)	0	0	0		16	0	0	0	0
 ddMalSylv1	21			0	0	0	21	0	0	0	0		0	0	0		0	0	0	21	0
 ddPopNigr1	19			0	0	0	19	0	0	0	0		0	0	0		0	0	0	19	0
 ddSalCine1	18			0	0	0	18	0	0	0	0		0	0	0		0	0	0	18	0
 ddSalPent1	38	0.13	8.40	38	0	0	0	0	0	38	0		0	0	0		0	0	38	0	0
-ddSalTria1	19	0.13	7.41	4	0	0	0	9	0	0	10	HAP3 (8 chromosomes)	0	0	0		19	0	0	0	0
+ddSalTria1	19	0.13	7.41	4	0	0	0	6	0	0	13	HAP3 (5 chromosomes)	0	0	0		19	0	0	0	0
 dmRanRepe1	16			0	0	0	0	0	0	16	0		0	0	0	10.93	0	0	0	0	16
-drAriEdul1	17	0.16	7.38	16	3	0	0	5	5	0	4	HAP4 (3 chromosomes)	0	0	0		17	0	0	0	0
+drAriEdul1	17	0.16	7.38	16	7	0	0	4	3	0	3	HAP4 (3 chromosomes)	0	0	0		17	0	0	0	0
 drIngLaur1	13			0	0	0	13	0	0	0	0		0	0	0		0	0	0	13	0
-drLytSali1	15	0.09	3.89	10	2	0	0	2	0	0	11	HAP2 (2 chromosomes)	0	0	0		15	0	0	0	0
+drLytSali1	15	0.09	3.89	10	1	0	0	1	0	0	13	HAP2 (1 chromosomes)	0	0	0		15	0	0	0	0
 drMyrSpic1	21	0.33	6.98	16	0	0	5	0	0	16	0		0	0	0		0	0	16	5	0
 drMyrVert1	14	0.06	4.81	14	0	0	0	0	0	14	0		0	0	0		0	0	14	0	0
 drRosSpin1	14	0.13	3.93	14	0	0	0	0	0	14	0		0	0	0		0	0	14	0	0

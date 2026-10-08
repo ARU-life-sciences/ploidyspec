@@ -1,2 +1,0 @@
-species	partition_consistency	n_chroms_split	modal_singleton_hap	singleton_artifact_suspected	mean_run_length_windows	flip_rate	n_windows_for_run_length	mean_windowed_cv	n_pairs_cv	pair_depth_cv	distance_ratio_cv	n_pairs_for_ratio_cv	n_accepted_pairs	combined_allo_score	n_metrics_available
-daGalBore1	0.2727	11	HAP1	yes	4.604	0.2113	1874		0	0.0020	0.0831	2	2	0.6354	2

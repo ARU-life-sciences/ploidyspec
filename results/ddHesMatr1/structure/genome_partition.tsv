@@ -1,1 +1,2 @@
 species	k	group_sizes	separation_ratio	null_mean_ratio	z_score	groups
+ddHesMatr1	2	2,4	1.0214	1.0005	2.14	chr01,chr02 | chr03,chr05,chr04,chr06

@@ -54,7 +54,7 @@ axs[1].set_ylabel('distance (-ln c / k)'); axs[1].set_xlabel('position along HAP
 fig.tight_layout(); fig.savefig(F+'/windowed_fix.png',dpi=200); plt.close(fig)
 
 # Fig: snow carp chr19 / chr17 tracks (new method)
-W=os.environ['TMPDIR']+'/wcarp/windowed/windowed_all.tsv'
+W='results/SchCurv1/windowed/windowed_all.tsv'
 tr=collections.defaultdict(lambda: collections.defaultdict(list))
 for r in csv.DictReader(open(W),delimiter='\t'):
     if r['unit_a'].startswith('HAP1'): tr[(r['group'],r['unit_b'][:4])]['x'].append(int(r['win_start'])/1e6); tr[(r['group'],r['unit_b'][:4])]['y'].append(float(r['distance']))
@@ -70,7 +70,7 @@ fig.suptitle('Schizothorax curvilabiatus (SchCurv1)',fontsize=9)
 fig.tight_layout(); fig.savefig(F+'/snowcarp_windows.png',dpi=200); plt.close(fig)
 
 # Fig: TE marker fraction per chromosome - diploid vs others
-groups=[('ddMalSylv1','diploid'),('daGleHede1','allo anchor'),('drTriRepe1','allo anchor'),('daInuConz1','cryptic allo?'),('SchCurv1','auto (4 copies)'),('drLytSali1','auto (4 copies,\nprevious assembly)')]
+groups=[('ddMalSylv1','diploid'),('daGleHede1','allo anchor'),('drTriRepe1','allo anchor'),('daInuConz1','cryptic allo?'),('SchCurv1','auto (4 copies)'),('drLytSali1','auto (4 copies)')]
 data=[];labels=[];colors=[]
 for sp,kind in groups:
     p=f'results/{sp}/subgenomes/auto_allo_index.tsv'
