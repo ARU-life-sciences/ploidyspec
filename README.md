@@ -39,9 +39,25 @@ order:
 ## Naming your chromosome-scale sequences
 
 Ploidyspec needs to know, per sequence, which **haplotype copy** it is and which
-**chromosome number** it represents. Both are read from the FASTA header/description via
-regex — get your assembly's naming close to one of the patterns below and you won't need
-to configure anything.
+**chromosome number** it represents. The haplotype comes from the manifest. The chromosome
+number can come from the headers, or ploidyspec can work it out:
+
+- **No names needed** (`--chrom-naming auto`, and the default whenever no header carries a
+  chromosome number). In each haplotype, sequences of at least `--min-len` that are also
+  at least a tenth of the median length of its larger sequences count as chromosome-scale;
+  the rest go to `unplaced.tsv`. The haplotype with the most chromosome-scale sequences is
+  numbered by length (1 = longest), and every other haplotype's sequences take the number
+  of the reference chromosome they share most k-mers with (one-to-one matching in the
+  `matrix` stage). Tested on simulated assemblies with every name removed and the
+  sequences shuffled. A sequence that matches nothing keeps a provisional number from
+  1001 and is reported in the log.
+- **From headers** (`--chrom-naming names`, or the default when headers carry numbers),
+  read via regex as below. Get your assembly's naming close to one of these patterns and
+  you won't need to configure anything.
+
+Each haplotype must still be chromosome-scale. A haplotype assembled only to contigs
+can be placed on another, scaffolded haplotype of the same individual first with
+`workflows/prep/scaffold_by_reference.py` (minimap2).
 
 **Chromosome number** — either of:
 - `chromosome: <N>` (or `chromosome<N>`, case-insensitive) anywhere in the description.

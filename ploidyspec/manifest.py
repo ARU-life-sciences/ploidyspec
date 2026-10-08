@@ -11,6 +11,18 @@ DEFAULT_CHROM_REGEXES = [
 ]
 DEFAULT_HAP_REGEX = r"HAP(\d+)[_-]SUPER"
 
+# Automatic chromosome numbering (--chrom-naming auto, or detect with no named
+# sequences). The reference haplotype is numbered 1..n by length; every other
+# haplotype gets provisional numbers from AUTO_OFFSET, which the matrix stage
+# replaces by one-to-one k-mer matching to the reference (chrom_reconcile).
+AUTO_OFFSET = 1001
+# A sequence is chromosome-scale, in auto mode, if it is at least this fraction
+# of the median length of the haplotype's larger sequences (the top half of
+# those >= --min-len). Masu salmon HAP2: 33 chromosomes of 18-127 Mb kept,
+# unplaced contigs of 1-5 Mb dropped.
+AUTO_MIN_FRAC = 0.1
+CHROM_NAMING = ("detect", "names", "auto")
+
 
 def read_fai(samtools_bin, fasta):
     fai = fasta + ".fai"
@@ -83,12 +95,79 @@ def read_manifest(manifest_path):
     return rows
 
 
-def prepare(manifest_path, outdir, samtools_bin, min_len, chrom_regexes, hap_regex):
+def chromosome_scale(lengths, min_frac=AUTO_MIN_FRAC):
+    """From {seq_id: length} (already >= min_len), the ids long enough to be
+    chromosomes: >= min_frac x the median length of the longer half."""
+    if not lengths:
+        return set()
+    ordered = sorted(lengths.values(), reverse=True)
+    top = ordered[: max(1, (len(ordered) + 1) // 2)]
+    cutoff = min_frac * top[len(top) // 2]
+    return {s for s, n in lengths.items() if n >= cutoff}
+
+
+def previous_auto_numbers(outdir):
+    """{(source, seq_id): chrom} from an earlier auto-numbered sequences.tsv, so a
+    resumed run keeps the numbers the matrix stage already assigned (and the
+    k-mer tables cached under them)."""
+    path = os.path.join(outdir, "sequences.tsv")
+    if not os.path.exists(path):
+        return {}
+    with open(path) as f:
+        return {(r["source"], r["seq_id"]): int(r["chrom"]) for r in csv.DictReader(f, delimiter="\t")
+                if r.get("numbering") == "auto"}
+
+
+def auto_number(candidates, outdir, min_frac=AUTO_MIN_FRAC):
+    """
+    Number chromosome-scale sequences without names. candidates: [dict(hap,
+    seq_id, length, source, desc)] for sequences >= min_len. Returns (rows,
+    excluded) where excluded are [(seq_id, source, length, reason)].
+    """
+    groups = {}
+    for c in candidates:
+        groups.setdefault((c["source"], c["hap"]), []).append(c)
+    rows, excluded = [], []
+    kept = {}
+    for key, seqs in groups.items():
+        ok = chromosome_scale({s["seq_id"]: s["length"] for s in seqs}, min_frac)
+        kept[key] = sorted((s for s in seqs if s["seq_id"] in ok), key=lambda s: -s["length"])
+        excluded += [(s["seq_id"], s["source"], s["length"], "auto-not-chromosome-scale")
+                     for s in seqs if s["seq_id"] not in ok]
+    if not kept:
+        return rows, excluded
+    # reference: most chromosome-scale sequences, ties to manifest order
+    order = list(groups)
+    ref = max(order, key=lambda k: (len(kept[k]), -order.index(k)))
+    previous = previous_auto_numbers(outdir)
+    reuse = all((s["source"], s["seq_id"]) in previous for seqs in kept.values() for s in seqs)
+    for key in order:
+        for rank, s in enumerate(kept[key]):
+            if reuse:
+                chrom = previous[(s["source"], s["seq_id"])]
+            else:
+                chrom = rank + 1 if key == ref else AUTO_OFFSET + rank
+            rows.append(dict(s, chrom=chrom, unit_id=f"{s['hap']}_chr{chrom:02d}", numbering="auto"))
+    log(f"auto chromosome numbering: reference {ref[1]} ({len(kept[ref])} chromosome-scale "
+        f"sequences, numbered by length); other haplotypes numbered by k-mer matching in the "
+        f"matrix stage" + (" (reusing the numbering of the existing sequences.tsv)" if reuse else ""))
+    return rows, excluded
+
+
+def prepare(manifest_path, outdir, samtools_bin, min_len, chrom_regexes, hap_regex,
+            chrom_naming="detect"):
+    """
+    chrom_naming: "names" reads chromosome numbers from headers
+    (--chrom-regex); "auto" ignores names and numbers by length and k-mer
+    matching (auto_number); "detect" uses names when any sequence has one and
+    falls back to auto otherwise.
+    """
     chrom_regexes = chrom_regexes or DEFAULT_CHROM_REGEXES
     hap_regex = hap_regex or DEFAULT_HAP_REGEX
 
     rows = []
     unplaced = []
+    candidates = []  # >= min_len with a haplotype, for auto numbering
     for fasta, hap_label in read_manifest(manifest_path):
         if not os.path.exists(fasta):
             raise SystemExit(f"manifest references missing file: {fasta}")
@@ -109,9 +188,9 @@ def prepare(manifest_path, outdir, samtools_bin, min_len, chrom_regexes, hap_reg
                     continue
             else:
                 hap = hap_label
-            chrom = match_chrom(desc, chrom_regexes) or match_chrom(
-                seq_id, chrom_regexes
-            )
+            candidates.append(dict(hap=hap, seq_id=seq_id, length=length, source=fasta, desc=desc))
+            chrom = None if chrom_naming == "auto" else (
+                match_chrom(desc, chrom_regexes) or match_chrom(seq_id, chrom_regexes))
             if chrom is None:
                 unplaced.append((seq_id, fasta, length, "no-chrom-match"))
                 continue
@@ -125,8 +204,16 @@ def prepare(manifest_path, outdir, samtools_bin, min_len, chrom_regexes, hap_reg
                     length=length,
                     source=fasta,
                     desc=desc,
+                    numbering="names",
                 )
             )
+
+    if chrom_naming == "auto" or (chrom_naming == "detect" and not rows and candidates):
+        if chrom_naming == "detect":
+            log("no sequence header matched a chromosome-number pattern -- numbering "
+                "chromosomes automatically (--chrom-naming auto)")
+        rows, excluded = auto_number(candidates, outdir)
+        unplaced = [u for u in unplaced if u[3] != "no-chrom-match"] + excluded
 
     seen = {}
     for r in rows:
@@ -140,7 +227,7 @@ def prepare(manifest_path, outdir, samtools_bin, min_len, chrom_regexes, hap_reg
     rows.sort(key=lambda r: (r["hap"], r["chrom"]))
     os.makedirs(outdir, exist_ok=True)
     seq_tsv = os.path.join(outdir, "sequences.tsv")
-    fieldnames = ["unit_id", "hap", "chrom", "seq_id", "length", "source", "desc"]
+    fieldnames = ["unit_id", "hap", "chrom", "seq_id", "length", "source", "desc", "numbering"]
     with open(seq_tsv, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=fieldnames, delimiter="\t")
         w.writeheader()

@@ -8,7 +8,7 @@ T=${LSB_DJOB_NUMPROC:-16}
 export MPLCONFIGDIR=${TMPDIR:-/tmp}
 # 1. place HAP1 contigs on HAP2's chromosomes
 if [ ! -s $d/hap1_vs_hap2.paf ]; then
-  minimap2 -x asm5 -c -t $T $d/masu_hap2.fa $d/masu_hap1.fa > $d/hap1_vs_hap2.paf.part
+  minimap2 -x asm5 --secondary=no -t $T $d/masu_hap2.fa $d/masu_hap1.fa > $d/hap1_vs_hap2.paf.part
   mv $d/hap1_vs_hap2.paf.part $d/hap1_vs_hap2.paf
 fi
 python3 workflows/prep/scaffold_by_reference.py --contigs $d/masu_hap1.fa \

@@ -34,11 +34,19 @@ level since everything else depends on them.
 
 `sequences.tsv`: one row per chromosome-scale unit that made it into the
 analysis — `unit_id` (e.g. `HAP1_chr01`), `hap`, `chrom`, `seq_id`, `length`,
-`source`, `desc`. This is the master list every other stage groups by
-`chrom` (to find haplotype copies of the same chromosome) or reads directly.
+`source`, `desc`, `numbering`. This is the master list every other stage
+groups by `chrom` (to find haplotype copies of the same chromosome) or reads
+directly. `numbering` is `names` when the chromosome number came from the
+header, `auto` when ploidyspec assigned it (see README, "Naming your
+chromosome-scale sequences"). With automatic numbering, one haplotype is
+numbered by length and the others are matched to it in the matrix stage; a
+sequence that matched nothing keeps a provisional number from 1001
+(`HAP2_chr1001`).
 
 `unplaced.tsv`: every sequence that got *excluded*, with why (`reason`:
-`below-min-len`, `no-hap-match`, `no-chrom-match`). Read this first whenever
+`below-min-len`, `no-hap-match`, `no-chrom-match`, or with automatic numbering
+`auto-not-chromosome-scale`: shorter than a tenth of the median length of the
+haplotype's larger sequences). Read this first whenever
 a species produces fewer units than you expected — it's almost always a
 header-format/regex mismatch, not a bug.
 

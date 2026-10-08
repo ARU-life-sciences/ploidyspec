@@ -166,3 +166,78 @@ class TestRerunOnChangedAssembly(unittest.TestCase):
             self.assertEqual(cached, to_text(recs[1][2]))
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
+
+
+@unittest.skipUnless(ENABLED, "set PLOIDYSPEC_E2E=1 with samtools + FastK on PATH")
+class TestAutoNumberingEndToEnd(unittest.TestCase):
+    """Assemblies with no chromosome names at all (ROADMAP 1.7): headers are
+    replaced by arbitrary contig names and the sequences shuffled. ploidyspec
+    must find the chromosome-scale sequences, number them consistently across
+    haplotypes, and reach the same states as with names."""
+
+    SCENARIOS = ("allotetraploid", "autotetraploid")
+
+    @classmethod
+    def setUpClass(cls):
+        import random
+        cls.tmp = tempfile.mkdtemp(prefix="ploidyspec_auto_")
+        for name in cls.SCENARIOS:
+            simulate(name, os.path.join(cls.tmp, "named"), seed=11,
+                     params=dict(SIM_PARAMS, n_chrom=5))
+        cls.truth_chrom = {}
+        rng = random.Random(3)
+        for name in cls.SCENARIOS:
+            src = os.path.join(cls.tmp, "named", name)
+            dst = os.path.join(cls.tmp, "unnamed", name)
+            os.makedirs(dst)
+            manifest = []
+            for line in open(os.path.join(src, "manifest.tsv")):
+                if line.startswith("#"):
+                    continue
+                fasta, hap = line.rstrip("\n").split("\t")
+                fasta = os.path.join(src, fasta) if not os.path.isabs(fasta) else fasta
+                recs = open(fasta).read().split(">")[1:]
+                rng.shuffle(recs)
+                out = os.path.join(dst, f"{hap}.fa")
+                with open(out, "w") as f:
+                    for i, rec in enumerate(recs):
+                        header, body = rec.split("\n", 1)
+                        new = f"ctg{rng.randrange(10**6):06d}_{i}"
+                        cls.truth_chrom[(name, hap, new)] = int(header.split("chromosome: ")[1])
+                        f.write(f">{new}\n{body}")
+                manifest.append(f"{out}\t{hap}\n")
+            with open(os.path.join(dst, "manifest.tsv"), "w") as f:
+                f.writelines(manifest)
+            main(["all", "--manifest", os.path.join(dst, "manifest.tsv"),
+                  "--outdir", os.path.join(dst, "out")] + RUN_ARGS)
+
+    @classmethod
+    def tearDownClass(cls):
+        if os.environ.get("PLOIDYSPEC_E2E_KEEP") != "1":
+            shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def units(self, name):
+        return read_tsv(os.path.join(self.tmp, "unnamed", name, "out", "sequences.tsv"))
+
+    def test_each_number_holds_one_original_chromosome(self):
+        n = 5
+        for name in self.SCENARIOS:
+            groups = {}
+            for u in self.units(name):
+                orig = self.truth_chrom[(name, u["hap"], u["seq_id"])]
+                # in the allotetraploid, i and i+n are homeologs from different
+                # progenitors: they must stay distinct numbers
+                groups.setdefault(u["chrom"], set()).add(orig)
+            self.assertTrue(all(len(g) == 1 for g in groups.values()), (name, groups))
+            self.assertEqual(len(groups), 2 * n if name == "allotetraploid" else n, name)
+
+    def test_every_copy_was_matched(self):
+        for name in self.SCENARIOS:
+            self.assertTrue(all(int(u["chrom"]) < 1000 for u in self.units(name)), name)
+
+    def test_states_match_named_run(self):
+        expected = {"allotetraploid": {"resolved_lineages"}, "autotetraploid": {"tetrasomic_like"}}
+        for name in self.SCENARIOS:
+            rows = read_tsv(os.path.join(self.tmp, "unnamed", name, "out", "rediploidization",
+                                         "rediploidization_by_chrom.tsv"))
+            self.assertEqual({r["copy_state"] for r in rows}, expected[name], name)

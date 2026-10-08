@@ -48,7 +48,7 @@ from .common import (
     subgenomes_dir,
     windowed_dir,
 )
-from .manifest import DEFAULT_CHROM_REGEXES, DEFAULT_HAP_REGEX, prepare
+from .manifest import CHROM_NAMING, DEFAULT_CHROM_REGEXES, DEFAULT_HAP_REGEX, prepare
 from .kmer_tables import build_all
 from .whole_matrix import compute_matrix
 from .windowed import compute_windowed, compute_windowed_homeologs
@@ -121,6 +121,16 @@ def add_common_args(p):
         type=int,
         default=1_000_000,
         help="minimum sequence length to treat as chromosome-scale (default 1e6)",
+    )
+    p.add_argument(
+        "--chrom-naming",
+        choices=CHROM_NAMING,
+        default="detect",
+        help="how chromosome numbers are found: 'names' reads them from headers "
+        "(--chrom-regex); 'auto' ignores names, keeps chromosome-scale sequences by "
+        "length, numbers one haplotype by length and the others by k-mer matching to it "
+        "in the matrix stage; 'detect' (default) uses names if any header has one, "
+        "otherwise auto",
     )
     p.add_argument(
         "--chrom-regex",
@@ -242,6 +252,7 @@ def cmd_prepare(args):
         args.min_len,
         args.chrom_regex,
         args.hap_regex,
+        getattr(args, "chrom_naming", "detect"),
     )
 
 

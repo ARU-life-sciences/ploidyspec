@@ -4,7 +4,7 @@ scaffolded one from the same individual, so both can go through ploidyspec
 with the same chromosome numbers.
 
 Input: the contig FASTA (indexed), and a PAF of those contigs aligned to the
-scaffolded haplotype (minimap2 -x asm5 -c). Each contig of at least
+scaffolded haplotype (minimap2 -x asm5; base-level -c alignment is not needed and costs a lot of memory). Each contig of at least
 --min-contig bp is assigned to the reference chromosome that takes most of its
 aligned bases, if that chromosome holds >= --min-share of them and the
 alignments cover >= --min-cover of the contig. Contigs on a chromosome are

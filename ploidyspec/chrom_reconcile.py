@@ -38,6 +38,7 @@ import os
 from collections import Counter, defaultdict
 
 from .common import log, matrix_dir
+from .manifest import AUTO_OFFSET
 
 AMBIGUOUS_RATIO_FLOOR = 1.5
 DEFAULT_RATIO_THRESHOLD = 3.0
@@ -48,15 +49,29 @@ DEFAULT_RATIO_THRESHOLD = 3.0
 MUTUAL_SWAP_RATIO = 2.0
 
 
+def is_auto(u):
+    return u.get("numbering") == "auto"
+
+
+def group_key(u):
+    """Units relabelled together: one source file, or for automatically numbered
+    units one haplotype (a file can hold several when labels are AUTO)."""
+    return f"{u['source']}|{u['hap']}" if is_auto(u) else u["source"]
+
+
 def choose_reference_source(units):
     """The source file most likely to have internally-consistent chrom numbering:
     whichever contributes the most units (ties broken by earliest first-appearance,
     i.e. manifest order) -- see the module docstring for why this side is never
     itself corrected."""
-    counts = Counter(u["source"] for u in units)
+    auto_ref = {group_key(u) for u in units if is_auto(u) and int(u["chrom"]) < AUTO_OFFSET}
+    if auto_ref:
+        # automatic numbering: the haplotype prepare numbered 1..n is the reference
+        return next(iter(auto_ref))
+    counts = Counter(group_key(u) for u in units)
     first_seen = {}
     for i, u in enumerate(units):
-        first_seen.setdefault(u["source"], i)
+        first_seen.setdefault(group_key(u), i)
     return max(counts, key=lambda s: (counts[s], -first_seen[s]))
 
 
@@ -130,12 +145,12 @@ def detect_relabeling(units, distance, ratio_threshold=DEFAULT_RATIO_THRESHOLD):
     ref_source = choose_reference_source(units)
     ref_groups = defaultdict(list)
     for i, u in enumerate(units):
-        if u["source"] == ref_source:
+        if group_key(u) == ref_source:
             ref_groups[u["chrom"]].append(i)
 
     candidates = []
     for i, u in enumerate(units):
-        if u["source"] == ref_source:
+        if group_key(u) == ref_source:
             continue
         own_chrom = u["chrom"]
         own_dist = mean_distance(i, ref_groups.get(own_chrom, []), distance)
@@ -171,12 +186,13 @@ def detect_relabeling(units, distance, ratio_threshold=DEFAULT_RATIO_THRESHOLD):
     flagged = {c["index"]: c for c in candidates}
     by_source = defaultdict(list)
     for i, u in enumerate(units):
-        if u["source"] != ref_source:
-            by_source[u["source"]].append(i)
+        if group_key(u) != ref_source:
+            by_source[group_key(u)].append(i)
 
     corrections, ambiguous = [], []
     for src, idxs in by_source.items():
-        if not any(i in flagged for i in idxs):
+        auto = all(is_auto(units[i]) for i in idxs)
+        if not auto and not any(i in flagged for i in idxs):
             continue
         assigned = match_to_reference(units, idxs, ref_groups, distance)
         moves, held = [], []
@@ -189,10 +205,14 @@ def detect_relabeling(units, distance, ratio_threshold=DEFAULT_RATIO_THRESHOLD):
                 continue
             own_dist = mean_distance(i, ref_groups.get(own, []), distance)
             new_dist = mean_distance(i, ref_groups[new], distance)
-            ratio = own_dist / new_dist if new_dist > 0 else float("inf")
+            if own_dist is None:  # provisional auto number: no reference group
+                own_dist, ratio = float("nan"), float("inf")
+            else:
+                ratio = own_dist / new_dist if new_dist > 0 else float("inf")
             move = dict(index=i, unit_id=units[i]["unit_id"], old_chrom=own, new_chrom=new,
                         own_dist=own_dist, alt_dist=new_dist, ratio=ratio)
-            (moves if ratio >= ratio_threshold else held).append(move)
+            # automatically numbered units take their match whatever the ratio
+            (moves if auto or ratio >= ratio_threshold else held).append(move)
         # mutual swaps: a held unit whose matched slot belongs to a unit matched
         # into its own slot moves too, if both clear MUTUAL_SWAP_RATIO
         by_old = {c["old_chrom"]: c for c in moves + held if assigned.get(c["index"]) == c["new_chrom"]}
@@ -263,7 +283,7 @@ def _rename_unit_files_batch(outdir, renames):
 
 
 def _rewrite_sequences_tsv(seq_tsv, units):
-    fieldnames = ["unit_id", "hap", "chrom", "seq_id", "length", "source", "desc"]
+    fieldnames = ["unit_id", "hap", "chrom", "seq_id", "length", "source", "desc", "numbering"]
     tmp = seq_tsv + ".tmp"
     with open(tmp, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=fieldnames, delimiter="\t")
@@ -327,6 +347,11 @@ def reconcile_chrom_labels(
     """
     corrections, ambiguous = detect_relabeling(units, distance, ratio_threshold)
 
+    assigned = [c for c in corrections if is_auto(units[c["index"]])]
+    if assigned:
+        log(f"automatic chromosome numbering: {len(assigned)} unit(s) given the number of "
+            f"their closest reference chromosome (one-to-one k-mer matching)")
+        corrections = [c for c in corrections if not is_auto(units[c["index"]])]
     if corrections:
         log(
             f"chrom-label reconciliation: correcting {len(corrections)} mislabeled "
@@ -345,6 +370,15 @@ def reconcile_chrom_labels(
             f"review recommended"
         )
 
+    moved = {c["index"] for c in assigned}
+    unmatched = [u["unit_id"] for i, u in enumerate(units)
+                 if is_auto(u) and int(u["chrom"]) >= AUTO_OFFSET and i not in moved]
+    if unmatched:
+        log(f"automatic chromosome numbering: {len(unmatched)} sequence(s) matched no reference "
+            f"chromosome and keep provisional numbers ({', '.join(unmatched[:5])}"
+            f"{', ...' if len(unmatched) > 5 else ''}): extra or fragmentary sequence, or a "
+            f"chromosome the reference haplotype lacks")
+    corrections = corrections + assigned
     renames = []
     for c in corrections:
         i = c["index"]

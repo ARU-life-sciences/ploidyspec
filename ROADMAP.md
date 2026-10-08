@@ -96,8 +96,15 @@ Phase 1, not a later extra.
        diploid, autotetraploid, allotetraploid, and a *partially rediploidized*
        autotetraploid (one fused/disomic chromosome, one arm-level disomic region).
        Doubles as the paper's validation figure.
-7. [ ] **Auto-detect naming** so manifests/regexes become optional (long-term
-       goal: point it at raw FASTA(s)).
+7. [~] **Auto-detect naming** so manifests/regexes become optional (long-term
+       goal: point it at raw FASTA(s)). Done (2026-10-08): chromosome-scale
+       sequences found by length and numbered without names
+       (`--chrom-naming auto`, default fallback), numbers matched across
+       haplotypes by k-mer one-to-one matching; end-to-end test on unnamed,
+       shuffled simulated assemblies. Contig-level haplotypes: placement on a
+       scaffolded haplotype with `workflows/prep/scaffold_by_reference.py`.
+       Still open: separating haplotypes inside one unlabelled file (manifest
+       labels still needed), and folding the scaffolding into `prepare`.
 
 ### Rediploidization stage — design sketch
 
@@ -201,6 +208,15 @@ autopolyploid lineages).
 ## Progress log
 
 Newest first. Check a running batch with the command given for it.
+
+- **2026-10-08 — automatic chromosome numbering (1.7, part).** `prepare`
+  numbers chromosome-scale sequences without names when headers carry none
+  (or with `--chrom-naming auto`); the matrix stage matches the other
+  haplotypes to the reference by k-mer distance. Unnamed, shuffled simulated
+  allo- and autotetraploids recover the true grouping and states. Masu
+  salmon (`OncMaso1`) added: HAP1 contigs placed on HAP2's 33 chromosomes
+  with `workflows/prep/scaffold_by_reference.py`; first job died at 48 GB in
+  minimap2 (`-c` base-level alignment), re-running without it.
 
 - **2026-10-08 — windowed splits tested against a null.** After the
   position-free fix, single short segments (2-3 Mb, the minimum) on
