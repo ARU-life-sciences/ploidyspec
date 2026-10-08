@@ -96,3 +96,27 @@ class TestAutoReconcile(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestReferenceChoice(unittest.TestCase):
+    def test_contig_level_haplotype_is_never_the_reference(self):
+        contigs = [seq("HAP1", f"c{i}", 5e6 + i * 1e5, "h1.fa") for i in range(40)]
+        chroms = [seq("HAP2", f"g{i}", 60e6 - i * 2e6, "h2.fa") for i in range(10)]
+        with tempfile.TemporaryDirectory() as d:
+            rows, _ = auto_number(contigs + chroms, d)
+        self.assertEqual({r["chrom"] for r in rows if r["hap"] == "HAP2"}, set(range(1, 11)))
+
+
+class TestLimitationNotes(unittest.TestCase):
+    def test_contig_level_haplotype_is_flagged(self):
+        from ploidyspec.manifest import contig_level_notes
+        rows = [dict(source="h1.fa", hap="HAP1")] * 33 + [dict(source="h2.fa", hap="HAP2")] * 300
+        notes = contig_level_notes(rows)
+        self.assertEqual(len(notes), 1)
+        self.assertIn("HAP2", notes[0])
+        self.assertIn("scaffold_by_reference.py", notes[0])
+
+    def test_balanced_haplotypes_are_not_flagged(self):
+        from ploidyspec.manifest import contig_level_notes
+        rows = [dict(source="h1.fa", hap="HAP1")] * 33 + [dict(source="h2.fa", hap="HAP2")] * 34
+        self.assertEqual(contig_level_notes(rows), [])

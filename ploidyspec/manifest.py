@@ -22,6 +22,9 @@ AUTO_OFFSET = 1001
 # unplaced contigs of 1-5 Mb dropped.
 AUTO_MIN_FRAC = 0.1
 CHROM_NAMING = ("detect", "names", "auto")
+# A haplotype with this many times the median number of chromosome-scale
+# sequences of the others is probably contig-level, not chromosome-scale.
+CONTIG_LEVEL_FACTOR = 2.0
 
 
 def read_fai(samtools_bin, fasta):
@@ -136,9 +139,17 @@ def auto_number(candidates, outdir, min_frac=AUTO_MIN_FRAC):
                      for s in seqs if s["seq_id"] not in ok]
     if not kept:
         return rows, excluded
-    # reference: most chromosome-scale sequences, ties to manifest order
+    # reference: most chromosome-scale sequences, ties to manifest order, among
+    # haplotypes that do not look contig-level (far more sequences than the
+    # others): masu salmon HAP1, 430 contigs against HAP2's 33 chromosomes
     order = list(groups)
-    ref = max(order, key=lambda k: (len(kept[k]), -order.index(k)))
+
+    def contig_level(k):
+        others = sorted(len(kept[o]) for o in order if o != k)
+        return bool(others) and len(kept[k]) > CONTIG_LEVEL_FACTOR * others[len(others) // 2]
+
+    eligible = [k for k in order if not contig_level(k)] or order
+    ref = max(eligible, key=lambda k: (len(kept[k]), -order.index(k)))
     previous = previous_auto_numbers(outdir)
     reuse = all((s["source"], s["seq_id"]) in previous for seqs in kept.values() for s in seqs)
     for key in order:
@@ -152,6 +163,31 @@ def auto_number(candidates, outdir, min_frac=AUTO_MIN_FRAC):
         f"sequences, numbered by length); other haplotypes numbered by k-mer matching in the "
         f"matrix stage" + (" (reusing the numbering of the existing sequences.tsv)" if reuse else ""))
     return rows, excluded
+
+
+
+ROADMAP_17 = "not yet handled by ploidyspec (ROADMAP 1.7)"
+
+
+def contig_level_notes(rows):
+    """Warnings for haplotypes that look contig-level: far more chromosome-scale
+    units than the other haplotypes, or none while the others have some."""
+    counts = {}
+    for r in rows:
+        counts[(r["source"], r["hap"])] = counts.get((r["source"], r["hap"]), 0) + 1
+    notes = []
+    if len(counts) < 2:
+        return notes
+    for key, n in counts.items():
+        others = sorted(v for k, v in counts.items() if k != key)
+        typical = others[len(others) // 2]
+        if typical and n > CONTIG_LEVEL_FACTOR * typical:
+            notes.append(
+                f"{key[1]} ({os.path.basename(key[0])}) has {n} chromosome-scale sequences against "
+                f"{typical} in the other haplotypes: it looks contig-level. Contig-level haplotypes "
+                f"are {ROADMAP_17}; place its contigs on a scaffolded haplotype of the same "
+                f"individual first with workflows/prep/scaffold_by_reference.py.")
+    return notes
 
 
 def prepare(manifest_path, outdir, samtools_bin, min_len, chrom_regexes, hap_regex,
@@ -168,11 +204,13 @@ def prepare(manifest_path, outdir, samtools_bin, min_len, chrom_regexes, hap_reg
     rows = []
     unplaced = []
     candidates = []  # >= min_len with a haplotype, for auto numbering
+    notes = []
     for fasta, hap_label in read_manifest(manifest_path):
         if not os.path.exists(fasta):
             raise SystemExit(f"manifest references missing file: {fasta}")
         lengths = read_fai(samtools_bin, fasta)
         descs = read_descriptions(fasta)
+        n_before = len(candidates)
         for seq_id, length in lengths.items():
             desc = descs.get(seq_id, "")
             if length < min_len:
@@ -207,6 +245,13 @@ def prepare(manifest_path, outdir, samtools_bin, min_len, chrom_regexes, hap_reg
                     numbering="names",
                 )
             )
+        if hap_label.upper() == "AUTO" and len(candidates) == n_before and any(
+                n >= min_len for n in lengths.values()):
+            notes.append(
+                f"{os.path.basename(fasta)} is labelled AUTO but no header matched the haplotype "
+                f"pattern (--hap-regex), so none of its sequences were used. Separating several "
+                f"haplotypes inside one file without names is {ROADMAP_17}: split the file by "
+                f"haplotype and label each in the manifest, or pass --hap-regex.")
 
     if chrom_naming == "auto" or (chrom_naming == "detect" and not rows and candidates):
         if chrom_naming == "detect":
@@ -214,6 +259,19 @@ def prepare(manifest_path, outdir, samtools_bin, min_len, chrom_regexes, hap_reg
                 "chromosomes automatically (--chrom-naming auto)")
         rows, excluded = auto_number(candidates, outdir)
         unplaced = [u for u in unplaced if u[3] != "no-chrom-match"] + excluded
+
+    notes += contig_level_notes(rows)
+    named = {(r["source"], r["hap"]) for r in rows}
+    if rows and any(r["numbering"] == "names" for r in rows):
+        for key in {(c["source"], c["hap"]) for c in candidates} - named:
+            notes.append(
+                f"{key[1]} ({os.path.basename(key[0])}) has no sequence with a chromosome number while "
+                f"the other haplotypes do. If its headers simply use another naming scheme, pass "
+                f"--chrom-regex or --chrom-naming auto. If it is contig-level, that is {ROADMAP_17}: "
+                f"place its contigs on a scaffolded haplotype first with "
+                f"workflows/prep/scaffold_by_reference.py.")
+    for note in notes:
+        log(f"NOTE: {note}")
 
     seen = {}
     for r in rows:

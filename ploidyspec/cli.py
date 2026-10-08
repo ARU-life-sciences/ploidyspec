@@ -130,7 +130,10 @@ def add_common_args(p):
         "(--chrom-regex); 'auto' ignores names, keeps chromosome-scale sequences by "
         "length, numbers one haplotype by length and the others by k-mer matching to it "
         "in the matrix stage; 'detect' (default) uses names if any header has one, "
-        "otherwise auto",
+        "otherwise auto. Not yet handled (ROADMAP 1.7, reported as NOTE lines when met): "
+        "several haplotypes inside one unlabelled file (label each file in the manifest), "
+        "and contig-level haplotypes (place them on a scaffolded haplotype first with "
+        "workflows/prep/scaffold_by_reference.py)",
     )
     p.add_argument(
         "--chrom-regex",
