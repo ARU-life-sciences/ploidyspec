@@ -1,0 +1,5 @@
+species	question	answer	confidence	evidence
+OncMaso1	ploidy	2 haplotype copies of each of 33 chromosome numbers; no older duplicated sets detected.	high	copies from the assembly (2 per number)
+OncMaso1	origin_like_structure	Allo-like (disomic-like): the duplicated sets do not interchange, from homeolog pairs (pair-depth CV 0.07). This is also what a long-rediploidized autopolyploid looks like.	medium	10 chromosome numbers assessed: 10 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate
+OncMaso1	te_markers	Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it.	not assessable	te_marker_fraction mean 0.2029
+OncMaso1	rediploidization	Not testable along chromosomes with two copies; ancient pairs are synchronous.	low	pair-depth CV 0.07
