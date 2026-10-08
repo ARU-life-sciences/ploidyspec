@@ -42,3 +42,4 @@ ddHesMatr1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/
 dmRanRepe1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/dmRanRepe1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
 daLatClan1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/daLatClan1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
 drLytSali1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/drLytSali1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	(?:SUPER_\d+_)?HAP(\d+)(?:_SUPER)?
+OncMaso1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/OncMaso1.tsv		
