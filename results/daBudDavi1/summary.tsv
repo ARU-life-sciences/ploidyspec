@@ -1,0 +1,5 @@
+species	question	answer	confidence	evidence
+daBudDavi1	ploidy	4 haplotype copies of each of 19 chromosome numbers; no older duplicated sets detected.	high	copies from the assembly (4 per number)
+daBudDavi1	origin_like_structure	Auto-like (tetrasomic-like): on most chromosomes all copies are about equally close.	medium	19 chromosome numbers assessed: 1 split into lineages, 15 tetrasomic-like, 2 one divergent copy, 1 candidate
+daBudDavi1	te_markers	Repeat history tracks the lineages on 1 chromosome(s) only.	low	TE split >= 2 on 1/19 chromosomes (median 1.11); absolute te_marker_fraction 0.1668 (reference only)
+daBudDavi1	rediploidization	Little sign: 1 chromosome(s) partly split among tetrasomic-like ones.	low	1 split / 15 tetrasomic-like chromosomes; 1 regional split(s)

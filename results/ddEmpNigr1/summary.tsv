@@ -1,0 +1,5 @@
+species	question	answer	confidence	evidence
+ddEmpNigr1	ploidy	4 haplotype copies of each of 13 chromosome numbers; no older duplicated sets detected.	high	copies from the assembly (4 per number)
+ddEmpNigr1	origin_like_structure	Allo-like (disomic-like): most chromosomes split into two lineages. A long-rediploidized autopolyploid would look the same.	medium	13 chromosome numbers assessed: 10 split into lineages, 0 tetrasomic-like, 3 one divergent copy, 0 candidate
+ddEmpNigr1	te_markers	Repeat history tracks the lineages on several chromosomes: separate TE histories in the split copies.	medium	TE split >= 2 on 4/13 chromosomes (median 1.73); absolute te_marker_fraction 0.2386 (reference only)
+ddEmpNigr1	rediploidization	Split throughout: either rediploidization is complete or the genome was allo-like from the start; these data cannot tell which.	medium	10 split / 0 tetrasomic-like chromosomes; 2 regional split(s)

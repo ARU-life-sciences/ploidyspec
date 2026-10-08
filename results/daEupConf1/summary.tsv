@@ -1,0 +1,5 @@
+species	question	answer	confidence	evidence
+daEupConf1	ploidy	Not assessable from this assembly: only one usable haplotype (22 chromosome numbers). The numbers do form duplicated sets (11 groups of mostly 2 chromosome numbers (genome partition z = 19.2)).	not assessable	11 groups of mostly 2 chromosome numbers (genome partition z = 19.2)
+daEupConf1	origin_like_structure	Not assessable from this assembly.	not assessable	fewer than three copies and nothing to pool
+daEupConf1	te_markers	TE markers not run for this species.	not assessable	
+daEupConf1	rediploidization	Not assessable from this assembly.	not assessable	pair-depth CV 0.04

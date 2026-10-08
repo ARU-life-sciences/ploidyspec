@@ -66,6 +66,7 @@ from .rediploidization import (
     compute_rediploidization,
 )
 from .report import generate_report
+from .summary import compute_summary
 from .simulate import DEFAULTS as SIM_DEFAULTS, SCENARIOS, simulate
 from .structure import compute_structure
 from .panel import build_panel
@@ -440,6 +441,10 @@ def cmd_structure(args):
     compute_structure(args.outdir)
 
 
+def cmd_summary(args):
+    compute_summary(args.outdir)
+
+
 def cmd_panel(args):
     build_panel(args.results, args.outdir, args.categories)
 
@@ -478,6 +483,7 @@ def cmd_all(args):
     if run_te_markers:
         cmd_subgenome_report(args)
     cmd_rediploidization(args)
+    cmd_summary(args)
     cmd_report(args)
     if args.cleanup:
         cmd_cleanup(args)
@@ -527,7 +533,7 @@ def main(argv=None):
     p_all = sub.add_parser(
         "all",
         help="run prepare -> kmers -> matrix -> homeologs -> windowed -> structure -> "
-        "rediploidization -> report in sequence (see --with-* flags for the opt-in stages)",
+        "rediploidization -> summary -> report in sequence (see --with-* flags for the opt-in stages)",
     )
     add_common_args(p_all)
     add_window_k_arg(p_all)
@@ -680,11 +686,19 @@ def main(argv=None):
 
     p_struct = sub.add_parser(
         "structure",
-        help="inheritance-mode metrics and diffuse genome-wide chromosome partitions "
-        "(from matrix/homeologs/windowed output, no new k-mer work)",
+        help="genome-wide chromosome partitions and homeolog pair synchrony "
+        "(from matrix/homeologs output, no new k-mer work)",
     )
     p_struct.add_argument("--outdir", required=True, help="species results directory")
     p_struct.set_defaults(func=cmd_structure)
+
+    p_summ = sub.add_parser(
+        "summary",
+        help="plain-language answers to the four questions (ploidy, auto/allo-like "
+        "structure, TE markers, rediploidization) with confidence, from the other stages' output",
+    )
+    p_summ.add_argument("--outdir", required=True, help="species results directory")
+    p_summ.set_defaults(func=cmd_summary)
 
     p_panel = sub.add_parser(
         "panel",

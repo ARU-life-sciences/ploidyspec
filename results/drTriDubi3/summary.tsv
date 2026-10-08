@@ -1,0 +1,5 @@
+species	question	answer	confidence	evidence
+drTriDubi3	ploidy	Not assessable from this assembly: only one usable haplotype (15 chromosome numbers). The numbers do form duplicated sets (7 homeolog pairs covering 93% of numbers).	not assessable	7 homeolog pairs covering 93% of numbers
+drTriDubi3	origin_like_structure	Not assessable from this assembly.	not assessable	fewer than three copies and nothing to pool
+drTriDubi3	te_markers	TE markers not run for this species.	not assessable	
+drTriDubi3	rediploidization	Not assessable from this assembly.	not assessable	pair-depth CV 0.09

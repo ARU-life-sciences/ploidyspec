@@ -10,6 +10,7 @@ Writes to --outdir (core outputs, ROADMAP Phase 2 option B):
   rediploidization state counts.
 - genome_partition.tsv: every species' significant diffuse partitions.
 - rediploidization_panel.tsv: one row per species from rediploidization_summary.tsv.
+- species_summaries.tsv: the four plain-language answers per species (summary.py).
 
 and to --outdir/supplementary/:
 - te_markers_panel.tsv: TE-marker readings. The within-genome contrast
@@ -274,6 +275,9 @@ def build_panel(results_dir, outdir, categories_path=None):
         fields = ["species"] + sorted({k for r in rows for k in r if k != "species"},
                                       key=lambda k: (not k.startswith("n_chrom"), k))
         write_tsv(os.path.join(outdir, "rediploidization_panel.tsv"), fields, rows)
+    from .summary import FIELDS as SUMMARY_TSV_FIELDS, summarize_species
+    summaries = [r for species, path in species_dirs(results_dir) for r in summarize_species(path)]
+    write_tsv(os.path.join(outdir, "species_summaries.tsv"), SUMMARY_TSV_FIELDS, summaries)
     write_tsv(os.path.join(supp, "te_markers_panel.tsv"), TE_FIELDS,
               [te_rows[s] for s in sorted(te_rows)])
 

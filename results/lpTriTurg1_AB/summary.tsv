@@ -1,0 +1,5 @@
+species	question	answer	confidence	evidence
+lpTriTurg1_AB	ploidy	Not assessable from this assembly: only one usable haplotype (0 chromosome numbers).	not assessable	no duplicated sets of chromosome numbers detected
+lpTriTurg1_AB	origin_like_structure	Not assessable from this assembly.	not assessable	fewer than three copies and nothing to pool
+lpTriTurg1_AB	te_markers	Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it.	not assessable	te_marker_fraction mean 0.4180
+lpTriTurg1_AB	rediploidization	Not assessable from this assembly.	not assessable	

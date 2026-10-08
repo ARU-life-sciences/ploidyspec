@@ -90,6 +90,7 @@ def collect_species_data(outdir):
         "subgenomes": None,
         "rediploidization": None,
         "structure": None,
+        "summary": _read_tsv(os.path.join(outdir, "summary.tsv")),
     }
 
     stdir = os.path.join(outdir, "structure")
@@ -158,6 +159,23 @@ def render_report_html(data):
     with hand-constructed dicts."""
     species = html.escape(data.get("species", ""))
     sections = []
+
+    summ = data.get("summary")
+    if summ:
+        titles = dict(ploidy="Ploidy", origin_like_structure="Auto-like or allo-like?",
+                      te_markers="TE markers", rediploidization="Rediploidization")
+        items = "".join(
+            f"<h3>{titles.get(r['question'], r['question'])}</h3>"
+            f"<p>{html.escape(r['answer'])}</p>"
+            f"<p class=\"note\">Confidence: {html.escape(r['confidence'])}"
+            + (f". Evidence: {html.escape(r['evidence'])}" if r.get("evidence") else "") + "</p>"
+            for r in summ)
+        sections.append(f"""<section>
+  <h2>Summary</h2>
+  <p class="note">Structure in this individual's assembly, read from the sections below;
+  not inheritance and not origin. See docs/guide, Chapter 6.</p>
+  {items}
+</section>""")
 
     m = data.get("matrix") or {}
     h = data.get("homeologs") or {}

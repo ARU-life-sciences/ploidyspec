@@ -118,7 +118,10 @@ Cheap stages, always run by `all`:
    rediploidization state (`fusion_lineages`, `partially_resolved`,
    `tetrasomic_like`, ...) alongside ancient pairing. Uses `te-markers` output
    if present.
-8. **report** — self-contained HTML report (`report.html` in the output directory),
+8. **summary** — plain-language answers to the four questions (ploidy, auto- or
+   allo-like structure, TE markers, rediploidization), each with a confidence and the
+   evidence behind it (`summary.tsv`, `summary.md`; also at the top of the report).
+9. **report** — self-contained HTML report (`report.html` in the output directory),
    embedding whatever plots/tables the stages that ran produced.
 
 Opt-in stages (moderate-to-expensive; flags on `all`, or run individually):

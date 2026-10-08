@@ -1,0 +1,30 @@
+# drAriEdul1
+
+## Ploidy
+
+4 haplotype copies of each of 17 chromosome numbers; the numbers form sets of 2 (8 groups of mostly 2 chromosome numbers), so x ≈ 8 and up to 8x relative to x; the sets are nearly as diverged as unrelated chromosomes, so they may be an old (paleo) duplication.
+
+*Confidence:* medium  
+*Evidence:* copies from the assembly (4 per number); 8 groups of mostly 2 chromosome numbers (genome partition z = 10.0); homeolog distance 0.099 vs unrelated 0.109
+
+## Auto-like or allo-like?
+
+Mixed: tetrasomic-like and split chromosomes in one genome (see rediploidization).
+
+*Confidence:* medium  
+*Evidence:* 17 chromosome numbers assessed: 3 split into lineages, 3 tetrasomic-like, 4 one divergent copy, 7 candidate
+
+## TE markers
+
+Repeat content differs between the split copies on several chromosomes, but the split isolates the same odd haplotype throughout, so this may reflect that haplotype's assembly rather than separate TE histories.
+
+*Confidence:* low  
+*Evidence:* TE split >= 2 on 6/17 chromosomes (median 1.47); absolute te_marker_fraction 0.2194 (reference only)
+
+## Rediploidization
+
+Likely under way: some chromosomes have split into lineages while others stay tetrasomic-like.
+
+*Confidence:* medium  
+*Evidence:* 3 split / 3 tetrasomic-like chromosomes; 5 regional split(s); pair-depth CV 0.03
+

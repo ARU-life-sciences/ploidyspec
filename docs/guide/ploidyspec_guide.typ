@@ -131,6 +131,10 @@ headers) and it answers four questions, each with the evidence behind it:
   [`rediploidization/`, Section #link(<sec-q4>)[6.4]],
 )
 
+For each species the `summary` stage writes these four answers, with a
+confidence and the evidence, to `summary.md`. Appendix #link(<app-species>)[A]
+has them for every species in the panel.
+
 #v(0.4em)
 It does all of this from DNA sequence alone: no gene annotation, no
 reference genome, no read data, no alignment. The core measurement is the
@@ -390,7 +394,7 @@ the other, and the matching distance $d = -ln(c) \/ k$.
     arrow,
     stage("7 rediploidization")[fusions, lineage states per chromosome],
     arrow,
-    stage("8 report")[one HTML page per species],
+    stage("8 summary, 9 report")[four answers with confidence; one HTML page],
   ) + v(6pt) + grid(
     columns: (1fr, 1fr, 1fr),
     gutter: 6pt,
@@ -398,7 +402,7 @@ the other, and the matching distance $d = -ln(c) \/ k$.
     stage("optional: windowed-homeologs")[windows between homeolog pairs],
     stage("many species: panel")[cross-species tables, exploratory PCA],
   ),
-  caption: [The pipeline. `ploidyspec all` runs stages 1-8 in order; each stage
+  caption: [The pipeline. `ploidyspec all` runs stages 1-9 in order; each stage
   reads the outputs of the stages before it.],
 )
 
@@ -556,7 +560,13 @@ Each chromosome then gets one `copy_state`:
   [`not_assessable`], [Fewer than three copies and nothing to pool with.],
 )
 
-== report, panel, simulate, cleanup
+== summary, report, panel, simulate, cleanup
+
+`summary` answers the four questions of Chapter 6 for the species, each with
+a confidence (high, medium, low or not assessable) and the evidence behind
+it, following the decision tables of that chapter. It writes `summary.tsv`
+and `summary.md`, and the report opens with it. Appendix A lists the
+summaries for every species in the panel.
 
 `report` writes one self-contained HTML page per species, with core
 sections first and TE markers under "Supplementary". `panel` stacks every
@@ -1009,8 +1019,10 @@ classifier.
   [`rediploidization/fusions.tsv`], [tested scaffolds: components, containment, `sibling_excess`, `lineage_divergence`, `status`],
   [`rediploidization/rediploidization_by_chrom.tsv`], [per chromosome: splits, extent, segments, `copy_state`, `state_basis`, partner],
   [`rediploidization/rediploidization_summary.tsv`], [counts per state, fusions, outlier haplotype, pair depths],
+  [`summary.tsv`, `summary.md`], [the four answers with confidence and evidence],
   [`report.html`], [everything above, one page],
   [`meta/panel_summary.tsv` (panel)], [one row per species: the core numbers],
+  [`meta/species_summaries.tsv` (panel)], [every species' four answers],
 )
 
 Full column-by-column documentation with worked examples is in `OUTPUTS.md`
@@ -1033,6 +1045,20 @@ in the repository.
 / Pooling: reading a chromosome together with its homeolog partner when each has too few copies on its own.
 / Rediploidization: return of a polyploid genome to diploid-like (disomic) behaviour, chromosome by chromosome.
 / Tetrasomic inheritance: all four copies pair at random; copies stay interchangeable.
+
+// ================================================================ appendix
+= Appendix A: species summaries <app-species>
+
+What `ploidyspec summary` says for each of the 45 assemblies in the panel,
+generated from `meta/species_summaries.tsv`. Each card gives the four answers
+of Chapter 6 with their confidence and the evidence behind them. Where the
+literature gives a chromosome count it is shown top right, for comparison
+with the ploidy answer. Remember what these are: readings of structure in one
+individual's assembly, not inheritance and not origin. A two-haplotype
+assembly in particular can show that duplicated sets do not interchange, but
+not why.
+
+#include "species_summaries.typ"
 
 // ================================================================ refs
 = References

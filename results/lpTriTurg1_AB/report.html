@@ -13,18 +13,32 @@ th, td { border: 1px solid #ccc; padding: 4px 8px; text-align: left; }
 th { background: #f0f0f0; }
 img { max-width: 100%; display: block; margin: 0.5rem 0; }
 .empty { color: #888; font-style: italic; }
+h2.part { border-top: 2px solid #333; padding-top: 1rem; color: #555; }
 .note { color: #888; font-size: 0.85rem; }
 
 </style>
 </head>
 <body>
 <h1>ploidyspec report: lpTriTurg1_AB</h1>
-<section><h2>Whole-chromosome matrix</h2><p class="empty">Not run yet.</p></section>
-<section><h2>Windowed divergence</h2><p class="empty">Not run yet.</p></section>
-<section><h2>Ancient homeolog pairing</h2><p class="empty">Not run yet.</p></section>
 <section>
-  <h2>Subgenomes / auto-allo index</h2>
-  <h3>Auto/allo index</h3>
+  <h2>Summary</h2>
+  <p class="note">Structure in this individual's assembly, read from the sections below;
+  not inheritance and not origin. See docs/guide, Chapter 6.</p>
+  <h3>Ploidy</h3><p>Not assessable from this assembly: only one usable haplotype (0 chromosome numbers).</p><p class="note">Confidence: not assessable. Evidence: no duplicated sets of chromosome numbers detected</p><h3>Auto-like or allo-like?</h3><p>Not assessable from this assembly.</p><p class="note">Confidence: not assessable. Evidence: fewer than three copies and nothing to pool</p><h3>TE markers</h3><p>Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it.</p><p class="note">Confidence: not assessable. Evidence: te_marker_fraction mean 0.4180</p><h3>Rediploidization</h3><p>Not assessable from this assembly.</p><p class="note">Confidence: not assessable</p>
+</section>
+<section><h2>Copy number and copy divergence (whole-chromosome matrix)</h2><p class="empty">Not run yet.</p></section>
+<section><h2>Ancient homeolog pairing</h2><p class="empty">Not run yet.</p></section>
+<section><h2>Genome partition</h2><p class="empty">Not run yet.</p></section>
+<section><h2>Rediploidization</h2><p class="empty">Not run yet.</p></section>
+<section><h2>Divergence along chromosomes (windowed)</h2><p class="empty">Not run yet.</p></section>
+<h2 class="part">Supplementary</h2>
+<section>
+  <h2>TE markers</h2>
+  <p class="note">Supplementary. Read the within-genome contrast
+  (split_ratio by lineage), not absolute te_marker_fraction: a confirmed
+  diploid (ddMalSylv1) reaches 0.25 per chromosome, above some allo
+  anchors.</p>
+  <h3>te_marker_fraction per chromosome</h3>
   <table><thead><tr><th>unit_a</th><th>unit_b</th><th>chrom</th><th>n_markers_a</th><th>n_markers_b</th><th>n_highcopy_a</th><th>n_highcopy_b</th><th>te_marker_fraction</th><th>windowed_distance_cv</th></tr></thead><tbody><tr><td>HAPA_chr01</td><td>HAPB_chr01</td><td>chr01</td><td>331916</td><td>497489</td><td>876155</td><td>1037982</td><td>0.433305</td><td></td></tr><tr><td>HAPA_chr02</td><td>HAPB_chr02</td><td>chr02</td><td>478975</td><td>515154</td><td>1209110</td><td>1259657</td><td>0.402682</td><td></td></tr><tr><td>HAPA_chr03</td><td>HAPB_chr03</td><td>chr03</td><td>427862</td><td>605396</td><td>1147084</td><td>1319514</td><td>0.418900</td><td></td></tr><tr><td>HAPA_chr04</td><td>HAPB_chr04</td><td>chr04</td><td>494353</td><td>411189</td><td>1146089</td><td>1090369</td><td>0.404900</td><td></td></tr><tr><td>HAPA_chr05</td><td>HAPB_chr05</td><td>chr05</td><td>425987</td><td>492355</td><td>1068957</td><td>1148843</td><td>0.414078</td><td></td></tr><tr><td>HAPA_chr06</td><td>HAPB_chr06</td><td>chr06</td><td>346471</td><td>559600</td><td>920209</td><td>1123964</td><td>0.443246</td><td></td></tr><tr><td>HAPA_chr07</td><td>HAPB_chr07</td><td>chr07</td><td>458625</td><td>456938</td><td>1108696</td><td>1129622</td><td>0.409041</td><td></td></tr></tbody></table>
   <h3>te_marker_fraction by lineage (chromosomes with &ge;3 copies, split by whole-chromosome distance)</h3>
   <p class="empty">No data.</p>
