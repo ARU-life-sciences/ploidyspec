@@ -43,3 +43,15 @@ dmRanRepe1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/
 daLatClan1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/daLatClan1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	
 drLytSali1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/drLytSali1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)	(?:SUPER_\d+_)?HAP(\d+)(?:_SUPER)?
 OncMaso1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/OncMaso1.tsv		
+xgCepNemo3	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/xgCepNemo3.tsv		
+xgHygCinc1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/xgHygCinc1.tsv		
+xgMonCant1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/xgMonCant1.tsv		
+xgDauRufa1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/xgDauRufa1.tsv		
+xgPomEleg1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/xgPomEleg1.tsv		
+xgLitLitt3	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/xgLitLitt3.tsv		
+xgStaPalu1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/xgStaPalu1.tsv	chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b	
+fLepOcu1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/fLepOcu1.tsv		
+fAmiCal2	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/fAmiCal2.tsv		
+icStrMela3	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/icStrMela3.tsv		
+fSalAlp3	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/fSalAlp3.tsv	chromosome (\d+),	
+fCorLav1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/fCorLav1.tsv		

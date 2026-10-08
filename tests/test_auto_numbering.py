@@ -120,3 +120,14 @@ class TestLimitationNotes(unittest.TestCase):
         from ploidyspec.manifest import contig_level_notes
         rows = [dict(source="h1.fa", hap="HAP1")] * 33 + [dict(source="h2.fa", hap="HAP2")] * 34
         self.assertEqual(contig_level_notes(rows), [])
+
+
+class TestUnlocalised(unittest.TestCase):
+    def test_ncbi_and_tol_unlocalised_headers(self):
+        from ploidyspec.manifest import is_unlocalised
+        self.assertTrue(is_unlocalised("JBDILZ010000023.1",
+                                       "Lepisosteus oculatus isolate fLepOcu1 chromosome 22 SUPER_22_unloc_1, whole"))
+        self.assertTrue(is_unlocalised("SUPER_3_unloc_2", ""))
+        self.assertTrue(is_unlocalised("chr4_random", ""))
+        self.assertFalse(is_unlocalised("CM082542.1", "Lepisosteus oculatus chromosome 22, whole genome"))
+        self.assertFalse(is_unlocalised("SUPER_1", "Malva sylvestris genome assembly, contig: SUPER_1"))

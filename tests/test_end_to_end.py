@@ -24,7 +24,8 @@ ENABLED = os.environ.get("PLOIDYSPEC_E2E") == "1" and all(shutil.which(t) for t 
 N_CHROM = 7
 SIM_PARAMS = dict(n_chrom=N_CHROM, chrom_len=800_000)
 RUN_ARGS = ["--k", "15,23", "--min-len", "400000", "--window", "100000",
-            "--min-segment-bp", "200000", "--with-te-markers", "--threads", "4"]
+            "--min-segment-bp", "200000", "--with-te-markers", "--with-windowed-homeologs",
+            "--threads", "4"]
 
 
 def read_tsv(path):
@@ -66,7 +67,7 @@ class TestEndToEnd(unittest.TestCase):
 
     def test_states_match_truth(self):
         for scenario in ("diploid", "autotetraploid", "autotetraploid_2hap", "allotetraploid",
-                         "mislabelled"):
+                         "mislabelled", "residual_tetrasomy"):
             self.assertEqual(self.states(scenario), self.expected_states(scenario), scenario)
 
     def test_rediploidized_states(self):
@@ -115,6 +116,34 @@ class TestEndToEnd(unittest.TestCase):
         redip = {r["species"]: r for r in
                  read_tsv(os.path.join(self.tmp, "panel", "rediploidization_panel.tsv"))}
         self.assertEqual(redip["rediploidized"]["n_distinct_fusions"], "2")
+
+    def residual(self, scenario):
+        rows = read_tsv(self.out(scenario, "rediploidization", "rediploidization_by_chrom.tsv"))
+        return {r["chrom"]: r for r in rows if r.get("residual_bp") not in ("", None)}
+
+    def test_residual_tetrasomy_found_where_simulated(self):
+        res = self.residual("residual_tetrasomy")
+        self.assertEqual(len(res), 2 * N_CHROM)  # every pooled pair tested
+        hit = {c for c, r in res.items() if int(r["residual_bp"])}
+        self.assertEqual(hit, {"chr01", f"chr{1 + N_CHROM:02d}"})
+        # the undiverged stretch is the chromosome's last 40%, not the satellite at its start
+        for c in hit:
+            self.assertNotIn("(start)", res[c]["residual_segments"], c)
+            self.assertEqual(res[c]["residual_controlled"], "yes")
+
+    def test_shared_satellite_is_excluded_by_the_control(self):
+        rows = read_tsv(self.out("residual_tetrasomy", "rediploidization", "residual_tetrasomy.tsv"))
+        self.assertTrue(all(int(r["n_shared_with_control"]) >= 1 for r in rows))
+
+    def test_no_residual_tetrasomy_in_diverged_pairs(self):
+        res = self.residual("allotetraploid")
+        self.assertEqual(len(res), 2 * N_CHROM)
+        self.assertEqual({c for c, r in res.items() if int(r["residual_bp"])}, set())
+
+    def test_residual_tetrasomy_summary(self):
+        rows = {r["question"]: r for r in read_tsv(self.out("residual_tetrasomy", "summary.tsv"))}
+        self.assertTrue(rows["rediploidization"]["answer"].startswith("Partly"))
+        self.assertTrue(rows["origin_like_structure"]["answer"].startswith("Auto-like origin"))
 
     def test_structure_outputs(self):
         for scenario in SCENARIOS:

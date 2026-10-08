@@ -51,7 +51,8 @@ from .common import (
 from .manifest import CHROM_NAMING, DEFAULT_CHROM_REGEXES, DEFAULT_HAP_REGEX, prepare
 from .kmer_tables import build_all
 from .whole_matrix import compute_matrix
-from .windowed import compute_windowed, compute_windowed_homeologs
+from .windowed import CONTROLS_TSV, compute_homeolog_controls, compute_windowed, compute_windowed_homeologs
+from .residual import RESIDUAL_RATIO
 from .homeologs import DEFAULT_MIN_EFFECT, run as run_homeolog_detection
 from .rediploidization import (
     DEFAULT_CONTAINMENT_Z,
@@ -228,6 +229,10 @@ def add_rediploidization_args(p):
     p.add_argument("--window-split", type=float, default=DEFAULT_WINDOW_SPLIT,
                    help="per-window cross/within distance ratio counted as a split window "
                    f"(default {DEFAULT_WINDOW_SPLIT})")
+    p.add_argument("--residual-ratio", type=float, default=RESIDUAL_RATIO,
+                   help="a homeolog window is near-allelic (residual tetrasomy) when its distance "
+                   "to the closest partner copy is below this many times the copy's typical "
+                   f"allelic distance (default {RESIDUAL_RATIO}; needs --with-windowed-homeologs)")
     p.add_argument("--min-segment-bp", type=int, default=DEFAULT_MIN_SEGMENT_BP,
                    help="minimum length of a contiguous split region to count "
                    f"(default {DEFAULT_MIN_SEGMENT_BP})")
@@ -347,6 +352,11 @@ def cmd_windowed_homeologs(args):
         return
     samtools_bin, fastk_bin, logex_bin, histex_bin, _ = resolve_tools(args)
     step = args.step or args.window
+    if getattr(args, "controls_only", False):
+        compute_homeolog_controls(seq_tsv, args.outdir, pairs, samtools_bin, fastk_bin, logex_bin,
+                                  histex_bin, args.window_k, args.window, step, args.threads)
+        log(f"wrote {CONTROLS_TSV} in {homeologs_dir(args.outdir)}")
+        return
     compute_windowed_homeologs(
         seq_tsv,
         args.outdir,
@@ -360,9 +370,11 @@ def cmd_windowed_homeologs(args):
         step,
         args.threads,
     )
+    compute_homeolog_controls(seq_tsv, args.outdir, pairs, samtools_bin, fastk_bin, logex_bin,
+                              histex_bin, args.window_k, args.window, step, args.threads)
     log(
-        f"wrote windowed_chrAAxBB.tsv/.png per pair, windowed_homeologs_all.tsv and "
-        f"windowed_homeologs_overview.png in {homeologs_dir(args.outdir)}"
+        f"wrote windowed_chrAAxBB.tsv/.png per pair, windowed_homeologs_all.tsv, "
+        f"windowed_homeologs_overview.png and {CONTROLS_TSV} in {homeologs_dir(args.outdir)}"
     )
 
 
@@ -437,6 +449,7 @@ def cmd_rediploidization(args):
         te_split=args.te_split,
         window_split=args.window_split,
         min_segment_bp=args.min_segment_bp,
+        residual_ratio=args.residual_ratio,
     )
 
     def tools():
@@ -641,6 +654,10 @@ def main(argv=None):
         default=None,
         help="step size in bp (default: same as --window)",
     )
+    p_win_homeo.add_argument(
+        "--controls-only", action="store_true",
+        help=f"only (re)compute {CONTROLS_TSV}, the unrelated-chromosome tracks the "
+        "residual-tetrasomy test uses to exclude shared repeats (for runs made before it existed)")
     p_win_homeo.set_defaults(func=cmd_windowed_homeologs)
 
     p_te = sub.add_parser(

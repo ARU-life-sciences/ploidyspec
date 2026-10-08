@@ -30,6 +30,11 @@ other stages already compute, plus one new k-mer test:
    failing that, with their reciprocal best match across a significant
    genome-wide bipartition from the structure stage.
 
+4. Residual tetrasomy between homeologs (residual.py): stretches where a
+   homeolog pair's copies are still as close as alleles, from the
+   windowed-homeologs tracks. A pooled pair split into lineages on the whole
+   chromosome but keeping such stretches reads as partially_resolved.
+
 The state labels are descriptive readings of sequence data from one
 individual -- not proof of inheritance mode, which needs segregation data.
 Thresholds are provisional (tuned on the snow carp anchors) and exposed as
@@ -57,6 +62,7 @@ from .common import (
     windowed_dir,
 )
 from .kmer_tables import build_one, ktab_prefix_path, load_sequences
+from .residual import FIELDS as RESIDUAL_FIELDS, residual_tetrasomy
 from .subgenome_report import bipartition_by_distance, load_whole_chrom_distances
 
 DEFAULT_LONG_RATIO = 1.4
@@ -718,6 +724,11 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
                 f"reciprocal match across the k=2 genome partition (z={partition_z:.1f})")
     all_haps = sorted({u["hap"] for u in units})
     chrom_haps = haps_by_chrom(units)
+    residual_rows, residual, residual_null = residual_tetrasomy(
+        outdir, {u["unit_id"]: u["chrom"] for u in units}, thresholds)
+    if residual:
+        log(f"rediploidization: residual tetrasomy in {sum(1 for r in residual.values() if r['residual_bp'])}"
+            f" of {len(residual)} homeolog-paired chromosomes (null run length {residual_null} windows)")
 
     ids_by_chrom = defaultdict(list)
     for u in units:
@@ -754,6 +765,8 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
                            dist_split=pooled_ratio)
                 state, basis = pooled_state(balanced, pooled_ratio, thresholds), pool_basis
                 pooled_with = f"chr{mate:02d}"
+                if state == "resolved_lineages" and residual.get(chrom, {}).get("residual_bp"):
+                    state = "partially_resolved"
             else:
                 state, basis = "not_assessable", "none"
         outlier = ""
@@ -783,6 +796,12 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
                 ancient_partner=partner_str,
                 distance_ratio=_fmt(ratio),
                 ancient_state=ancient_state,
+                residual_bp=residual[chrom]["residual_bp"] if chrom in residual else "",
+                residual_frac=_fmt(residual[chrom]["residual_frac"], 3) if chrom in residual else "",
+                residual_terminal_bp=residual[chrom]["terminal_bp"] if chrom in residual else "",
+                residual_support=residual.get(chrom, {}).get("residual_support", ""),
+                residual_segments=residual.get(chrom, {}).get("residual_segments", ""),
+                residual_controlled=residual.get(chrom, {}).get("controlled", ""),
             )
         )
 
@@ -791,13 +810,15 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
               ["scaffold", "hap", "length", "origin", "components", "containment",
                "sibling_excess", "lineage_divergence", "max_z", "status"])
     write_tsv(os.path.join(rdir, "rediploidization_by_chrom.tsv"), rows, list(rows[0]) if rows else [])
-    summary = summarize(rows, fusions, partition_z)
+    if residual_rows:
+        write_tsv(os.path.join(rdir, "residual_tetrasomy.tsv"), residual_rows, RESIDUAL_FIELDS)
+    summary = summarize(rows, fusions, partition_z, residual_null)
     write_tsv(os.path.join(rdir, "rediploidization_summary.tsv"), summary, ["metric", "value"])
     log(f"wrote fusions.tsv, rediploidization_by_chrom.tsv, rediploidization_summary.tsv in {rdir}")
     return rows, fusions, summary
 
 
-def summarize(rows, fusions, partition_z=None):
+def summarize(rows, fusions, partition_z=None, residual_null=None):
     n = len(rows)
     out = [dict(metric="n_chromosome_numbers", value=n)]
     for basis in ("copies", "homeolog_pool", "partition_pool", "fusion", "none"):
@@ -828,6 +849,17 @@ def summarize(rows, fusions, partition_z=None):
         if len(ratios) >= 2 and statistics.mean(ratios) > 0:
             out.append(dict(metric="ancient_distance_ratio_cv",
                             value=f"{statistics.stdev(ratios) / statistics.mean(ratios):.2f}"))
+    tested = [r for r in rows if r.get("residual_bp") not in ("", None)]
+    if tested:
+        hit = [r for r in tested if r["residual_bp"]]
+        bp = sum(r["residual_bp"] for r in hit)
+        out += [dict(metric="residual_tested_chromosomes", value=len(tested)),
+                dict(metric="residual_chromosomes", value=len(hit)),
+                dict(metric="residual_bp", value=bp),
+                dict(metric="residual_terminal_frac",
+                     value=f"{sum(r['residual_terminal_bp'] for r in hit) / bp:.2f}" if bp else ""),
+                dict(metric="residual_null_run_windows", value=residual_null),
+                dict(metric="residual_controlled", value=tested[0].get("residual_controlled", ""))]
     return out
 
 

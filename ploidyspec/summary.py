@@ -9,7 +9,8 @@ outputs of the other stages (no new k-mer work):
    separate lineages (disomic-like), and how consistently across chromosomes.
 3. TE markers: does repeat history track the lineages (within-genome contrast).
 4. Rediploidization: fusions, chromosomes split into lineages among
-   tetrasomic-like ones, regional splits, asynchronous ancient pairs.
+   tetrasomic-like ones, regional splits, residual tetrasomy between
+   homeologs, asynchronous ancient pairs.
 
 Each answer has a confidence (high / medium / low / not assessable) and the
 evidence it rests on. The rules follow docs/guide (Chapter 6). They describe
@@ -34,6 +35,9 @@ SET_PARTITION_Z = 10.0
 # Ancient sets are flagged as possibly paleopolyploid when their distance is
 # this close to the unrelated-chromosome background.
 PALEO_RATIO = 0.8
+# Residual tetrasomy on this many paired chromosome numbers reads as an
+# auto-like origin (one could be a homeologous exchange).
+RESIDUAL_MIN_CHROMS = 2
 
 
 def _read(path):
@@ -139,6 +143,21 @@ def answer_ploidy(g):
     return text, confidence, "; ".join(evidence)
 
 
+def residual(g):
+    """(tested, with residual tetrasomy, bp, terminal fraction, evidence, confidence) or None
+    when windowed-homeologs did not run."""
+    s = g["summary"]
+    if "residual_tested_chromosomes" not in s:
+        return None
+    tested, hit, bp = int(s["residual_tested_chromosomes"]), int(s["residual_chromosomes"]), int(s["residual_bp"])
+    term = _num(s.get("residual_terminal_frac"))
+    controlled = s.get("residual_controlled") == "yes"
+    ev = (f"residual tetrasomy on {hit}/{tested} homeolog-paired chromosome numbers"
+          + (f", {bp / 1e6:.1f} Mb, {term:.0%} of it terminal" if hit else "")
+          + ("" if controlled else " (no unrelated-chromosome control; shared repeats not excluded)"))
+    return tested, hit, bp, term, ev, "medium" if controlled else "low"
+
+
 def _state_counts(g):
     states = Counter(r["copy_state"] for r in g["by_chrom"])
     bases = Counter(r.get("state_basis", "") for r in g["by_chrom"])
@@ -188,6 +207,13 @@ def answer_structure(g):
         if frac(tet) >= 0.5:
             return ("Auto-like: the duplicated sets are about as close as alleles, so the copies "
                     "look interchangeable across chromosome numbers.", "medium", ev)
+        res = residual(g)
+        if res and res[1] >= RESIDUAL_MIN_CHROMS:
+            return ("Auto-like origin, mostly rediploidized: the duplicated sets have separated along "
+                    f"most of their length, but {res[1]} of {res[0]} paired chromosome numbers keep "
+                    "stretches where the homeologs are as close as alleles (residual tetrasomy). "
+                    "That is expected after an autopolyploidization; recent homeologous exchanges "
+                    "in an allopolyploid can leave similar stretches.", res[5], f"{ev}; {res[4]}")
         if frac(split) >= 0.6:
             conf = "medium" if via_partition else ("high" if (g["pair_cv"] or 1) <= 0.06 else "medium")
             why = ("a genome-wide partition (no accepted pairs)" if via_partition
@@ -249,6 +275,9 @@ def answer_rediploidization(g):
         ev.append(f"{len(fus)} fusion(s): {', '.join(fus)}")
     if c >= 3:
         ev.append(f"{split} split / {tet} tetrasomic-like chromosomes; {regional} regional split(s)")
+    res = residual(g)
+    if res:
+        ev.append(res[4])
     if g["pair_cv"] is not None:
         ev.append(f"pair-depth CV {g['pair_cv']:.2f}")
     ev = "; ".join(ev)
@@ -266,12 +295,21 @@ def answer_rediploidization(g):
     if c >= 3 and split and not tet:
         return ("Split throughout: either rediploidization is complete or the genome was "
                 "allo-like from the start; these data cannot tell which.", "medium", ev)
+    if c < 3 and res and res[1]:
+        where = f", {res[3]:.0%} of it at chromosome ends" if res[3] is not None else ""
+        return (f"Partly: {res[1]} of {res[0]} homeolog-paired chromosome numbers keep stretches of "
+                f"residual tetrasomy ({res[2] / 1e6:.1f} Mb{where}) where the homeologs are still as "
+                "close as alleles; elsewhere they have diverged.", res[5], ev)
+    if c < 3 and res:
+        return ("Diverged throughout the paired chromosomes: no stretch where homeologs are as close "
+                "as alleles. Rediploidization is complete, or the genome was allo-like from the "
+                "start.", res[5], ev)
     if g["pair_cv"] is not None and g["pair_cv"] >= 0.15:
         return ("Possibly: ancient pairs diverged to different depths (asynchronous resolution).",
                 "low", ev)
     if c == 2 and g["n_pairs"]:
-        return ("Not testable along chromosomes with two copies; ancient pairs are synchronous.",
-                "low", ev)
+        return ("Not tested along the chromosomes (run --with-windowed-homeologs for the residual-"
+                "tetrasomy test); ancient pairs are synchronous.", "low", ev)
     return ("Not assessable from this assembly.", "not assessable", ev)
 
 

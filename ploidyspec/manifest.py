@@ -10,6 +10,14 @@ DEFAULT_CHROM_REGEXES = [
     r"SUPER[_-](\d+)\b(?!_)",
 ]
 DEFAULT_HAP_REGEX = r"HAP(\d+)[_-]SUPER"
+# Unlocalised pieces of a chromosome carry its number in NCBI-style headers
+# ("chromosome 22 SUPER_22_unloc_1"); they are never the chromosome itself, and
+# one over --min-len would collide with it (fLepOcu1).
+UNLOCALISED = re.compile(r"unloc|unlocali[sz]ed|_random\b", re.I)
+
+
+def is_unlocalised(seq_id, desc):
+    return bool(UNLOCALISED.search(seq_id) or UNLOCALISED.search(desc))
 
 # Automatic chromosome numbering (--chrom-naming auto, or detect with no named
 # sequences). The reference haplotype is numbered 1..n by length; every other
@@ -226,6 +234,9 @@ def prepare(manifest_path, outdir, samtools_bin, min_len, chrom_regexes, hap_reg
                     continue
             else:
                 hap = hap_label
+            if is_unlocalised(seq_id, desc):
+                unplaced.append((seq_id, fasta, length, "unlocalised"))
+                continue
             candidates.append(dict(hap=hap, seq_id=seq_id, length=length, source=fasta, desc=desc))
             chrom = None if chrom_naming == "auto" else (
                 match_chrom(desc, chrom_regexes) or match_chrom(seq_id, chrom_regexes))

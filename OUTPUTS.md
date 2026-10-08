@@ -265,6 +265,13 @@ files (including the heatmap variants), but tracking divergence along the
 *ancestral* pairing instead of true haplotype copies (each copy's windows
 against the other chromosome number's copies).
 
+**`windowed_homeolog_controls.tsv`**: the same comparison against an
+*unrelated* chromosome (chromosome a of pair i against b of pair i+1; with
+one pair, the first other number), tables only. The residual-tetrasomy test
+uses it to discard windows that are close to every chromosome carrying a
+shared repeat. Runs made before it existed can add it with
+`windowed-homeologs --controls-only`.
+
 ## `subgenomes/` — differential fossil-TE markers (the resolver/phaser)
 
 Only present for species where `te-markers`/`te-markers-windowed` have
@@ -635,6 +642,35 @@ Xie et al. 2026, oldest first, recovered without prior knowledge.
   (`ploidy_ancestry_summary.tsv`). `ancient_state` is `paired`, `unpaired`, or
   `fusion_partner` when a detected fusion explains the pair (`SchCurv1`
   chr19<->chr22). Those pairs are fused chromosomes, not retained WGD duplicates.
+- `residual_bp`, `residual_frac`, `residual_terminal_bp`, `residual_support`,
+  `residual_segments`, `residual_controlled`: residual tetrasomy between this
+  chromosome and its homeolog partner, from `residual_tetrasomy.tsv` (blank
+  when windowed-homeologs did not run or the chromosome is unpaired).
+  `residual_support` is how many copies of the pair's two numbers show a
+  significant near-allelic run (more than half are needed); the bp and segments
+  are the best-covered copy's, labelled `start`/`end` within 10% of a
+  chromosome end, else `interior`. A pooled pair read as `resolved_lineages`
+  that keeps residual tetrasomy becomes `partially_resolved`.
+
+**`residual_tetrasomy.tsv`**: one row per copy of a paired chromosome. A
+window is *near-allelic* when its distance to the closest copy of the homeolog
+partner is below `--residual-ratio` (default 3) times the copy's typical
+allelic distance (median of its `windowed/` windows), and it is not equally
+close to the control chromosome. Runs of near-allelic windows (gaps of one
+window bridged) count when they have more near-allelic windows than the 95th
+percentile of the genome-wide longest run with the same labels shuffled over
+all tracks (`null_max_run`) and are at least `--min-segment-bp` long.
+Columns: `chrom`, `partner`, `anchor`, `control`, `n_windows`,
+`n_near_allelic`, `n_shared_with_control` (windows discarded because the
+control was as close), `allele_level`, `longest_run`, `null_max_run`,
+`segments`, `covered_bp`, `covered_frac`.
+
+Why a pair vote: in a haplotype scaffolded onto the other
+(`scaffold_by_reference.py`), a contig from a still-tetrasomic region aligns
+equally well to both homeologs and can be placed on the wrong one. That shows
+from the two copies it touches; real residual tetrasomy shows from all four.
+Positions along a scaffolded haplotype are borrowed from the reference one, so
+quote the unscaffolded haplotype's coordinates.
 
 **`rediploidization_summary.tsv`**: genome-level counts.
 - Chromosome numbers per `copy_state`; `n_distinct_fusions` (distinct
@@ -647,6 +683,9 @@ Xie et al. 2026, oldest first, recovered without prior knowledge.
 - Ancient-paired chromosome count, with the median and coefficient of variation
   of `distance_ratio`: tight and high = one synchronized, long-finished event;
   wide spread = pairs resolving at different times.
+- `residual_tested_chromosomes`, `residual_chromosomes`, `residual_bp`,
+  `residual_terminal_frac`, `residual_null_run_windows`, `residual_controlled`:
+  the residual-tetrasomy test genome-wide (present when windowed-homeologs ran).
 
 **Caveats.** Every state is a descriptive reading of one individual's
 assemblies, not a measurement of inheritance mode (that needs segregation

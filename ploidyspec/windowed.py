@@ -147,6 +147,7 @@ def compute_windowed_groups(
     overview_png_name,
     only_cross_chrom=False,
     species_outdir=None,
+    plots=True,
 ):
     """
     Core windowed-comparison loop. For each label -> group of units, every unit
@@ -221,13 +222,14 @@ def compute_windowed_groups(
                     kmers_a=n, shared=m, containment=c, distance=d,
                 ))
 
-        write_group_tsv(outdir, label, label_rows)
-        plot_group(outdir, label, label_rows)
-        plot_group_heatmap(outdir, label, label_rows)
+        if plots:
+            write_group_tsv(outdir, label, label_rows)
+            plot_group(outdir, label, label_rows)
+            plot_group_heatmap(outdir, label, label_rows)
         rows_by_label[label] = label_rows
 
     write_all_windows_tsv(outdir, rows_by_label, all_tsv_name)
-    if rows_by_label:
+    if rows_by_label and plots:
         plot_overview(outdir, rows_by_label, overview_title, overview_png_name)
         heatmap_png_name = overview_png_name.replace(".png", "_heatmap.png")
         plot_overview_heatmap(outdir, rows_by_label, overview_title, heatmap_png_name)
@@ -267,6 +269,39 @@ def compute_windowed(
         overview_png_name="windowed_genome_overview.png",
         species_outdir=outdir,
     )
+
+
+CONTROLS_TSV = "windowed_homeolog_controls.tsv"
+
+
+def control_pairs(homeolog_pairs, chroms):
+    """One unrelated chromosome per paired chromosome, for the residual-tetrasomy
+    control (residual.py): chromosome a of pair i against b of pair i+1, so every
+    paired number is compared with a paired number of similar character that is
+    not its homeolog. With a single pair, both members are compared with the
+    first other chromosome number."""
+    pairs = sorted(homeolog_pairs)
+    if len(pairs) >= 2:
+        return [(pairs[i][0], pairs[(i + 1) % len(pairs)][1]) for i in range(len(pairs))]
+    if len(pairs) == 1:
+        a, b = pairs[0]
+        others = [c for c in sorted(chroms) if c not in (a, b)]
+        return [(a, others[0]), (b, others[0])] if others else []
+    return []
+
+
+def compute_homeolog_controls(seq_tsv, outdir, homeolog_pairs, samtools_bin, fastk_bin, logex_bin,
+                              histex_bin, k, window, step, threads):
+    units = load_sequences(seq_tsv)
+    groups = defaultdict(list)
+    for u in units:
+        groups[int(u["chrom"])].append(u)
+    labeled = {f"chr{a:02d}x{c:02d}ctl": groups.get(a, []) + groups.get(c, [])
+               for a, c in control_pairs(homeolog_pairs, groups)}
+    return compute_windowed_groups(
+        labeled, homeologs_dir(outdir), samtools_bin, fastk_bin, logex_bin, histex_bin,
+        k, window, step, threads, overview_title="", all_tsv_name=CONTROLS_TSV,
+        overview_png_name="", only_cross_chrom=True, species_outdir=outdir, plots=False)
 
 
 def compute_windowed_homeologs(

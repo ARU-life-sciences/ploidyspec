@@ -209,6 +209,41 @@ autopolyploid lineages).
 
 Newest first. Check a running batch with the command given for it.
 
+- **2026-10-08 — residual-tetrasomy test for two-haplotype assemblies.**
+  `ploidyspec/residual.py`, run by the rediploidization stage when
+  windowed-homeologs has run. Per window, the closest homeolog copy against
+  the copy's typical allelic distance (< 3x = near-allelic), unless the window
+  is equally close to an unrelated control chromosome
+  (`windowed_homeolog_controls.tsv`, new; `windowed-homeologs --controls-only`
+  adds it to old runs). Runs tested against a genome-wide shuffle null and
+  decided per homeolog pair by more than half its copies. Pooled pairs keeping
+  residual tetrasomy become `partially_resolved`; the summary reads them.
+  - Masu salmon (`OncMaso1`): 8/10 paired chromosomes, 54 Mb, 62% at
+    chromosome ends; chr05-chr28 diverged throughout. Lien et al. 2016
+    (Atlantic salmon) is the reference for what to expect.
+  - The control was needed: without it `ddSalPent1` (Salix, salicoid WGD)
+    showed 10 chromosomes with end-to-end near-identity (0.001, below allelic);
+    411 of its 521 near-allelic windows are shared with the control, leaving 0.
+  - Simulation `residual_tetrasomy` (new): chr1/chr8 terminal stretch found
+    from all 4 copies, a shared satellite at every chromosome start rejected
+    by the control, the allotetraploid's pairs clean.
+  - Still to do: re-run the panel with controls
+    (`workflows/sanger/rerun_residual_controls.sh`); an arm-level homeolog map
+    (salmonid homeology is per arm, so whole-chromosome pairing finds 5 masu
+    pairs).
+- **2026-10-08 — non-plant Darwin Tree of Life batch submitted.** 12 species
+  in `jobs.tsv` (job IDs in `logs/new_species_jobs.txt`): Arctic charr
+  (`fSalAlp3`) and whitefish (`fCorLav1`), salmonids; four Stylommatophora
+  land snails (`xgCepNemo3`, `xgHygCinc1`, `xgMonCant1`, `xgDauRufa1`;
+  McHale et al. report a WGD in the clade) with three non-stylommatophoran
+  gastropod controls (`xgPomEleg1`, `xgLitLitt3`, `xgStaPalu1`); gar and
+  bowfin (`fLepOcu1`, `fAmiCal2`), before the teleost WGD; and the weevil
+  `icStrMela3`, triploid AAB by ToL's k-mer ploidy plot, assembled as two sets
+  in hap1 (chr1-10, chr11-20) and one in hap2. Weevils `icOtiRugo1` and
+  `icPolImpr1` were checked and are diploid. `xgCatTriz1` dropped
+  (contig-level). `xgMonCant1` and `xgLitLitt3` run with
+  `--chrom-naming auto` (unnamed hap2), which `jobs.tsv` does not record.
+
 - **2026-10-08 — automatic chromosome numbering (1.7, part).** `prepare`
   numbers chromosome-scale sequences without names when headers carry none
   (or with `--chrom-naming auto`); the matrix stage matches the other

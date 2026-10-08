@@ -40,6 +40,14 @@ Scenarios:
     chr3+chr4 fused in HAP3/HAP4, placed as chr3    -> fusion_lineages (placed long copy)
     chr5+chr6 fused in HAP3/HAP4, unplaced scaffold -> fusion_lineages (unplaced scaffold)
     remaining chromosomes untouched                 -> tetrasomic_like
+- residual_tetrasomy: a salmonid-like two-haplotype assembly of an old
+  autotetraploid. Homeolog pairs (i, i+n) have diverged like the
+  allotetraploid's, except the last `residual_frac` of chr1 and chr(1+n),
+  which stayed as close as alleles (still pairing and exchanging). Every
+  chromosome starts with the same satellite array (`satellite_frac` of its
+  length), a decoy that is near-identical between all chromosomes, not just
+  homeologs. Expected: chr1 and chr(1+n) partially_resolved, the other pooled
+  pairs resolved_lineages, and no residual tetrasomy in the satellites.
 - mislabelled: the autotetraploid, but HAP4's file numbers its chromosomes in a
   shifted order (its chr1 is really chr2, ...) and HAP3's file swaps chr5 and
   chr6 -- the ddLepDrab1 and ddHesMatr1 assembly-labelling problems. The
@@ -55,7 +63,7 @@ import numpy as np
 from .common import log
 
 SCENARIOS = ("diploid", "autotetraploid", "autotetraploid_2hap", "allotetraploid", "rediploidized",
-             "mislabelled")
+             "mislabelled", "residual_tetrasomy")
 COMPLEMENT = np.array([3, 2, 1, 0], dtype=np.uint8)  # A<->T, C<->G in 0..3 coding
 LETTERS = np.frombuffer(b"ACGT", dtype=np.uint8)
 
@@ -70,6 +78,9 @@ DEFAULTS = dict(
     te_copies=120,  # per chromosome per family: clears te-markers' --min-count 100
     te_copy_div=0.01,
     rearrange=True,  # transposition + inversion in every haplotype but HAP1
+    residual_frac=0.4,  # residual_tetrasomy: terminal share of chr1/chr(1+n) left undiverged
+    satellite_frac=0.3,  # residual_tetrasomy: shared satellite array at every chromosome start
+    satellite_unit=2000,
 )
 
 
@@ -118,6 +129,11 @@ class Simulator:
 
     def haplotypes(self, chroms, n_hap):
         return [[self.mutate(c, self.p["het"]) for c in chroms] for _ in range(n_hap)]
+
+    def satellite(self, unit, length):
+        """A tandem array of slightly diverged copies of one repeat unit."""
+        n = max(1, length // len(unit))
+        return np.concatenate([self.mutate(unit, self.p["te_copy_div"]) for _ in range(n)])
 
     def rearrange(self, seq):
         """A transposition (a block of 8-14% of chrom_len cut from 42-50% along
@@ -222,6 +238,25 @@ def build_scenario(name, seed, params):
         for c in range(1, n + 1):
             state, partner = expected.get(c, ("tetrasomic_like", ""))
             truth.append(dict(chrom=f"chr{c:02d}", copy_state=state, fusion=partner, homeolog=""))
+    elif name == "residual_tetrasomy":
+        ancestor = sim.genome(n, ancestral)
+        cut = int((1 - p["residual_frac"]) * len(ancestor[0]))
+        progenitors = []
+        for _ in range(2):
+            # chr1's tail kept pairing with its homeolog: no divergence and no
+            # lineage-private TE burst there (exchange would share insertions)
+            chroms = [np.concatenate([sim.burst(sim.mutate(c[:cut], p["allo_div"])), c[cut:]]) if i == 0
+                      else sim.burst(sim.mutate(c, p["allo_div"])) for i, c in enumerate(ancestor)]
+            progenitors.append(chroms)
+        unit = sim.random_seq(p["satellite_unit"])
+        sat_len = int(p["satellite_frac"] * p["chrom_len"])
+        genome = [np.concatenate([sim.satellite(unit, sat_len), c]) for c in progenitors[0] + progenitors[1]]
+        for i, chroms in enumerate(sim.haplotypes(genome, 2), 1):
+            haps[f"HAP{i}"] = [placed(f"HAP{i}", c, s) for c, s in enumerate(chroms, 1)]
+        for c in range(1, 2 * n + 1):
+            partner = c + n if c <= n else c - n
+            state = "partially_resolved" if c in (1, 1 + n) else "resolved_lineages"
+            truth.append(dict(chrom=f"chr{c:02d}", copy_state=state, fusion="", homeolog=f"chr{partner:02d}"))
     elif name == "mislabelled":
         genome = sim.genome(n, ancestral)
         for i, chroms in enumerate(sim.haplotypes(genome, 4), 1):
