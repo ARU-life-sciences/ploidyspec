@@ -209,6 +209,29 @@ autopolyploid lineages).
 
 Newest first. Check a running batch with the command given for it.
 
+- **2026-10-09 — non-plant batch, first results** (recalibrated residual test;
+  `rerun_rediploidization.sh` after `all` runs that started on older code).
+  Gar and bowfin (negatives): one pair each, diverged throughout. Snails: no
+  duplicated sets in Cepaea, Hygromia, Daudebardia, Littorina; one pair in
+  Pomatias, Stagnicola, Monacha. Open questions before any of these is used:
+  - `fCorLav1` (whitefish): residual tetrasomy 4/32, 223 Mb, on whole
+    chromosomes (chr01/02, chr18/19). Its allelic level is 0.037-0.047, as far
+    as homeologs, so HAP1 chrN and HAP2 chrN are probably homeologs: the two
+    haplotypes' NCBI numbering is swapped within some pairs. This also
+    explains the "one copy apart" reading. Check, re-number, re-run.
+  - `fSalAlp3` (Arctic charr): no duplicated sets across 40 numbers, yet 12
+    chromosomes were tested; 0 residual. Expected residual tetrasomy as in
+    masu. Check whether unlocalised scaffolds (152/191 chromosome-named
+    sequences per haplotype) interfere with pairing.
+  - `icStrMela3` (weevil, AAB triploid): HAP1 carries two sets (chr1-10,
+    chr11-20) and is read as "a phasing problem in HAP1". 0 residual after
+    recalibration (5/10 terminal before). The tool needs a reading for a
+    haplotype holding two sets.
+  - `xgMonCant1`: a high-confidence fusion between copies on an auto-numbered
+    HAP2; check before believing.
+  - `lpElePalu1` (Eleocharis, holocentric): 10/18, 518 Mb, 75% terminal.
+    Holocentric fission/fusion may break the test's assumptions.
+
 - **2026-10-08 — residual-tetrasomy test recalibrated.** The panel rerun with
   controls gave five new hits; three were calibration failures. Four-copy
   assemblies with a divergent copy (`ddLepDrab1`, `ddHypMacu1`) had an
