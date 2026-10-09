@@ -77,6 +77,7 @@ class TestSummary(unittest.TestCase):
             self.assertTrue(a["origin_like_structure"]["answer"].startswith("AAB-like"))
             self.assertIn("odd copy number", a["ploidy"]["answer"])
             self.assertIn("HAP1B", a["ploidy"]["answer"])
+            self.assertIn("one divergent set", a["rediploidization"]["answer"])
 
     def test_segmental_homeology_reads_as_a_rearranged_duplicated_genome(self):
         # charr: few whole-chromosome pairs, homeology per arm

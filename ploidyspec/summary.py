@@ -423,6 +423,11 @@ def answer_rediploidization(g):
     if c == 2 and g["n_pairs"]:
         return ("Not tested along the chromosomes (run --with-windowed-homeologs for the residual-"
                 "tetrasomy test); ancient pairs are synchronous.", "low", ev)
+    onediv = states.get("one_divergent_copy", 0)
+    if c >= 3 and onediv and onediv >= sum(states.values()) / 2:
+        # icStrMela3: the odd copy is a divergent set, not a lineage that split off
+        return (f"Not assessable: the copies split as one divergent set ({genome_formula(c)}-like), "
+                "not into lineages within a duplicated genome." + also, "not assessable", ev)
     return ("Not assessable from this assembly.", "not assessable", ev)
 
 

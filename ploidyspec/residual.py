@@ -27,7 +27,9 @@ controls existed are read without them and flagged `controlled = no`.
 
 The allelic level is the median over windows of the distance to the anchor's
 *closest* other copy, and a chromosome's copies all use the median of their
-levels. With more than two copies one is often a divergent subgenome copy;
+levels, capped at ALLELE_CAP times the genome median so that a chromosome
+carrying a large exchange does not raise its own yardstick. With more than two
+copies one is often a divergent subgenome copy;
 averaging over it (or anchoring on it) put the "allelic" level near the
 homeolog distance, and three times that let most of the genome through
 (ddLepDrab1, ddHypMacu1). The homeolog ceiling guards the same failure from
@@ -93,6 +95,7 @@ RESIDUAL_PERMUTATIONS = 200
 ALLELE_FLOOR = 1e-3  # an almost homozygous chromosome must not inflate every ratio
 TERMINAL_FRAC = 0.1  # a segment within this fraction of either end is terminal
 MAX_GAP = 1
+ALLELE_CAP = 1.5  # a chromosome's allelic level is at most this times the genome median
 EXCHANGE_RATIO = 2.0  # homeolog copy this much closer than the anchor's own copies
 HOMEOLOG_FRAC = 0.25  # near-allelic also means well below the typical homeolog distance
 MIN_NULL_RUN = 8  # floor on the shuffled-run null, in windows
@@ -134,7 +137,11 @@ def allele_levels(path, chrom_of=None):
     by_chrom = defaultdict(list)
     for a, v in levels.items():
         by_chrom[chrom_of.get(a)].append(v)
-    return {a: statistics.median(by_chrom[chrom_of.get(a)]) for a in levels}
+    chrom_level = {c: statistics.median(v) for c, v in by_chrom.items()}
+    # a large exchange raises its own chromosome's median (simulated chr04,
+    # half exchanged: 0.019 against 0.0035 elsewhere) and would hide itself
+    cap = ALLELE_CAP * statistics.median(chrom_level.values())
+    return {a: min(chrom_level[chrom_of.get(a)], cap) for a in levels}
 
 
 def own_copy_distances(path):
