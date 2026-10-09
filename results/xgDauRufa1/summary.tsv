@@ -1,0 +1,5 @@
+species	question	answer	confidence	evidence
+xgDauRufa1	ploidy	2 haplotype copies of each of 28 chromosome numbers; no older duplicated sets detected.	high	copies from the assembly (2 per number)
+xgDauRufa1	origin_like_structure	Not assessable: two haplotypes and no duplicated sets to compare. Diploid-like as assembled.	not assessable	no homeolog pairs, no genome partition
+xgDauRufa1	te_markers	Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it.	not assessable	te_marker_fraction mean 0.6125
+xgDauRufa1	rediploidization	Not assessable from this assembly.	not assessable	

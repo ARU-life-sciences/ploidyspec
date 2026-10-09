@@ -1,0 +1,3 @@
+species	k	group_sizes	separation_ratio	null_mean_ratio	z_score	groups
+xgMonCant1	3	3,7,14	1.0377	1.0002	5.82	chr01,chr02,chr03,chr05,chr06,chr07,chr04 | chr08,chr09,chr13,chr10,chr12,chr15,chr18,chr21,chr19,chr20,chr11,chr14,chr17,chr16 | chr22,chr23,chr24
+xgMonCant1	2	3,21	1.0439	1.0001	4.54	chr01,chr02,chr03,chr05,chr06,chr07,chr04,chr08,chr09,chr13,chr10,chr12,chr15,chr18,chr21,chr19,chr20,chr11,chr14,chr17,chr16 | chr22,chr23,chr24

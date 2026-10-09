@@ -1,0 +1,41 @@
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled
+chr01	2			HAP1_chr01,HAP2_chr02	HAP2_chr01,HAP1_chr02	20.50						0.00		partially_resolved	homeolog_pool	chr02		chr02	0.52	paired	59829860	0.699	59829860	4/4	HAP2:4.8-52.5Mb(start);HAP2:73.5-85.6Mb(end)	yes
+chr02	2			HAP1_chr01,HAP2_chr02	HAP2_chr01,HAP1_chr02	20.50						0.00		partially_resolved	homeolog_pool	chr01		chr01	0.52	paired	79000000	0.964	79000000	4/4	HAP2:0.0-79.0Mb(start)	yes
+chr03	2			HAP1_chr11	HAP2_chr11,HAP1_chr03,HAP2_chr03	2.72						0.00		one_divergent_copy	homeolog_pool	chr11	HAP1	chr11	1.44	paired	0	0.000	0	0/4		yes
+chr04	2			HAP1_chr37,HAP1_chr04,HAP2_chr04	HAP2_chr37	2.80						0.00		one_divergent_copy	homeolog_pool	chr37	HAP2	chr37	1.43	paired	0	0.000	0	0/4		yes
+chr05	2			HAP1_chr13,HAP1_chr05,HAP2_chr05	HAP2_chr13	1.91						0.00		one_divergent_copy	homeolog_pool	chr13	HAP2	chr13	1.61	paired	0	0.000	0	0/4		yes
+chr06	2			HAP1_chr06,HAP2_chr06	HAP1_chr40,HAP2_chr40	12.63						0.00		resolved_lineages	homeolog_pool	chr40		chr40	12.63	paired	0	0.000	0	0/4		yes
+chr07	2			HAP1_chr12,HAP2_chr07	HAP2_chr12,HAP1_chr07	1.90						0.00		candidate	homeolog_pool	chr12		chr12	0.76	paired	0	0.000	0	2/4		yes
+chr08	2											0.00		not_assessable	none					unpaired						
+chr09	2			HAP1_chr09,HAP2_chr10	HAP1_chr10,HAP2_chr09	2.07						0.00		candidate	homeolog_pool	chr10		chr10	0.74	paired	0	0.000	0	2/4		yes
+chr10	2			HAP1_chr09,HAP2_chr10	HAP1_chr10,HAP2_chr09	2.07						0.00		candidate	homeolog_pool	chr09		chr09	0.74	paired	0	0.000	0	2/4		yes
+chr11	2			HAP1_chr11	HAP2_chr11,HAP1_chr03,HAP2_chr03	2.72						0.00		one_divergent_copy	homeolog_pool	chr03	HAP1	chr03	1.44	paired	0	0.000	0	0/4		yes
+chr12	2			HAP1_chr12,HAP2_chr07	HAP2_chr12,HAP1_chr07	1.90						0.00		candidate	homeolog_pool	chr07		chr07	0.76	paired	0	0.000	0	2/4		yes
+chr13	2			HAP1_chr13,HAP1_chr05,HAP2_chr05	HAP2_chr13	1.91						0.00		one_divergent_copy	homeolog_pool	chr05	HAP2	chr05	1.61	paired	0	0.000	0	0/4		yes
+chr14	2			HAP1_chr14,HAP1_chr17,HAP2_chr17	HAP2_chr14	1.65						0.00		one_divergent_copy	homeolog_pool	chr17	HAP2	chr17	0.77	paired	0	0.000	0	2/4		yes
+chr15	2			HAP1_chr15	HAP2_chr21,HAP1_chr21,HAP2_chr15	1.49						0.00		one_divergent_copy	homeolog_pool	chr21	HAP1	chr21	0.76	paired	0	0.000	0	2/4		yes
+chr16	2											0.00		not_assessable	none					unpaired						
+chr17	2			HAP1_chr14,HAP1_chr17,HAP2_chr17	HAP2_chr14	1.65						0.00		one_divergent_copy	homeolog_pool	chr14	HAP2	chr14	0.77	paired	0	0.000	0	2/4		yes
+chr18	2			HAP1_chr18,HAP2_chr19	HAP1_chr19,HAP2_chr18	25.16						0.00		partially_resolved	homeolog_pool	chr19		chr19	0.52	paired	45000000	0.966	45000000	4/4	HAP2:0.0-10.5Mb(start);HAP2:11.0-45.5Mb(end)	yes
+chr19	2			HAP1_chr18,HAP2_chr19	HAP1_chr19,HAP2_chr18	25.16						0.00		partially_resolved	homeolog_pool	chr18		chr18	0.52	paired	39250000	0.801	12750000	4/4	HAP1:0.0-12.8Mb(start);HAP1:13.5-22.0Mb(interior);HAP1:22.5-40.5Mb(interior)	yes
+chr20	2											0.00		not_assessable	none					unpaired						
+chr21	2			HAP1_chr15	HAP2_chr21,HAP1_chr21,HAP2_chr15	1.49						0.00		one_divergent_copy	homeolog_pool	chr15	HAP1	chr15	0.76	paired	0	0.000	0	2/4		yes
+chr22	2			HAP2_chr22,HAP1_chr23	HAP2_chr23,HAP1_chr22	1.95						0.00		candidate	homeolog_pool	chr23		chr23	0.76	paired	0	0.000	0	2/4		yes
+chr23	2			HAP2_chr22,HAP1_chr23	HAP2_chr23,HAP1_chr22	1.95						0.00		candidate	homeolog_pool	chr22		chr22	0.76	paired	0	0.000	0	2/4		yes
+chr24	2			HAP2_chr24,HAP1_chr24,HAP1_chr27	HAP2_chr27	1.51						0.00		one_divergent_copy	homeolog_pool	chr27	HAP2	chr27	0.76	paired	0	0.000	0	2/4		yes
+chr25	2											0.00		not_assessable	none					unpaired						
+chr26	2											0.00		not_assessable	none					unpaired						
+chr27	2			HAP2_chr24,HAP1_chr24,HAP1_chr27	HAP2_chr27	1.51						0.00		one_divergent_copy	homeolog_pool	chr24	HAP2	chr24	0.76	paired	0	0.000	0	2/4		yes
+chr28	2			HAP1_chr28	HAP1_chr30,HAP2_chr28,HAP2_chr30	1.51						0.00		one_divergent_copy	homeolog_pool	chr30	HAP1	chr30	0.76	paired	0	0.000	0	2/4		yes
+chr29	2			HAP2_chr29	HAP2_chr36,HAP1_chr29,HAP1_chr36	1.51						0.00		one_divergent_copy	homeolog_pool	chr36	HAP2	chr36	0.77	paired	0	0.000	0	2/4		yes
+chr30	2			HAP1_chr28	HAP1_chr30,HAP2_chr28,HAP2_chr30	1.51						0.00		one_divergent_copy	homeolog_pool	chr28	HAP1	chr28	0.76	paired	0	0.000	0	2/4		yes
+chr31	2											0.00		not_assessable	none					unpaired						
+chr32	2			HAP1_chr32,HAP1_chr34,HAP2_chr32	HAP2_chr34	1.49						0.00		one_divergent_copy	homeolog_pool	chr34	HAP2	chr34	0.76	paired	0	0.000	0	2/4		yes
+chr33	2											0.00		not_assessable	none					unpaired						
+chr34	2			HAP1_chr32,HAP1_chr34,HAP2_chr32	HAP2_chr34	1.49						0.00		one_divergent_copy	homeolog_pool	chr32	HAP2	chr32	0.76	paired	0	0.000	0	2/4		yes
+chr35	2			HAP1_chr35,HAP1_chr38,HAP2_chr35	HAP2_chr38	1.86						0.00		one_divergent_copy	homeolog_pool	chr38	HAP2	chr38	0.82	paired	0	0.000	0	2/4		yes
+chr36	2			HAP2_chr29	HAP2_chr36,HAP1_chr29,HAP1_chr36	1.51						0.00		one_divergent_copy	homeolog_pool	chr29	HAP2	chr29	0.77	paired	0	0.000	0	2/4		yes
+chr37	2			HAP1_chr37,HAP1_chr04,HAP2_chr04	HAP2_chr37	2.80						0.00		one_divergent_copy	homeolog_pool	chr04	HAP2	chr04	1.43	paired	0	0.000	0	0/4		yes
+chr38	2			HAP1_chr35,HAP1_chr38,HAP2_chr35	HAP2_chr38	1.86						0.00		one_divergent_copy	homeolog_pool	chr35	HAP2	chr35	0.82	paired	0	0.000	0	2/4		yes
+chr39	2											0.00		not_assessable	none					unpaired						
+chr40	2			HAP1_chr06,HAP2_chr06	HAP1_chr40,HAP2_chr40	12.63						0.00		resolved_lineages	homeolog_pool	chr06		chr06	12.63	paired	0	0.000	0	0/4		yes

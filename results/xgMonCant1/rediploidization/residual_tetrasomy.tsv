@@ -1,0 +1,3 @@
+chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac
+chr23	chr24	HAP1_chr23	chr01	307	77	0	0.01495	16	8	15.00-19.25Mb(interior);35.50-37.75Mb(interior)	6500000	0.085
+chr23	chr24	HAP2_chr23	chr01	137	0	0	0.01495	0	8		0	0.000

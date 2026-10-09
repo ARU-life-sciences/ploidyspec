@@ -1,0 +1,30 @@
+chrom	n_haplotype_copies	own_mean_distance	homeolog_partner	homeolog_distance	homeolog_z	homeolog_q	distance_ratio
+chr01	2	0.003567					
+chr02	2	0.003868					
+chr03	2	0.003621					
+chr04	2	0.004459					
+chr05	2	0.003334					
+chr06	2	0.003608					
+chr07	2	0.004057					
+chr08	2	0.003579					
+chr09	2	0.003520					
+chr10	2	0.003922					
+chr11	2	0.003409					
+chr12	2	0.004013					
+chr13	2	0.003004					
+chr14	2	0.014333	chr18	0.128093	-3.892	0.020157	7.41
+chr15	2	0.003737					
+chr16	2	0.005545					
+chr17	2	0.003252					
+chr18	2	0.020220	chr14	0.128093	-3.892	0.020157	7.41
+chr19	2	0.004685					
+chr20	2	0.003380					
+chr21	2	0.003895					
+chr22	2	0.004140					
+chr23	2	0.004964					
+chr24	2	0.005221					
+chr25	2	0.004371					
+chr26	2	0.004624					
+chr27	2	0.007325					
+chr28	2	0.005070					
+chr29	2	0.005177					
