@@ -42,6 +42,15 @@ from .manifest import AUTO_OFFSET
 
 AMBIGUOUS_RATIO_FLOOR = 1.5
 DEFAULT_RATIO_THRESHOLD = 3.0
+# A haplotype file can hold more than one chromosome set (icStrMela3, an AAB
+# triploid: HAP1 holds A as chr1-10 and B as chr11-20, HAP2 the other A).
+# Numbers found in one haplotype only are taken as an extra set when at least
+# SET_MIN_UNITS of them, and most, match one shared number each, SET_MATCH_RATIO
+# closer than the unit's median distance to the other numbers (icStrMela3:
+# 1.5-2.4x; a fusion's leftover component in xgMonCant1 is a single unit).
+SET_MATCH_RATIO = 1.3
+SET_MIN_UNITS = 3
+
 # Two units that each match the other's declared chrom corroborate each other,
 # so a mutual swap needs less per-unit evidence. ddHesMatr1's HAP1 chr01/chr02
 # swap (ratios 3.1 and 2.3) sits below the single-unit threshold because its
@@ -270,6 +279,55 @@ def detect_relabeling(units, distance, ratio_threshold=DEFAULT_RATIO_THRESHOLD):
     return corrections, ambiguous
 
 
+def detect_extra_sets(units, distance, ratio=SET_MATCH_RATIO, min_units=SET_MIN_UNITS):
+    """Units of a haplotype whose numbers no other haplotype has, matched one-
+    to-one to the numbers the haplotypes share. Returns [dict(index, unit_id,
+    old_chrom, new_chrom, new_hap, own_dist (median to other numbers),
+    alt_dist (to the matched number), ratio)] -- empty unless the haplotype
+    holds a set: >= min_units matched and at least half its private units."""
+    haps_of = defaultdict(set)
+    for u in units:
+        haps_of[u["chrom"]].add(u["hap"])
+    if len({u["hap"] for u in units}) < 2:
+        return []
+    shared = defaultdict(list)
+    for i, u in enumerate(units):
+        if len(haps_of[u["chrom"]]) > 1:
+            shared[u["chrom"]].append(i)
+    if not shared:
+        return []
+    taken_haps = {u["hap"] for u in units}
+    out = []
+    by_hap = defaultdict(list)
+    for i, u in enumerate(units):
+        if len(haps_of[u["chrom"]]) == 1:
+            by_hap[u["hap"]].append(i)
+    for hap, private in sorted(by_hap.items()):
+        scored = []
+        for i in private:
+            d = {c: mean_distance(i, idxs, distance) for c, idxs in shared.items()}
+            bg = sorted(d.values())[len(d) // 2]
+            for c, dc in d.items():
+                scored.append((dc, i, c, bg))
+        scored.sort()
+        matched, used = {}, set()
+        for dc, i, c, bg in scored:
+            if i in matched or c in used:
+                continue
+            if dc > 0 and bg / dc >= ratio:
+                matched[i] = (c, dc, bg)
+                used.add(c)
+        if len(matched) < min_units or len(matched) < len(private) / 2:
+            continue
+        new_hap = next(f"{hap}{x}" for x in "BCDEFGH" if f"{hap}{x}" not in taken_haps)
+        taken_haps.add(new_hap)
+        for i, (c, dc, bg) in sorted(matched.items()):
+            out.append(dict(index=i, unit_id=units[i]["unit_id"], old_chrom=units[i]["chrom"],
+                            new_chrom=c, new_hap=new_hap, own_dist=bg, alt_dist=dc, ratio=bg / dc,
+                            status="extra_set"))
+    return out
+
+
 def _file_belongs_to_unit(fname, unit_id):
     stripped = fname[1:] if fname.startswith(".") else fname
     return stripped == unit_id or stripped.startswith(unit_id + ".")
@@ -336,18 +394,20 @@ def _write_corrections_log(outdir, corrections, ambiguous):
                 "own_group_dist",
                 "alt_group_dist",
                 "ratio",
+                "new_hap",
             ]
         )
         for c in sorted(corrections, key=lambda c: c["unit_id"]):
             w.writerow(
                 [
-                    "displaced" if c.get("displaced") else "corrected",
+                    c.get("status") or ("displaced" if c.get("displaced") else "corrected"),
                     c["unit_id"],
                     c["old_chrom"],
                     c["new_chrom"],
                     f"{c['own_dist']:.6f}",
                     f"{c['alt_dist']:.6f}",
                     f"{c['ratio']:.2f}",
+                    c.get("new_hap", ""),
                 ]
             )
         for c in sorted(ambiguous, key=lambda c: c["unit_id"]):
@@ -360,6 +420,7 @@ def _write_corrections_log(outdir, corrections, ambiguous):
                     f"{c['own_dist']:.6f}",
                     f"{c['alt_dist']:.6f}",
                     f"{c['ratio']:.2f}",
+                    c.get("new_hap", ""),
                 ]
             )
 
@@ -420,6 +481,25 @@ def reconcile_chrom_labels(
         units[i]["unit_id"] = new_unit_id
     if renames:
         _rename_unit_files_batch(outdir, renames)
+
+    # a haplotype holding a second chromosome set: its private numbers become
+    # an extra copy (HAP1 -> HAP1B) of the numbers they match
+    sets = detect_extra_sets(units, distance)
+    if sets:
+        log(f"extra chromosome set(s): {len(sets)} unit(s) of "
+            f"{', '.join(sorted({units[c['index']]['hap'] for c in sets}))} match the shared "
+            f"numbers one-to-one and become haplotype(s) "
+            f"{', '.join(sorted({c['new_hap'] for c in sets}))}")
+        renames = []
+        for c in sets:
+            u = units[c["index"]]
+            new_unit_id = f"{c['new_hap']}_chr{int(c['new_chrom']):02d}"
+            log(f"  {u['unit_id']} -> {new_unit_id} ({c['alt_dist']:.4f} vs median "
+                f"{c['own_dist']:.4f} to other numbers)")
+            renames.append((u["unit_id"], new_unit_id))
+            u["chrom"], u["hap"], u["unit_id"] = c["new_chrom"], c["new_hap"], new_unit_id
+        _rename_unit_files_batch(outdir, renames)
+        corrections = corrections + sets
 
     _write_corrections_log(outdir, corrections, ambiguous)
     if corrections:

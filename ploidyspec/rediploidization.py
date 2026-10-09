@@ -62,6 +62,7 @@ from .common import (
     windowed_dir,
 )
 from .kmer_tables import build_one, ktab_prefix_path, load_sequences
+from .homeology_map import BLOCKS_TSV, read_summary as read_map_summary
 from .residual import FIELDS as RESIDUAL_FIELDS, residual_tetrasomy
 from .subgenome_report import bipartition_by_distance, load_whole_chrom_distances
 
@@ -733,6 +734,7 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
     ids_by_chrom = defaultdict(list)
     for u in units:
         ids_by_chrom[u["chrom"]].append(u["unit_id"])
+    block_partners = load_block_partners(outdir)
 
     rows = []
     for chrom, lin in sorted(lineages.items()):
@@ -802,6 +804,11 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
                 residual_support=residual.get(chrom, {}).get("residual_support", ""),
                 residual_segments=residual.get(chrom, {}).get("residual_segments", ""),
                 residual_controlled=residual.get(chrom, {}).get("controlled", ""),
+                residual_partners=residual.get(chrom, {}).get("partners", ""),
+                exchange_bp=residual[chrom]["exchange_bp"] if chrom in residual else "",
+                exchange_support=residual.get(chrom, {}).get("exchange_support", ""),
+                exchange_segments=residual.get(chrom, {}).get("exchange_segments", ""),
+                block_partners=block_partners.get(chrom, ""),
             )
         )
 
@@ -812,13 +819,27 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
     write_tsv(os.path.join(rdir, "rediploidization_by_chrom.tsv"), rows, list(rows[0]) if rows else [])
     if residual_rows:
         write_tsv(os.path.join(rdir, "residual_tetrasomy.tsv"), residual_rows, RESIDUAL_FIELDS)
-    summary = summarize(rows, fusions, partition_z, residual_null)
+    summary = summarize(rows, fusions, partition_z, residual_null, read_map_summary(outdir))
     write_tsv(os.path.join(rdir, "rediploidization_summary.tsv"), summary, ["metric", "value"])
     log(f"wrote fusions.tsv, rediploidization_by_chrom.tsv, rediploidization_summary.tsv in {rdir}")
     return rows, fusions, summary
 
 
-def summarize(rows, fusions, partition_z=None, residual_null=None):
+def load_block_partners(outdir):
+    """{chrom: "chr05:12.3Mb,chr09:4.0Mb"} from the homeology map's blocks (the
+    reference haplotype's copy of each chromosome)."""
+    path = os.path.join(homeologs_dir(outdir), BLOCKS_TSV)
+    if not os.path.exists(path):
+        return {}
+    bp = defaultdict(lambda: defaultdict(int))
+    with open(path) as f:
+        for r in csv.DictReader(f, delimiter="\t"):
+            bp[int(r["chrom"][3:])][r["partner"]] += int(r["length"])
+    return {c: ",".join(f"{p}:{v / 1e6:.1f}Mb" for p, v in sorted(d.items(), key=lambda x: -x[1]))
+            for c, d in bp.items()}
+
+
+def summarize(rows, fusions, partition_z=None, residual_null=None, homeology=None):
     n = len(rows)
     out = [dict(metric="n_chromosome_numbers", value=n)]
     for basis in ("copies", "homeolog_pool", "partition_pool", "fusion", "none"):
@@ -860,6 +881,16 @@ def summarize(rows, fusions, partition_z=None, residual_null=None):
                      value=f"{sum(r['residual_terminal_bp'] for r in hit) / bp:.2f}" if bp else ""),
                 dict(metric="residual_null_run_windows", value=residual_null),
                 dict(metric="residual_controlled", value=tested[0].get("residual_controlled", ""))]
+        ex = [r for r in tested if r.get("exchange_bp")]
+        out += [dict(metric="exchange_chromosomes", value=len(ex)),
+                dict(metric="exchange_bp", value=sum(r["exchange_bp"] for r in ex)),
+                dict(metric="exchange_list", value=";".join(
+                    f"{r['chrom']}({r['exchange_support']})" for r in ex))]
+    # segmental homeology from the genome-wide map (homeology_map.py)
+    for key in ("duplicated_frac", "n_blocks", "n_partner_pairs", "multi_partner_chromosomes",
+                "multi_partner_list", "block_dist_median", "block_dist_cv"):
+        if homeology and key in homeology:
+            out.append(dict(metric=f"map_{key}", value=homeology[key]))
     return out
 
 

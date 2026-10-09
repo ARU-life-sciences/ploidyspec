@@ -38,6 +38,8 @@ PALEO_RATIO = 0.8
 # Residual tetrasomy on this many paired chromosome numbers reads as an
 # auto-like origin (one could be a homeologous exchange).
 RESIDUAL_MIN_CHROMS = 2
+SEGMENTAL_MIN_FRAC = 0.3  # share of the genome in homeolog blocks read as a duplicated genome
+BLOCK_ASYNC_CV = 0.15  # spread of block divergence read as asynchronous resolution
 RESIDUAL_TERMINAL_ONLY = 0.9  # terminal fraction above which residual tetrasomy is low confidence
 
 
@@ -76,6 +78,9 @@ def gather(outdir):
     # independent evidence of duplicated sets
     fused = {frozenset(f["components"].split("+")) for f in fusions}
     independent = [r for r in pairs if frozenset((r["chrom_a"], r["chrom_b"])) not in fused]
+    # haplotypes the matrix stage split out of another as an extra chromosome set
+    extra_sets = sorted({r.get("new_hap", "") for r in _read(os.path.join(
+        outdir, "matrix", "chrom_label_corrections.tsv")) or [] if r.get("status") == "extra_set"} - {""})
     te = te_markers_row(species, outdir)
     lineage = _read(os.path.join(outdir, "subgenomes", "te_marker_fraction_by_lineage.tsv")) or []
     return dict(
@@ -91,6 +96,7 @@ def gather(outdir):
         summary=summary,
         by_chrom=by_chrom,
         fusions=fusions,
+        extra_sets=extra_sets,
         te=te,
         te_splits=[_num(r["split_ratio"]) for r in lineage if _num(r.get("split_ratio")) is not None],
     )
@@ -120,7 +126,53 @@ def duplicated_sets(g):
         if min(sizes) >= n / 4:
             return 2, round(n / 2), (f"no accepted pairs, but a balanced two-group partition "
                        f"({k2[0]['group_sizes'].replace(',', ' vs ')}, z = {_num(k2[0]['z_score']):.1f})"), "medium"
+    seg = segmental(g)
+    if seg and seg["frac"] >= SEGMENTAL_MIN_FRAC and seg["pairs"] >= 2:
+        # charr, masu: homeology per arm, too few whole-chromosome pairs
+        return 2, None, (f"segmental homeology: {seg['frac']:.0%} of the genome in homeolog blocks "
+                         f"({seg['pairs']} chromosome pairs, {seg['multi']} chromosome(s) with blocks "
+                         "on two or more others)"), "medium"
     return 1, n, "no duplicated sets of chromosome numbers detected", "medium"
+
+
+def segmental(g):
+    """The homeology map's readings, or None when it did not run."""
+    s = g["summary"]
+    if "map_duplicated_frac" not in s:
+        return None
+    return dict(frac=_num(s["map_duplicated_frac"]) or 0.0, pairs=int(s.get("map_n_partner_pairs") or 0),
+                multi=int(s.get("map_multi_partner_chromosomes") or 0),
+                multi_list=s.get("map_multi_partner_list", ""), cv=_num(s.get("map_block_dist_cv")),
+                blocks=int(s.get("map_n_blocks") or 0))
+
+
+def further_signals(g):
+    """Rediploidization readings beyond lineage splits and residual tetrasomy:
+    (sentences, evidence)."""
+    seg, s = segmental(g), g["summary"]
+    said, ev = [], []
+    if seg:
+        ev.append(f"homeology map: {seg['frac']:.0%} of the genome in {seg['blocks']} homeolog blocks, "
+                  f"{seg['pairs']} chromosome pairs"
+                  + (f", block-divergence CV {seg['cv']:.2f}" if seg["cv"] is not None else ""))
+        if seg["multi"] and seg["pairs"] >= 2:
+            said.append(f"{seg['multi']} chromosome(s) carry blocks homeologous to two or more others "
+                        f"({seg['multi_list'].replace(';', ', ')}): fusions, fissions or "
+                        "translocations since the duplication")
+        if seg["cv"] is not None and seg["cv"] >= BLOCK_ASYNC_CV and seg["blocks"] >= 4:
+            said.append(f"homeolog blocks diverged to different depths (CV {seg['cv']:.2f}), as when "
+                        "regions resolve at different times")
+    n_ex = int(s.get("exchange_chromosomes") or 0)
+    if n_ex:
+        said.append(f"homeologous-exchange candidates on {n_ex} chromosome(s), stretches closer to "
+                    "the homeolog than to the own homolog (exchange, or a contig placed on the "
+                    "wrong chromosome)")
+        ev.append(f"exchange: {s.get('exchange_list', '')}")
+    return said, ev
+
+
+def _also(said):
+    return (" Also: " + "; ".join(said) + ".") if said else ""
 
 
 def answer_ploidy(g):
@@ -133,7 +185,17 @@ def answer_ploidy(g):
                 "not assessable", basis)
     text = f"{c} haplotype copies of each of {n} chromosome numbers"
     evidence = [f"copies from the assembly ({c} per number)"]
-    if sets > 1:
+    if g.get("extra_sets"):
+        text += (f" ({', '.join(g['extra_sets'])} split out of one haplotype file holding two "
+                 "chromosome sets)")
+        evidence.append("extra set(s) matched one-to-one to the shared numbers")
+    if c % 2:
+        text += "; an odd copy number (triploid-like or higher odd ploidy)"
+    if sets > 1 and x is None:
+        text += (f"; the genome is duplicated in blocks ({basis.split(' (')[0]}) reshuffled across "
+                 "chromosome numbers, so x is not read from the numbers")
+        evidence.append(basis)
+    elif sets > 1:
         text += (f"; the numbers form sets of {sets} ({basis.split(' (')[0]}), so x ≈ {x} "
                  f"and up to {c * sets}x relative to x")
         evidence.append(basis)
@@ -184,13 +246,26 @@ def odd_haplotype(g, onediv):
     return hap if int(hap.split("(")[1].split()[0]) >= 0.75 * onediv else None
 
 
+def genome_formula(c):
+    """AAB-like for three copies, AAAB-like for four, and so on."""
+    return "A" * (c - 1) + "B"
+
+
 def one_copy_apart(g, onediv, ev):
     hap = odd_haplotype(g, onediv)
+    formula = genome_formula(max(g["copies"], 3))
+    if hap and hap.split(" ")[0] in g.get("extra_sets", []):
+        # a set the matrix stage split out of one haplotype file is by
+        # construction the same haplotype on every chromosome
+        name = hap.split(" ")[0]
+        return (f"{formula}-like: one divergent chromosome set ({name}, assembled as a second set "
+                f"in {name[:-1]}), the other copies as close as alleles.", "high", ev)
     if hap:
         return (f"One copy apart on most chromosomes, nearly always the same haplotype ({hap}): "
-                "most likely an assembly or phasing problem in that haplotype.", "medium", ev)
+                "most likely an assembly or phasing problem in that haplotype, unless the "
+                "assembly was phased by subgenome.", "medium", ev)
     return ("One copy apart on most chromosomes, changing haplotype between chromosomes: "
-            "AAAB-like (one divergent genome copy).", "medium", ev)
+            f"{formula}-like (one divergent genome copy).", "medium", ev)
 
 
 def fusion_only(g):
@@ -307,7 +382,9 @@ def answer_rediploidization(g):
         ev.append(res[4])
     if g["pair_cv"] is not None:
         ev.append(f"pair-depth CV {g['pair_cv']:.2f}")
-    ev = "; ".join(ev)
+    said, more = further_signals(g)
+    ev = "; ".join(ev + more)
+    also = _also(said)
     if fus and fusion_only(g):
         # xgMonCant1: chr23+chr24 joined in HAP1 only, no other duplicated sets
         return ("Not read as rediploidization: a fusion carried by one haplotype, with no "
@@ -315,27 +392,31 @@ def answer_rediploidization(g):
                 "medium", fusion_note(g))
     if fus:
         return (f"Yes: {len(fus)} chromosome fusion(s) between copies, which separate fused and "
-                "unfused lineages (the snow carp mechanism).", "high", ev)
+                "unfused lineages (the snow carp mechanism)." + also, "high", ev)
     if c >= 3 and split and tet:
         if split >= max(2, 0.1 * (split + tet)):
             return ("Likely under way: some chromosomes have split into lineages while others stay "
-                    "tetrasomic-like.", "medium", ev)
-        return (f"Little sign: {split} chromosome(s) partly split among tetrasomic-like ones.",
+                    "tetrasomic-like." + also, "medium", ev)
+        return (f"Little sign: {split} chromosome(s) partly split among tetrasomic-like ones." + also,
                 "low", ev)
     if c >= 3 and tet and not split:
-        return ("No sign yet: copies interchangeable throughout.", "medium", ev)
+        return ("No sign yet: copies interchangeable throughout." + also, "medium", ev)
     if c >= 3 and split and not tet:
         return ("Split throughout: either rediploidization is complete or the genome was "
-                "allo-like from the start; these data cannot tell which.", "medium", ev)
+                "allo-like from the start; these data cannot tell which." + also, "medium", ev)
     if c < 3 and res and res[1]:
         where = f", {res[3]:.0%} of it at chromosome ends" if res[3] is not None else ""
         return (f"Partly: {res[1]} of {res[0]} homeolog-paired chromosome numbers keep stretches of "
                 f"residual tetrasomy ({res[2] / 1e6:.1f} Mb{where}) where the homeologs are still as "
-                "close as alleles; elsewhere they have diverged.", res[5], ev)
+                "close as alleles; elsewhere they have diverged." + also, res[5], ev)
+    seg = segmental(g)
+    if c < 3 and res and seg and seg["multi"] and seg["pairs"] >= 2:
+        return ("Advanced: no stretch where homeologs are as close as alleles, and the karyotype has "
+                "been rearranged since the duplication." + also, "medium", ev)
     if c < 3 and res:
         return ("Diverged throughout the paired chromosomes: no stretch where homeologs are as close "
                 "as alleles. Rediploidization is complete, or the genome was allo-like from the "
-                "start.", res[5], ev)
+                "start." + also, res[5], ev)
     if g["pair_cv"] is not None and g["pair_cv"] >= 0.15:
         return ("Possibly: ancient pairs diverged to different depths (asynchronous resolution).",
                 "low", ev)

@@ -84,7 +84,7 @@ class TestPairVote(unittest.TestCase):
     chr01/chr02; a misplaced contig makes 12 windows near-allelic from only
     two copies of chr03/chr04 -- not enough."""
 
-    def build(self, d):
+    def build(self, d, exchange=False):
         units = [f"HAP{h}_chr{c:02d}" for c in (1, 2, 3, 4) for h in (1, 2)]
         partner = {1: 2, 2: 1, 3: 4, 4: 3}
         homeo, allelic, ctl = [], [], []
@@ -96,8 +96,13 @@ class TestPairVote(unittest.TestCase):
                 s = i * W
                 near = (c in (1, 2) and i >= 28) or (u in ("HAP1_chr03", "HAP2_chr04") and i >= 28)
                 for hb in ("HAP1", "HAP2"):
-                    homeo.append(row(u, f"{hb}_chr{partner[c]:02d}", s, 0.004 if near else 0.05))
-                allelic.append(row(u, f"{other_hap}_chr{c:02d}", s, 0.003))
+                    d_h = 0.004 if near else 0.05
+                    if exchange and u == "HAP1_chr03" and i < 12:
+                        d_h = 0.003
+                    homeo.append(row(u, f"{hb}_chr{partner[c]:02d}", s, d_h))
+                # with exchange: HAP1_chr03's first 12 windows carry chr04 sequence
+                swapped = exchange and u == "HAP1_chr03" and i < 12
+                allelic.append(row(u, f"{other_hap}_chr{c:02d}", s, 0.05 if swapped else 0.003))
                 ctl.append(row(u, f"HAP1_chr{(c % 4) + 1:02d}", s, 0.06))
         os.makedirs(os.path.join(d, "homeologs"))
         os.makedirs(os.path.join(d, "windowed"))
@@ -112,11 +117,24 @@ class TestPairVote(unittest.TestCase):
             rows, readings, null = residual_tetrasomy(d, chrom_of, dict(min_segment_bp=1_000_000))
         self.assertLess(null, 12)
         self.assertEqual(readings[1]["residual_bp"], 12 * W)
-        self.assertEqual(readings[1]["residual_support"], "4/4")
+        self.assertEqual(readings[1]["residual_support"], "chr02:4/4")
         self.assertIn("(end)", readings[1]["residual_segments"])
         self.assertEqual(readings[3]["residual_bp"], 0)
-        self.assertEqual(readings[3]["residual_support"], "2/4")
+        self.assertEqual(readings[3]["residual_support"], "chr04:2/4")
         self.assertEqual(readings[1]["controlled"], "yes")
+
+
+    def test_homeologous_exchange_is_read_from_one_copy(self):
+        with tempfile.TemporaryDirectory() as d:
+            chrom_of = self.build(d, exchange=True)
+            rows, readings, _ = residual_tetrasomy(d, chrom_of, dict(min_segment_bp=1_000_000))
+        self.assertEqual(readings[3]["exchange_bp"], 12 * W)
+        self.assertEqual(readings[3]["exchange_support"], "chr04:1/2")
+        self.assertIn("HAP1:0.0-3.0Mb(start)~chr04", readings[3]["exchange_segments"])
+        self.assertEqual(readings[1]["exchange_bp"], 0)
+        # the carrier's exchanged windows are not near-allelic (own homolog far)
+        track = {r["anchor"]: r for r in rows if r["partner"] == "chr04"}["HAP1_chr03"]
+        self.assertEqual(track["n_near_allelic"], 12)  # only its last 12 (misplaced-contig) windows
 
 
 if __name__ == "__main__":

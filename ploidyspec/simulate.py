@@ -48,6 +48,19 @@ Scenarios:
   length), a decoy that is near-identical between all chromosomes, not just
   homeologs. Expected: chr1 and chr(1+n) partially_resolved, the other pooled
   pairs resolved_lineages, and no residual tetrasomy in the satellites.
+- allotriploid_one_file: an AAB triploid assembled the way icStrMela3 is --
+  HAP1's file holds both its A set (chr1..n) and the B set, numbered n+1..2n,
+  HAP2 the other A set. B is a progenitor diverged like the allotetraploid's.
+  The matrix stage must split B out as a third copy (HAP1B) of chr1..n, and
+  every chromosome reads one_divergent_copy with HAP1B the odd copy.
+- segmental_homeology: an old duplication followed by karyotype change, in
+  two haplotypes. Four ancestral chromosomes a-d were duplicated into
+  diverged copies P and Q (as the allotetraploid's progenitors); since then
+  P.a and P.b have fused into chr1 while Q.a (chr2) and Q.b (chr3) stayed
+  apart, and c and d stayed as whole pairs (chr4/chr5, chr6/chr7). HAP1's
+  chr4 carries Q.c sequence over its first `exchange_frac` (a homeologous
+  exchange). Expected: the homeology map finds chr1's arms on chr2 and chr3
+  (chr1 has two partners), and the exchange is read on chr4 from HAP1 only.
 - mislabelled: the autotetraploid, but HAP4's file numbers its chromosomes in a
   shifted order (its chr1 is really chr2, ...) and HAP3's file swaps chr5 and
   chr6 -- the ddLepDrab1 and ddHesMatr1 assembly-labelling problems. The
@@ -63,7 +76,7 @@ import numpy as np
 from .common import log
 
 SCENARIOS = ("diploid", "autotetraploid", "autotetraploid_2hap", "allotetraploid", "rediploidized",
-             "mislabelled", "residual_tetrasomy")
+             "mislabelled", "residual_tetrasomy", "allotriploid_one_file", "segmental_homeology")
 COMPLEMENT = np.array([3, 2, 1, 0], dtype=np.uint8)  # A<->T, C<->G in 0..3 coding
 LETTERS = np.frombuffer(b"ACGT", dtype=np.uint8)
 
@@ -81,6 +94,7 @@ DEFAULTS = dict(
     residual_frac=0.4,  # residual_tetrasomy: terminal share of chr1/chr(1+n) left undiverged
     satellite_frac=0.3,  # residual_tetrasomy: shared satellite array at every chromosome start
     satellite_unit=2000,
+    exchange_frac=0.5,  # segmental_homeology: share of HAP1 chr4 replaced by its homeolog
 )
 
 
@@ -257,6 +271,27 @@ def build_scenario(name, seed, params):
             partner = c + n if c <= n else c - n
             state = "partially_resolved" if c in (1, 1 + n) else "resolved_lineages"
             truth.append(dict(chrom=f"chr{c:02d}", copy_state=state, fusion="", homeolog=f"chr{partner:02d}"))
+    elif name == "allotriploid_one_file":
+        ancestor = sim.genome(n, ancestral)
+        a, b = ([sim.burst(sim.mutate(c, p["allo_div"])) for c in ancestor] for _ in range(2))
+        a1, a2 = sim.haplotypes(a, 2)
+        haps["HAP1"] = ([placed("HAP1", c, s) for c, s in enumerate(a1, 1)]
+                        + [placed("HAP1", c + n, s) for c, s in enumerate(b, 1)])
+        haps["HAP2"] = [placed("HAP2", c, s) for c, s in enumerate(a2, 1)]
+        truth = [dict(chrom=f"chr{c:02d}", copy_state="one_divergent_copy", fusion="", homeolog="")
+                 for c in range(1, n + 1)]
+    elif name == "segmental_homeology":
+        ancestor = sim.genome(4, ancestral)
+        P, Q = ([sim.burst(sim.mutate(c, p["allo_div"])) for c in ancestor] for _ in range(2))
+        genome = [np.concatenate([P[0], P[1]]), Q[0], Q[1], P[2], Q[2], P[3], Q[3]]
+        h1, h2 = sim.haplotypes(genome, 2)
+        cut = int(p["exchange_frac"] * len(h1[3]))
+        h1[3] = np.concatenate([sim.mutate(Q[2], p["het"])[:cut], h1[3][cut:]])
+        haps["HAP1"] = [placed("HAP1", c, s) for c, s in enumerate(h1, 1)]
+        haps["HAP2"] = [placed("HAP2", c, s) for c, s in enumerate(h2, 1)]
+        partners = {1: "chr02,chr03", 2: "chr01", 3: "chr01", 4: "chr05", 5: "chr04", 6: "chr07", 7: "chr06"}
+        truth = [dict(chrom=f"chr{c:02d}", copy_state="", fusion="", homeolog=partners[c])
+                 for c in range(1, 8)]
     elif name == "mislabelled":
         genome = sim.genome(n, ancestral)
         for i, chroms in enumerate(sim.haplotypes(genome, 4), 1):

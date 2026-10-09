@@ -280,14 +280,32 @@ def control_pairs(homeolog_pairs, chroms):
     paired number is compared with a paired number of similar character that is
     not its homeolog. With a single pair, both members are compared with the
     first other chromosome number."""
-    pairs = sorted(homeolog_pairs)
+    pairs = sorted(set(homeolog_pairs))
     if len(pairs) >= 2:
-        return [(pairs[i][0], pairs[(i + 1) % len(pairs)][1]) for i in range(len(pairs))]
-    if len(pairs) == 1:
+        out = [(pairs[i][0], pairs[(i + 1) % len(pairs)][1]) for i in range(len(pairs))]
+    elif len(pairs) == 1:
         a, b = pairs[0]
         others = [c for c in sorted(chroms) if c not in (a, b)]
-        return [(a, others[0]), (b, others[0])] if others else []
-    return []
+        out = [(a, others[0]), (b, others[0])] if others else []
+    else:
+        return []
+    # with block-level pairs (homeology_map.py) a chromosome can have several
+    # partners; its control must be none of them, nor related to it via its
+    # control's partners
+    partners = defaultdict(set)
+    for a, b in pairs:
+        partners[a].add(b)
+        partners[b].add(a)
+    fixed, seen = [], set()
+    for a, c in out:
+        if c in partners[a] or c == a:
+            c = next((x for x in sorted(chroms) if x != a and x not in partners[a]), None)
+            if c is None:
+                continue
+        if frozenset((a, c)) not in seen:
+            seen.add(frozenset((a, c)))
+            fixed.append((a, c))
+    return fixed
 
 
 def compute_homeolog_controls(seq_tsv, outdir, homeolog_pairs, samtools_bin, fastk_bin, logex_bin,

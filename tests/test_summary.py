@@ -66,6 +66,34 @@ class TestSummary(unittest.TestCase):
             self.assertTrue(a["origin_like_structure"]["answer"].startswith("Not assessable"))
             self.assertIn("no older duplicated sets", a["ploidy"]["answer"])
 
+    def test_extra_set_reads_as_aab(self):
+        with tempfile.TemporaryDirectory() as d:
+            species(d, 3, ["one_divergent_copy"] * 10, outlier="HAP1B (10 chromosomes)")
+            write(os.path.join(d, "matrix", "chrom_label_corrections.tsv"),
+                  ["status", "unit_id", "old_chrom", "new_chrom", "own_group_dist", "alt_group_dist",
+                   "ratio", "new_hap"],
+                  [["extra_set", "HAP1_chr11", "11", "1", "0.1", "0.05", "2.0", "HAP1B"]])
+            a = answers(d)
+            self.assertTrue(a["origin_like_structure"]["answer"].startswith("AAB-like"))
+            self.assertIn("odd copy number", a["ploidy"]["answer"])
+            self.assertIn("HAP1B", a["ploidy"]["answer"])
+
+    def test_segmental_homeology_reads_as_a_rearranged_duplicated_genome(self):
+        # charr: few whole-chromosome pairs, homeology per arm
+        with tempfile.TemporaryDirectory() as d:
+            species(d, 2, ["not_assessable"] * 10)
+            write(os.path.join(d, "rediploidization", "rediploidization_summary.tsv"), ["metric", "value"],
+                  [["residual_tested_chromosomes", "8"], ["residual_chromosomes", "0"], ["residual_bp", "0"],
+                   ["residual_controlled", "yes"], ["exchange_chromosomes", "0"],
+                   ["map_duplicated_frac", "0.62"], ["map_n_blocks", "14"], ["map_n_partner_pairs", "6"],
+                   ["map_multi_partner_chromosomes", "3"],
+                   ["map_multi_partner_list", "chr01:chr05+chr07;chr02:chr03+chr09;chr04:chr06+chr08"],
+                   ["map_block_dist_cv", "0.21"]])
+            a = answers(d)
+            self.assertIn("duplicated in blocks", a["ploidy"]["answer"])
+            self.assertTrue(a["rediploidization"]["answer"].startswith("Advanced"))
+            self.assertIn("different depths", a["rediploidization"]["answer"])
+
     def test_two_haplotype_allotetraploid_from_pairs(self):
         with tempfile.TemporaryDirectory() as d:
             pairs = [[f"chr{i:02d}", f"chr{i + 4:02d}", "0.05"] for i in range(1, 5)]

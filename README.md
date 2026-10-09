@@ -121,7 +121,9 @@ Cheap stages, always run by `all`:
 3. **matrix** — all-vs-all whole-chromosome Mash-corrected k-mer distance, ploidy
    summary, homologous-chromosome-pair report, clustered + contrast heatmaps. Includes an
    automatic correctness check (`chrom_reconcile.py`) for cross-file chromosome-number
-   mislabeling — see `OUTPUTS.md` if a run reports corrections.
+   mislabeling — see `OUTPUTS.md` if a run reports corrections. A haplotype file
+   holding two chromosome sets under different numbers (an AAB triploid assembled as
+   A+B in one file) is split into an extra copy, so odd ploidy reads as three copies.
 4. **homeologs** — FDR-controlled search for retained ancestral (paleopolyploid)
    chromosome pairs among *different* chromosome numbers, plus the full ranked-candidate
    evidence (not just the FDR-accepted subset).
@@ -141,8 +143,13 @@ Cheap stages, always run by `all`:
    embedding whatever plots/tables the stages that ran produced.
 
 Opt-in stages (moderate-to-expensive; flags on `all`, or run individually):
-- `--with-windowed-homeologs` — sliding-window divergence between the ancestral pairs
-  `homeologs` found.
+- `--with-windowed-homeologs` — a genome-wide homeology map first (every window of
+  every chromosome of one haplotype against every other chromosome, k=23: which
+  chromosome each block is duplicated on, so homeology that runs per arm is found),
+  then sliding-window divergence between the pairs `homeologs` and the map found.
+  These tracks feed the residual-tetrasomy and homeologous-exchange readings of
+  `rediploidization`. The map's cost grows with the square of the chromosome count
+  (about 2 h on 8 threads for 40 chromosomes of ~100 Mb).
 - `--with-te-markers` — differential fossil-TE k-mer markers between same-chromosome
   haplotype copies (the auto&harr;allo index), plus `subgenome-report`'s summary.
 - `--with-te-markers-windowed` — the most expensive stage: paints windows along each

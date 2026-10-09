@@ -102,6 +102,25 @@ AUTO-detection recovered 4 real haplotype copies per chromosome from header
 tags, matching *Galium boreale*'s known tetraploid cytology (2n=4x=44) —
 this file is where that shows up per-chromosome.
 
+**`chrom_label_corrections.tsv`**: every change the matrix stage made to
+chromosome numbering, from the all-vs-all distances. `status`:
+`corrected` (a unit decisively closer to another number of the reference
+haplotype; swaps and longer cycles are applied together), `displaced` (a unit
+with no allele under its own number, moved into the slot a cycle left free),
+`extra_set` (see below), or `ambiguous` (not applied). `own_group_dist` /
+`alt_group_dist` / `ratio` give the evidence; `new_hap` is set for
+`extra_set` rows.
+
+**Odd ploidy and haplotypes holding two sets.** A haplotype file can hold
+more than one chromosome set under different numbers: `icStrMela3` (an AAB
+triploid weevil) has A as chr1–10 and B as chr11–20 in HAP1, the other A in
+HAP2. Numbers present in one haplotype only are taken as an extra set when at
+least 3 of them, and at least half, match one shared number each (one-to-one,
+1.3x closer than their median distance to the other numbers). They become a
+new haplotype (`HAP1` → `HAP1B`) carrying the matched numbers, so every
+chromosome has three copies. The summary reads a consistently odd extra set as
+AAB-like rather than as a phasing problem, and flags odd copy numbers.
+
 **`homologous_chromosomes.tsv`**: the same-chromosome-number subset of
 `whole_chrom_pairs.tsv` — i.e. only the *true* haplotype/homologous pairs
 (as opposed to `homeologs/homeolog_pairs.tsv`'s cross-chromosome-number
@@ -270,7 +289,59 @@ against the other chromosome number's copies).
 one pair, the first other number), tables only. The residual-tetrasomy test
 uses it to discard windows that are close to every chromosome carrying a
 shared repeat. Runs made before it existed can add it with
-`windowed-homeologs --controls-only`.
+`windowed-homeologs --controls-only`. With several partners per chromosome
+(from the homeology map) the control is a chromosome that is none of them.
+
+### Homeology map — segmental homeology genome-wide
+
+`windowed-homeologs` first maps homeology along every chromosome (skip with
+`--no-homeology-map`; `--map-only` computes just the map). Whole-chromosome
+pairs miss homeology that runs per arm or per block: after an old duplication
+fusions and fissions reshuffle the karyotype, and a chromosome's arms can have
+different homeologs (masu and Arctic charr pass only 5–6 whole-chromosome
+pairs). Every window of every chromosome of one haplotype (the one with the
+most chromosomes) is compared with every other chromosome of that haplotype,
+position-free, at k=23 (at k=15 chance hits swamp old homeology: salmonid
+homeolog windows 0.049 vs 0.057 unrelated). Per window: the closest
+chromosome, the median distance to all others, and z = (median − closest) /
+(1.4826 MAD); homeolog-like when z ≥ 3. A **block** is a run of windows with
+the same closest chromosome (gaps of up to 2 windows bridged), longer than the
+95th percentile of the longest such run with the labels shuffled over the
+genome, at least 6 windows and `--min-segment-bp`. Chromosome pairs whose
+blocks add up to ≥ 2 Mb join the whole-chromosome pairs for the windowed
+tracks, so residual tetrasomy and homeologous exchange are tested per block
+pair.
+
+Sensitivity: exact k-mer matching sees homeology up to roughly 8–10%
+divergence. Glechoma (homeologs 0.042) has 78% of its genome in blocks; the
+~90-My-old salmonid duplication only 6–10% (its least-diverged regions; 1 Mb
+windows do no better). Unmapped means "no homeolog detected".
+
+**`homeology_map.tsv`**: one row per window of the mapped haplotype —
+`anchor`, `chrom`, `win_start`, `win_end`, `best`/`best_dist`,
+`second`/`second_dist`, `median_dist`, `z`, `homeolog_like`.
+(`windowed_homeology_map.tsv`, the raw all-against-all rows, is not tracked.)
+
+**`homeolog_blocks.tsv`**: one row per block — `anchor`, `chrom`, `partner`,
+`start`, `end`, `length`, `n_windows`, `median_dist`, `median_z`,
+`position` (`whole`/`start`/`end`/`interior`), `reciprocal` (the partner has
+a block back on this chromosome). Only reciprocal blocks are read: homeology
+runs both ways, repeats need not. In `daGleHede1` this leaves exactly its nine
+known homeolog pairs (two short unmatched blocks onto chr16 at a third of the
+homeolog distance drop out); in the diploid `ddMalSylv1` all seven blocks are
+unmatched and the duplicated fraction is 0.
+
+**`homeology_map_summary.tsv`**: `duplicated_frac` / `duplicated_bp` (share
+of the genome in reciprocal blocks), `n_blocks`, `n_blocks_unmatched`,
+`n_partner_pairs` / `partner_pairs`,
+`multi_partner_chromosomes` / `multi_partner_list` (chromosomes with blocks on
+two or more others: fusions, fissions or translocations since the
+duplication), `block_dist_median`, `block_dist_cv` (length-weighted spread of
+block divergence: blocks resolved at different times differ),
+`null_run_windows`, `min_block_windows`.
+
+**`homeology_map.png`**: each chromosome painted by the chromosome its blocks
+lie on (grey: no homeolog detected).
 
 ## `subgenomes/` — differential fossil-TE markers (the resolver/phaser)
 
@@ -650,7 +721,19 @@ Xie et al. 2026, oldest first, recovered without prior knowledge.
   significant near-allelic run (more than half are needed); the bp and segments
   are the best-covered copy's, labelled `start`/`end` within 10% of a
   chromosome end, else `interior`. A pooled pair read as `resolved_lineages`
-  that keeps residual tetrasomy becomes `partially_resolved`.
+  that keeps residual tetrasomy becomes `partially_resolved`. A chromosome
+  with several partners (homeology map blocks) sums its pairs:
+  `residual_partners` lists them, `residual_support` is `chrNN:k/n` per
+  partner and segments end in `~chrNN`.
+- `exchange_bp`, `exchange_support`, `exchange_segments`: homeologous-exchange
+  candidates -- stretches where a copy is closer to a homeolog copy than to its
+  own chromosome's other copies (below half their distance, which is itself
+  beyond `--residual-ratio` times the allelic level). The copy carries its
+  homeolog's sequence there: a homeologous exchange, or a contig scaffolded on
+  the wrong chromosome. Tested against a shuffle null of its own; no pair vote
+  (an exchange is usually in one copy), `exchange_support` says how many.
+- `block_partners`: the homeology map's partners for this chromosome with the
+  bp of blocks on each.
 
 **`residual_tetrasomy.tsv`**: one row per copy of a paired chromosome. A
 window is *near-allelic* when its distance to the closest copy of the homeolog
@@ -669,7 +752,8 @@ confidence: repeat families shared only by the two homeologs pass the control.
 Columns: `chrom`, `partner`, `anchor`, `control`, `n_windows`,
 `n_near_allelic`, `n_shared_with_control` (windows discarded because the
 control was as close), `allele_level`, `longest_run`, `null_max_run`,
-`segments`, `covered_bp`, `covered_frac`.
+`segments`, `covered_bp`, `covered_frac`, `n_exchange`, `exchange_segments`,
+`exchange_bp`. One row per copy and partner.
 
 Why a pair vote: in a haplotype scaffolded onto the other
 (`scaffold_by_reference.py`), a contig from a still-tetrasomic region aligns
@@ -692,6 +776,11 @@ quote the unscaffolded haplotype's coordinates.
 - `residual_tested_chromosomes`, `residual_chromosomes`, `residual_bp`,
   `residual_terminal_frac`, `residual_null_run_windows`, `residual_controlled`:
   the residual-tetrasomy test genome-wide (present when windowed-homeologs ran).
+- `exchange_chromosomes`, `exchange_bp`, `exchange_list`: homeologous-exchange
+  candidates genome-wide.
+- `map_*`: the homeology map's summary (`homeologs/homeology_map_summary.tsv`):
+  duplicated fraction, blocks, partner pairs, chromosomes with two or more
+  partners, block-divergence median and CV.
 
 **Caveats.** Every state is a descriptive reading of one individual's
 assemblies, not a measurement of inheritance mode (that needs segregation

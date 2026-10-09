@@ -6,7 +6,7 @@ import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from ploidyspec.chrom_reconcile import detect_relabeling, reconcile_chrom_labels
+from ploidyspec.chrom_reconcile import detect_extra_sets, detect_relabeling, reconcile_chrom_labels
 
 
 def unit(unit_id, hap, chrom, source):
@@ -353,6 +353,38 @@ class TestDetectRelabeling(unittest.TestCase):
             reconcile_chrom_labels(td, seq_tsv, units, distance)
             unit_ids = [u["unit_id"] for u in units]
             self.assertEqual(len(unit_ids), len(set(unit_ids)))
+
+
+class TestExtraSets(unittest.TestCase):
+    """icStrMela3: HAP1 holds A (chr01-04) and B (chr05-08), HAP2 the other A."""
+
+    def build(self, b_dist=0.05):
+        units = [unit(f"HAP1_chr0{c}", "HAP1", str(c), "fileA") for c in range(1, 9)]
+        units += [unit(f"HAP2_chr0{c}", "HAP2", str(c), "fileB") for c in range(1, 5)]
+        pairs = {(c - 1, 8 + c - 1): 0.012 for c in range(1, 5)}  # A alleles
+        for b, a in zip(range(4, 8), (1, 0, 3, 2)):  # B chr05->chr02, 06->01, 07->04, 08->03
+            pairs[(b, a)] = b_dist
+            pairs[(b, 8 + a)] = b_dist
+        return units, symmetric_matrix(12, pairs, default=0.10)
+
+    def test_second_set_in_one_haplotype_becomes_a_copy(self):
+        units, distance = self.build()
+        sets = detect_extra_sets(units, distance)
+        self.assertEqual({c["unit_id"]: (c["new_hap"], c["new_chrom"]) for c in sets},
+                         {"HAP1_chr05": ("HAP1B", "2"), "HAP1_chr06": ("HAP1B", "1"),
+                          "HAP1_chr07": ("HAP1B", "4"), "HAP1_chr08": ("HAP1B", "3")})
+
+    def test_unrelated_private_chromosomes_are_left_alone(self):
+        units, distance = self.build(b_dist=0.095)
+        self.assertEqual(detect_extra_sets(units, distance), [])
+
+    def test_a_single_private_chromosome_is_not_a_set(self):
+        # xgMonCant1: one fusion component private to HAP2
+        units = [unit(f"HAP1_chr0{c}", "HAP1", str(c), "fileA") for c in range(1, 4)]
+        units += [unit(f"HAP2_chr0{c}", "HAP2", str(c), "fileB") for c in range(1, 5)]
+        distance = symmetric_matrix(7, {(0, 3): 0.01, (1, 4): 0.01, (2, 5): 0.01,
+                                        (6, 2): 0.07, (6, 5): 0.07}, default=0.12)
+        self.assertEqual(detect_extra_sets(units, distance), [])
 
 
 class TestReconcileChromLabelsIO(unittest.TestCase):

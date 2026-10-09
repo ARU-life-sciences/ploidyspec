@@ -49,9 +49,10 @@ from .common import (
     windowed_dir,
 )
 from .manifest import CHROM_NAMING, DEFAULT_CHROM_REGEXES, DEFAULT_HAP_REGEX, prepare
-from .kmer_tables import build_all
+from .kmer_tables import build_all, load_sequences
 from .whole_matrix import compute_matrix
 from .windowed import CONTROLS_TSV, compute_homeolog_controls, compute_windowed, compute_windowed_homeologs
+from .homeology_map import MIN_TARGETS, compute_homeology_map, partner_pairs, reference_hap
 from .residual import HOMEOLOG_FRAC, MIN_NULL_RUN, RESIDUAL_RATIO
 from .homeologs import DEFAULT_MIN_EFFECT, run as run_homeolog_detection
 from .rediploidization import (
@@ -351,13 +352,32 @@ def cmd_windowed_homeologs(args):
             )
             for row in csv.DictReader(f, delimiter="\t")
         ]
+    step = args.step or args.window
+    units = load_sequences(seq_tsv)
+    ref = reference_hap(units)
+    run_map = (not getattr(args, "controls_only", False) and not getattr(args, "no_homeology_map", False)
+               and sum(u["hap"] == ref for u in units) > MIN_TARGETS)
+    if run_map or pairs:
+        samtools_bin, fastk_bin, logex_bin, histex_bin, _ = resolve_tools(args)
+    if run_map:
+        # segmental homeology genome-wide: block pairs join the whole-chromosome
+        # pairs for the windowed tracks (salmonid homeology runs per arm)
+        compute_homeology_map(seq_tsv, args.outdir, samtools_bin, fastk_bin, logex_bin, histex_bin,
+                              args.window, step, args.threads, args.min_segment_bp)
+        if getattr(args, "map_only", False):
+            return
+    whole = set(pairs)
+    pairs = sorted(whole | {p for p in partner_pairs(args.outdir)
+                            if p not in whole and p[::-1] not in whole})
     if not pairs:
         # not an error: many genomes have no accepted homeolog pairs, and `all`
         # must carry on to the later stages (dcCerAlpi1 stopped here)
-        log(f"{pairs_tsv} has no accepted homeolog pairs -- skipping windowed-homeologs")
+        log(f"{pairs_tsv} has no accepted homeolog pairs and the homeology map no blocks -- "
+            "skipping windowed-homeologs")
         return
-    samtools_bin, fastk_bin, logex_bin, histex_bin, _ = resolve_tools(args)
-    step = args.step or args.window
+    if len(pairs) > len(whole):
+        log(f"windowed-homeologs: {len(whole)} whole-chromosome pair(s) + "
+            f"{len(pairs) - len(whole)} pair(s) from homeolog blocks")
     if getattr(args, "controls_only", False):
         compute_homeolog_controls(seq_tsv, args.outdir, pairs, samtools_bin, fastk_bin, logex_bin,
                                   histex_bin, args.window_k, args.window, step, args.threads)
@@ -666,6 +686,15 @@ def main(argv=None):
         "--controls-only", action="store_true",
         help=f"only (re)compute {CONTROLS_TSV}, the unrelated-chromosome tracks the "
         "residual-tetrasomy test uses to exclude shared repeats (for runs made before it existed)")
+    p_win_homeo.add_argument(
+        "--no-homeology-map", action="store_true",
+        help="skip the genome-wide homeology map (blocks of segmental homeology; every "
+        "chromosome against every other in one haplotype) and use whole-chromosome pairs only")
+    p_win_homeo.add_argument(
+        "--map-only", action="store_true",
+        help="only (re)compute the homeology map, not the pair tracks")
+    p_win_homeo.add_argument("--min-segment-bp", type=int, default=DEFAULT_MIN_SEGMENT_BP,
+                             help="shortest homeolog block (default %(default)s)")
     p_win_homeo.set_defaults(func=cmd_windowed_homeologs)
 
     p_te = sub.add_parser(

@@ -69,8 +69,33 @@ class TestEndToEnd(unittest.TestCase):
 
     def test_states_match_truth(self):
         for scenario in ("diploid", "autotetraploid", "autotetraploid_2hap", "allotetraploid",
-                         "mislabelled", "residual_tetrasomy"):
+                         "mislabelled", "residual_tetrasomy", "allotriploid_one_file"):
             self.assertEqual(self.states(scenario), self.expected_states(scenario), scenario)
+
+    def test_second_set_in_one_file_becomes_a_third_copy(self):
+        seqs = read_tsv(self.out("allotriploid_one_file", "sequences.tsv"))
+        self.assertEqual({r["hap"] for r in seqs}, {"HAP1", "HAP1B", "HAP2"})
+        self.assertEqual({r["chrom"] for r in seqs}, {str(c) for c in range(1, N_CHROM + 1)})
+        rows = {r["question"]: r for r in read_tsv(self.out("allotriploid_one_file", "summary.tsv"))}
+        self.assertTrue(rows["origin_like_structure"]["answer"].startswith("AAB-like"))
+        self.assertIn("odd copy number", rows["ploidy"]["answer"])
+
+    def test_homeology_map_finds_arm_level_partners(self):
+        summary = {r["metric"]: r["value"] for r in
+                   read_tsv(self.out("segmental_homeology", "homeologs", "homeology_map_summary.tsv"))}
+        self.assertIn("chr01:chr02+chr03", summary["multi_partner_list"])
+        for scenario in ("diploid", "autotetraploid"):
+            blocks = read_tsv(self.out(scenario, "homeologs", "homeolog_blocks.tsv"))
+            self.assertEqual(blocks, [], scenario)
+
+    def test_homeologous_exchange_found_in_one_copy(self):
+        rows = {r["chrom"]: r for r in
+                read_tsv(self.out("segmental_homeology", "rediploidization", "rediploidization_by_chrom.tsv"))}
+        self.assertTrue(int(rows["chr04"]["exchange_bp"] or 0) > 0)
+        self.assertIn("HAP1:", rows["chr04"]["exchange_segments"])
+        self.assertIn("~chr05", rows["chr04"]["exchange_segments"])
+        for c in ("chr02", "chr03", "chr06", "chr07"):
+            self.assertEqual(rows[c]["exchange_bp"] or "0", "0", c)
 
     def test_rediploidized_states(self):
         self.assertEqual(self.states("rediploidized"), self.expected_states("rediploidized"))
