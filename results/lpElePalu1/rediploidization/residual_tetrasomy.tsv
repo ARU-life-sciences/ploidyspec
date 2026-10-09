@@ -1,0 +1,37 @@
+chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac
+chr01	chr18	HAP1_chr01	chr03	1832	67	0	0.00092	23	8	370.00-374.75Mb(interior);375.50-381.50Mb(interior)	10750000	0.023
+chr02	chr03	HAP1_chr02	chr05	1729	13	0	0.00068	4	8		0	0.000
+chr03	chr02	HAP1_chr03	chr01	1504	10	0	0.00071	5	8		0	0.000
+chr04	chr05	HAP1_chr04	chr08	1155	238	0	0.00493	132	8	238.00-240.25Mb(interior);248.50-251.50Mb(interior);255.75-288.74Mb(end)	38242766	0.132
+chr05	chr04	HAP1_chr05	chr02	1139	235	0	0.00484	134	8	244.00-249.75Mb(interior);250.25-284.50Mb(end)	40000000	0.141
+chr07	chr08	HAP1_chr07	chr10	1132	100	0	0.00001	18	8	146.75-151.25Mb(interior)	4500000	0.016
+chr08	chr07	HAP1_chr08	chr04	1082	85	0	0.00510	21	8	147.75-153.00Mb(interior)	5250000	0.019
+chr09	chr10	HAP1_chr09	chr12	786	183	0	0.00667	48	8	7.25-15.75Mb(start);16.25-22.50Mb(start);24.00-29.25Mb(interior);29.75-41.75Mb(interior)	32000000	0.163
+chr10	chr09	HAP1_chr10	chr07	774	199	0	0.00683	127	8	0.00-31.75Mb(start);100.00-106.25Mb(interior)	38000000	0.196
+chr11	chr12	HAP1_chr11	chr17	747	522	0	0.00670	275	8	0.25-69.25Mb(start);72.75-78.00Mb(interior);78.75-82.75Mb(interior);85.25-109.25Mb(interior);110.75-116.50Mb(interior);117.75-131.50Mb(interior);173.50-177.50Mb(end)	125750000	0.674
+chr12	chr11	HAP1_chr12	chr09	720	47	0	0.00682	16	8	172.25-176.25Mb(end)	4000000	0.022
+chr13	chr17	HAP1_chr13	chr15	678	52	3	0.00688	5	8		0	0.000
+chr14	chr15	HAP1_chr14	chr19	670	63	0	0.00650	14	8	60.50-64.00Mb(interior)	3500000	0.021
+chr15	chr14	HAP1_chr15	chr13	646	159	0	0.00694	29	8	4.00-7.00Mb(start);8.75-16.25Mb(start);18.25-22.00Mb(interior);23.00-27.25Mb(interior);35.75-41.75Mb(interior);78.50-81.75Mb(interior);84.75-87.50Mb(interior)	30500000	0.189
+chr16	chr19	HAP1_chr16	chr18	620	208	0	0.00886	64	8	0.75-4.50Mb(start);6.50-23.00Mb(start);27.25-29.75Mb(interior);32.50-48.75Mb(interior);64.50-68.75Mb(interior);135.00-137.75Mb(interior)	46000000	0.297
+chr17	chr13	HAP1_chr17	chr11	613	41	1	0.00786	4	8		0	0.000
+chr18	chr01	HAP1_chr18	chr16	610	167	0	0.00718	90	8	77.25-80.00Mb(interior);100.00-103.25Mb(interior);116.00-138.50Mb(end)	28500000	0.187
+chr19	chr16	HAP1_chr19	chr14	595	217	0	0.00889	177	8	0.00-44.25Mb(start);61.50-65.75Mb(interior);133.25-136.25Mb(end)	51500000	0.346
+chr01	chr18	HAP2_chr01	chr03	1827	132	0	0.00092	31	8	381.25-383.75Mb(interior);419.25-426.00Mb(end);426.50-434.00Mb(end);434.75-442.50Mb(end)	24500000	0.054
+chr02	chr03	HAP2_chr02	chr05	1729	51	0	0.00068	41	8	0.00-10.25Mb(start)	10250000	0.024
+chr03	chr02	HAP2_chr03	chr01	1511	52	0	0.00071	41	8	0.00-10.25Mb(start)	10250000	0.027
+chr04	chr05	HAP2_chr04	chr08	1164	129	0	0.00493	20	8	79.00-84.25Mb(interior);95.50-97.75Mb(interior);251.00-255.00Mb(interior)	11500000	0.040
+chr05	chr04	HAP2_chr05	chr02	1140	135	0	0.00484	21	8	75.75-81.00Mb(interior);90.75-93.25Mb(interior);233.00-235.50Mb(interior);254.50-257.25Mb(end)	13000000	0.046
+chr07	chr08	HAP2_chr07	chr10	1093	95	0	0.00001	5	8		0	0.000
+chr08	chr07	HAP2_chr08	chr04	1120	71	0	0.00510	6	8		0	0.000
+chr09	chr10	HAP2_chr09	chr12	780	102	0	0.00667	18	8	14.25-16.75Mb(start);110.25-114.75Mb(interior)	7000000	0.036
+chr10	chr09	HAP2_chr10	chr07	786	78	0	0.00683	13	8	14.00-18.00Mb(start)	4000000	0.020
+chr11	chr12	HAP2_chr11	chr17	756	32	0	0.00670	6	8		0	0.000
+chr12	chr11	HAP2_chr12	chr09	704	523	0	0.00682	512	8	0.00-128.75Mb(start)	128750000	0.732
+chr13	chr17	HAP2_chr13	chr15	602	59	0	0.00688	30	8	112.25-115.75Mb(interior);127.75-135.50Mb(end)	11250000	0.075
+chr14	chr15	HAP2_chr14	chr19	650	181	0	0.00650	76	8	0.00-19.00Mb(start);23.75-29.50Mb(interior);74.25-76.75Mb(interior);80.50-83.25Mb(interior);88.00-90.25Mb(interior)	32250000	0.199
+chr15	chr14	HAP2_chr15	chr13	722	72	0	0.00694	13	8	60.50-63.75Mb(interior);134.00-136.50Mb(interior)	5750000	0.032
+chr16	chr19	HAP2_chr16	chr18	640	44	0	0.00886	7	8		0	0.000
+chr17	chr13	HAP2_chr17	chr11	679	61	1	0.00786	31	8	147.25-155.00Mb(end)	7750000	0.046
+chr18	chr01	HAP2_chr18	chr16	635	104	0	0.00718	29	8	66.75-74.75Mb(interior);75.25-79.00Mb(interior)	11750000	0.074
+chr19	chr16	HAP2_chr19	chr14	611	47	0	0.00889	7	8		0	0.000

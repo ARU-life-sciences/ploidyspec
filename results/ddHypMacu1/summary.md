@@ -26,5 +26,5 @@ Repeat content differs between the split copies on several chromosomes, but the 
 Not assessable from this assembly.
 
 *Confidence:* not assessable  
-*Evidence:* 0 split / 0 tetrasomic-like chromosomes; 0 regional split(s)
+*Evidence:* 0 split / 0 tetrasomic-like chromosomes; 0 regional split(s); residual tetrasomy on 0/2 homeolog-paired chromosome numbers
 

@@ -1,12 +1,12 @@
-chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
-chr01	4			HAP3_chr01	HAP4_chr01,HAP1_chr01,HAP2_chr01	1.03	1.23	0.23	none	regional	0.04	0.06	HAP1:23.8-26.0Mb	tetrasomic_like	copies			chr02	4.43	paired
-chr02	4			HAP1_chr02,HAP3_chr02	HAP4_chr02,HAP2_chr02	0.99	1.05	0.25	none	regional	0.04	0.06	HAP1:41.5-43.5Mb	tetrasomic_like	copies			chr01	4.43	paired
-chr03	4			HAP1_chr03,HAP4_chr03	HAP3_chr03,HAP2_chr03	1.02	1.01	0.22	none	none	0.00	0.06		tetrasomic_like	copies			chr08	3.75	paired
-chr04	4			HAP1_chr04	HAP4_chr04,HAP2_chr04,HAP3_chr04	1.04	0.91	0.24	none	regional	0.05	0.06	HAP4:21.5-23.5Mb	tetrasomic_like	copies					unpaired
-chr05	4			HAP1_chr05	HAP3_chr05,HAP2_chr05,HAP4_chr05	1.05	0.95	0.29	regional	regional	0.07	0.06	HAP3:17.0-20.2Mb	tetrasomic_like	copies					unpaired
-chr06	4			HAP2_chr06,HAP1_chr06,HAP3_chr06	HAP4_chr06	1.03	1.00	0.21	none	none	0.00	0.06		tetrasomic_like	copies					unpaired
-chr07	4			HAP3_chr07,HAP2_chr07	HAP4_chr07,HAP1_chr07	1.05	0.98	0.26	none	none	0.00	0.06		tetrasomic_like	copies					unpaired
-chr08	4			HAP1_chr08,HAP2_chr08,HAP3_chr08	HAP4_chr08	1.08	1.17	0.33	regional	regional	0.07	0.06	HAP1:12.8-15.5Mb	tetrasomic_like	copies			chr03	3.75	paired
-chr09	4			HAP1_chr09	HAP3_chr09,HAP2_chr09,HAP4_chr09	1.05	1.07	0.26	none	none	0.00	0.06		tetrasomic_like	copies					unpaired
-chr10	4			HAP1_chr10,HAP3_chr10	HAP2_chr10,HAP4_chr10	1.27	1.19	0.35	regional	regional	0.12	0.06	HAP4:7.3-9.2Mb;HAP4:10.8-13.0Mb	partially_resolved	copies					unpaired
-chr11	4			HAP2_chr11	HAP4_chr11,HAP1_chr11,HAP3_chr11	1.04	1.06	0.24	none	regional	0.05	0.06	HAP4:7.0-9.0Mb	tetrasomic_like	copies					unpaired
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled
+chr01	4			HAP3_chr01	HAP4_chr01,HAP1_chr01,HAP2_chr01	1.03	1.23	0.23	none	regional	0.04	0.06	HAP1:23.8-26.0Mb	tetrasomic_like	copies			chr02	4.43	paired	0	0.000	0	0/8		yes
+chr02	4			HAP1_chr02,HAP3_chr02	HAP4_chr02,HAP2_chr02	0.99	1.05	0.25	none	regional	0.04	0.06	HAP1:41.5-43.5Mb	tetrasomic_like	copies			chr01	4.43	paired	0	0.000	0	0/8		yes
+chr03	4			HAP1_chr03,HAP4_chr03	HAP3_chr03,HAP2_chr03	1.02	1.01	0.22	none	none	0.00	0.06		tetrasomic_like	copies			chr08	3.75	paired	0	0.000	0	0/8		yes
+chr04	4			HAP1_chr04	HAP4_chr04,HAP2_chr04,HAP3_chr04	1.04	0.91	0.24	none	regional	0.05	0.06	HAP4:21.5-23.5Mb	tetrasomic_like	copies					unpaired						
+chr05	4			HAP1_chr05	HAP3_chr05,HAP2_chr05,HAP4_chr05	1.05	0.95	0.29	regional	regional	0.07	0.06	HAP3:17.0-20.2Mb	tetrasomic_like	copies					unpaired						
+chr06	4			HAP2_chr06,HAP1_chr06,HAP3_chr06	HAP4_chr06	1.03	1.00	0.21	none	none	0.00	0.06		tetrasomic_like	copies					unpaired						
+chr07	4			HAP3_chr07,HAP2_chr07	HAP4_chr07,HAP1_chr07	1.05	0.98	0.26	none	none	0.00	0.06		tetrasomic_like	copies					unpaired						
+chr08	4			HAP1_chr08,HAP2_chr08,HAP3_chr08	HAP4_chr08	1.08	1.17	0.33	regional	regional	0.07	0.06	HAP1:12.8-15.5Mb	tetrasomic_like	copies			chr03	3.75	paired	0	0.000	0	0/8		yes
+chr09	4			HAP1_chr09	HAP3_chr09,HAP2_chr09,HAP4_chr09	1.05	1.07	0.26	none	none	0.00	0.06		tetrasomic_like	copies					unpaired						
+chr10	4			HAP1_chr10,HAP3_chr10	HAP2_chr10,HAP4_chr10	1.27	1.19	0.35	regional	regional	0.12	0.06	HAP4:7.3-9.2Mb;HAP4:10.8-13.0Mb	partially_resolved	copies					unpaired						
+chr11	4			HAP2_chr11	HAP4_chr11,HAP1_chr11,HAP3_chr11	1.04	1.06	0.24	none	regional	0.05	0.06	HAP4:7.0-9.0Mb	tetrasomic_like	copies					unpaired						

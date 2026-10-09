@@ -16,3 +16,9 @@ n_distinct_fusions	0
 n_fused_scaffolds	0
 n_fusion_candidates_partner_present	0
 ancient_paired_chromosomes	0
+residual_tested_chromosomes	6
+residual_chromosomes	0
+residual_bp	0
+residual_terminal_frac	
+residual_null_run_windows	8
+residual_controlled	no

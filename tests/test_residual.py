@@ -6,7 +6,7 @@ import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from ploidyspec.residual import near_allelic_track, null_max_run, residual_tetrasomy, runs
+from ploidyspec.residual import allele_levels, near_allelic_track, null_max_run, residual_tetrasomy, runs
 from ploidyspec.windowed import FIELDNAMES, control_pairs
 
 W = 250_000
@@ -32,6 +32,11 @@ class TestControl(unittest.TestCase):
         self.assertEqual([t[2] for t in track], [False, True, False])
         self.assertEqual([t[3] for t in track], [True, False, False])
 
+    def test_ceiling_caps_an_inflated_allelic_level(self):
+        windows = {0: (W - 1, {"HAP1_chr02": 0.04})}
+        self.assertTrue(near_allelic_track(windows, 0.02, 3.0)[0][2])
+        self.assertFalse(near_allelic_track(windows, 0.02, 3.0, ceiling=0.0125)[0][2])
+
     def test_control_pairs_cover_every_paired_chromosome(self):
         ctl = control_pairs([(1, 8), (2, 9), (3, 10)], range(1, 11))
         self.assertEqual(ctl, [(1, 9), (2, 10), (3, 8)])
@@ -52,6 +57,25 @@ def row(a, b, start, d):
     return dict(group="g", win_start=start, win_end=start + W - 1, unit_a=a, unit_b=b,
                 hap_a=a.split("_")[0], hap_b=b.split("_")[0], chrom_a=int(a[-2:]), chrom_b=int(b[-2:]),
                 kmers_a=W, shared=0, containment=0, distance=d)
+
+
+class TestAlleleLevels(unittest.TestCase):
+    """Four copies of chr01, HAP4 a divergent subgenome copy: every copy is
+    measured at the close copies' allelic level, not one inflated by HAP4."""
+
+    def test_divergent_copy_does_not_inflate_the_level(self):
+        units = [f"HAP{h}_chr01" for h in (1, 2, 3, 4)]
+        rows = []
+        for a in units:
+            for b in units:
+                if a != b:
+                    d = 0.04 if "HAP4" in (a, b) else 0.003
+                    rows += [row(a, b, i * W, d) for i in range(5)]
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "windowed_all.tsv")
+            write_windows(path, rows)
+            levels = allele_levels(path, {u: 1 for u in units})
+        self.assertEqual(set(levels.values()), {0.003})
 
 
 class TestPairVote(unittest.TestCase):

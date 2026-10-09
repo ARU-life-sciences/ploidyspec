@@ -26,5 +26,5 @@ Repeat history tracks the lineages on 1 chromosome(s) only.
 No sign yet: copies interchangeable throughout.
 
 *Confidence:* medium  
-*Evidence:* 0 split / 13 tetrasomic-like chromosomes; 1 regional split(s); pair-depth CV 0.05
+*Evidence:* 0 split / 13 tetrasomic-like chromosomes; 1 regional split(s); residual tetrasomy on 0/10 homeolog-paired chromosome numbers; pair-depth CV 0.05
 

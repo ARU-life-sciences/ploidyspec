@@ -26,5 +26,5 @@ Repeat content differs between the split copies on several chromosomes, but the 
 Likely under way: some chromosomes have split into lineages while others stay tetrasomic-like.
 
 *Confidence:* medium  
-*Evidence:* 3 split / 3 tetrasomic-like chromosomes; 5 regional split(s); pair-depth CV 0.03
+*Evidence:* 3 split / 3 tetrasomic-like chromosomes; 5 regional split(s); residual tetrasomy on 0/16 homeolog-paired chromosome numbers; pair-depth CV 0.03
 

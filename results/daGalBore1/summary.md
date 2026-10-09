@@ -26,5 +26,5 @@ Repeat history does not track the copies' lineages (no within-genome TE contrast
 Little sign: 1 chromosome(s) partly split among tetrasomic-like ones.
 
 *Confidence:* low  
-*Evidence:* 1 split / 10 tetrasomic-like chromosomes; 1 regional split(s); pair-depth CV 0.00
+*Evidence:* 1 split / 10 tetrasomic-like chromosomes; 1 regional split(s); residual tetrasomy on 0/4 homeolog-paired chromosome numbers; pair-depth CV 0.00
 

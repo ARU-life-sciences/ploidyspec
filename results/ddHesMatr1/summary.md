@@ -26,5 +26,5 @@ Repeat history tracks the lineages on several chromosomes: separate TE histories
 Little sign: 1 chromosome(s) partly split among tetrasomic-like ones.
 
 *Confidence:* low  
-*Evidence:* 1 split / 1 tetrasomic-like chromosomes; 0 regional split(s)
+*Evidence:* 1 split / 1 tetrasomic-like chromosomes; 0 regional split(s); residual tetrasomy on 0/2 homeolog-paired chromosome numbers (no unrelated-chromosome control; shared repeats not excluded)
 

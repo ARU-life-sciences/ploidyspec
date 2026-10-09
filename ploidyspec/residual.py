@@ -16,20 +16,35 @@ Per window of each anchor copy (positions along that copy, position-free
 comparison; see windowed.py): the distance to the closest copy of the
 homeolog partner, over the anchor's typical allelic distance (median over its
 windows of the distance to its own chromosome's other copies). A window is
-*near-allelic* when that ratio is below `ratio` (default 3) and the anchor
-is not also near-allelic to an unrelated control chromosome in that window
+*near-allelic* when that ratio is below `ratio` (default 3), the distance is
+also below `HOMEOLOG_FRAC` of the species' median homeolog distance, and the
+anchor is not also near-allelic to an unrelated control chromosome in that window
 (windowed.control_pairs). Shared satellites and subtelomeric repeats make a
 window close to every chromosome carrying them -- ddSalPent1's chromosome ends
 read 0.001 against their salicoid homeologs, below the allelic distance --
 while residual tetrasomy is specific to the homeolog. Runs from before the
 controls existed are read without them and flagged `controlled = no`.
 
+The allelic level is the median over windows of the distance to the anchor's
+*closest* other copy, and a chromosome's copies all use the median of their
+levels. With more than two copies one is often a divergent subgenome copy;
+averaging over it (or anchoring on it) put the "allelic" level near the
+homeolog distance, and three times that let most of the genome through
+(ddLepDrab1, ddHypMacu1). The homeolog ceiling guards the same failure from
+the other side: in a species whose homeologs are barely more diverged than its
+alleles (daGleHede1: 0.03 vs 0.009) the ratio alone reads the near tail of
+ordinary homeolog divergence as residual tetrasomy, while real residual
+segments sit far below the homeolog level (OncMaso1: 0.0045 vs 0.048).
+
 Null: near-allelic windows also turn up singly (shared repeats, a misplaced
 contig). Runs are scanned with gaps of one window bridged; the near-allelic
 labels are shuffled across all tracks of the species and the longest run
 recorded, repeated `n_perm` times. A run counts only if it has more
 near-allelic windows than the 95th percentile of that genome-wide maximum, and
-is at least `min_segment_bp` long. A homeolog pair counts as residual-
+is at least `min_segment_bp` long. In an almost homozygous genome near-allelic
+windows are so rare that the shuffled maximum falls to 3-4 windows, and a 2 Mb
+cluster at a chromosome end passes (laPotCris1); the null is floored at
+`MIN_NULL_RUN` windows. A homeolog pair counts as residual-
 tetrasomic when more than half the copies of its two numbers show such a run
 (3 of 4 with two haplotypes): a real tetrasomic region shows from every copy,
 but a contig scaffolded onto the wrong homeolog -- its tetrasomic sequence
@@ -53,6 +68,8 @@ RESIDUAL_PERMUTATIONS = 200
 ALLELE_FLOOR = 1e-3  # an almost homozygous chromosome must not inflate every ratio
 TERMINAL_FRAC = 0.1  # a segment within this fraction of either end is terminal
 MAX_GAP = 1
+HOMEOLOG_FRAC = 0.25  # near-allelic also means well below the typical homeolog distance
+MIN_NULL_RUN = 8  # floor on the shuffled-run null, in windows
 
 FIELDS = ["chrom", "partner", "anchor", "control", "n_windows", "n_near_allelic", "n_shared_with_control",
           "allele_level",
@@ -71,8 +88,11 @@ def load_tracks(path):
     return out
 
 
-def allele_levels(path):
-    """{anchor: median over its windows of the mean distance to its own other copies}"""
+def allele_levels(path, chrom_of=None):
+    """{anchor: allelic level}: the median over its windows of the distance to its
+    closest other copy; with chrom_of, every copy of a chromosome gets the median
+    of those levels, so a divergent copy is measured against its chromosome's
+    allelic level rather than its own distance to the rest."""
     per = defaultdict(list)
     if not os.path.exists(path):
         return {}
@@ -80,14 +100,23 @@ def allele_levels(path):
     for r, d in window_rows(path):
         by_win[(r["unit_a"], r["win_start"])].append(d)
     for (anchor, _), ds in by_win.items():
-        per[anchor].append(statistics.mean(ds))
-    return {a: statistics.median(v) for a, v in per.items()}
+        per[anchor].append(min(ds))
+    levels = {a: statistics.median(v) for a, v in per.items()}
+    if not chrom_of:
+        return levels
+    by_chrom = defaultdict(list)
+    for a, v in levels.items():
+        by_chrom[chrom_of.get(a)].append(v)
+    return {a: statistics.median(by_chrom[chrom_of.get(a)]) for a in levels}
 
 
-def near_allelic_track(windows, allele, ratio, control=None):
+def near_allelic_track(windows, allele, ratio, control=None, ceiling=None):
     """[(start, end, near_allelic, shared_with_control)] along one anchor. A
-    window close to the control chromosome as well is not near-allelic."""
+    window close to the control chromosome as well is not near-allelic; the
+    cut never exceeds `ceiling` (a fraction of the homeolog distance)."""
     cut = ratio * max(allele, ALLELE_FLOOR)
+    if ceiling is not None:
+        cut = min(cut, ceiling)
     out = []
     for s in sorted(windows):
         near = min(windows[s][1].values()) < cut
@@ -155,22 +184,25 @@ def residual_tetrasomy(outdir, chrom_of, thresholds):
     tracks = load_tracks(os.path.join(homeologs_dir(outdir), "windowed_homeologs_all.tsv"))
     if not tracks:
         return [], {}, None
-    alleles = allele_levels(os.path.join(windowed_dir(outdir), "windowed_all.tsv"))
+    alleles = allele_levels(os.path.join(windowed_dir(outdir), "windowed_all.tsv"), chrom_of)
     controls = load_tracks(os.path.join(homeologs_dir(outdir), CONTROLS_TSV))
     control_of = {anchor: (c, w) for (anchor, c), w in controls.items()}
     ratio = thresholds.get("residual_ratio", RESIDUAL_RATIO)
     min_bp = thresholds["min_segment_bp"]
+    homeolog_level = statistics.median(min(d.values()) for w in tracks.values() for _, d in w.values())
+    ceiling = thresholds.get("residual_homeolog_frac", HOMEOLOG_FRAC) * homeolog_level
 
     built = {}
     for (anchor, partner), windows in sorted(tracks.items()):
         if anchor not in alleles:
             continue
         built[(anchor, partner)] = near_allelic_track(windows, alleles[anchor], ratio,
-                                                      control_of.get(anchor, (None, None))[1])
+                                                      control_of.get(anchor, (None, None))[1], ceiling)
     lengths = [len(t) for t in built.values()]
     n_true = sum(t[2] for track in built.values() for t in track)
     null = null_max_run(lengths, n_true, thresholds.get("residual_permutations", RESIDUAL_PERMUTATIONS),
                         RESIDUAL_NULL_QUANTILE)
+    null = max(null, thresholds.get("residual_min_run", MIN_NULL_RUN))
 
     rows, by_chrom = [], defaultdict(list)
     for (anchor, partner), track in built.items():

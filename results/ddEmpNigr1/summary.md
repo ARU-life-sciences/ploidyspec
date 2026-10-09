@@ -26,5 +26,5 @@ Repeat history tracks the lineages on several chromosomes: separate TE histories
 Split throughout: either rediploidization is complete or the genome was allo-like from the start; these data cannot tell which.
 
 *Confidence:* medium  
-*Evidence:* 10 split / 0 tetrasomic-like chromosomes; 2 regional split(s)
+*Evidence:* 10 split / 0 tetrasomic-like chromosomes; 2 regional split(s); residual tetrasomy on 0/2 homeolog-paired chromosome numbers
 

@@ -52,7 +52,7 @@ from .manifest import CHROM_NAMING, DEFAULT_CHROM_REGEXES, DEFAULT_HAP_REGEX, pr
 from .kmer_tables import build_all
 from .whole_matrix import compute_matrix
 from .windowed import CONTROLS_TSV, compute_homeolog_controls, compute_windowed, compute_windowed_homeologs
-from .residual import RESIDUAL_RATIO
+from .residual import HOMEOLOG_FRAC, MIN_NULL_RUN, RESIDUAL_RATIO
 from .homeologs import DEFAULT_MIN_EFFECT, run as run_homeolog_detection
 from .rediploidization import (
     DEFAULT_CONTAINMENT_Z,
@@ -233,6 +233,12 @@ def add_rediploidization_args(p):
                    help="a homeolog window is near-allelic (residual tetrasomy) when its distance "
                    "to the closest partner copy is below this many times the copy's typical "
                    f"allelic distance (default {RESIDUAL_RATIO}; needs --with-windowed-homeologs)")
+    p.add_argument("--residual-homeolog-frac", type=float, default=HOMEOLOG_FRAC,
+                   help="a near-allelic homeolog window must also be below this fraction of the "
+                   f"species' median homeolog distance (default {HOMEOLOG_FRAC})")
+    p.add_argument("--residual-min-run", type=int, default=MIN_NULL_RUN,
+                   help="floor, in windows, on the shuffled null for residual-tetrasomy runs "
+                   f"(default {MIN_NULL_RUN})")
     p.add_argument("--min-segment-bp", type=int, default=DEFAULT_MIN_SEGMENT_BP,
                    help="minimum length of a contiguous split region to count "
                    f"(default {DEFAULT_MIN_SEGMENT_BP})")
@@ -450,6 +456,8 @@ def cmd_rediploidization(args):
         window_split=args.window_split,
         min_segment_bp=args.min_segment_bp,
         residual_ratio=args.residual_ratio,
+        residual_homeolog_frac=args.residual_homeolog_frac,
+        residual_min_run=args.residual_min_run,
     )
 
     def tools():

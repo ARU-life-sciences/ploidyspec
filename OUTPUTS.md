@@ -654,12 +654,18 @@ Xie et al. 2026, oldest first, recovered without prior knowledge.
 
 **`residual_tetrasomy.tsv`**: one row per copy of a paired chromosome. A
 window is *near-allelic* when its distance to the closest copy of the homeolog
-partner is below `--residual-ratio` (default 3) times the copy's typical
-allelic distance (median of its `windowed/` windows), and it is not equally
-close to the control chromosome. Runs of near-allelic windows (gaps of one
-window bridged) count when they have more near-allelic windows than the 95th
-percentile of the genome-wide longest run with the same labels shuffled over
-all tracks (`null_max_run`) and are at least `--min-segment-bp` long.
+partner is below `--residual-ratio` (default 3) times the chromosome's allelic
+level, below `--residual-homeolog-frac` (default 0.25) of the species' median
+homeolog distance, and not equally close to the control chromosome. The
+allelic level (`allele_level`) is the median over a copy's `windowed/` windows
+of the distance to its closest other copy, then the median over the
+chromosome's copies, so a divergent subgenome copy does not inflate it. Runs
+of near-allelic windows (gaps of one window bridged) count when they have more
+near-allelic windows than the 95th percentile of the genome-wide longest run
+with the same labels shuffled over all tracks, floored at `--residual-min-run`
+(default 8) windows (`null_max_run`), and are at least `--min-segment-bp` long.
+In the summary, residual tetrasomy that is >= 90% at chromosome ends is low
+confidence: repeat families shared only by the two homeologs pass the control.
 Columns: `chrom`, `partner`, `anchor`, `control`, `n_windows`,
 `n_near_allelic`, `n_shared_with_control` (windows discarded because the
 control was as close), `allele_level`, `longest_run`, `null_max_run`,

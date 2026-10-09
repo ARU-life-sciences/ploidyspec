@@ -38,6 +38,7 @@ PALEO_RATIO = 0.8
 # Residual tetrasomy on this many paired chromosome numbers reads as an
 # auto-like origin (one could be a homeologous exchange).
 RESIDUAL_MIN_CHROMS = 2
+RESIDUAL_TERMINAL_ONLY = 0.9  # terminal fraction above which residual tetrasomy is low confidence
 
 
 def _read(path):
@@ -155,7 +156,12 @@ def residual(g):
     ev = (f"residual tetrasomy on {hit}/{tested} homeolog-paired chromosome numbers"
           + (f", {bp / 1e6:.1f} Mb, {term:.0%} of it terminal" if hit else "")
           + ("" if controlled else " (no unrelated-chromosome control; shared repeats not excluded)"))
-    return tested, hit, bp, term, ev, "medium" if controlled else "low"
+    # residual tetrasomy sits at chromosome ends in salmonids, but so do repeat
+    # families only the two homeologs share, which the control cannot remove
+    terminal_only = hit and term is not None and term >= RESIDUAL_TERMINAL_ONLY
+    if terminal_only:
+        ev += " (all at chromosome ends: homeolog-specific subtelomeric repeats not excluded)"
+    return tested, hit, bp, term, ev, "medium" if controlled and not terminal_only else "low"
 
 
 def _state_counts(g):

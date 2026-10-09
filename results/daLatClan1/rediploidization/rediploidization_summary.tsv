@@ -7,8 +7,8 @@ state_basis:fusion	0
 state_basis:none	3
 copy_state:tetrasomic_like	0
 copy_state:candidate	0
-copy_state:partially_resolved	0
-copy_state:resolved_lineages	18
+copy_state:partially_resolved	2
+copy_state:resolved_lineages	16
 copy_state:fusion_lineages	0
 copy_state:one_divergent_copy	0
 copy_state:not_assessable	3
@@ -18,3 +18,9 @@ n_fusion_candidates_partner_present	0
 ancient_paired_chromosomes	18
 ancient_distance_ratio_median	29.95
 ancient_distance_ratio_cv	0.19
+residual_tested_chromosomes	18
+residual_chromosomes	2
+residual_bp	25750000
+residual_terminal_frac	0.15
+residual_null_run_windows	8
+residual_controlled	yes

@@ -1,20 +1,20 @@
-chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
-chr01	2			HAP1_chr01,HAP2_chr01	HAP1_chr18,HAP2_chr18	3.85						0.00		resolved_lineages	homeolog_pool	chr18		chr18	3.85	paired
-chr02	2			HAP1_chr03,HAP2_chr03	HAP2_chr02,HAP1_chr02	11.08						0.00		resolved_lineages	homeolog_pool	chr03		chr03	11.08	paired
-chr03	2			HAP1_chr03,HAP2_chr03	HAP2_chr02,HAP1_chr02	11.08						0.00		resolved_lineages	homeolog_pool	chr02		chr02	11.08	paired
-chr04	2			HAP1_chr04,HAP1_chr05,HAP2_chr05	HAP2_chr04	1.05						0.00		tetrasomic_like	homeolog_pool	chr05		chr05	0.94	paired
-chr05	2			HAP1_chr04,HAP1_chr05,HAP2_chr05	HAP2_chr04	1.05						0.00		tetrasomic_like	homeolog_pool	chr04		chr04	0.94	paired
-chr06	2											0.00		not_assessable	none					unpaired
-chr07	2			HAP1_chr08	HAP2_chr07,HAP1_chr07,HAP2_chr08	1.26						0.00		one_divergent_copy	homeolog_pool	chr08	HAP1	chr08	1.38	paired
-chr08	2			HAP1_chr08	HAP2_chr07,HAP1_chr07,HAP2_chr08	1.26						0.00		one_divergent_copy	homeolog_pool	chr07	HAP1	chr07	1.38	paired
-chr09	2			HAP1_chr09,HAP1_chr10,HAP2_chr09	HAP2_chr10	1.12						0.00		tetrasomic_like	homeolog_pool	chr10		chr10	0.94	paired
-chr10	2			HAP1_chr09,HAP1_chr10,HAP2_chr09	HAP2_chr10	1.12						0.00		tetrasomic_like	homeolog_pool	chr09		chr09	0.94	paired
-chr11	2			HAP1_chr12,HAP2_chr11	HAP2_chr12,HAP1_chr11	1.51						0.00		candidate	homeolog_pool	chr12		chr12	0.81	paired
-chr12	2			HAP1_chr12,HAP2_chr11	HAP2_chr12,HAP1_chr11	1.51						0.00		candidate	homeolog_pool	chr11		chr11	0.81	paired
-chr13	2			HAP1_chr17	HAP2_chr13,HAP1_chr13,HAP2_chr17	1.16						0.00		tetrasomic_like	homeolog_pool	chr17		chr17	1.13	paired
-chr14	2			HAP1_chr14,HAP2_chr15	HAP1_chr15,HAP2_chr14	1.13						0.00		tetrasomic_like	homeolog_pool	chr15		chr15	0.99	paired
-chr15	2			HAP1_chr14,HAP2_chr15	HAP1_chr15,HAP2_chr14	1.13						0.00		tetrasomic_like	homeolog_pool	chr14		chr14	0.99	paired
-chr16	2			HAP1_chr19,HAP1_chr16	HAP2_chr16,HAP2_chr19	1.35						0.00		candidate	homeolog_pool	chr19		chr19	0.88	paired
-chr17	2			HAP1_chr17	HAP2_chr13,HAP1_chr13,HAP2_chr17	1.16						0.00		tetrasomic_like	homeolog_pool	chr13		chr13	1.13	paired
-chr18	2			HAP1_chr01,HAP2_chr01	HAP1_chr18,HAP2_chr18	3.85						0.00		resolved_lineages	homeolog_pool	chr01		chr01	3.85	paired
-chr19	2			HAP1_chr19,HAP1_chr16	HAP2_chr16,HAP2_chr19	1.35						0.00		candidate	homeolog_pool	chr16		chr16	0.88	paired
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled
+chr01	2			HAP1_chr01,HAP2_chr01	HAP1_chr18,HAP2_chr18	3.85						0.00		partially_resolved	homeolog_pool	chr18		chr18	3.85	paired	24500000	0.054	22000000	4/4	HAP2:381.3-383.8Mb(interior);HAP2:419.3-426.0Mb(end);HAP2:426.5-434.0Mb(end);HAP2:434.8-442.5Mb(end)	yes
+chr02	2			HAP1_chr03,HAP2_chr03	HAP2_chr02,HAP1_chr02	11.08						0.00		resolved_lineages	homeolog_pool	chr03		chr03	11.08	paired	0	0.000	0	2/4		yes
+chr03	2			HAP1_chr03,HAP2_chr03	HAP2_chr02,HAP1_chr02	11.08						0.00		resolved_lineages	homeolog_pool	chr02		chr02	11.08	paired	0	0.000	0	2/4		yes
+chr04	2			HAP1_chr04,HAP1_chr05,HAP2_chr05	HAP2_chr04	1.05						0.00		tetrasomic_like	homeolog_pool	chr05		chr05	0.94	paired	38242766	0.132	32992766	4/4	HAP1:238.0-240.2Mb(interior);HAP1:248.5-251.5Mb(interior);HAP1:255.8-288.7Mb(end)	yes
+chr05	2			HAP1_chr04,HAP1_chr05,HAP2_chr05	HAP2_chr04	1.05						0.00		tetrasomic_like	homeolog_pool	chr04		chr04	0.94	paired	40000000	0.141	34250000	4/4	HAP1:244.0-249.8Mb(interior);HAP1:250.3-284.5Mb(end)	yes
+chr06	2											0.00		not_assessable	none					unpaired						
+chr07	2			HAP1_chr08	HAP2_chr07,HAP1_chr07,HAP2_chr08	1.26						0.00		one_divergent_copy	homeolog_pool	chr08	HAP1	chr08	1.38	paired	0	0.000	0	2/4		yes
+chr08	2			HAP1_chr08	HAP2_chr07,HAP1_chr07,HAP2_chr08	1.26						0.00		one_divergent_copy	homeolog_pool	chr07	HAP1	chr07	1.38	paired	0	0.000	0	2/4		yes
+chr09	2			HAP1_chr09,HAP1_chr10,HAP2_chr09	HAP2_chr10	1.12						0.00		tetrasomic_like	homeolog_pool	chr10		chr10	0.94	paired	32000000	0.163	14750000	4/4	HAP1:7.3-15.8Mb(start);HAP1:16.3-22.5Mb(start);HAP1:24.0-29.2Mb(interior);HAP1:29.8-41.8Mb(interior)	yes
+chr10	2			HAP1_chr09,HAP1_chr10,HAP2_chr09	HAP2_chr10	1.12						0.00		tetrasomic_like	homeolog_pool	chr09		chr09	0.94	paired	38000000	0.196	31750000	4/4	HAP1:0.0-31.8Mb(start);HAP1:100.0-106.2Mb(interior)	yes
+chr11	2			HAP1_chr12,HAP2_chr11	HAP2_chr12,HAP1_chr11	1.51						0.00		candidate	homeolog_pool	chr12		chr12	0.81	paired	125750000	0.674	73000000	3/4	HAP1:0.3-69.2Mb(start);HAP1:72.8-78.0Mb(interior);HAP1:78.8-82.8Mb(interior);HAP1:85.3-109.2Mb(interior);HAP1:110.8-116.5Mb(interior);HAP1:117.8-131.5Mb(interior);HAP1:173.5-177.5Mb(end)	yes
+chr12	2			HAP1_chr12,HAP2_chr11	HAP2_chr12,HAP1_chr11	1.51						0.00		candidate	homeolog_pool	chr11		chr11	0.81	paired	128750000	0.732	128750000	3/4	HAP2:0.0-128.8Mb(start)	yes
+chr13	2			HAP1_chr17	HAP2_chr13,HAP1_chr13,HAP2_chr17	1.16						0.00		tetrasomic_like	homeolog_pool	chr17		chr17	1.13	paired	0	0.000	0	2/4		yes
+chr14	2			HAP1_chr14,HAP2_chr15	HAP1_chr15,HAP2_chr14	1.13						0.00		tetrasomic_like	homeolog_pool	chr15		chr15	0.99	paired	32250000	0.199	19000000	4/4	HAP2:0.0-19.0Mb(start);HAP2:23.8-29.5Mb(interior);HAP2:74.3-76.8Mb(interior);HAP2:80.5-83.2Mb(interior);HAP2:88.0-90.2Mb(interior)	yes
+chr15	2			HAP1_chr14,HAP2_chr15	HAP1_chr15,HAP2_chr14	1.13						0.00		tetrasomic_like	homeolog_pool	chr14		chr14	0.99	paired	30500000	0.189	10500000	4/4	HAP1:4.0-7.0Mb(start);HAP1:8.8-16.2Mb(start);HAP1:18.3-22.0Mb(interior);HAP1:23.0-27.2Mb(interior);HAP1:35.8-41.8Mb(interior);HAP1:78.5-81.8Mb(interior);HAP1:84.8-87.5Mb(interior)	yes
+chr16	2			HAP1_chr19,HAP1_chr16	HAP2_chr16,HAP2_chr19	1.35						0.00		candidate	homeolog_pool	chr19		chr19	0.88	paired	0	0.000	0	2/4		yes
+chr17	2			HAP1_chr17	HAP2_chr13,HAP1_chr13,HAP2_chr17	1.16						0.00		tetrasomic_like	homeolog_pool	chr13		chr13	1.13	paired	0	0.000	0	2/4		yes
+chr18	2			HAP1_chr01,HAP2_chr01	HAP1_chr18,HAP2_chr18	3.85						0.00		partially_resolved	homeolog_pool	chr01		chr01	3.85	paired	28500000	0.187	22500000	4/4	HAP1:77.3-80.0Mb(interior);HAP1:100.0-103.2Mb(interior);HAP1:116.0-138.5Mb(end)	yes
+chr19	2			HAP1_chr19,HAP1_chr16	HAP2_chr16,HAP2_chr19	1.35						0.00		candidate	homeolog_pool	chr16		chr16	0.88	paired	0	0.000	0	2/4		yes

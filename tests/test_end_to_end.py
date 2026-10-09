@@ -24,7 +24,9 @@ ENABLED = os.environ.get("PLOIDYSPEC_E2E") == "1" and all(shutil.which(t) for t 
 N_CHROM = 7
 SIM_PARAMS = dict(n_chrom=N_CHROM, chrom_len=800_000)
 RUN_ARGS = ["--k", "15,23", "--min-len", "400000", "--window", "100000",
-            "--min-segment-bp", "200000", "--with-te-markers", "--with-windowed-homeologs",
+            # segment floors scaled to the 1.5 Mb simulated chromosomes (a 6-window residual stretch)
+            "--min-segment-bp", "200000", "--residual-min-run", "3",
+            "--with-te-markers", "--with-windowed-homeologs",
             "--threads", "4"]
 
 

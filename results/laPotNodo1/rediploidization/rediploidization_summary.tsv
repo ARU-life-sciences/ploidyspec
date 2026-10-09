@@ -18,3 +18,9 @@ n_fusion_candidates_partner_present	0
 ancient_paired_chromosomes	26
 ancient_distance_ratio_median	27.55
 ancient_distance_ratio_cv	0.46
+residual_tested_chromosomes	26
+residual_chromosomes	0
+residual_bp	0
+residual_terminal_frac	
+residual_null_run_windows	8
+residual_controlled	yes

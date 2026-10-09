@@ -23,7 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Not assessable from this assembly.
+Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start.
 
-*Confidence:* not assessable
+*Confidence:* low  
+*Evidence:* residual tetrasomy on 0/2 homeolog-paired chromosome numbers (no unrelated-chromosome control; shared repeats not excluded)
 

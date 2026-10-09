@@ -1,14 +1,14 @@
-chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
-chr01	4			HAP1_chr01,HAP3_chr01	HAP2_chr01,HAP4_chr01	1.93	1.92	0.76	whole	whole	0.65	0.16	HAP1:5.0-9.5Mb;HAP1:10.0-15.0Mb;HAP1:15.5-18.2Mb;HAP1:20.8-30.5Mb;HAP1:34.0-36.0Mb;HAP1:40.3-43.0Mb;HAP1:43.5-47.2Mb;HAP1:49.3-51.8Mb;HAP1:52.5-55.9Mb	partially_resolved	copies			chr02	4.67	paired
-chr02	4			HAP3_chr02,HAP1_chr02,HAP2_chr02	HAP4_chr02	1.38	1.37	0.81	whole	whole	0.77	0.16	HAP2:7.0-14.0Mb;HAP2:14.5-17.0Mb;HAP2:17.8-19.8Mb;HAP2:20.3-40.2Mb;HAP2:41.0-43.8Mb;HAP2:44.3-47.5Mb	one_divergent_copy	copies		HAP4	chr01	4.67	paired
-chr03	4			HAP1_chr03,HAP3_chr03	HAP2_chr03,HAP4_chr03	3.18	1.93	0.92	whole	whole	0.97	0.16	HAP2:0.0-17.8Mb;HAP2:18.5-21.5Mb;HAP2:22.0-38.0Mb	resolved_lineages	copies					unpaired
-chr04	4			HAP3_chr04,HAP1_chr04	HAP4_chr04,HAP2_chr04	2.19	2.66	0.82	whole	whole	0.75	0.16	HAP4:5.5-8.0Mb;HAP4:8.5-40.5Mb	partially_resolved	copies					unpaired
-chr05	4			HAP1_chr05,HAP2_chr05,HAP3_chr05	HAP4_chr05	1.53	1.73	0.67	whole	whole	0.65	0.16	HAP2:6.5-10.5Mb;HAP2:11.3-14.5Mb;HAP2:15.0-28.0Mb;HAP2:28.5-33.0Mb	one_divergent_copy	copies		HAP4			unpaired
-chr06	4			HAP2_chr06,HAP1_chr06	HAP4_chr06,HAP3_chr06	1.97	2.71	0.75	whole	whole	0.53	0.16	HAP4:7.8-11.5Mb;HAP4:16.8-19.8Mb;HAP4:20.8-35.0Mb;HAP4:41.0-43.0Mb	partially_resolved	copies					unpaired
-chr07	4			HAP1_chr07	HAP2_chr07,HAP3_chr07,HAP4_chr07	1.43	1.66	0.74	none	whole	0.66	0.16	HAP2:6.5-11.5Mb;HAP2:13.8-16.2Mb;HAP2:16.8-21.0Mb;HAP2:23.8-27.8Mb;HAP2:28.3-32.0Mb;HAP2:33.0-42.0Mb	one_divergent_copy	copies		HAP1			unpaired
-chr08	4			HAP1_chr08,HAP3_chr08	HAP4_chr08,HAP2_chr08	1.58	1.12	0.58	regional	regional	0.16	0.16	HAP2:2.0-4.5Mb;HAP2:27.5-30.5Mb	partially_resolved	copies					unpaired
-chr09	4			HAP2_chr09,HAP1_chr09	HAP4_chr09,HAP3_chr09	1.67	1.20	0.65	regional	regional	0.20	0.16	HAP1:0.0-2.8Mb;HAP1:28.3-33.5Mb	partially_resolved	copies					unpaired
-chr10	4			HAP2_chr10,HAP1_chr10	HAP4_chr10,HAP3_chr10	2.42	1.61	0.78	whole	whole	0.76	0.16	HAP3:3.8-29.8Mb	partially_resolved	copies					unpaired
-chr11	4			HAP3_chr11,HAP2_chr11	HAP4_chr11,HAP1_chr11	2.67	2.02	0.92	whole	whole	0.98	0.16	HAP4:0.0-10.5Mb;HAP4:11.0-33.2Mb	resolved_lineages	copies					unpaired
-chr12	4			HAP1_chr12,HAP3_chr12	HAP4_chr12,HAP2_chr12	2.45	1.62	0.92	whole	whole	0.92	0.16	HAP4:2.3-30.2Mb	partially_resolved	copies					unpaired
-chr13	4			HAP1_chr13,HAP4_chr13	HAP2_chr13,HAP3_chr13	2.17	2.36	0.78	whole	whole	0.63	0.16	HAP2:0.3-2.2Mb;HAP2:11.8-22.0Mb;HAP2:22.8-28.4Mb	partially_resolved	copies					unpaired
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled
+chr01	4			HAP1_chr01,HAP3_chr01	HAP2_chr01,HAP4_chr01	1.93	1.92	0.76	whole	whole	0.65	0.16	HAP1:5.0-9.5Mb;HAP1:10.0-15.0Mb;HAP1:15.5-18.2Mb;HAP1:20.8-30.5Mb;HAP1:34.0-36.0Mb;HAP1:40.3-43.0Mb;HAP1:43.5-47.2Mb;HAP1:49.3-51.8Mb;HAP1:52.5-55.9Mb	partially_resolved	copies			chr02	4.67	paired	0	0.000	0	0/8		yes
+chr02	4			HAP3_chr02,HAP1_chr02,HAP2_chr02	HAP4_chr02	1.38	1.37	0.81	whole	whole	0.77	0.16	HAP2:7.0-14.0Mb;HAP2:14.5-17.0Mb;HAP2:17.8-19.8Mb;HAP2:20.3-40.2Mb;HAP2:41.0-43.8Mb;HAP2:44.3-47.5Mb	one_divergent_copy	copies		HAP4	chr01	4.67	paired	0	0.000	0	0/8		yes
+chr03	4			HAP1_chr03,HAP3_chr03	HAP2_chr03,HAP4_chr03	3.18	1.93	0.92	whole	whole	0.97	0.16	HAP2:0.0-17.8Mb;HAP2:18.5-21.5Mb;HAP2:22.0-38.0Mb	resolved_lineages	copies					unpaired						
+chr04	4			HAP3_chr04,HAP1_chr04	HAP4_chr04,HAP2_chr04	2.19	2.66	0.82	whole	whole	0.75	0.16	HAP4:5.5-8.0Mb;HAP4:8.5-40.5Mb	partially_resolved	copies					unpaired						
+chr05	4			HAP1_chr05,HAP2_chr05,HAP3_chr05	HAP4_chr05	1.53	1.73	0.67	whole	whole	0.65	0.16	HAP2:6.5-10.5Mb;HAP2:11.3-14.5Mb;HAP2:15.0-28.0Mb;HAP2:28.5-33.0Mb	one_divergent_copy	copies		HAP4			unpaired						
+chr06	4			HAP2_chr06,HAP1_chr06	HAP4_chr06,HAP3_chr06	1.97	2.71	0.75	whole	whole	0.53	0.16	HAP4:7.8-11.5Mb;HAP4:16.8-19.8Mb;HAP4:20.8-35.0Mb;HAP4:41.0-43.0Mb	partially_resolved	copies					unpaired						
+chr07	4			HAP1_chr07	HAP2_chr07,HAP3_chr07,HAP4_chr07	1.43	1.66	0.74	none	whole	0.66	0.16	HAP2:6.5-11.5Mb;HAP2:13.8-16.2Mb;HAP2:16.8-21.0Mb;HAP2:23.8-27.8Mb;HAP2:28.3-32.0Mb;HAP2:33.0-42.0Mb	one_divergent_copy	copies		HAP1			unpaired						
+chr08	4			HAP1_chr08,HAP3_chr08	HAP4_chr08,HAP2_chr08	1.58	1.12	0.58	regional	regional	0.16	0.16	HAP2:2.0-4.5Mb;HAP2:27.5-30.5Mb	partially_resolved	copies					unpaired						
+chr09	4			HAP2_chr09,HAP1_chr09	HAP4_chr09,HAP3_chr09	1.67	1.20	0.65	regional	regional	0.20	0.16	HAP1:0.0-2.8Mb;HAP1:28.3-33.5Mb	partially_resolved	copies					unpaired						
+chr10	4			HAP2_chr10,HAP1_chr10	HAP4_chr10,HAP3_chr10	2.42	1.61	0.78	whole	whole	0.76	0.16	HAP3:3.8-29.8Mb	partially_resolved	copies					unpaired						
+chr11	4			HAP3_chr11,HAP2_chr11	HAP4_chr11,HAP1_chr11	2.67	2.02	0.92	whole	whole	0.98	0.16	HAP4:0.0-10.5Mb;HAP4:11.0-33.2Mb	resolved_lineages	copies					unpaired						
+chr12	4			HAP1_chr12,HAP3_chr12	HAP4_chr12,HAP2_chr12	2.45	1.62	0.92	whole	whole	0.92	0.16	HAP4:2.3-30.2Mb	partially_resolved	copies					unpaired						
+chr13	4			HAP1_chr13,HAP4_chr13	HAP2_chr13,HAP3_chr13	2.17	2.36	0.78	whole	whole	0.63	0.16	HAP2:0.3-2.2Mb;HAP2:11.8-22.0Mb;HAP2:22.8-28.4Mb	partially_resolved	copies					unpaired						

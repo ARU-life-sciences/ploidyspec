@@ -20,7 +20,7 @@ ancient_distance_ratio_median	13.87
 ancient_distance_ratio_cv	0.23
 residual_tested_chromosomes	10
 residual_chromosomes	8
-residual_bp	53807231
+residual_bp	54057231
 residual_terminal_frac	0.62
-residual_null_run_windows	4
+residual_null_run_windows	8
 residual_controlled	yes

@@ -26,5 +26,5 @@ Repeat history tracks the lineages on 1 chromosome(s) only.
 Little sign: 1 chromosome(s) partly split among tetrasomic-like ones.
 
 *Confidence:* low  
-*Evidence:* 1 split / 8 tetrasomic-like chromosomes; 1 regional split(s); pair-depth CV 0.06
+*Evidence:* 1 split / 8 tetrasomic-like chromosomes; 1 regional split(s); residual tetrasomy on 0/16 homeolog-paired chromosome numbers; pair-depth CV 0.06
 

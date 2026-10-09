@@ -209,6 +209,19 @@ autopolyploid lineages).
 
 Newest first. Check a running batch with the command given for it.
 
+- **2026-10-08 — residual-tetrasomy test recalibrated.** The panel rerun with
+  controls gave five new hits; three were calibration failures. Four-copy
+  assemblies with a divergent copy (`ddLepDrab1`, `ddHypMacu1`) had an
+  "allelic" level of 0.017-0.021, so 3x that sat at the homeolog distance;
+  near-homozygous `laPotCris1` had a shuffled null of 3 windows. Fixes: the
+  allelic level is the closest other copy, median over the chromosome's
+  copies; a near-allelic window must also be < 0.25x the species' median
+  homeolog distance (masu's near-allelic windows: median 0.0045 vs 0.048
+  homeolog); the null is floored at 8 windows; terminal-only (>= 90%) hits are
+  low confidence in the summary. Masu unchanged (8/10, 54 Mb), Salix 0;
+  Lepidium, Hypericum, Potamogeton now 0; Lathraea chr03/chr04 kept (interior,
+  26 Mb); Glechoma down to 2 small interior segments.
+
 - **2026-10-08 — residual-tetrasomy test for two-haplotype assemblies.**
   `ploidyspec/residual.py`, run by the rediploidization stage when
   windowed-homeologs has run. Per window, the closest homeolog copy against

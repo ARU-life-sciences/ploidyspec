@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Possibly: ancient pairs diverged to different depths (asynchronous resolution).
+Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start.
 
-*Confidence:* low  
-*Evidence:* pair-depth CV 0.33
+*Confidence:* medium  
+*Evidence:* residual tetrasomy on 0/16 homeolog-paired chromosome numbers; pair-depth CV 0.33
 

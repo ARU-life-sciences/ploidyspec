@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Not testable along chromosomes with two copies; ancient pairs are synchronous.
+Partly: 4 of 18 homeolog-paired chromosome numbers keep stretches of residual tetrasomy (79.5 Mb, 0% of it at chromosome ends) where the homeologs are still as close as alleles; elsewhere they have diverged.
 
-*Confidence:* low  
-*Evidence:* pair-depth CV 0.11
+*Confidence:* medium  
+*Evidence:* residual tetrasomy on 4/18 homeolog-paired chromosome numbers, 79.5 Mb, 0% of it terminal; pair-depth CV 0.11
 
