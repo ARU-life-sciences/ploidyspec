@@ -71,6 +71,11 @@ def gather(outdir):
     by_chrom = _read(os.path.join(outdir, "rediploidization", "rediploidization_by_chrom.tsv")) or []
     fusions = [r for r in _read(os.path.join(outdir, "rediploidization", "fusions.tsv")) or []
                if r.get("status") == "fusion"]
+    # a fusion carried by one haplotype makes its two components look like a
+    # homeolog pair (the fused copy contains both); such a pair is not
+    # independent evidence of duplicated sets
+    fused = {frozenset(f["components"].split("+")) for f in fusions}
+    independent = [r for r in pairs if frozenset((r["chrom_a"], r["chrom_b"])) not in fused]
     te = te_markers_row(species, outdir)
     lineage = _read(os.path.join(outdir, "subgenomes", "te_marker_fraction_by_lineage.tsv")) or []
     return dict(
@@ -78,7 +83,8 @@ def gather(outdir):
         copies=int(copies) if str(copies).isdigit() else 0,
         n_numbers=n_numbers,
         allele=allele, cross=cross,
-        n_pairs=len(pairs),
+        n_pairs=len(independent),
+        n_fusion_pairs=len(pairs) - len(independent),
         pair_depth=statistics.median(depths) if depths else None,
         pair_cv=_num(sync.get("pair_depth_cv")),
         parts=parts,
@@ -187,11 +193,26 @@ def one_copy_apart(g, onediv, ev):
             "AAAB-like (one divergent genome copy).", "medium", ev)
 
 
+def fusion_only(g):
+    """Two copies, fusions, and no duplicated sets except the pairs the fusions create."""
+    return g["copies"] < 3 and g["fusions"] and g["n_pairs"] == 0
+
+
+def fusion_note(g):
+    fus = sorted({f"{f['components']} ({f.get('hap', '?')})" for f in g["fusions"]})
+    return (f"{len(fus)} fusion(s) on one haplotype only: {', '.join(fus)}; no homeolog pairs "
+            "besides the fused components")
+
+
 def answer_structure(g):
     c = g["copies"]
     states, bases = _state_counts(g)
     n = sum(states.values())
     assessable = n - states.get("not_assessable", 0)
+    if c == 2 and fusion_only(g):
+        return ("Not assessable: two haplotypes and no duplicated sets to compare; the only "
+                "homeolog-like pair comes from a fusion carried by one haplotype. Diploid-like as "
+                "assembled.", "not assessable", fusion_note(g))
     if c <= 1 or assessable == 0:
         if c == 2 and g["n_pairs"] == 0 and not states.get("resolved_lineages"):
             return ("Not assessable: two haplotypes and no duplicated sets to compare. "
@@ -287,6 +308,11 @@ def answer_rediploidization(g):
     if g["pair_cv"] is not None:
         ev.append(f"pair-depth CV {g['pair_cv']:.2f}")
     ev = "; ".join(ev)
+    if fus and fusion_only(g):
+        # xgMonCant1: chr23+chr24 joined in HAP1 only, no other duplicated sets
+        return ("Not read as rediploidization: a fusion carried by one haplotype, with no "
+                "duplicated sets otherwise, is a fusion polymorphism or a scaffolding join.",
+                "medium", fusion_note(g))
     if fus:
         return (f"Yes: {len(fus)} chromosome fusion(s) between copies, which separate fused and "
                 "unfused lineages (the snow carp mechanism).", "high", ev)

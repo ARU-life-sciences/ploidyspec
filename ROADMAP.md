@@ -209,6 +209,27 @@ autopolyploid lineages).
 
 Newest first. Check a running batch with the command given for it.
 
+- **2026-10-09 — non-plant batch follow-up.**
+  - Whitefish: HAP2's NCBI numbering differs from HAP1's on 30 of 40
+    chromosomes, in cycles (7->9->10->11->13->12->7, ...), all detected at
+    10-32x. HAP2_chr33 has no allele in HAP1 (0.11-0.12 to everything; HAP1
+    chr35 has no partner either), so it stayed put, blocked chr30 -> chr33 and
+    the whole batch was rejected as ambiguous. `chrom_reconcile` now displaces
+    an occupant that is no closer to its own label than to its matched slot
+    (`status = displaced`). Whitefish re-running from the matrix (LSF 616570;
+    old outputs in `superseded/fCorLav1_misnumbered/`).
+  - Monacha: HAP1_chr23 contains HAP2 chr23 + chr24, a fusion on one haplotype
+    that also made chr23/chr24 the only "homeolog pair". The summary now
+    discounts pairs made by a fusion's own components; with two copies and no
+    other pairs the fusion is not read as rediploidization.
+  - Charr: not a bug. Whole-chromosome homeolog distances are barely below
+    background (0.10 vs 0.116; masu 0.093 vs 0.124) and salmonid homeology is
+    per arm, so only 6 pairs pass. Needs the arm-level homeolog map.
+  - Weevil (AAB): chr1-10 HAP1/HAP2 are the A copies (0.011-0.015), HAP1
+    chr11-20 the B set, 0.05 from both A copies. Read as ten single-copy
+    numbers; needs a haplotype holding two sets split into two copies. HAP1
+    chr09 sits between A and B (0.030 / 0.027): exchange or phasing, to check.
+
 - **2026-10-09 — non-plant batch, first results** (recalibrated residual test;
   `rerun_rediploidization.sh` after `all` runs that started on older code).
   Gar and bowfin (negatives): one pair each, diverged throughout. Snails: no

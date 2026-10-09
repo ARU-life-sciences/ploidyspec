@@ -225,6 +225,36 @@ def detect_relabeling(units, distance, ratio_threshold=DEFAULT_RATIO_THRESHOLD):
                     if x in held:
                         held.remove(x)
                         moves.append(x)
+        # a move into a slot whose occupant stays put would duplicate a unit_id.
+        # If that occupant is no closer to its own declared chrom than to the
+        # slot the matching gave it, its label has no support and it is
+        # displaced there. fCorLav1's HAP2 is renumbered in cycles across 30 of
+        # 40 chromosomes (ratios 10-32x); HAP2_chr33 has no allele in HAP1 at
+        # all (0.12 to its own chr33, 0.11 to the one unmatched HAP1 chr35), and
+        # its staying put blocked chr30 -> chr33 and with it the whole batch.
+        changed = True
+        while changed:
+            changed = False
+            moving_chroms = {c["old_chrom"] for c in moves}
+            for c in moves:
+                occupants = [j for j in idxs if units[j]["chrom"] == c["new_chrom"]]
+                if c["new_chrom"] in moving_chroms or len(occupants) != 1:
+                    continue
+                j = occupants[0]
+                new = assigned.get(j)
+                own_dist = mean_distance(j, ref_groups.get(c["new_chrom"], []), distance)
+                if new is None or new == c["new_chrom"] or own_dist is None:
+                    continue
+                new_dist = mean_distance(j, ref_groups[new], distance)
+                if own_dist < new_dist:
+                    continue
+                held = [h for h in held if h["index"] != j]
+                moves.append(dict(index=j, unit_id=units[j]["unit_id"], old_chrom=c["new_chrom"],
+                                  new_chrom=new, own_dist=own_dist, alt_dist=new_dist,
+                                  ratio=own_dist / new_dist if new_dist > 0 else float("inf"),
+                                  displaced=True))
+                changed = True
+                break
         # a held move below the floor is only the matching's leftover, not evidence
         held = [c for c in held if c["ratio"] >= AMBIGUOUS_RATIO_FLOOR]
         moving_chroms = {c["old_chrom"] for c in moves}
@@ -311,7 +341,7 @@ def _write_corrections_log(outdir, corrections, ambiguous):
         for c in sorted(corrections, key=lambda c: c["unit_id"]):
             w.writerow(
                 [
-                    "corrected",
+                    "displaced" if c.get("displaced") else "corrected",
                     c["unit_id"],
                     c["old_chrom"],
                     c["new_chrom"],

@@ -280,6 +280,27 @@ class TestDetectRelabeling(unittest.TestCase):
         corrections, _ = detect_relabeling(units, distance)
         self.assertEqual(corrections, [])
 
+    def test_unsupported_occupant_is_displaced_to_close_a_cycle(self):
+        # fCorLav1 HAP2: chr02 -> chr03 -> chr01 renumbered in a cycle, except
+        # that the unit declared chr01 has no allele in the reference (far from
+        # everything), while the reference's chr04 has no partner. It is
+        # displaced into chr04 so the cycle can be applied.
+        units = [unit(f"HAP1_chr0{c}", "HAP1", str(c), "fileA") for c in (1, 2, 3, 4)]
+        units += [unit(f"HAP2_chr0{c}", "HAP2", str(c), "fileB") for c in (1, 2, 3)]
+        distance = symmetric_matrix(
+            7,
+            {(5, 2): 0.004,  # HAP2_chr02 is really chr03
+             (6, 0): 0.004,  # HAP2_chr03 is really chr01
+             (4, 0): 0.12, (4, 1): 0.13, (4, 2): 0.13,
+             (4, 3): 0.11},  # HAP2_chr01: no allele anywhere
+            default=0.10,
+        )
+        corrections, ambiguous = detect_relabeling(units, distance)
+        self.assertEqual(ambiguous, [])
+        self.assertEqual({c["unit_id"]: c["new_chrom"] for c in corrections},
+                         {"HAP2_chr02": "3", "HAP2_chr03": "1", "HAP2_chr01": "4"})
+        self.assertTrue(next(c for c in corrections if c["unit_id"] == "HAP2_chr01")["displaced"])
+
     def test_move_into_occupied_non_moving_slot_is_rejected_not_applied(self):
         # regression: real lpElePalu1 run crashed because HAP2_chr12 was
         # "corrected" to chr11 while the genuinely-correct HAP2_chr11 stayed

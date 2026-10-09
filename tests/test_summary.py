@@ -54,6 +54,18 @@ class TestSummary(unittest.TestCase):
                     fusions=[["HAP3_chr19", "chr19+chr22", "fusion"]])
             self.assertEqual(answers(d)["rediploidization"]["confidence"], "high")
 
+    def test_one_haplotype_fusion_in_a_diploid_is_not_rediploidization(self):
+        # xgMonCant1: HAP1_chr23 contains chr23 and chr24, which makes them the
+        # only "homeolog pair"; nothing else is duplicated
+        with tempfile.TemporaryDirectory() as d:
+            species(d, 2, ["fusion_lineages"] * 2 + ["not_assessable"] * 8,
+                    pairs=[["chr01", "chr02", "0.07"]],
+                    fusions=[["HAP1_chr01", "chr01+chr02", "fusion"]])
+            a = answers(d)
+            self.assertTrue(a["rediploidization"]["answer"].startswith("Not read as rediploidization"))
+            self.assertTrue(a["origin_like_structure"]["answer"].startswith("Not assessable"))
+            self.assertIn("no older duplicated sets", a["ploidy"]["answer"])
+
     def test_two_haplotype_allotetraploid_from_pairs(self):
         with tempfile.TemporaryDirectory() as d:
             pairs = [[f"chr{i:02d}", f"chr{i + 4:02d}", "0.05"] for i in range(1, 5)]
