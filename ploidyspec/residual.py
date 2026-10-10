@@ -138,6 +138,8 @@ def allele_levels(path, chrom_of=None):
     for a, v in levels.items():
         by_chrom[chrom_of.get(a)].append(v)
     chrom_level = {c: statistics.median(v) for c, v in by_chrom.items()}
+    if not chrom_level:
+        return {}
     # a large exchange raises its own chromosome's median (simulated chr04,
     # half exchanged: 0.019 against 0.0035 elsewhere) and would hide itself
     cap = ALLELE_CAP * statistics.median(chrom_level.values())
