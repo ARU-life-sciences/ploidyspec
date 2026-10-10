@@ -9,10 +9,10 @@
 
 ## Auto-like or allo-like?
 
-Auto-like origin, mostly rediploidized: the duplicated sets have separated along most of their length, but 2 of 49 paired chromosome numbers keep stretches where the homeologs are as close as alleles (residual tetrasomy). That is expected after an autopolyploidization; recent homeologous exchanges in an allopolyploid can leave similar stretches.
+Allo-like (disomic-like): the duplicated sets do not interchange, from homeolog pairs (pair-depth CV 0.05). This is also what a long-rediploidized autopolyploid looks like.
 
-*Confidence:* medium  
-*Evidence:* 48 chromosome numbers assessed: 48 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate; residual tetrasomy on 2/49 homeolog-paired chromosome numbers, 5.0 Mb, 0% of it terminal
+*Confidence:* high  
+*Evidence:* 48 chromosome numbers assessed: 48 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate
 
 ## TE markers
 
@@ -26,5 +26,5 @@ Only the absolute marker fraction is available (two copies per number); it does 
 Partly: 2 of 49 homeolog-paired chromosome numbers keep stretches of residual tetrasomy (5.0 Mb, 0% of it at chromosome ends) where the homeologs are still as close as alleles; elsewhere they have diverged. Also: 2 chromosome(s) carry blocks homeologous to two or more others (chr04:chr10+chr12+chr49, chr10:chr04+chr17): fusions, fissions or translocations since the duplication.
 
 *Confidence:* medium  
-*Evidence:* residual tetrasomy on 2/49 homeolog-paired chromosome numbers, 5.0 Mb, 0% of it terminal; pair-depth CV 0.05; homeology map: 33% of the genome in 133 homeolog blocks, 20 chromosome pairs, block-divergence CV 0.08
+*Evidence:* residual tetrasomy on 2/49 homeolog-paired chromosome numbers (1 pair(s)), 5.0 Mb, 0% of it terminal; pair-depth CV 0.05; homeology map: 33% of the genome in 133 homeolog blocks, 20 chromosome pairs, block-divergence CV 0.08
 

@@ -37,7 +37,7 @@ SET_PARTITION_Z = 10.0
 PALEO_RATIO = 0.8
 # Residual tetrasomy on this many paired chromosome numbers reads as an
 # auto-like origin (one could be a homeologous exchange).
-RESIDUAL_MIN_CHROMS = 2
+RESIDUAL_MIN_PAIRS = 2  # homeolog pairs with residual tetrasomy before origin is read as auto-like
 SEGMENTAL_MIN_FRAC = 0.3  # share of the genome in homeolog blocks read as a duplicated genome
 BLOCK_ASYNC_CV = 0.15  # spread of block divergence read as asynchronous resolution
 RESIDUAL_TERMINAL_ONLY = 0.9  # terminal fraction above which residual tetrasomy is low confidence
@@ -204,12 +204,36 @@ def answer_ploidy(g):
             evidence.append(f"homeolog distance {g['pair_depth']:.3f} vs unrelated {g['cross']:.3f}")
             if ratio >= PALEO_RATIO:
                 text += "; the sets are nearly as diverged as unrelated chromosomes, so they may be an old (paleo) duplication"
+    elif duplication_evidence(g):
+        # masu, charr: the salmonid duplication shows on part of the genome only
+        seg = segmental(g)
+        bits = ([f"{g['n_pairs']} whole-chromosome homeolog pairs"] if g["n_pairs"] else []) + (
+            [f"{seg['frac']:.0%} of the genome in homeolog blocks"] if seg and seg["pairs"] else [])
+        text += (f"; an older duplication shows on part of the genome ({', '.join(bits)}), too little "
+                 "to read duplicated sets from")
+        evidence.append(", ".join(bits))
     else:
         text += "; no older duplicated sets detected"
     text += "."
     # copy count is set by the assembly; the set count is inferred
     confidence = conf if sets > 1 else "high"
     return text, confidence, "; ".join(evidence)
+
+
+def residual_pairs(g):
+    """Homeolog pairs whose residual tetrasomy passed the pair vote, from the
+    per-chromosome rows (both members of a pair report it, so count pairs, not
+    chromosomes: daGleHede1's "2 of 18" is the one pair chr14/chr17)."""
+    pairs = set()
+    for r in g["by_chrom"]:
+        if not (_num(r.get("residual_bp")) or 0):
+            continue
+        for item in filter(None, (r.get("residual_support") or "").split(";")):
+            partner, _, vote = item.rpartition(":")
+            k, _, n = vote.partition("/")
+            if partner and k.isdigit() and n.isdigit() and int(k) > int(n) / 2:
+                pairs.add(frozenset((r["chrom"], partner)))
+    return len(pairs)
 
 
 def residual(g):
@@ -221,8 +245,9 @@ def residual(g):
     tested, hit, bp = int(s["residual_tested_chromosomes"]), int(s["residual_chromosomes"]), int(s["residual_bp"])
     term = _num(s.get("residual_terminal_frac"))
     controlled = s.get("residual_controlled") == "yes"
+    n_pairs = residual_pairs(g)
     ev = (f"residual tetrasomy on {hit}/{tested} homeolog-paired chromosome numbers"
-          + (f", {bp / 1e6:.1f} Mb, {term:.0%} of it terminal" if hit else "")
+          + (f" ({n_pairs} pair(s)), {bp / 1e6:.1f} Mb, {term:.0%} of it terminal" if hit else "")
           + ("" if controlled else " (no unrelated-chromosome control; shared repeats not excluded)"))
     # residual tetrasomy sits at chromosome ends in salmonids, but so do repeat
     # families only the two homeologs share, which the control cannot remove
@@ -333,7 +358,7 @@ def answer_structure(g):
             return ("Auto-like: the duplicated sets are about as close as alleles, so the copies "
                     "look interchangeable across chromosome numbers.", "medium", ev)
         res = residual(g)
-        if res and res[1] >= RESIDUAL_MIN_CHROMS:
+        if res and residual_pairs(g) >= RESIDUAL_MIN_PAIRS:
             return ("Auto-like origin, mostly rediploidized: the duplicated sets have separated along "
                     f"most of their length, but {res[1]} of {res[0]} paired chromosome numbers keep "
                     "stretches where the homeologs are as close as alleles (residual tetrasomy). "

@@ -83,6 +83,11 @@
       including what we got wrong and corrected.
     ],
     note(title: "Status")[
+      *Superseded in part (10 October 2026):* the companion
+      `ploidyspec_handbook.pdf` gives every algorithm step by step, all outputs
+      with walkthroughs, the new residual-tetrasomy, exchange, homeology-map
+      and odd-ploidy readings, and current summaries of all 59 species. Its
+      chapters 3–9 replace chapters 5–7 and Appendix A here.
       Written 7-8 October 2026. The software is on `main`. The panel was
       re-run after the fixes described in Chapter 8, so the results chapter
       reflects the current method.

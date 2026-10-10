@@ -336,8 +336,10 @@ def plot_map(hdir, per_anchor, blocks):
         end = per_anchor[a][-1][1]
         ax.barh(y, end / 1e6, color="0.88", height=0.7)
         for b in (b for b in blocks if b["anchor"] == a):
+            matched = b.get("reciprocal") == "yes"
             ax.barh(y, b["length"] / 1e6, left=b["start"] / 1e6, color=color.get(b["partner"], "k"),
-                    height=0.7)
+                    height=0.7, alpha=1.0 if matched else 0.45, hatch=None if matched else "////",
+                    edgecolor="white" if not matched else None, linewidth=0)
             if b["length"] / 1e6 > 0.08 * end / 1e6:
                 ax.text((b["start"] + b["length"] / 2) / 1e6, y, b["partner"][3:], ha="center",
                         va="center", fontsize=6)
@@ -345,8 +347,8 @@ def plot_map(hdir, per_anchor, blocks):
     ax.set_yticklabels([f"chr{per_anchor[a][0][2]:02d}" for a in anchors], fontsize=7)
     ax.invert_yaxis()
     ax.set_xlabel("position (Mb)")
-    ax.set_title("Homeolog blocks: each chromosome painted by the chromosome its duplicate lies on "
-                 "(grey: none detected)", fontsize=9)
+    ax.set_title("Homeolog blocks: each chromosome painted by the chromosome its duplicate lies on\n"
+                 "(hatched: no block back from the partner, not counted; grey: none detected)", fontsize=9)
     fig.tight_layout()
     fig.savefig(os.path.join(hdir, "homeology_map.png"), dpi=150)
     plt.close(fig)

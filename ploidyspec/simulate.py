@@ -42,11 +42,12 @@ Scenarios:
     remaining chromosomes untouched                 -> tetrasomic_like
 - residual_tetrasomy: a salmonid-like two-haplotype assembly of an old
   autotetraploid. Homeolog pairs (i, i+n) have diverged like the
-  allotetraploid's, except the last `residual_frac` of chr1 and chr(1+n),
-  which stayed as close as alleles (still pairing and exchanging). Every
+  allotetraploid's, except the last `residual_frac` of chr1/chr(1+n) and
+  chr2/chr(2+n), which stayed as close as alleles (still pairing and
+  exchanging). Two pairs, since one is not enough to read origin from. Every
   chromosome starts with the same satellite array (`satellite_frac` of its
   length), a decoy that is near-identical between all chromosomes, not just
-  homeologs. Expected: chr1 and chr(1+n) partially_resolved, the other pooled
+  homeologs. Expected: chr1, chr2, chr(1+n), chr(2+n) partially_resolved, the other pooled
   pairs resolved_lineages, and no residual tetrasomy in the satellites.
 - allotriploid_one_file: an AAB triploid assembled the way icStrMela3 is --
   HAP1's file holds both its A set (chr1..n) and the B set, numbered n+1..2n,
@@ -257,9 +258,10 @@ def build_scenario(name, seed, params):
         cut = int((1 - p["residual_frac"]) * len(ancestor[0]))
         progenitors = []
         for _ in range(2):
-            # chr1's tail kept pairing with its homeolog: no divergence and no
-            # lineage-private TE burst there (exchange would share insertions)
-            chroms = [np.concatenate([sim.burst(sim.mutate(c[:cut], p["allo_div"])), c[cut:]]) if i == 0
+            # chr1's and chr2's tails kept pairing with their homeologs: no
+            # divergence and no lineage-private TE burst there (exchange would
+            # share insertions)
+            chroms = [np.concatenate([sim.burst(sim.mutate(c[:cut], p["allo_div"])), c[cut:]]) if i < 2
                       else sim.burst(sim.mutate(c, p["allo_div"])) for i, c in enumerate(ancestor)]
             progenitors.append(chroms)
         unit = sim.random_seq(p["satellite_unit"])
@@ -269,7 +271,7 @@ def build_scenario(name, seed, params):
             haps[f"HAP{i}"] = [placed(f"HAP{i}", c, s) for c, s in enumerate(chroms, 1)]
         for c in range(1, 2 * n + 1):
             partner = c + n if c <= n else c - n
-            state = "partially_resolved" if c in (1, 1 + n) else "resolved_lineages"
+            state = "partially_resolved" if c in (1, 2, 1 + n, 2 + n) else "resolved_lineages"
             truth.append(dict(chrom=f"chr{c:02d}", copy_state=state, fusion="", homeolog=f"chr{partner:02d}"))
     elif name == "allotriploid_one_file":
         ancestor = sim.genome(n, ancestral)

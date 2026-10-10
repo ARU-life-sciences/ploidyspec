@@ -26,5 +26,5 @@ Only the absolute marker fraction is available (two copies per number); it does 
 Partly: 4 of 18 homeolog-paired chromosome numbers keep stretches of residual tetrasomy (79.0 Mb, 0% of it at chromosome ends) where the homeologs are still as close as alleles; elsewhere they have diverged. Also: 2 chromosome(s) carry blocks homeologous to two or more others (chr01:chr07+chr14, chr07:chr01+chr06): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.33), as when regions resolve at different times; homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
 
 *Confidence:* medium  
-*Evidence:* residual tetrasomy on 4/18 homeolog-paired chromosome numbers, 79.0 Mb, 0% of it terminal; pair-depth CV 0.11; homeology map: 74% of the genome in 200 homeolog blocks, 10 chromosome pairs, block-divergence CV 0.33; exchange: chr02(chr03:1/2)
+*Evidence:* residual tetrasomy on 4/18 homeolog-paired chromosome numbers (2 pair(s)), 79.0 Mb, 0% of it terminal; pair-depth CV 0.11; homeology map: 74% of the genome in 200 homeolog blocks, 10 chromosome pairs, block-divergence CV 0.33; exchange: chr02(chr03:1/2)
 

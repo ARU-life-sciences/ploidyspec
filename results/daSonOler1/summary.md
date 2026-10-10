@@ -2,10 +2,10 @@
 
 ## Ploidy
 
-2 haplotype copies of each of 16 chromosome numbers; no older duplicated sets detected.
+2 haplotype copies of each of 16 chromosome numbers; an older duplication shows on part of the genome (15% of the genome in homeolog blocks), too little to read duplicated sets from.
 
 *Confidence:* high  
-*Evidence:* copies from the assembly (2 per number)
+*Evidence:* copies from the assembly (2 per number); 15% of the genome in homeolog blocks
 
 ## Auto-like or allo-like?
 
