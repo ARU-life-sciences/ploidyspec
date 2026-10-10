@@ -647,7 +647,7 @@
   ("Ploidy", "high", "4 haplotype copies of each of 6 chromosome numbers; no older duplicated sets detected.", "copies from the assembly (4 per number)"),
   ("Auto- or allo-like", "medium", "One copy apart on most chromosomes, changing haplotype between chromosomes: AAAB-like (one divergent genome copy).", "6 chromosome numbers assessed: 1 split into lineages, 1 tetrasomic-like, 4 one divergent copy, 0 candidate"),
   ("TE markers", "medium", "Repeat history tracks the lineages on several chromosomes: separate TE histories in the split copies.", "TE split >= 2 on 1/6 chromosomes (median 1.22); absolute te_marker_fraction 0.0836 (reference only)"),
-  ("Rediploidization", "low", "Little sign: 1 chromosome(s) partly split among tetrasomic-like ones.", "1 split / 1 tetrasomic-like chromosomes; 0 regional split(s); residual tetrasomy on 0/2 homeolog-paired chromosome numbers (no unrelated-chromosome control; shared repeats not excluded)"),
+  ("Rediploidization", "low", "Little sign: 1 chromosome(s) partly split among tetrasomic-like ones.", "1 split / 1 tetrasomic-like chromosomes; 0 regional split(s); residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 21% of the genome in 82 homeolog blocks, 1 chromosome pairs, block-divergence CV 0.11"),
 ), (
 ))
 

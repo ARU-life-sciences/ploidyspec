@@ -26,5 +26,5 @@ Repeat history tracks the lineages on several chromosomes: separate TE histories
 Little sign: 1 chromosome(s) partly split among tetrasomic-like ones.
 
 *Confidence:* low  
-*Evidence:* 1 split / 1 tetrasomic-like chromosomes; 0 regional split(s); residual tetrasomy on 0/2 homeolog-paired chromosome numbers (no unrelated-chromosome control; shared repeats not excluded)
+*Evidence:* 1 split / 1 tetrasomic-like chromosomes; 0 regional split(s); residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 21% of the genome in 82 homeolog blocks, 1 chromosome pairs, block-divergence CV 0.11
 
