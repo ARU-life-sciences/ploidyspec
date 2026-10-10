@@ -153,7 +153,7 @@ class TestEndToEnd(unittest.TestCase):
         self.assertEqual(len(res), 2 * N_CHROM)  # every pooled pair tested
         hit = {c for c, r in res.items() if int(r["residual_bp"])}
         self.assertEqual(hit, {"chr01", "chr02", f"chr{1 + N_CHROM:02d}", f"chr{2 + N_CHROM:02d}"})
-        # the undiverged stretch is the chromosome's last 40%, not the satellite at its start
+        # the undiverged stretch is the chromosome's last 60%, not the satellite at its start
         for c in hit:
             self.assertNotIn("(start)", res[c]["residual_segments"], c)
             self.assertEqual(res[c]["residual_controlled"], "yes")
