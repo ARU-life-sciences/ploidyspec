@@ -1,5 +1,5 @@
 species	question	answer	confidence	evidence
 xgMonCant1	ploidy	2 haplotype copies of each of 24 chromosome numbers; no older duplicated sets detected.	high	copies from the assembly (2 per number)
-xgMonCant1	origin_like_structure	Allo-like (disomic-like): the duplicated sets do not interchange, from homeolog pairs. This is also what a long-rediploidized autopolyploid looks like.	medium	2 chromosome numbers assessed: 2 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate
+xgMonCant1	origin_like_structure	Not assessable: two haplotypes and no duplicated sets to compare; the only homeolog-like pair comes from a fusion carried by one haplotype. Diploid-like as assembled.	not assessable	1 fusion(s) on one haplotype only: chr23+chr24 (HAP1); no homeolog pairs besides the fused components
 xgMonCant1	te_markers	Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it.	not assessable	te_marker_fraction mean 0.1928
-xgMonCant1	rediploidization	Yes: 1 chromosome fusion(s) between copies, which separate fused and unfused lineages (the snow carp mechanism).	high	1 fusion(s): chr23+chr24; residual tetrasomy on 0/1 homeolog-paired chromosome numbers
+xgMonCant1	rediploidization	Not read as rediploidization: a fusion carried by one haplotype, with no duplicated sets otherwise, is a fusion polymorphism or a scaffolding join.	medium	1 fusion(s) on one haplotype only: chr23+chr24 (HAP1); no homeolog pairs besides the fused components

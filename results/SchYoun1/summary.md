@@ -26,5 +26,5 @@ Repeat history does not track the copies' lineages (no within-genome TE contrast
 Yes: 5 chromosome fusion(s) between copies, which separate fused and unfused lineages (the snow carp mechanism).
 
 *Confidence:* high  
-*Evidence:* 5 fusion(s): chr04+chr15, chr08+chr16, chr11+chr14, chr19+chr22, chr20+chr23; 10 split / 14 tetrasomic-like chromosomes; 1 regional split(s)
+*Evidence:* 5 fusion(s): chr04+chr15, chr08+chr16, chr11+chr14, chr19+chr22, chr20+chr23; 10 split / 14 tetrasomic-like chromosomes; 1 regional split(s); homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs
 

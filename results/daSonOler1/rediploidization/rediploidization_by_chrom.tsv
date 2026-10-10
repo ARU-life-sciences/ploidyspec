@@ -1,17 +1,17 @@
-chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled
-chr01	2											0.00		not_assessable	none					unpaired						
-chr02	2											0.00		not_assessable	none					unpaired						
-chr03	2											0.00		not_assessable	none					unpaired	0	0.000	0	0/3		no
-chr04	2											0.00		not_assessable	none					unpaired						
-chr05	2											0.00		not_assessable	none					unpaired	0	0.000	0	0/3		no
-chr06	2											0.00		not_assessable	none					unpaired	0	0.000	0	0/3		no
-chr07	2											0.00		not_assessable	none					unpaired						
-chr08	2											0.00		not_assessable	none					unpaired						
-chr09	2											0.00		not_assessable	none					unpaired						
-chr10	2											0.00		not_assessable	none					unpaired						
-chr11	2											0.00		not_assessable	none					unpaired						
-chr12	2											0.00		not_assessable	none					unpaired						
-chr13	2											0.00		not_assessable	none					unpaired						
-chr14	2											0.00		not_assessable	none					unpaired	0	0.000	0	0/3		no
-chr15	2											0.00		not_assessable	none					unpaired						
-chr16	2											0.00		not_assessable	none					unpaired						
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled	residual_partners	exchange_bp	exchange_support	exchange_segments	block_partners
+chr01	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr13:0/4		yes	chr13	0			chr13:2.5Mb
+chr02	2											0.00		not_assessable	none					unpaired											
+chr03	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr05:0/4		yes	chr05	0			chr05:22.2Mb
+chr04	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr09:0/4		yes	chr09	0			chr09:2.2Mb
+chr05	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr03:0/4		yes	chr03	0			chr03:31.8Mb
+chr06	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr07:0/4;chr14:0/4		yes	chr07,chr14	0			chr14:12.1Mb,chr07:4.0Mb
+chr07	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr06:0/4;chr16:0/4		yes	chr06,chr16	0			chr16:12.8Mb,chr06:2.0Mb
+chr08	2											0.00		not_assessable	none					unpaired											chr02:17.2Mb,chr07:4.2Mb
+chr09	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr04:0/4		yes	chr04	0			chr04:10.5Mb
+chr10	2											0.00		not_assessable	none					unpaired											chr01:9.8Mb,chr04:6.8Mb
+chr11	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr12:0/4		yes	chr12	0			chr12:6.5Mb
+chr12	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr11:0/4		yes	chr11	0			chr11:21.5Mb
+chr13	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr01:0/4		yes	chr01	0			chr01:18.2Mb
+chr14	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr06:0/4		yes	chr06	0			chr06:21.9Mb
+chr15	2											0.00		not_assessable	none					unpaired											chr02:4.8Mb
+chr16	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr07:0/4		yes	chr07	0			chr07:13.0Mb,chr02:3.2Mb

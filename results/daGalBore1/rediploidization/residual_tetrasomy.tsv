@@ -1,17 +1,17 @@
-chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac
-chr01	chr02	HAP1_chr01	chr08	222	0	0	0.01061	0	8		0	0.000
-chr02	chr01	HAP1_chr02	chr03	215	0	0	0.01013	0	8		0	0.000
-chr03	chr08	HAP1_chr03	chr02	181	0	0	0.01323	0	8		0	0.000
-chr08	chr03	HAP1_chr08	chr01	165	0	0	0.01307	0	8		0	0.000
-chr01	chr02	HAP2_chr01	chr08	227	0	0	0.01061	0	8		0	0.000
-chr02	chr01	HAP2_chr02	chr03	218	0	0	0.01013	0	8		0	0.000
-chr03	chr08	HAP2_chr03	chr02	175	0	0	0.01323	0	8		0	0.000
-chr08	chr03	HAP2_chr08	chr01	162	0	0	0.01307	0	8		0	0.000
-chr01	chr02	HAP3_chr01	chr08	226	0	0	0.01061	0	8		0	0.000
-chr02	chr01	HAP3_chr02	chr03	219	0	0	0.01013	0	8		0	0.000
-chr03	chr08	HAP3_chr03	chr02	172	0	0	0.01323	0	8		0	0.000
-chr08	chr03	HAP3_chr08	chr01	168	0	0	0.01307	0	8		0	0.000
-chr01	chr02	HAP4_chr01	chr08	222	0	0	0.01061	0	8		0	0.000
-chr02	chr01	HAP4_chr02	chr03	225	0	0	0.01013	0	8		0	0.000
-chr03	chr08	HAP4_chr03	chr02	173	0	0	0.01323	0	8		0	0.000
-chr08	chr03	HAP4_chr08	chr01	150	0	0	0.01307	0	8		0	0.000
+chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac	n_exchange	exchange_segments	exchange_bp
+chr01	chr02	HAP1_chr01	chr08	222	0	0	0.01061	0	8		0	0.000	0		0
+chr02	chr01	HAP1_chr02	chr03	215	0	0	0.01013	0	8		0	0.000	0		0
+chr03	chr08	HAP1_chr03	chr02	181	0	0	0.01323	0	8		0	0.000	0		0
+chr08	chr03	HAP1_chr08	chr01	165	0	0	0.01307	0	8		0	0.000	0		0
+chr01	chr02	HAP2_chr01	chr08	227	0	0	0.01061	0	8		0	0.000	0		0
+chr02	chr01	HAP2_chr02	chr03	218	0	0	0.01013	0	8		0	0.000	0		0
+chr03	chr08	HAP2_chr03	chr02	175	0	0	0.01323	0	8		0	0.000	0		0
+chr08	chr03	HAP2_chr08	chr01	162	0	0	0.01307	0	8		0	0.000	0		0
+chr01	chr02	HAP3_chr01	chr08	226	0	0	0.01061	0	8		0	0.000	0		0
+chr02	chr01	HAP3_chr02	chr03	219	0	0	0.01013	0	8		0	0.000	0		0
+chr03	chr08	HAP3_chr03	chr02	172	0	0	0.01323	0	8		0	0.000	0		0
+chr08	chr03	HAP3_chr08	chr01	168	0	0	0.01307	0	8		0	0.000	0		0
+chr01	chr02	HAP4_chr01	chr08	222	0	0	0.01061	0	8		0	0.000	0		0
+chr02	chr01	HAP4_chr02	chr03	225	0	0	0.01013	0	8		0	0.000	0		0
+chr03	chr08	HAP4_chr03	chr02	173	0	0	0.01323	0	8		0	0.000	0		0
+chr08	chr03	HAP4_chr08	chr01	150	0	0	0.01307	0	8		0	0.000	0		0

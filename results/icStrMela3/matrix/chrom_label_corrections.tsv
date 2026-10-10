@@ -1,1 +1,11 @@
-status	unit_id	old_chrom	new_chrom	own_group_dist	alt_group_dist	ratio
+status	unit_id	old_chrom	new_chrom	own_group_dist	alt_group_dist	ratio	new_hap
+extra_set	HAP1_chr11	11	1	0.097512	0.049465	1.97	HAP1B
+extra_set	HAP1_chr12	12	3	0.097148	0.048929	1.99	HAP1B
+extra_set	HAP1_chr13	13	4	0.098746	0.049617	1.99	HAP1B
+extra_set	HAP1_chr14	14	2	0.096482	0.060320	1.60	HAP1B
+extra_set	HAP1_chr15	15	6	0.097455	0.050474	1.93	HAP1B
+extra_set	HAP1_chr16	16	8	0.097869	0.065900	1.49	HAP1B
+extra_set	HAP1_chr17	17	5	0.094317	0.047171	2.00	HAP1B
+extra_set	HAP1_chr18	18	7	0.098895	0.049299	2.01	HAP1B
+extra_set	HAP1_chr19	19	9	0.093342	0.039264	2.38	HAP1B
+extra_set	HAP1_chr20	20	10	0.099097	0.048757	2.03	HAP1B

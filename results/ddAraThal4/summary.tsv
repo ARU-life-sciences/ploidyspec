@@ -2,4 +2,4 @@ species	question	answer	confidence	evidence
 ddAraThal4	ploidy	Not assessable from this assembly: only one usable haplotype (5 chromosome numbers).	not assessable	no duplicated sets of chromosome numbers detected
 ddAraThal4	origin_like_structure	Not assessable from this assembly.	not assessable	fewer than three copies and nothing to pool
 ddAraThal4	te_markers	TE markers not run for this species.	not assessable	
-ddAraThal4	rediploidization	Not assessable from this assembly.	not assessable	
+ddAraThal4	rediploidization	Not assessable: no duplicated sets to read rediploidization from.	not assessable	

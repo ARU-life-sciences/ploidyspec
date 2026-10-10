@@ -22,7 +22,7 @@ TE markers not run for this species.
 
 ## Rediploidization
 
-Not assessable from this assembly.
+Not assessable: no duplicated sets to read rediploidization from.
 
 *Confidence:* not assessable
 

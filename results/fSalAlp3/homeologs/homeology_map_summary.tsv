@@ -1,0 +1,14 @@
+metric	value
+n_chromosomes	40
+n_blocks	24
+n_blocks_unmatched	13
+duplicated_frac	0.060
+duplicated_bp	127952363
+n_partner_pairs	7
+partner_pairs	chr01xchr12;chr04xchr27;chr07xchr38;chr10xchr32;chr10xchr35;chr20xchr22;chr34xchr36
+multi_partner_chromosomes	1
+multi_partner_list	chr10:chr32+chr35
+block_dist_median	0.0476
+block_dist_cv	0.193
+null_run_windows	7
+min_block_windows	8

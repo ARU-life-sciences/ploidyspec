@@ -1,21 +1,11 @@
-chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled
-chr01	2			HAP1_chr11	HAP2_chr01,HAP1_chr01	4.57						0.00		one_divergent_copy	homeolog_pool	chr11	HAP1	chr11		paired	0	0.000	0	0/2		yes
-chr02	2			HAP1_chr14	HAP2_chr02,HAP1_chr02	4.82						0.00		one_divergent_copy	homeolog_pool	chr14	HAP1	chr14		paired	0	0.000	0	0/2		yes
-chr03	2			HAP1_chr12	HAP2_chr03,HAP1_chr03	3.78						0.00		one_divergent_copy	homeolog_pool	chr12	HAP1	chr12		paired	0	0.000	0	0/2		yes
-chr04	2			HAP1_chr13	HAP2_chr04,HAP1_chr04	3.85						0.00		one_divergent_copy	homeolog_pool	chr13	HAP1	chr13		paired	0	0.000	0	0/2		yes
-chr05	2			HAP1_chr17	HAP2_chr05,HAP1_chr05	4.10						0.00		one_divergent_copy	homeolog_pool	chr17	HAP1	chr17		paired	0	0.000	0	0/2		yes
-chr06	2			HAP1_chr06,HAP2_chr06	HAP1_chr15	4.28						0.00		one_divergent_copy	homeolog_pool	chr15	HAP1	chr15		paired	0	0.000	0	0/2		yes
-chr07	2			HAP1_chr18	HAP2_chr07,HAP1_chr07	4.01						0.00		one_divergent_copy	homeolog_pool	chr18	HAP1	chr18		paired	0	0.000	0	0/2		yes
-chr08	2			HAP1_chr08,HAP2_chr08	HAP1_chr16	4.45						0.00		one_divergent_copy	homeolog_pool	chr16	HAP1	chr16		paired	0	0.000	0	0/2		yes
-chr09	2			HAP1_chr19,HAP1_chr09	HAP2_chr09	1.49						0.00		one_divergent_copy	homeolog_pool	chr19	HAP2	chr19		paired	0	0.000	0	0/2		yes
-chr10	2			HAP1_chr10,HAP2_chr10	HAP1_chr20	3.28						0.00		one_divergent_copy	homeolog_pool	chr20	HAP1	chr20		paired	0	0.000	0	0/2		yes
-chr11	1	HAP2		HAP1_chr11	HAP2_chr01,HAP1_chr01	4.57						0.00		one_divergent_copy	homeolog_pool	chr01	HAP1	chr01		paired						
-chr12	1	HAP2		HAP1_chr12	HAP2_chr03,HAP1_chr03	3.78						0.00		one_divergent_copy	homeolog_pool	chr03	HAP1	chr03		paired						
-chr13	1	HAP2		HAP1_chr13	HAP2_chr04,HAP1_chr04	3.85						0.00		one_divergent_copy	homeolog_pool	chr04	HAP1	chr04		paired						
-chr14	1	HAP2		HAP1_chr14	HAP2_chr02,HAP1_chr02	4.82						0.00		one_divergent_copy	homeolog_pool	chr02	HAP1	chr02		paired						
-chr15	1	HAP2		HAP1_chr06,HAP2_chr06	HAP1_chr15	4.28						0.00		one_divergent_copy	homeolog_pool	chr06	HAP1	chr06		paired						
-chr16	1	HAP2		HAP1_chr08,HAP2_chr08	HAP1_chr16	4.45						0.00		one_divergent_copy	homeolog_pool	chr08	HAP1	chr08		paired						
-chr17	1	HAP2		HAP1_chr17	HAP2_chr05,HAP1_chr05	4.10						0.00		one_divergent_copy	homeolog_pool	chr05	HAP1	chr05		paired						
-chr18	1	HAP2		HAP1_chr18	HAP2_chr07,HAP1_chr07	4.01						0.00		one_divergent_copy	homeolog_pool	chr07	HAP1	chr07		paired						
-chr19	1	HAP2		HAP1_chr19,HAP1_chr09	HAP2_chr09	1.49						0.00		one_divergent_copy	homeolog_pool	chr09	HAP2	chr09		paired						
-chr20	1	HAP2		HAP1_chr10,HAP2_chr10	HAP1_chr20	3.28						0.00		one_divergent_copy	homeolog_pool	chr10	HAP1	chr10		paired						
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled	residual_partners	exchange_bp	exchange_support	exchange_segments	block_partners
+chr01	3			HAP1B_chr01	HAP2_chr01,HAP1_chr01	4.57	3.13	0.99	whole	whole	0.99	0.00	HAP1:0.0-4.8Mb;HAP1:5.5-104.2Mb;HAP1:104.8-158.7Mb	one_divergent_copy	copies		HAP1B			unpaired											
+chr02	3			HAP1B_chr02	HAP2_chr02,HAP1_chr02	4.82	5.03	1.00	whole	whole	1.00	0.00	HAP2:0.0-154.2Mb	one_divergent_copy	copies		HAP1B	chr08	1.80	paired	0	0.000	0	chr08:0/6		yes	chr08	0			
+chr03	3			HAP1B_chr03	HAP2_chr03,HAP1_chr03	3.78	3.39	0.98	whole	whole	0.99	0.00	HAP1:0.0-7.5Mb;HAP1:8.0-122.5Mb;HAP1:123.5-132.9Mb	one_divergent_copy	copies		HAP1B			unpaired											
+chr04	3			HAP1B_chr04	HAP2_chr04,HAP1_chr04	3.85	3.51	0.99	whole	whole	1.00	0.00	HAP1:0.0-81.8Mb;HAP1:82.3-127.9Mb	one_divergent_copy	copies		HAP1B			unpaired											
+chr05	3			HAP1B_chr05	HAP2_chr05,HAP1_chr05	4.10	3.27	0.96	whole	whole	0.96	0.00	HAP1:0.0-14.0Mb;HAP1:14.5-16.5Mb;HAP1:17.5-35.0Mb;HAP1:35.8-38.2Mb;HAP1:38.8-50.0Mb;HAP1:50.5-60.5Mb;HAP1:61.0-103.5Mb;HAP1:104.3-119.8Mb	one_divergent_copy	copies		HAP1B			unpaired											
+chr06	3			HAP1B_chr06	HAP1_chr06,HAP2_chr06	4.28	3.50	0.98	whole	whole	0.98	0.00	HAP2:0.8-31.0Mb;HAP2:31.5-86.0Mb;HAP2:86.8-89.0Mb;HAP2:89.5-118.7Mb	one_divergent_copy	copies		HAP1B			unpaired											
+chr07	3			HAP1B_chr07	HAP2_chr07,HAP1_chr07	4.01	3.70	0.98	whole	whole	0.98	0.00	HAP1:0.0-54.2Mb;HAP1:56.3-99.3Mb	one_divergent_copy	copies		HAP1B			unpaired											
+chr08	3			HAP1B_chr08	HAP1_chr08,HAP2_chr08	4.45	4.99	0.98	whole	whole	1.00	0.00	HAP1:0.0-89.0Mb	one_divergent_copy	copies		HAP1B	chr02	1.80	paired	0	0.000	0	chr02:0/6		yes	chr02	34000000	chr02:1/3	HAP1B:2.3-12.5Mb(start)~chr02;HAP1B:13.3-17.0Mb(interior)~chr02;HAP1B:19.3-22.8Mb(interior)~chr02;HAP1B:28.5-35.0Mb(interior)~chr02;HAP1B:35.5-38.8Mb(interior)~chr02;HAP1B:42.0-44.5Mb(interior)~chr02;HAP1B:64.8-69.0Mb(interior)~chr02	
+chr09	3			HAP1B_chr09,HAP1_chr09	HAP2_chr09	1.49	1.11	0.52	whole	whole	0.51	0.00	HAP1:40.0-81.4Mb	one_divergent_copy	copies		HAP2			unpaired											
+chr10	3			HAP1B_chr10	HAP1_chr10,HAP2_chr10	3.28	2.69	0.91	whole	whole	0.86	0.00	HAP2:0.0-46.0Mb;HAP2:46.5-49.5Mb;HAP2:55.0-58.5Mb	one_divergent_copy	copies		HAP1B			unpaired											

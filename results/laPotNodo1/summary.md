@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start.
+Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 5 chromosome(s) carry blocks homeologous to two or more others (chr03:chr07+chr17+chr19, chr08:chr17+chr20, chr12:chr16+chr26, chr17:chr03+chr08, chr19:chr03+chr11): fusions, fissions or translocations since the duplication; homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
 
 *Confidence:* medium  
-*Evidence:* residual tetrasomy on 0/26 homeolog-paired chromosome numbers; pair-depth CV 0.09
+*Evidence:* residual tetrasomy on 0/26 homeolog-paired chromosome numbers; pair-depth CV 0.09; homeology map: 37% of the genome in 39 homeolog blocks, 15 chromosome pairs, block-divergence CV 0.05; exchange: chr05(chr01:1/2)
 

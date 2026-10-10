@@ -24,3 +24,13 @@ residual_bp	9500000
 residual_terminal_frac	0.00
 residual_null_run_windows	8
 residual_controlled	yes
+exchange_chromosomes	1
+exchange_bp	2250000
+exchange_list	chr10(chr04:1/2)
+map_duplicated_frac	0.778
+map_n_blocks	39
+map_n_partner_pairs	9
+map_multi_partner_chromosomes	0
+map_multi_partner_list	
+map_block_dist_median	0.0420
+map_block_dist_cv	0.047

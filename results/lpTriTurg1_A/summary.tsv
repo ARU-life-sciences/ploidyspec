@@ -1,5 +1,5 @@
 species	question	answer	confidence	evidence
 lpTriTurg1_A	ploidy	2 haplotype copies of each of 7 chromosome numbers; no older duplicated sets detected.	high	copies from the assembly (2 per number)
-lpTriTurg1_A	origin_like_structure	Not assessable: two haplotypes and no duplicated sets to compare. Diploid-like as assembled.	not assessable	no homeolog pairs, no genome partition
+lpTriTurg1_A	origin_like_structure	Not assessable: two haplotypes and no duplicated sets to compare. Diploid-like as assembled.	not assessable	0 whole-chromosome homeolog pair(s); no duplicated sets
 lpTriTurg1_A	te_markers	Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it.	not assessable	te_marker_fraction mean 0.0122
-lpTriTurg1_A	rediploidization	Not assessable from this assembly.	not assessable	
+lpTriTurg1_A	rediploidization	Not assessable: no duplicated sets to read rediploidization from.	not assessable	residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 0% of the genome in 3 homeolog blocks, 1 chromosome pairs, block-divergence CV 0.22

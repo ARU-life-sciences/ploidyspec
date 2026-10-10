@@ -2,29 +2,29 @@
 
 ## Ploidy
 
-2 haplotype copies of each of 20 chromosome numbers; the numbers form sets of 2 (10 groups of mostly 2 chromosome numbers), so x ≈ 10 and up to 4x relative to x.
+3 haplotype copies of each of 10 chromosome numbers (HAP1B split out of one haplotype file holding two chromosome sets); an odd copy number (triploid-like or higher odd ploidy); no older duplicated sets detected.
 
 *Confidence:* high  
-*Evidence:* copies from the assembly (2 per number); 10 groups of mostly 2 chromosome numbers (genome partition z = 22.7); homeolog distance 0.049 vs unrelated 0.094
+*Evidence:* copies from the assembly (3 per number); extra set(s) matched one-to-one to the shared numbers
 
 ## Auto-like or allo-like?
 
-One copy apart on most chromosomes, nearly always the same haplotype (HAP1 (18 chromosomes)): most likely an assembly or phasing problem in that haplotype.
+AAB-like: one divergent chromosome set (HAP1B, assembled as a second set in HAP1), the other copies as close as alleles.
 
-*Confidence:* medium  
-*Evidence:* 20 chromosome numbers assessed: 0 split into lineages, 0 tetrasomic-like, 20 one divergent copy, 0 candidate
+*Confidence:* high  
+*Evidence:* 10 chromosome numbers assessed: 0 split into lineages, 0 tetrasomic-like, 10 one divergent copy, 0 candidate
 
 ## TE markers
 
-Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it.
+Repeat content differs between the split copies on several chromosomes, but the split isolates the same odd haplotype throughout, so this may reflect that haplotype's assembly rather than separate TE histories.
 
-*Confidence:* not assessable  
-*Evidence:* te_marker_fraction mean 0.0674
+*Confidence:* low  
+*Evidence:* TE split >= 2 on 9/10 chromosomes (median 3.45); absolute te_marker_fraction 0.1659 (reference only)
 
 ## Rediploidization
 
-Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start.
+Not assessable: the copies split as one divergent set (AAB-like), not into lineages within a duplicated genome. Also: homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
 
-*Confidence:* medium  
-*Evidence:* residual tetrasomy on 0/10 homeolog-paired chromosome numbers; pair-depth CV 0.14
+*Confidence:* not assessable  
+*Evidence:* 0 split / 0 tetrasomic-like chromosomes; 0 regional split(s); residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs; exchange: chr08(chr02:1/3)
 

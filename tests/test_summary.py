@@ -95,6 +95,15 @@ class TestSummary(unittest.TestCase):
             self.assertTrue(a["rediploidization"]["answer"].startswith("Advanced"))
             self.assertIn("different depths", a["rediploidization"]["answer"])
 
+    def test_a_single_pair_is_not_a_duplicated_genome(self):
+        # spotted gar / bowfin: one homeolog pair passes, nothing else
+        with tempfile.TemporaryDirectory() as d:
+            species(d, 2, ["resolved_lineages"] * 2 + ["not_assessable"] * 8,
+                    pairs=[["chr01", "chr02", "0.09"]])
+            a = answers(d)
+            self.assertTrue(a["origin_like_structure"]["answer"].startswith("Not assessable"))
+            self.assertTrue(a["rediploidization"]["answer"].startswith("Not assessable"))
+
     def test_two_haplotype_allotetraploid_from_pairs(self):
         with tempfile.TemporaryDirectory() as d:
             pairs = [[f"chr{i:02d}", f"chr{i + 4:02d}", "0.05"] for i in range(1, 5)]

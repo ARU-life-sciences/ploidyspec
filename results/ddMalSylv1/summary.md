@@ -12,7 +12,7 @@
 Not assessable: two haplotypes and no duplicated sets to compare. Diploid-like as assembled.
 
 *Confidence:* not assessable  
-*Evidence:* no homeolog pairs, no genome partition
+*Evidence:* 0 whole-chromosome homeolog pair(s); no duplicated sets
 
 ## TE markers
 
@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start.
+Not assessable: no duplicated sets to read rediploidization from.
 
-*Confidence:* low  
-*Evidence:* residual tetrasomy on 0/2 homeolog-paired chromosome numbers (no unrelated-chromosome control; shared repeats not excluded)
+*Confidence:* not assessable  
+*Evidence:* residual tetrasomy on 0/2 homeolog-paired chromosome numbers (no unrelated-chromosome control; shared repeats not excluded); homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs
 

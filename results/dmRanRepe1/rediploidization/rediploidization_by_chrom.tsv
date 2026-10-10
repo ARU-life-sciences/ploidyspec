@@ -1,17 +1,17 @@
-chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
-chr01	2			HAP2_chr01,HAP1_chr01	HAP2_chr09,HAP1_chr09	2.95						0.00		resolved_lineages	partition_pool	chr09				unpaired
-chr02	2			HAP2_chr02,HAP1_chr02	HAP2_chr15,HAP1_chr15	2.97						0.00		resolved_lineages	partition_pool	chr15				unpaired
-chr03	2			HAP2_chr03,HAP1_chr03	HAP2_chr10,HAP1_chr10	2.83						0.00		resolved_lineages	partition_pool	chr10				unpaired
-chr04	2			HAP2_chr04,HAP1_chr04	HAP2_chr12,HAP1_chr12	2.56						0.00		resolved_lineages	partition_pool	chr12				unpaired
-chr05	2			HAP1_chr05,HAP2_chr05	HAP2_chr13,HAP1_chr13	3.34						0.00		resolved_lineages	partition_pool	chr13				unpaired
-chr06	2			HAP1_chr06,HAP2_chr06	HAP2_chr11,HAP1_chr11	3.13						0.00		resolved_lineages	partition_pool	chr11				unpaired
-chr07	2			HAP1_chr07,HAP2_chr07	HAP1_chr16,HAP2_chr16	3.14						0.00		resolved_lineages	partition_pool	chr16				unpaired
-chr08	2			HAP1_chr08,HAP2_chr08	HAP1_chr14,HAP2_chr14	3.32						0.00		resolved_lineages	partition_pool	chr14				unpaired
-chr09	2			HAP2_chr01,HAP1_chr01	HAP2_chr09,HAP1_chr09	2.95						0.00		resolved_lineages	partition_pool	chr01				unpaired
-chr10	2			HAP2_chr03,HAP1_chr03	HAP2_chr10,HAP1_chr10	2.83						0.00		resolved_lineages	partition_pool	chr03				unpaired
-chr11	2			HAP1_chr06,HAP2_chr06	HAP2_chr11,HAP1_chr11	3.13						0.00		resolved_lineages	partition_pool	chr06				unpaired
-chr12	2			HAP2_chr04,HAP1_chr04	HAP2_chr12,HAP1_chr12	2.56						0.00		resolved_lineages	partition_pool	chr04				unpaired
-chr13	2			HAP1_chr05,HAP2_chr05	HAP2_chr13,HAP1_chr13	3.34						0.00		resolved_lineages	partition_pool	chr05				unpaired
-chr14	2			HAP1_chr08,HAP2_chr08	HAP1_chr14,HAP2_chr14	3.32						0.00		resolved_lineages	partition_pool	chr08				unpaired
-chr15	2			HAP2_chr02,HAP1_chr02	HAP2_chr15,HAP1_chr15	2.97						0.00		resolved_lineages	partition_pool	chr02				unpaired
-chr16	2			HAP1_chr07,HAP2_chr07	HAP1_chr16,HAP2_chr16	3.14						0.00		resolved_lineages	partition_pool	chr07				unpaired
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled	residual_partners	exchange_bp	exchange_support	exchange_segments	block_partners
+chr01	2			HAP2_chr01,HAP1_chr01	HAP2_chr09,HAP1_chr09	2.95						0.00		resolved_lineages	partition_pool	chr09				unpaired											
+chr02	2			HAP2_chr02,HAP1_chr02	HAP2_chr15,HAP1_chr15	2.97						0.00		resolved_lineages	partition_pool	chr15				unpaired											chr01:11.5Mb
+chr03	2			HAP2_chr03,HAP1_chr03	HAP2_chr10,HAP1_chr10	2.83						0.00		resolved_lineages	partition_pool	chr10				unpaired	0	0.000	0	chr07:0/4		yes	chr07	0			chr07:2.5Mb
+chr04	2			HAP2_chr04,HAP1_chr04	HAP2_chr12,HAP1_chr12	2.56						0.00		resolved_lineages	partition_pool	chr12				unpaired											chr01:3.2Mb,chr15:2.8Mb
+chr05	2			HAP1_chr05,HAP2_chr05	HAP2_chr13,HAP1_chr13	3.34						0.00		resolved_lineages	partition_pool	chr13				unpaired											chr08:2.8Mb
+chr06	2			HAP1_chr06,HAP2_chr06	HAP2_chr11,HAP1_chr11	3.13						0.00		resolved_lineages	partition_pool	chr11				unpaired											
+chr07	2			HAP1_chr07,HAP2_chr07	HAP1_chr16,HAP2_chr16	3.14						0.00		resolved_lineages	partition_pool	chr16				unpaired	0	0.000	0	chr03:0/4		yes	chr03	0			chr01:11.2Mb,chr03:2.5Mb,chr06:2.2Mb
+chr08	2			HAP1_chr08,HAP2_chr08	HAP1_chr14,HAP2_chr14	3.32						0.00		resolved_lineages	partition_pool	chr14				unpaired											chr01:14.5Mb
+chr09	2			HAP2_chr01,HAP1_chr01	HAP2_chr09,HAP1_chr09	2.95						0.00		resolved_lineages	partition_pool	chr01				unpaired											
+chr10	2			HAP2_chr03,HAP1_chr03	HAP2_chr10,HAP1_chr10	2.83						0.00		resolved_lineages	partition_pool	chr03				unpaired											
+chr11	2			HAP1_chr06,HAP2_chr06	HAP2_chr11,HAP1_chr11	3.13						0.00		resolved_lineages	partition_pool	chr06				unpaired											
+chr12	2			HAP2_chr04,HAP1_chr04	HAP2_chr12,HAP1_chr12	2.56						0.00		resolved_lineages	partition_pool	chr04				unpaired											
+chr13	2			HAP1_chr05,HAP2_chr05	HAP2_chr13,HAP1_chr13	3.34						0.00		resolved_lineages	partition_pool	chr05				unpaired	0	0.000	0	chr16:0/4		yes	chr16	0			chr16:3.0Mb
+chr14	2			HAP1_chr08,HAP2_chr08	HAP1_chr14,HAP2_chr14	3.32						0.00		resolved_lineages	partition_pool	chr08				unpaired											chr16:4.2Mb
+chr15	2			HAP2_chr02,HAP1_chr02	HAP2_chr15,HAP1_chr15	2.97						0.00		resolved_lineages	partition_pool	chr02				unpaired											
+chr16	2			HAP1_chr07,HAP2_chr07	HAP1_chr16,HAP2_chr16	3.14						0.00		resolved_lineages	partition_pool	chr07				unpaired	0	0.000	0	chr13:0/4		yes	chr13	0			chr13:4.8Mb

@@ -1,24 +1,24 @@
-chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled
-chr01	2											0.00		not_assessable	none					unpaired						
-chr02	2											0.00		not_assessable	none					unpaired						
-chr03	2											0.00		not_assessable	none					unpaired						
-chr04	2											0.00		not_assessable	none					unpaired						
-chr05	2											0.00		not_assessable	none					unpaired						
-chr06	2											0.00		not_assessable	none					unpaired						
-chr07	2											0.00		not_assessable	none					unpaired						
-chr08	2											0.00		not_assessable	none					unpaired						
-chr09	2											0.00		not_assessable	none					unpaired						
-chr10	2											0.00		not_assessable	none					unpaired						
-chr11	2											0.00		not_assessable	none					unpaired						
-chr12	2			HAP1_chr12,HAP2_chr12	HAP2_chr14,HAP1_chr14	77.32						0.00		resolved_lineages	homeolog_pool	chr14		chr14	77.32	paired	0	0.000	0	0/4		yes
-chr13	2											0.00		not_assessable	none					unpaired						
-chr14	2			HAP1_chr12,HAP2_chr12	HAP2_chr14,HAP1_chr14	77.32						0.00		resolved_lineages	homeolog_pool	chr12		chr12	77.32	paired	0	0.000	0	0/4		yes
-chr15	2											0.00		not_assessable	none					unpaired						
-chr16	2											0.00		not_assessable	none					unpaired						
-chr17	2											0.00		not_assessable	none					unpaired						
-chr18	2											0.00		not_assessable	none					unpaired						
-chr19	2											0.00		not_assessable	none					unpaired						
-chr20	2											0.00		not_assessable	none					unpaired						
-chr21	2											0.00		not_assessable	none					unpaired						
-chr22	2											0.00		not_assessable	none					unpaired						
-chr23	2											0.00		not_assessable	none					unpaired						
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled	residual_partners	exchange_bp	exchange_support	exchange_segments	block_partners
+chr01	2											0.00		not_assessable	none					unpaired											
+chr02	2											0.00		not_assessable	none					unpaired											chr12:2.5Mb
+chr03	2											0.00		not_assessable	none					unpaired											
+chr04	2											0.00		not_assessable	none					unpaired											
+chr05	2											0.00		not_assessable	none					unpaired											
+chr06	2											0.00		not_assessable	none					unpaired											
+chr07	2											0.00		not_assessable	none					unpaired											
+chr08	2											0.00		not_assessable	none					unpaired											
+chr09	2											0.00		not_assessable	none					unpaired											
+chr10	2											0.00		not_assessable	none					unpaired											chr14:3.9Mb
+chr11	2											0.00		not_assessable	none					unpaired											chr13:3.0Mb
+chr12	2			HAP1_chr12,HAP2_chr12	HAP2_chr14,HAP1_chr14	77.32						0.00		resolved_lineages	homeolog_pool	chr14		chr14	77.32	paired	0	0.000	0	chr14:0/4		yes	chr14	0			chr13:4.0Mb
+chr13	2											0.00		not_assessable	none					unpaired											
+chr14	2			HAP1_chr12,HAP2_chr12	HAP2_chr14,HAP1_chr14	77.32						0.00		resolved_lineages	homeolog_pool	chr12		chr12	77.32	paired	0	0.000	0	chr12:0/4		yes	chr12	0			
+chr15	2											0.00		not_assessable	none					unpaired											
+chr16	2											0.00		not_assessable	none					unpaired											
+chr17	2											0.00		not_assessable	none					unpaired											
+chr18	2											0.00		not_assessable	none					unpaired											
+chr19	2											0.00		not_assessable	none					unpaired											
+chr20	2											0.00		not_assessable	none					unpaired											
+chr21	2											0.00		not_assessable	none					unpaired											
+chr22	2											0.00		not_assessable	none					unpaired											
+chr23	2											0.00		not_assessable	none					unpaired											

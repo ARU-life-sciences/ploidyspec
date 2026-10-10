@@ -26,5 +26,5 @@ Only the absolute marker fraction is available (two copies per number); it does 
 Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start.
 
 *Confidence:* medium  
-*Evidence:* residual tetrasomy on 0/14 homeolog-paired chromosome numbers; pair-depth CV 0.03
+*Evidence:* residual tetrasomy on 0/14 homeolog-paired chromosome numbers; pair-depth CV 0.03; homeology map: 64% of the genome in 26 homeolog blocks, 7 chromosome pairs, block-divergence CV 0.03
 

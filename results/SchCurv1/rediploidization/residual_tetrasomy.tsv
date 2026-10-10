@@ -1,15 +1,15 @@
-chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac
-chr03	chr05	HAP1_chr03	chr22	251	1	0	0.00515	1	8		0	0.000
-chr05	chr03	HAP1_chr05	chr19	190	1	2	0.00430	1	8		0	0.000
-chr19	chr22	HAP1_chr19	chr05	152	0	0	0.00183	0	8		0	0.000
-chr22	chr19	HAP1_chr22	chr03	141	31	0	0.00526	11	8	2.50-5.75Mb(start);8.75-11.50Mb(interior)	6000000	0.170
-chr03	chr05	HAP2_chr03	chr22	277	0	1	0.00515	0	8		0	0.000
-chr05	chr03	HAP2_chr05	chr19	190	0	1	0.00430	0	8		0	0.000
-chr19	chr22	HAP2_chr19	chr05	161	0	0	0.00183	0	8		0	0.000
-chr22	chr19	HAP2_chr22	chr03	149	35	0	0.00526	19	8	0.00-5.50Mb(start)	5500000	0.148
-chr03	chr05	HAP3_chr03	chr22	292	3	0	0.00515	1	8		0	0.000
-chr05	chr03	HAP3_chr05	chr19	201	0	0	0.00430	0	8		0	0.000
-chr19	chr22	HAP3_chr19	chr05	278	9	1	0.00183	4	8		0	0.000
-chr03	chr05	HAP4_chr03	chr22	319	0	0	0.00515	0	8		0	0.000
-chr05	chr03	HAP4_chr05	chr19	202	5	1	0.00430	3	8		0	0.000
-chr19	chr22	HAP4_chr19	chr05	278	9	1	0.00183	5	8		0	0.000
+chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac	n_exchange	exchange_segments	exchange_bp
+chr03	chr05	HAP1_chr03	chr22	251	1	0	0.00515	1	8		0	0.000	0		0
+chr05	chr03	HAP1_chr05	chr19	190	1	2	0.00430	1	8		0	0.000	0		0
+chr19	chr22	HAP1_chr19	chr05	152	0	0	0.00183	0	8		0	0.000	0		0
+chr22	chr19	HAP1_chr22	chr03	141	27	0	0.00526	8	8		0	0.000	4		0
+chr03	chr05	HAP2_chr03	chr22	277	0	1	0.00515	0	8		0	0.000	0		0
+chr05	chr03	HAP2_chr05	chr19	190	0	1	0.00430	0	8		0	0.000	2		0
+chr19	chr22	HAP2_chr19	chr05	161	0	0	0.00183	0	8		0	0.000	0		0
+chr22	chr19	HAP2_chr22	chr03	149	30	0	0.00526	19	8	0.00-5.50Mb(start)	5500000	0.148	6		0
+chr03	chr05	HAP3_chr03	chr22	292	3	0	0.00515	1	8		0	0.000	0		0
+chr05	chr03	HAP3_chr05	chr19	201	0	0	0.00430	0	8		0	0.000	0		0
+chr19	chr22	HAP3_chr19	chr05	278	7	1	0.00183	4	8		0	0.000	7		0
+chr03	chr05	HAP4_chr03	chr22	319	0	0	0.00515	0	8		0	0.000	0		0
+chr05	chr03	HAP4_chr05	chr19	202	2	0	0.00430	1	8		0	0.000	4		0
+chr19	chr22	HAP4_chr19	chr05	278	8	1	0.00183	5	8		0	0.000	4		0

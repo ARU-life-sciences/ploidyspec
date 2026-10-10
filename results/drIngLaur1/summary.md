@@ -22,7 +22,8 @@ TE markers not run for this species.
 
 ## Rediploidization
 
-Not assessable from this assembly.
+Not assessable: no duplicated sets to read rediploidization from.
 
-*Confidence:* not assessable
+*Confidence:* not assessable  
+*Evidence:* homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs
 

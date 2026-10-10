@@ -1,21 +1,7 @@
-chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac
-chr01	chr11	HAP1_chr01	chr14	635	3	0	0.00338	3	8		0	0.000
-chr02	chr14	HAP1_chr02	chr12	614	0	0	0.00406	0	8		0	0.000
-chr03	chr12	HAP1_chr03	chr13	532	3	0	0.00429	2	8		0	0.000
-chr04	chr13	HAP1_chr04	chr17	512	0	0	0.00459	0	8		0	0.000
-chr05	chr17	HAP1_chr05	chr15	480	0	0	0.00391	0	8		0	0.000
-chr06	chr15	HAP1_chr06	chr18	477	0	0	0.00409	0	8		0	0.000
-chr07	chr18	HAP1_chr07	chr16	398	6	2	0.00462	6	8		0	0.000
-chr08	chr16	HAP1_chr08	chr19	357	0	0	0.00569	0	8		0	0.000
-chr09	chr19	HAP1_chr09	chr20	326	66	0	0.01255	8	8		0	0.000
-chr10	chr20	HAP1_chr10	chr11	247	1	0	0.00596	1	8		0	0.000
-chr01	chr11	HAP2_chr01	chr14	623	2	0	0.00338	2	8		0	0.000
-chr02	chr14	HAP2_chr02	chr12	618	0	0	0.00406	0	8		0	0.000
-chr03	chr12	HAP2_chr03	chr13	534	2	0	0.00429	2	8		0	0.000
-chr04	chr13	HAP2_chr04	chr17	504	0	0	0.00459	0	8		0	0.000
-chr05	chr17	HAP2_chr05	chr15	462	0	0	0.00391	0	8		0	0.000
-chr06	chr15	HAP2_chr06	chr18	475	0	0	0.00409	0	8		0	0.000
-chr07	chr18	HAP2_chr07	chr16	404	4	0	0.00462	4	8		0	0.000
-chr08	chr16	HAP2_chr08	chr19	352	0	1	0.00569	0	8		0	0.000
-chr09	chr19	HAP2_chr09	chr20	349	0	0	0.01255	0	8		0	0.000
-chr10	chr20	HAP2_chr10	chr11	244	2	0	0.00596	2	8		0	0.000
+chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac	n_exchange	exchange_segments	exchange_bp
+chr02	chr08	HAP1B_chr02	chr01	505	2	9	0.00415	2	8		0	0.000	16		0
+chr08	chr02	HAP1B_chr08	chr01	496	1	9	0.00585	1	8		0	0.000	171	2.25-12.50Mb(start);13.25-17.00Mb(interior);19.25-22.75Mb(interior);28.50-35.00Mb(interior);35.50-38.75Mb(interior);42.00-44.50Mb(interior);64.75-69.00Mb(interior)	34000000
+chr02	chr08	HAP1_chr02	chr01	614	1	0	0.00415	1	8		0	0.000	0		0
+chr08	chr02	HAP1_chr08	chr01	357	0	6	0.00585	0	8		0	0.000	0		0
+chr02	chr08	HAP2_chr02	chr01	618	2	0	0.00415	2	8		0	0.000	0		0
+chr08	chr02	HAP2_chr08	chr01	352	0	1	0.00585	0	8		0	0.000	0		0

@@ -268,6 +268,19 @@ def one_copy_apart(g, onediv, ev):
             f"{formula}-like (one divergent genome copy).", "medium", ev)
 
 
+MIN_DUPLICATION_PAIRS = 3
+
+
+def duplication_evidence(g):
+    """Enough duplicated sequence to read structure or rediploidization from in a
+    two-copy genome: duplicated sets, or >= MIN_DUPLICATION_PAIRS homeolog pairs
+    (whole-chromosome or from the homeology map). A single pair is not enough:
+    spotted gar and bowfin (no duplication since 2R) each pass one."""
+    seg = segmental(g)
+    return (duplicated_sets(g)[0] > 1 or g["n_pairs"] >= MIN_DUPLICATION_PAIRS
+            or bool(seg and seg["pairs"] >= MIN_DUPLICATION_PAIRS))
+
+
 def fusion_only(g):
     """Two copies, fusions, and no duplicated sets except the pairs the fusions create."""
     return g["copies"] < 3 and g["fusions"] and g["n_pairs"] == 0
@@ -288,7 +301,17 @@ def answer_structure(g):
         return ("Not assessable: two haplotypes and no duplicated sets to compare; the only "
                 "homeolog-like pair comes from a fusion carried by one haplotype. Diploid-like as "
                 "assembled.", "not assessable", fusion_note(g))
+    if c == 2 and not duplication_evidence(g):
+        return ("Not assessable: two haplotypes and no duplicated sets to compare. "
+                "Diploid-like as assembled.", "not assessable",
+                f"{g['n_pairs']} whole-chromosome homeolog pair(s); no duplicated sets")
     if c <= 1 or assessable == 0:
+        seg = segmental(g)
+        if c == 2 and seg and seg["pairs"]:
+            return ("Not assessable: duplicated blocks are detected (homeology map), but no whole-"
+                    "chromosome homeolog pairs to read the copies across.", "not assessable",
+                    f"homeology map: {seg['frac']:.0%} of the genome in blocks, {seg['pairs']} "
+                    "chromosome pairs; no whole-chromosome pairs")
         if c == 2 and g["n_pairs"] == 0 and not states.get("resolved_lineages"):
             return ("Not assessable: two haplotypes and no duplicated sets to compare. "
                     "Diploid-like as assembled.", "not assessable", "no homeolog pairs, no genome partition")
@@ -404,6 +427,9 @@ def answer_rediploidization(g):
     if c >= 3 and split and not tet:
         return ("Split throughout: either rediploidization is complete or the genome was "
                 "allo-like from the start; these data cannot tell which." + also, "medium", ev)
+    if c < 3 and not duplication_evidence(g):
+        return ("Not assessable: no duplicated sets to read rediploidization from.",
+                "not assessable", ev)
     if c < 3 and res and res[1]:
         where = f", {res[3]:.0%} of it at chromosome ends" if res[3] is not None else ""
         return (f"Partly: {res[1]} of {res[0]} homeolog-paired chromosome numbers keep stretches of "

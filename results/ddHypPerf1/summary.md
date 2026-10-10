@@ -26,5 +26,5 @@ Repeat history tracks the lineages on several chromosomes: separate TE histories
 Likely under way: some chromosomes have split into lineages while others stay tetrasomic-like.
 
 *Confidence:* medium  
-*Evidence:* 2 split / 2 tetrasomic-like chromosomes; 1 regional split(s); residual tetrasomy on 0/2 homeolog-paired chromosome numbers (no unrelated-chromosome control; shared repeats not excluded)
+*Evidence:* 2 split / 2 tetrasomic-like chromosomes; 1 regional split(s); residual tetrasomy on 0/2 homeolog-paired chromosome numbers (no unrelated-chromosome control; shared repeats not excluded); homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs
 

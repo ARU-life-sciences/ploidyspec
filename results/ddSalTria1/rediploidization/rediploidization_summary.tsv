@@ -25,3 +25,13 @@ residual_bp	0
 residual_terminal_frac	
 residual_null_run_windows	8
 residual_controlled	yes
+exchange_chromosomes	0
+exchange_bp	0
+exchange_list	
+map_duplicated_frac	0.000
+map_n_blocks	0
+map_n_partner_pairs	0
+map_multi_partner_chromosomes	0
+map_multi_partner_list	
+map_block_dist_median	
+map_block_dist_cv	

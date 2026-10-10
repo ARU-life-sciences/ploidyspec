@@ -1,97 +1,105 @@
-chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac
-chr01	chr03	HAP1_chr01	chr05	942	0	0	-0.00000	0	8		0	0.000
-chr02	chr05	HAP1_chr02	chr12	801	1	0	-0.00000	1	8		0	0.000
-chr03	chr01	HAP1_chr03	chr41	793	1	0	-0.00000	1	8		0	0.000
-chr04	chr12	HAP1_chr04	chr15	710	0	0	-0.00000	0	8		0	0.000
-chr05	chr02	HAP1_chr05	chr01	653	0	0	-0.00000	0	8		0	0.000
-chr06	chr15	HAP1_chr06	chr14	550	0	0	-0.00000	0	8		0	0.000
-chr07	chr14	HAP1_chr07	chr09	508	0	0	-0.00000	0	8		0	0.000
-chr08	chr09	HAP1_chr08	chr17	502	3	0	-0.00000	3	8		0	0.000
-chr09	chr08	HAP1_chr09	chr07	473	3	0	-0.00000	3	8		0	0.000
-chr10	chr17	HAP1_chr10	chr16	471	0	0	-0.00000	0	8		0	0.000
-chr11	chr16	HAP1_chr11	chr23	457	0	0	-0.00000	0	8		0	0.000
-chr12	chr04	HAP1_chr12	chr02	417	0	0	-0.00000	0	8		0	0.000
-chr13	chr23	HAP1_chr13	chr28	407	0	0	-0.00000	0	8		0	0.000
-chr14	chr07	HAP1_chr14	chr06	378	0	0	-0.00000	0	8		0	0.000
-chr15	chr06	HAP1_chr15	chr04	374	0	0	-0.00000	0	8		0	0.000
-chr16	chr11	HAP1_chr16	chr10	360	0	0	-0.00000	0	8		0	0.000
-chr17	chr10	HAP1_chr17	chr08	356	0	0	-0.00000	0	8		0	0.000
-chr18	chr28	HAP1_chr18	chr31	345	1	0	-0.00000	1	8		0	0.000
-chr19	chr31	HAP1_chr19	chr44	343	0	0	-0.00000	0	8		0	0.000
-chr20	chr44	HAP1_chr20	chr32	333	0	0	-0.00000	0	8		0	0.000
-chr21	chr32	HAP1_chr21	chr39	332	0	0	-0.00000	0	8		0	0.000
-chr22	chr39	HAP1_chr22	chr42	301	0	0	-0.00000	0	8		0	0.000
-chr23	chr13	HAP1_chr23	chr11	288	0	0	-0.00000	0	8		0	0.000
-chr24	chr42	HAP1_chr24	chr26	287	0	0	-0.00000	0	8		0	0.000
-chr25	chr26	HAP1_chr25	chr37	279	0	0	0.00000	0	8		0	0.000
-chr26	chr25	HAP1_chr26	chr24	269	0	0	-0.00000	0	8		0	0.000
-chr27	chr37	HAP1_chr27	chr36	263	0	0	-0.00000	0	8		0	0.000
-chr28	chr18	HAP1_chr28	chr13	255	0	0	-0.00000	0	8		0	0.000
-chr29	chr36	HAP1_chr29	chr35	253	0	0	-0.00000	0	8		0	0.000
-chr30	chr35	HAP1_chr30	chr43	250	0	0	-0.00000	0	8		0	0.000
-chr31	chr19	HAP1_chr31	chr18	243	0	0	-0.00000	0	8		0	0.000
-chr32	chr21	HAP1_chr32	chr20	236	0	0	-0.00000	0	8		0	0.000
-chr33	chr43	HAP1_chr33	chr47	235	0	0	-0.00000	0	8		0	0.000
-chr34	chr47	HAP1_chr34	chr46	231	0	0	-0.00000	0	8		0	0.000
-chr35	chr30	HAP1_chr35	chr29	228	0	0	-0.00000	0	8		0	0.000
-chr36	chr29	HAP1_chr36	chr27	224	0	0	-0.00000	0	8		0	0.000
-chr37	chr27	HAP1_chr37	chr25	219	0	0	-0.00000	0	8		0	0.000
-chr38	chr46	HAP1_chr38	chr45	210	0	0	-0.00000	0	8		0	0.000
-chr39	chr22	HAP1_chr39	chr21	207	0	0	-0.00000	0	8		0	0.000
-chr40	chr45	HAP1_chr40	chr50	207	0	0	-0.00000	0	8		0	0.000
-chr41	chr50	HAP1_chr41	chr03	207	0	0	-0.00000	0	8		0	0.000
-chr42	chr24	HAP1_chr42	chr22	205	0	0	-0.00000	0	8		0	0.000
-chr43	chr33	HAP1_chr43	chr30	187	0	0	-0.00000	0	8		0	0.000
-chr44	chr20	HAP1_chr44	chr19	180	0	0	-0.00000	0	8		0	0.000
-chr45	chr40	HAP1_chr45	chr38	176	0	0	-0.00000	0	8		0	0.000
-chr46	chr38	HAP1_chr46	chr34	166	0	0	-0.00000	0	8		0	0.000
-chr47	chr34	HAP1_chr47	chr33	169	0	0	-0.00000	0	8		0	0.000
-chr50	chr41	HAP1_chr50	chr40	159	0	0	-0.00000	0	8		0	0.000
-chr01	chr03	HAP2_chr01	chr05	936	0	0	-0.00000	0	8		0	0.000
-chr02	chr05	HAP2_chr02	chr12	795	0	0	-0.00000	0	8		0	0.000
-chr03	chr01	HAP2_chr03	chr41	784	1	0	-0.00000	1	8		0	0.000
-chr04	chr12	HAP2_chr04	chr15	706	0	0	-0.00000	0	8		0	0.000
-chr05	chr02	HAP2_chr05	chr01	657	0	0	-0.00000	0	8		0	0.000
-chr06	chr15	HAP2_chr06	chr14	547	0	0	-0.00000	0	8		0	0.000
-chr07	chr14	HAP2_chr07	chr09	501	0	0	-0.00000	0	8		0	0.000
-chr08	chr09	HAP2_chr08	chr17	499	3	0	-0.00000	3	8		0	0.000
-chr09	chr08	HAP2_chr09	chr07	469	3	0	-0.00000	3	8		0	0.000
-chr10	chr17	HAP2_chr10	chr16	470	0	0	-0.00000	0	8		0	0.000
-chr11	chr16	HAP2_chr11	chr23	456	0	0	-0.00000	0	8		0	0.000
-chr12	chr04	HAP2_chr12	chr02	412	0	0	-0.00000	0	8		0	0.000
-chr13	chr23	HAP2_chr13	chr28	404	0	0	-0.00000	0	8		0	0.000
-chr14	chr07	HAP2_chr14	chr06	367	0	0	-0.00000	0	8		0	0.000
-chr15	chr06	HAP2_chr15	chr04	371	0	0	-0.00000	0	8		0	0.000
-chr16	chr11	HAP2_chr16	chr10	357	0	0	-0.00000	0	8		0	0.000
-chr17	chr10	HAP2_chr17	chr08	342	0	0	-0.00000	0	8		0	0.000
-chr18	chr28	HAP2_chr18	chr31	342	1	0	-0.00000	1	8		0	0.000
-chr19	chr31	HAP2_chr19	chr44	342	0	0	-0.00000	0	8		0	0.000
-chr20	chr44	HAP2_chr20	chr32	327	0	0	-0.00000	0	8		0	0.000
-chr21	chr32	HAP2_chr21	chr39	326	0	0	-0.00000	0	8		0	0.000
-chr22	chr39	HAP2_chr22	chr42	303	0	0	-0.00000	0	8		0	0.000
-chr23	chr13	HAP2_chr23	chr11	286	0	0	-0.00000	0	8		0	0.000
-chr24	chr42	HAP2_chr24	chr26	284	0	0	-0.00000	0	8		0	0.000
-chr25	chr26	HAP2_chr25	chr37	275	0	0	0.00000	0	8		0	0.000
-chr26	chr25	HAP2_chr26	chr24	268	0	0	-0.00000	0	8		0	0.000
-chr27	chr37	HAP2_chr27	chr36	261	0	0	-0.00000	0	8		0	0.000
-chr28	chr18	HAP2_chr28	chr13	266	0	0	-0.00000	0	8		0	0.000
-chr29	chr36	HAP2_chr29	chr35	200	0	0	-0.00000	0	8		0	0.000
-chr30	chr35	HAP2_chr30	chr43	201	0	0	-0.00000	0	8		0	0.000
-chr31	chr19	HAP2_chr31	chr18	240	0	0	-0.00000	0	8		0	0.000
-chr32	chr21	HAP2_chr32	chr20	234	0	0	-0.00000	0	8		0	0.000
-chr33	chr43	HAP2_chr33	chr47	235	0	0	-0.00000	0	8		0	0.000
-chr34	chr47	HAP2_chr34	chr46	229	0	0	-0.00000	0	8		0	0.000
-chr35	chr30	HAP2_chr35	chr29	228	0	0	-0.00000	0	8		0	0.000
-chr36	chr29	HAP2_chr36	chr27	221	0	0	-0.00000	0	8		0	0.000
-chr37	chr27	HAP2_chr37	chr25	216	0	0	-0.00000	0	8		0	0.000
-chr38	chr46	HAP2_chr38	chr45	208	0	0	-0.00000	0	8		0	0.000
-chr39	chr22	HAP2_chr39	chr21	206	0	0	-0.00000	0	8		0	0.000
-chr40	chr45	HAP2_chr40	chr50	210	0	0	-0.00000	0	8		0	0.000
-chr41	chr50	HAP2_chr41	chr03	207	0	0	-0.00000	0	8		0	0.000
-chr42	chr24	HAP2_chr42	chr22	201	0	0	-0.00000	0	8		0	0.000
-chr43	chr33	HAP2_chr43	chr30	186	0	0	-0.00000	0	8		0	0.000
-chr44	chr20	HAP2_chr44	chr19	174	0	0	-0.00000	0	8		0	0.000
-chr45	chr40	HAP2_chr45	chr38	179	0	0	-0.00000	0	8		0	0.000
-chr46	chr38	HAP2_chr46	chr34	170	0	0	-0.00000	0	8		0	0.000
-chr47	chr34	HAP2_chr47	chr33	174	0	0	-0.00000	0	8		0	0.000
-chr50	chr41	HAP2_chr50	chr40	157	0	0	-0.00000	0	8		0	0.000
+chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac	n_exchange	exchange_segments	exchange_bp
+chr01	chr03	HAP1_chr01	chr04	942	0	0	-0.00000	0	8		0	0.000	0		0
+chr02	chr05	HAP1_chr02	chr10	801	1	0	-0.00000	1	8		0	0.000	0		0
+chr03	chr01	HAP1_chr03	chr41	793	1	0	-0.00000	1	8		0	0.000	0		0
+chr04	chr10	HAP1_chr04	chr15	710	11	0	-0.00000	11	8	77.25-80.00Mb(interior)	2750000	0.015	0		0
+chr04	chr12	HAP1_chr04	chr15	710	0	0	-0.00000	0	8		0	0.000	0		0
+chr04	chr49	HAP1_chr04	chr15	710	0	0	-0.00000	0	8		0	0.000	0		0
+chr05	chr02	HAP1_chr05	chr01	653	0	0	-0.00000	0	8		0	0.000	0		0
+chr06	chr15	HAP1_chr06	chr14	550	0	0	-0.00000	0	8		0	0.000	0		0
+chr07	chr14	HAP1_chr07	chr09	508	0	0	-0.00000	0	8		0	0.000	0		0
+chr08	chr09	HAP1_chr08	chr17	502	3	0	-0.00000	3	8		0	0.000	0		0
+chr09	chr08	HAP1_chr09	chr07	473	3	0	-0.00000	3	8		0	0.000	0		0
+chr10	chr04	HAP1_chr10	chr16	471	9	0	-0.00000	9	8	51.75-54.00Mb(interior)	2250000	0.019	0		0
+chr10	chr17	HAP1_chr10	chr16	471	0	0	-0.00000	0	8		0	0.000	0		0
+chr11	chr16	HAP1_chr11	chr23	457	0	0	-0.00000	0	8		0	0.000	0		0
+chr12	chr04	HAP1_chr12		417	0	0	-0.00000	0	8		0	0.000	0		0
+chr13	chr23	HAP1_chr13	chr28	407	0	0	-0.00000	0	8		0	0.000	0		0
+chr14	chr07	HAP1_chr14	chr06	378	0	0	-0.00000	0	8		0	0.000	0		0
+chr15	chr06	HAP1_chr15	chr04	374	0	0	-0.00000	0	8		0	0.000	0		0
+chr16	chr11	HAP1_chr16	chr10	360	0	0	-0.00000	0	8		0	0.000	0		0
+chr17	chr10	HAP1_chr17	chr08	356	0	0	-0.00000	0	8		0	0.000	0		0
+chr18	chr28	HAP1_chr18	chr31	345	1	0	-0.00000	1	8		0	0.000	0		0
+chr19	chr31	HAP1_chr19	chr44	343	0	0	-0.00000	0	8		0	0.000	0		0
+chr20	chr44	HAP1_chr20	chr32	333	0	0	-0.00000	0	8		0	0.000	0		0
+chr21	chr32	HAP1_chr21	chr39	332	0	0	-0.00000	0	8		0	0.000	0		0
+chr22	chr39	HAP1_chr22	chr42	301	0	0	-0.00000	0	8		0	0.000	0		0
+chr23	chr13	HAP1_chr23	chr11	288	0	0	-0.00000	0	8		0	0.000	0		0
+chr24	chr42	HAP1_chr24	chr26	287	0	0	-0.00000	0	8		0	0.000	0		0
+chr25	chr26	HAP1_chr25	chr37	279	0	0	0.00000	0	8		0	0.000	0		0
+chr26	chr25	HAP1_chr26	chr24	269	0	0	-0.00000	0	8		0	0.000	0		0
+chr27	chr37	HAP1_chr27	chr36	263	0	0	-0.00000	0	8		0	0.000	0		0
+chr28	chr18	HAP1_chr28	chr13	255	0	0	-0.00000	0	8		0	0.000	0		0
+chr29	chr36	HAP1_chr29	chr35	253	0	0	-0.00000	0	8		0	0.000	0		0
+chr30	chr35	HAP1_chr30	chr43	250	0	0	-0.00000	0	8		0	0.000	0		0
+chr31	chr19	HAP1_chr31	chr18	243	0	0	-0.00000	0	8		0	0.000	0		0
+chr32	chr21	HAP1_chr32	chr20	236	0	0	-0.00000	0	8		0	0.000	0		0
+chr33	chr43	HAP1_chr33	chr47	235	0	0	-0.00000	0	8		0	0.000	0		0
+chr34	chr47	HAP1_chr34	chr46	231	0	0	-0.00000	0	8		0	0.000	0		0
+chr35	chr30	HAP1_chr35	chr29	228	0	0	-0.00000	0	8		0	0.000	0		0
+chr36	chr29	HAP1_chr36	chr27	224	0	0	-0.00000	0	8		0	0.000	0		0
+chr37	chr27	HAP1_chr37	chr25	219	0	0	-0.00000	0	8		0	0.000	0		0
+chr38	chr46	HAP1_chr38	chr45	210	0	0	-0.00000	0	8		0	0.000	0		0
+chr39	chr22	HAP1_chr39	chr21	207	0	0	-0.00000	0	8		0	0.000	0		0
+chr40	chr45	HAP1_chr40	chr50	207	0	0	-0.00000	0	8		0	0.000	0		0
+chr41	chr50	HAP1_chr41	chr03	207	0	0	-0.00000	0	8		0	0.000	0		0
+chr42	chr24	HAP1_chr42	chr22	205	0	0	-0.00000	0	8		0	0.000	0		0
+chr43	chr33	HAP1_chr43	chr30	187	0	0	-0.00000	0	8		0	0.000	0		0
+chr44	chr20	HAP1_chr44	chr19	180	0	0	-0.00000	0	8		0	0.000	0		0
+chr45	chr40	HAP1_chr45	chr38	176	0	0	-0.00000	0	8		0	0.000	0		0
+chr46	chr38	HAP1_chr46	chr34	166	0	0	-0.00000	0	8		0	0.000	0		0
+chr47	chr34	HAP1_chr47	chr33	169	0	0	-0.00000	0	8		0	0.000	0		0
+chr49	chr04	HAP1_chr49		160	0	0	-0.00000	0	8		0	0.000	0		0
+chr50	chr41	HAP1_chr50	chr40	159	0	0	-0.00000	0	8		0	0.000	0		0
+chr01	chr03	HAP2_chr01	chr04	936	0	0	-0.00000	0	8		0	0.000	0		0
+chr02	chr05	HAP2_chr02	chr10	795	0	0	-0.00000	0	8		0	0.000	0		0
+chr03	chr01	HAP2_chr03	chr41	784	1	0	-0.00000	1	8		0	0.000	0		0
+chr04	chr10	HAP2_chr04	chr15	706	11	0	-0.00000	11	8	77.00-79.75Mb(interior)	2750000	0.016	0		0
+chr04	chr12	HAP2_chr04	chr15	706	0	0	-0.00000	0	8		0	0.000	0		0
+chr04	chr49	HAP2_chr04	chr15	706	0	0	-0.00000	0	8		0	0.000	0		0
+chr05	chr02	HAP2_chr05	chr01	657	0	0	-0.00000	0	8		0	0.000	0		0
+chr06	chr15	HAP2_chr06	chr14	547	0	0	-0.00000	0	8		0	0.000	0		0
+chr07	chr14	HAP2_chr07	chr09	501	0	0	-0.00000	0	8		0	0.000	0		0
+chr08	chr09	HAP2_chr08	chr17	499	3	0	-0.00000	3	8		0	0.000	0		0
+chr09	chr08	HAP2_chr09	chr07	469	3	0	-0.00000	3	8		0	0.000	0		0
+chr10	chr04	HAP2_chr10	chr16	470	9	0	-0.00000	9	8	51.50-53.75Mb(interior)	2250000	0.019	2		0
+chr10	chr17	HAP2_chr10	chr16	470	0	0	-0.00000	0	8		0	0.000	0		0
+chr11	chr16	HAP2_chr11	chr23	456	0	0	-0.00000	0	8		0	0.000	0		0
+chr12	chr04	HAP2_chr12		412	0	0	-0.00000	0	8		0	0.000	0		0
+chr13	chr23	HAP2_chr13	chr28	404	0	0	-0.00000	0	8		0	0.000	0		0
+chr14	chr07	HAP2_chr14	chr06	367	0	0	-0.00000	0	8		0	0.000	0		0
+chr15	chr06	HAP2_chr15	chr04	371	0	0	-0.00000	0	8		0	0.000	0		0
+chr16	chr11	HAP2_chr16	chr10	357	0	0	-0.00000	0	8		0	0.000	0		0
+chr17	chr10	HAP2_chr17	chr08	342	0	0	-0.00000	0	8		0	0.000	0		0
+chr18	chr28	HAP2_chr18	chr31	342	1	0	-0.00000	1	8		0	0.000	0		0
+chr19	chr31	HAP2_chr19	chr44	342	0	0	-0.00000	0	8		0	0.000	0		0
+chr20	chr44	HAP2_chr20	chr32	327	0	0	-0.00000	0	8		0	0.000	0		0
+chr21	chr32	HAP2_chr21	chr39	326	0	0	-0.00000	0	8		0	0.000	0		0
+chr22	chr39	HAP2_chr22	chr42	303	0	0	-0.00000	0	8		0	0.000	0		0
+chr23	chr13	HAP2_chr23	chr11	286	0	0	-0.00000	0	8		0	0.000	0		0
+chr24	chr42	HAP2_chr24	chr26	284	0	0	-0.00000	0	8		0	0.000	0		0
+chr25	chr26	HAP2_chr25	chr37	275	0	0	0.00000	0	8		0	0.000	0		0
+chr26	chr25	HAP2_chr26	chr24	268	0	0	-0.00000	0	8		0	0.000	0		0
+chr27	chr37	HAP2_chr27	chr36	261	0	0	-0.00000	0	8		0	0.000	0		0
+chr28	chr18	HAP2_chr28	chr13	266	0	0	-0.00000	0	8		0	0.000	0		0
+chr29	chr36	HAP2_chr29	chr35	200	0	0	-0.00000	0	8		0	0.000	0		0
+chr30	chr35	HAP2_chr30	chr43	201	0	0	-0.00000	0	8		0	0.000	0		0
+chr31	chr19	HAP2_chr31	chr18	240	0	0	-0.00000	0	8		0	0.000	0		0
+chr32	chr21	HAP2_chr32	chr20	234	0	0	-0.00000	0	8		0	0.000	0		0
+chr33	chr43	HAP2_chr33	chr47	235	0	0	-0.00000	0	8		0	0.000	0		0
+chr34	chr47	HAP2_chr34	chr46	229	0	0	-0.00000	0	8		0	0.000	0		0
+chr35	chr30	HAP2_chr35	chr29	228	0	0	-0.00000	0	8		0	0.000	0		0
+chr36	chr29	HAP2_chr36	chr27	221	0	0	-0.00000	0	8		0	0.000	0		0
+chr37	chr27	HAP2_chr37	chr25	216	0	0	-0.00000	0	8		0	0.000	0		0
+chr38	chr46	HAP2_chr38	chr45	208	0	0	-0.00000	0	8		0	0.000	0		0
+chr39	chr22	HAP2_chr39	chr21	206	0	0	-0.00000	0	8		0	0.000	0		0
+chr40	chr45	HAP2_chr40	chr50	210	0	0	-0.00000	0	8		0	0.000	0		0
+chr41	chr50	HAP2_chr41	chr03	207	0	0	-0.00000	0	8		0	0.000	0		0
+chr42	chr24	HAP2_chr42	chr22	201	0	0	-0.00000	0	8		0	0.000	0		0
+chr43	chr33	HAP2_chr43	chr30	186	0	0	-0.00000	0	8		0	0.000	0		0
+chr44	chr20	HAP2_chr44	chr19	174	0	0	-0.00000	0	8		0	0.000	0		0
+chr45	chr40	HAP2_chr45	chr38	179	0	0	-0.00000	0	8		0	0.000	0		0
+chr46	chr38	HAP2_chr46	chr34	170	0	0	-0.00000	0	8		0	0.000	0		0
+chr47	chr34	HAP2_chr47	chr33	174	0	0	-0.00000	0	8		0	0.000	0		0
+chr49	chr04	HAP2_chr49		153	0	0	-0.00000	0	8		0	0.000	0		0
+chr50	chr41	HAP2_chr50	chr40	157	0	0	-0.00000	0	8		0	0.000	0		0

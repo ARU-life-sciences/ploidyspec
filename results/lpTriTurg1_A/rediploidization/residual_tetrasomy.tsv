@@ -1,0 +1,5 @@
+chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac	n_exchange	exchange_segments	exchange_bp
+chr04	chr07	HAP1_chr04	chr01	3042	1	12	-0.00000	1	8		0	0.000	0		0
+chr07	chr04	HAP1_chr07	chr01	2976	0	11	-0.00000	0	8		0	0.000	0		0
+chr04	chr07	HAP2_chr04	chr01	3070	2	9	-0.00000	1	8		0	0.000	0		0
+chr07	chr04	HAP2_chr07	chr01	2772	2	10	-0.00000	2	8		0	0.000	0		0

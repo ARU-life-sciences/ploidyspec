@@ -23,7 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Not assessable from this assembly.
+Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start. Also: homeolog blocks diverged to different depths (CV 0.20), as when regions resolve at different times.
 
-*Confidence:* not assessable
+*Confidence:* medium  
+*Evidence:* residual tetrasomy on 0/4 homeolog-paired chromosome numbers; homeology map: 0% of the genome in 5 homeolog blocks, 2 chromosome pairs, block-divergence CV 0.20
 

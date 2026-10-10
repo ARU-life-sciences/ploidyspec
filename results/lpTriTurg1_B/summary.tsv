@@ -1,5 +1,5 @@
 species	question	answer	confidence	evidence
 lpTriTurg1_B	ploidy	2 haplotype copies of each of 7 chromosome numbers; no older duplicated sets detected.	high	copies from the assembly (2 per number)
-lpTriTurg1_B	origin_like_structure	Not assessable: two haplotypes and no duplicated sets to compare. Diploid-like as assembled.	not assessable	no homeolog pairs, no genome partition
+lpTriTurg1_B	origin_like_structure	Not assessable: two haplotypes and no duplicated sets to compare. Diploid-like as assembled.	not assessable	0 whole-chromosome homeolog pair(s); no duplicated sets
 lpTriTurg1_B	te_markers	Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it.	not assessable	te_marker_fraction mean 0.0152
-lpTriTurg1_B	rediploidization	Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start.	low	residual tetrasomy on 0/2 homeolog-paired chromosome numbers (no unrelated-chromosome control; shared repeats not excluded)
+lpTriTurg1_B	rediploidization	Not assessable: no duplicated sets to read rediploidization from.	not assessable	residual tetrasomy on 0/2 homeolog-paired chromosome numbers (no unrelated-chromosome control; shared repeats not excluded); homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs

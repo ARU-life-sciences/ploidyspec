@@ -1,8 +1,8 @@
-chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
-chr01	2											0.00		not_assessable	none					unpaired
-chr02	2											0.00		not_assessable	none					unpaired
-chr03	2											0.00		not_assessable	none					unpaired
-chr04	2											0.00		not_assessable	none					unpaired
-chr05	2											0.00		not_assessable	none					unpaired
-chr06	2											0.00		not_assessable	none					unpaired
-chr07	2											0.00		not_assessable	none					unpaired
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled	residual_partners	exchange_bp	exchange_support	exchange_segments	block_partners
+chr01	2											0.00		not_assessable	none					unpaired											chr02:5.8Mb
+chr02	2											0.00		not_assessable	none					unpaired											chr04:9.2Mb
+chr03	2											0.00		not_assessable	none					unpaired											
+chr04	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr07:0/4		yes	chr07	0			chr07:2.5Mb
+chr05	2											0.00		not_assessable	none					unpaired											chr03:2.5Mb
+chr06	2											0.00		not_assessable	none					unpaired											
+chr07	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr04:0/4		yes	chr04	0			chr04:5.5Mb

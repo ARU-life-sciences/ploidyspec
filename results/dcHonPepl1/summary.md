@@ -9,10 +9,10 @@
 
 ## Auto-like or allo-like?
 
-Not assessable: two haplotypes and no duplicated sets to compare. Diploid-like as assembled.
+Not assessable: duplicated blocks are detected (homeology map), but no whole-chromosome homeolog pairs to read the copies across.
 
 *Confidence:* not assessable  
-*Evidence:* no homeolog pairs, no genome partition
+*Evidence:* homeology map: 1% of the genome in blocks, 4 chromosome pairs; no whole-chromosome pairs
 
 ## TE markers
 
@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start.
+Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start. Also: homeolog blocks diverged to different depths (CV 0.17), as when regions resolve at different times.
 
-*Confidence:* low  
-*Evidence:* residual tetrasomy on 0/6 homeolog-paired chromosome numbers (no unrelated-chromosome control; shared repeats not excluded)
+*Confidence:* medium  
+*Evidence:* residual tetrasomy on 0/8 homeolog-paired chromosome numbers; homeology map: 1% of the genome in 9 homeolog blocks, 4 chromosome pairs, block-divergence CV 0.17
 

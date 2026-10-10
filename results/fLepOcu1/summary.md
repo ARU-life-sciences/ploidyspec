@@ -9,10 +9,10 @@
 
 ## Auto-like or allo-like?
 
-Allo-like (disomic-like): the duplicated sets do not interchange, from homeolog pairs. This is also what a long-rediploidized autopolyploid looks like.
+Not assessable: two haplotypes and no duplicated sets to compare. Diploid-like as assembled.
 
-*Confidence:* medium  
-*Evidence:* 2 chromosome numbers assessed: 2 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate
+*Confidence:* not assessable  
+*Evidence:* 1 whole-chromosome homeolog pair(s); no duplicated sets
 
 ## TE markers
 
@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start.
+Not assessable: no duplicated sets to read rediploidization from.
 
-*Confidence:* medium  
-*Evidence:* residual tetrasomy on 0/2 homeolog-paired chromosome numbers
+*Confidence:* not assessable  
+*Evidence:* residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs
 

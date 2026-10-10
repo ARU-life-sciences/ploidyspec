@@ -23,8 +23,8 @@ Repeat history tracks the lineages on 1 chromosome(s) only.
 
 ## Rediploidization
 
-Little sign: 1 chromosome(s) partly split among tetrasomic-like ones.
+Little sign: 1 chromosome(s) partly split among tetrasomic-like ones. Also: homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
 
 *Confidence:* low  
-*Evidence:* 1 split / 8 tetrasomic-like chromosomes; 1 regional split(s); residual tetrasomy on 0/16 homeolog-paired chromosome numbers; pair-depth CV 0.06
+*Evidence:* 1 split / 8 tetrasomic-like chromosomes; 1 regional split(s); residual tetrasomy on 0/16 homeolog-paired chromosome numbers; pair-depth CV 0.06; homeology map: 70% of the genome in 33 homeolog blocks, 8 chromosome pairs, block-divergence CV 0.13; exchange: chr03(chr06:1/4)
 

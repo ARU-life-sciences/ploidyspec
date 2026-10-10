@@ -1,25 +1,25 @@
-chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled
-chr01	2											0.00		not_assessable	none					unpaired						
-chr02	2											0.00		not_assessable	none					unpaired						
-chr03	2											0.00		not_assessable	none					unpaired						
-chr04	2											0.00		not_assessable	none					unpaired						
-chr05	2											0.00		not_assessable	none					unpaired						
-chr06	2											0.00		not_assessable	none					unpaired						
-chr07	2											0.00		not_assessable	none					unpaired						
-chr08	2											0.00		not_assessable	none					unpaired						
-chr09	2											0.00		not_assessable	none					unpaired						
-chr10	2											0.00		not_assessable	none					unpaired						
-chr11	2											0.00		not_assessable	none					unpaired						
-chr12	2											0.00		not_assessable	none					unpaired						
-chr13	2											0.00		not_assessable	none					unpaired						
-chr14	2											0.00		not_assessable	none					unpaired						
-chr15	2											0.00		not_assessable	none					unpaired						
-chr16	2											0.00		not_assessable	none					unpaired						
-chr17	2											0.00		not_assessable	none					unpaired						
-chr18	2											0.00		not_assessable	none					unpaired						
-chr19	2											0.00		not_assessable	none					unpaired						
-chr20	2											0.00		not_assessable	none					unpaired						
-chr21	2											0.00		not_assessable	none					unpaired						
-chr22	2											0.00		not_assessable	none					unpaired						
-chr23	2		with chr24 in HAP1									0.00		fusion_lineages	fusion			chr24		fusion_partner	0	0.000	0	1/2		yes
-chr24	1	HAP1	with chr23 in HAP1									0.00		fusion_lineages	fusion			chr23		fusion_partner						
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled	residual_partners	exchange_bp	exchange_support	exchange_segments	block_partners
+chr01	2											0.00		not_assessable	none					unpaired											
+chr02	2											0.00		not_assessable	none					unpaired											
+chr03	2											0.00		not_assessable	none					unpaired											
+chr04	2											0.00		not_assessable	none					unpaired											
+chr05	2											0.00		not_assessable	none					unpaired											
+chr06	2											0.00		not_assessable	none					unpaired											
+chr07	2											0.00		not_assessable	none					unpaired											
+chr08	2											0.00		not_assessable	none					unpaired											
+chr09	2											0.00		not_assessable	none					unpaired											
+chr10	2											0.00		not_assessable	none					unpaired											
+chr11	2											0.00		not_assessable	none					unpaired											
+chr12	2											0.00		not_assessable	none					unpaired											
+chr13	2											0.00		not_assessable	none					unpaired											
+chr14	2											0.00		not_assessable	none					unpaired											
+chr15	2											0.00		not_assessable	none					unpaired											
+chr16	2											0.00		not_assessable	none					unpaired											
+chr17	2											0.00		not_assessable	none					unpaired											
+chr18	2											0.00		not_assessable	none					unpaired											
+chr19	2											0.00		not_assessable	none					unpaired											
+chr20	2											0.00		not_assessable	none					unpaired											
+chr21	2											0.00		not_assessable	none					unpaired											
+chr22	2											0.00		not_assessable	none					unpaired											
+chr23	2		with chr24 in HAP1									0.00		fusion_lineages	fusion			chr24		fusion_partner	0	0.000	0	chr24:0/2		yes	chr24	28000000	chr24:1/2	HAP1:4.0-19.2Mb(start)~chr24;HAP1:23.8-32.5Mb(interior)~chr24;HAP1:33.5-37.5Mb(interior)~chr24	chr24:10.2Mb
+chr24	1	HAP1	with chr23 in HAP1									0.00		fusion_lineages	fusion			chr23		fusion_partner											

@@ -25,5 +25,5 @@ TE markers not run for this species.
 Not assessable from this assembly.
 
 *Confidence:* not assessable  
-*Evidence:* pair-depth CV 0.04
+*Evidence:* pair-depth CV 0.04; homeology map: 25% of the genome in 38 homeolog blocks, 11 chromosome pairs, block-divergence CV 0.09
 

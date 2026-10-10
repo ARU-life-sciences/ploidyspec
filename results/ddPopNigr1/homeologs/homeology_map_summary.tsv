@@ -1,0 +1,14 @@
+metric	value
+n_chromosomes	19
+n_blocks	0
+n_blocks_unmatched	4
+duplicated_frac	0.000
+duplicated_bp	0
+n_partner_pairs	0
+partner_pairs	
+multi_partner_chromosomes	0
+multi_partner_list	
+block_dist_median	
+block_dist_cv	
+null_run_windows	17
+min_block_windows	18

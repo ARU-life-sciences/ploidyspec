@@ -25,5 +25,6 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 Not assessable from this assembly.
 
-*Confidence:* not assessable
+*Confidence:* not assessable  
+*Evidence:* homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs
 

@@ -1,26 +1,26 @@
-chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled
-chr01	2			HAP1_chr01,HAP2_chr01	HAP2_chr03,HAP1_chr03	16.59						0.00		resolved_lineages	homeolog_pool	chr03		chr03	16.59	paired	0	0.000	0	0/4		yes
-chr02	2			HAP1_chr07,HAP2_chr07	HAP2_chr02,HAP1_chr02	15.94						0.00		resolved_lineages	homeolog_pool	chr07		chr07	15.94	paired	0	0.000	0	0/4		yes
-chr03	2			HAP1_chr01,HAP2_chr01	HAP2_chr03,HAP1_chr03	16.59						0.00		resolved_lineages	homeolog_pool	chr01		chr01	16.59	paired	0	0.000	0	0/4		yes
-chr04	2			HAP1_chr04,HAP2_chr04	HAP2_chr05,HAP1_chr05	14.83						0.00		resolved_lineages	homeolog_pool	chr05		chr05	14.83	paired	0	0.000	0	0/4		yes
-chr05	2			HAP1_chr04,HAP2_chr04	HAP2_chr05,HAP1_chr05	14.83						0.00		resolved_lineages	homeolog_pool	chr04		chr04	14.83	paired	0	0.000	0	0/4		yes
-chr06	2			HAP1_chr06,HAP2_chr06	HAP1_chr12,HAP2_chr12	17.23						0.00		resolved_lineages	homeolog_pool	chr12		chr12	17.23	paired	0	0.000	0	0/4		yes
-chr07	2			HAP1_chr07,HAP2_chr07	HAP2_chr02,HAP1_chr02	15.94						0.00		resolved_lineages	homeolog_pool	chr02		chr02	15.94	paired	0	0.000	0	0/4		yes
-chr08	2			HAP2_chr08,HAP1_chr08	HAP2_chr14,HAP1_chr14	16.40						0.00		resolved_lineages	homeolog_pool	chr14		chr14	16.40	paired	0	0.000	0	0/4		yes
-chr09	2			HAP1_chr09,HAP2_chr09	HAP2_chr11,HAP1_chr11	13.17						0.00		resolved_lineages	homeolog_pool	chr11		chr11	13.17	paired	0	0.000	0	0/4		yes
-chr10	2			HAP1_chr16,HAP2_chr16	HAP2_chr10,HAP1_chr10	19.70						0.00		resolved_lineages	homeolog_pool	chr16		chr16	19.70	paired	0	0.000	0	0/4		yes
-chr11	2			HAP1_chr09,HAP2_chr09	HAP2_chr11,HAP1_chr11	13.17						0.00		resolved_lineages	homeolog_pool	chr09		chr09	13.17	paired	0	0.000	0	0/4		yes
-chr12	2			HAP1_chr06,HAP2_chr06	HAP1_chr12,HAP2_chr12	17.23						0.00		resolved_lineages	homeolog_pool	chr06		chr06	17.23	paired	0	0.000	0	0/4		yes
-chr13	2			HAP2_chr13,HAP1_chr13	HAP2_chr20,HAP1_chr20	14.14						0.00		resolved_lineages	homeolog_pool	chr20		chr20	14.14	paired	0	0.000	0	0/4		yes
-chr14	2			HAP2_chr08,HAP1_chr08	HAP2_chr14,HAP1_chr14	16.40						0.00		resolved_lineages	homeolog_pool	chr08		chr08	16.40	paired	0	0.000	0	0/4		yes
-chr15	2											0.00		not_assessable	none					unpaired						
-chr16	2			HAP1_chr16,HAP2_chr16	HAP2_chr10,HAP1_chr10	19.70						0.00		resolved_lineages	homeolog_pool	chr10		chr10	19.70	paired	0	0.000	0	0/4		yes
-chr17	2			HAP1_chr17,HAP2_chr17	HAP2_chr22,HAP1_chr22	16.01						0.00		resolved_lineages	homeolog_pool	chr22		chr22	16.01	paired	0	0.000	0	0/4		yes
-chr18	2			HAP2_chr18,HAP1_chr18	HAP2_chr25,HAP1_chr25	13.33						0.00		resolved_lineages	homeolog_pool	chr25		chr25	13.33	paired	0	0.000	0	0/4		yes
-chr19	2			HAP1_chr19,HAP2_chr19	HAP2_chr23,HAP1_chr23	16.21						0.00		resolved_lineages	homeolog_pool	chr23		chr23	16.21	paired	0	0.000	0	0/4		yes
-chr20	2			HAP2_chr13,HAP1_chr13	HAP2_chr20,HAP1_chr20	14.14						0.00		resolved_lineages	homeolog_pool	chr13		chr13	14.14	paired	0	0.000	0	0/4		yes
-chr21	2			HAP1_chr24,HAP2_chr24	HAP2_chr21,HAP1_chr21	26.89						0.00		resolved_lineages	homeolog_pool	chr24		chr24	26.89	paired	0	0.000	0	0/4		yes
-chr22	2			HAP1_chr17,HAP2_chr17	HAP2_chr22,HAP1_chr22	16.01						0.00		resolved_lineages	homeolog_pool	chr17		chr17	16.01	paired	0	0.000	0	0/4		yes
-chr23	2			HAP1_chr19,HAP2_chr19	HAP2_chr23,HAP1_chr23	16.21						0.00		resolved_lineages	homeolog_pool	chr19		chr19	16.21	paired	0	0.000	0	0/4		yes
-chr24	2			HAP1_chr24,HAP2_chr24	HAP2_chr21,HAP1_chr21	26.89						0.00		resolved_lineages	homeolog_pool	chr21		chr21	26.89	paired	0	0.000	0	0/4		yes
-chr25	2			HAP2_chr18,HAP1_chr18	HAP2_chr25,HAP1_chr25	13.33						0.00		resolved_lineages	homeolog_pool	chr18		chr18	13.33	paired	0	0.000	0	0/4		yes
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled	residual_partners	exchange_bp	exchange_support	exchange_segments	block_partners
+chr01	2			HAP1_chr01,HAP2_chr01	HAP2_chr03,HAP1_chr03	16.59						0.00		resolved_lineages	homeolog_pool	chr03		chr03	16.59	paired	0	0.000	0	chr03:0/4;chr15:0/4;chr17:0/4;chr20:0/4		yes	chr03,chr15,chr17,chr20	0			chr03:16.0Mb,chr20:5.8Mb,chr15:4.2Mb,chr17:3.8Mb
+chr02	2			HAP1_chr07,HAP2_chr07	HAP2_chr02,HAP1_chr02	15.94						0.00		resolved_lineages	homeolog_pool	chr07		chr07	15.94	paired	0	0.000	0	chr07:0/4		yes	chr07	0			chr07:21.2Mb
+chr03	2			HAP1_chr01,HAP2_chr01	HAP2_chr03,HAP1_chr03	16.59						0.00		resolved_lineages	homeolog_pool	chr01		chr01	16.59	paired	0	0.000	0	chr01:0/4;chr15:0/4		yes	chr01,chr15	0			chr01:21.0Mb,chr15:5.0Mb
+chr04	2			HAP1_chr04,HAP2_chr04	HAP2_chr05,HAP1_chr05	14.83						0.00		resolved_lineages	homeolog_pool	chr05		chr05	14.83	paired	0	0.000	0	chr05:1/4		yes	chr05	0			chr05:15.0Mb
+chr05	2			HAP1_chr04,HAP2_chr04	HAP2_chr05,HAP1_chr05	14.83						0.00		resolved_lineages	homeolog_pool	chr04		chr04	14.83	paired	0	0.000	0	chr04:1/4		yes	chr04	0			chr04:16.8Mb
+chr06	2			HAP1_chr06,HAP2_chr06	HAP1_chr12,HAP2_chr12	17.23						0.00		resolved_lineages	homeolog_pool	chr12		chr12	17.23	paired	0	0.000	0	chr12:0/4		yes	chr12	0			chr12:11.0Mb
+chr07	2			HAP1_chr07,HAP2_chr07	HAP2_chr02,HAP1_chr02	15.94						0.00		resolved_lineages	homeolog_pool	chr02		chr02	15.94	paired	0	0.000	0	chr02:0/4		yes	chr02	0			chr02:18.8Mb
+chr08	2			HAP2_chr08,HAP1_chr08	HAP2_chr14,HAP1_chr14	16.40						0.00		resolved_lineages	homeolog_pool	chr14		chr14	16.40	paired	0	0.000	0	chr14:0/4		yes	chr14	0			chr14:7.5Mb
+chr09	2			HAP1_chr09,HAP2_chr09	HAP2_chr11,HAP1_chr11	13.17						0.00		resolved_lineages	homeolog_pool	chr11		chr11	13.17	paired	0	0.000	0	chr11:0/4		yes	chr11	0			chr11:14.8Mb
+chr10	2			HAP1_chr16,HAP2_chr16	HAP2_chr10,HAP1_chr10	19.70						0.00		resolved_lineages	homeolog_pool	chr16		chr16	19.70	paired	0	0.000	0	chr16:0/4;chr24:0/4		yes	chr16,chr24	0			chr16:10.5Mb,chr24:3.8Mb
+chr11	2			HAP1_chr09,HAP2_chr09	HAP2_chr11,HAP1_chr11	13.17						0.00		resolved_lineages	homeolog_pool	chr09		chr09	13.17	paired	0	0.000	0	chr09:0/4		yes	chr09	0			chr09:12.5Mb
+chr12	2			HAP1_chr06,HAP2_chr06	HAP1_chr12,HAP2_chr12	17.23						0.00		resolved_lineages	homeolog_pool	chr06		chr06	17.23	paired	0	0.000	0	chr06:0/4		yes	chr06	0			chr06:13.0Mb
+chr13	2			HAP2_chr13,HAP1_chr13	HAP2_chr20,HAP1_chr20	14.14						0.00		resolved_lineages	homeolog_pool	chr20		chr20	14.14	paired	0	0.000	0	chr20:0/4		yes	chr20	3750000	chr20:1/2	HAP1:7.3-11.0Mb(interior)~chr20	chr20:3.8Mb
+chr14	2			HAP2_chr08,HAP1_chr08	HAP2_chr14,HAP1_chr14	16.40						0.00		resolved_lineages	homeolog_pool	chr08		chr08	16.40	paired	0	0.000	0	chr08:0/4		yes	chr08	0			chr08:8.8Mb
+chr15	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr01:0/4;chr03:0/4		yes	chr01,chr03	0			chr01:7.8Mb,chr03:5.0Mb
+chr16	2			HAP1_chr16,HAP2_chr16	HAP2_chr10,HAP1_chr10	19.70						0.00		resolved_lineages	homeolog_pool	chr10		chr10	19.70	paired	0	0.000	0	chr10:0/4;chr21:0/4		yes	chr10,chr21	0			chr10:9.2Mb,chr21:4.2Mb
+chr17	2			HAP1_chr17,HAP2_chr17	HAP2_chr22,HAP1_chr22	16.01						0.00		resolved_lineages	homeolog_pool	chr22		chr22	16.01	paired	0	0.000	0	chr01:0/4;chr22:0/4		yes	chr01,chr22	0			chr01:4.8Mb
+chr18	2			HAP2_chr18,HAP1_chr18	HAP2_chr25,HAP1_chr25	13.33						0.00		resolved_lineages	homeolog_pool	chr25		chr25	13.33	paired	0	0.000	0	chr25:0/4		yes	chr25	0			chr25:6.5Mb
+chr19	2			HAP1_chr19,HAP2_chr19	HAP2_chr23,HAP1_chr23	16.21						0.00		resolved_lineages	homeolog_pool	chr23		chr23	16.21	paired	0	0.000	0	chr23:0/4		yes	chr23	0			chr23:6.8Mb
+chr20	2			HAP2_chr13,HAP1_chr13	HAP2_chr20,HAP1_chr20	14.14						0.00		resolved_lineages	homeolog_pool	chr13		chr13	14.14	paired	0	0.000	0	chr01:0/4;chr13:0/4		yes	chr01,chr13	0			chr01:6.5Mb,chr13:2.0Mb
+chr21	2			HAP1_chr24,HAP2_chr24	HAP2_chr21,HAP1_chr21	26.89						0.00		resolved_lineages	homeolog_pool	chr24		chr24	26.89	paired	0	0.000	0	chr16:0/4;chr24:0/4		yes	chr16,chr24	0			chr16:4.8Mb
+chr22	2			HAP1_chr17,HAP2_chr17	HAP2_chr22,HAP1_chr22	16.01						0.00		resolved_lineages	homeolog_pool	chr17		chr17	16.01	paired	0	0.000	0	chr17:0/4		yes	chr17	0			
+chr23	2			HAP1_chr19,HAP2_chr19	HAP2_chr23,HAP1_chr23	16.21						0.00		resolved_lineages	homeolog_pool	chr19		chr19	16.21	paired	0	0.000	0	chr19:0/4		yes	chr19	0			chr19:5.0Mb
+chr24	2			HAP1_chr24,HAP2_chr24	HAP2_chr21,HAP1_chr21	26.89						0.00		resolved_lineages	homeolog_pool	chr21		chr21	26.89	paired	0	0.000	0	chr10:0/4;chr21:0/4		yes	chr10,chr21	0			chr10:5.0Mb
+chr25	2			HAP2_chr18,HAP1_chr18	HAP2_chr25,HAP1_chr25	13.33						0.00		resolved_lineages	homeolog_pool	chr18		chr18	13.33	paired	0	0.000	0	chr18:0/4		yes	chr18	0			chr18:7.0Mb

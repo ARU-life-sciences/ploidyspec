@@ -16,3 +16,10 @@ n_distinct_fusions	0
 n_fused_scaffolds	0
 n_fusion_candidates_partner_present	0
 ancient_paired_chromosomes	22
+map_duplicated_frac	0.250
+map_n_blocks	38
+map_n_partner_pairs	11
+map_multi_partner_chromosomes	0
+map_multi_partner_list	
+map_block_dist_median	0.0450
+map_block_dist_cv	0.089

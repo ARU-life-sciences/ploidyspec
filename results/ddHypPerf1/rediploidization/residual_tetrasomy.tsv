@@ -1,15 +1,15 @@
-chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac
-chr05	chr06	HAP1_chr05		148	0	0	0.01846	0	8		0	0.000
-chr06	chr05	HAP1_chr06		148	0	0	0.01576	0	8		0	0.000
-chr06	chr06	HAP1_chr06		148	0	0	0.01576	0	8		0	0.000
-chr05	chr05	HAP2_chr05		148	0	0	0.01846	0	8		0	0.000
-chr05	chr06	HAP2_chr05		148	0	0	0.01846	0	8		0	0.000
-chr06	chr05	HAP2_chr06		148	0	0	0.01576	0	8		0	0.000
-chr06	chr06	HAP2_chr06		148	0	0	0.01576	0	8		0	0.000
-chr05	chr05	HAP3_chr05		148	0	0	0.01846	0	8		0	0.000
-chr05	chr06	HAP3_chr05		148	0	0	0.01846	0	8		0	0.000
-chr06	chr05	HAP3_chr06		148	0	0	0.01576	0	8		0	0.000
-chr06	chr06	HAP3_chr06		148	0	0	0.01576	0	8		0	0.000
-chr05	chr05	HAP4_chr05		148	0	0	0.01846	0	8		0	0.000
-chr05	chr06	HAP4_chr05		148	0	0	0.01846	0	8		0	0.000
-chr06	chr06	HAP4_chr06		148	0	0	0.01576	0	8		0	0.000
+chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac	n_exchange	exchange_segments	exchange_bp
+chr05	chr06	HAP1_chr05		148	0	0	0.01846	0	8		0	0.000	0		0
+chr06	chr05	HAP1_chr06		148	0	0	0.01576	0	8		0	0.000	0		0
+chr06	chr06	HAP1_chr06		148	0	0	0.01576	0	8		0	0.000	0		0
+chr05	chr05	HAP2_chr05		148	0	0	0.01846	0	8		0	0.000	0		0
+chr05	chr06	HAP2_chr05		148	0	0	0.01846	0	8		0	0.000	0		0
+chr06	chr05	HAP2_chr06		148	0	0	0.01576	0	8		0	0.000	0		0
+chr06	chr06	HAP2_chr06		148	0	0	0.01576	0	8		0	0.000	0		0
+chr05	chr05	HAP3_chr05		148	0	0	0.01846	0	8		0	0.000	0		0
+chr05	chr06	HAP3_chr05		148	0	0	0.01846	0	8		0	0.000	0		0
+chr06	chr05	HAP3_chr06		148	0	0	0.01576	0	8		0	0.000	0		0
+chr06	chr06	HAP3_chr06		148	0	0	0.01576	0	8		0	0.000	0		0
+chr05	chr05	HAP4_chr05		148	0	0	0.01846	0	8		0	0.000	0		0
+chr05	chr06	HAP4_chr05		148	0	0	0.01846	0	8		0	0.000	0		0
+chr06	chr06	HAP4_chr06		148	0	0	0.01576	0	8		0	0.000	0		0

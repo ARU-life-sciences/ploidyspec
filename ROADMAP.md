@@ -209,6 +209,30 @@ autopolyploid lineages).
 
 Newest first. Check a running batch with the command given for it.
 
+- **2026-10-10 — odd ploidy, homeology map, rediploidization signals; panel
+  re-run.** Per-species detail: `docs/species/species_breakdown.md`
+  (`docs/species/make_species_breakdown.py`).
+  - Odd ploidy: a haplotype file holding a second set is split into an extra
+    copy (`icStrMela3`: HAP1 chr11-20 -> HAP1B; now 3 copies x 10, AAB-like,
+    high). Simulation `allotriploid_one_file`.
+  - `homeology_map.py` (in `windowed-homeologs`): every window of one
+    haplotype against every other chromosome at k=23; reciprocal blocks.
+    Glechoma: its 9 known pairs exactly, 78% duplicated; diploid apple 0%.
+    Salmonids only 6-10%: exact k-mers see homeology up to ~8-10% divergence
+    (1 Mb windows no better). Simulation `segmental_homeology`.
+  - Residual tetrasomy per block pair, and windows need the own homolog near
+    too. Masu drops from 8 chromosomes / 54 Mb to 4 / 17.7 Mb: most of the
+    earlier signal was homeolog-swapped contigs in its reference-scaffolded
+    HAP2. New readings: homeologous exchange, chromosomes with blocks on 2+
+    partners (rearranged since the duplication), block-divergence spread.
+    Allelic level capped at 1.5x the genome median (a large exchange hid
+    itself).
+  - Summary: two-copy genomes need duplicated sets or >= 3 homeolog pairs
+    before structure/rediploidization are read (gar, bowfin, Pomatias,
+    Stagnicola, apple: one pair each, now not assessable).
+  - End-to-end 21/21. `ddHesMatr1` homeology hit the 12 h limit; re-running on
+    `long` (LSF 721291) -- its breakdown entry is from older outputs.
+
 - **2026-10-09 — non-plant batch follow-up.**
   - Whitefish: HAP2's NCBI numbering differs from HAP1's on 30 of 40
     chromosomes, in cycles (7->9->10->11->13->12->7, ...), all detected at

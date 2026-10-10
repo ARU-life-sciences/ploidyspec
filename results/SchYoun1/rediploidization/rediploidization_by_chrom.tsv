@@ -1,26 +1,26 @@
-chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state
-chr01	4			HAP2_chr01,HAP1_chr01	HAP3_chr01,HAP4_chr01	1.05	0.99	0.13	none	none	0.00	0.00		tetrasomic_like	copies					unpaired
-chr02	4			HAP1_chr02	HAP4_chr02,HAP2_chr02,HAP3_chr02	1.05	1.16	0.18	regional	regional	0.13	0.00	HAP2:0.0-5.0Mb	tetrasomic_like	copies					unpaired
-chr03	4			HAP2_chr03,HAP1_chr03	HAP4_chr03,HAP3_chr03	1.00	1.12	0.17	none	none	0.00	0.00		tetrasomic_like	copies					unpaired
-chr04	2	HAP2,HAP4	with chr15 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired
-chr05	4			HAP1_chr05	HAP2_chr05,HAP3_chr05,HAP4_chr05	1.05	0.88	0.16	none	none	0.00	0.00		tetrasomic_like	copies					unpaired
-chr06	4			HAP2_chr06,HAP1_chr06	HAP4_chr06,HAP3_chr06	1.01	0.83	0.13	none	none	0.00	0.00		tetrasomic_like	copies					unpaired
-chr07	4			HAP2_chr07	HAP4_chr07,HAP1_chr07,HAP3_chr07	1.01	0.83	0.09	none	none	0.00	0.00		tetrasomic_like	copies					unpaired
-chr08	2	HAP2,HAP4	with chr16 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired
-chr09	4			HAP2_chr09	HAP3_chr09,HAP1_chr09,HAP4_chr09	1.04	1.17	0.12	regional	regional	0.07	0.00	HAP3:21.0-23.5Mb	tetrasomic_like	copies					unpaired
-chr10	4			HAP2_chr10,HAP1_chr10	HAP4_chr10,HAP3_chr10	1.03	1.06	0.14	none	none	0.00	0.00		tetrasomic_like	copies					unpaired
-chr11	2	HAP2,HAP4	with chr14 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired
-chr12	4			HAP2_chr12,HAP1_chr12,HAP4_chr12	HAP3_chr12	1.03	1.04	0.13	regional	regional	0.11	0.00	HAP2:16.8-20.0Mb	tetrasomic_like	copies					unpaired
-chr13	4			HAP2_chr13,HAP1_chr13	HAP3_chr13,HAP4_chr13	1.02	0.94	0.11	none	none	0.00	0.00		tetrasomic_like	copies					unpaired
-chr14	2	HAP2,HAP4	with chr11 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired
-chr15	2	HAP2,HAP4	with chr04 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired
-chr16	2	HAP2,HAP4	with chr08 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired
-chr17	4			HAP2_chr17,HAP3_chr17	HAP4_chr17,HAP1_chr17	1.15	1.91	0.26	regional	regional	0.20	0.00	HAP3:26.8-33.4Mb	candidate	copies					unpaired
-chr18	4			HAP2_chr18	HAP3_chr18,HAP1_chr18,HAP4_chr18	1.02	1.17	0.11	none	none	0.00	0.00		tetrasomic_like	copies					unpaired
-chr19	2	HAP2,HAP4	with chr22 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired
-chr20	2	HAP2,HAP4	with chr23 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired
-chr21	4			HAP1_chr21,HAP2_chr21,HAP4_chr21	HAP3_chr21	1.04	1.09	0.12	none	regional	0.09	0.00	HAP2:7.8-10.5Mb	tetrasomic_like	copies					unpaired
-chr22	2	HAP2,HAP4	with chr19 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired
-chr23	2	HAP2,HAP4	with chr20 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired
-chr24	4			HAP2_chr24,HAP1_chr24,HAP3_chr24	HAP4_chr24	1.02	1.23	0.14	regional	regional	0.12	0.00	HAP3:15.8-19.0Mb	tetrasomic_like	copies					unpaired
-chr25	4			HAP1_chr25,HAP3_chr25	HAP4_chr25,HAP2_chr25	1.03	1.02	0.13	none	none	0.00	0.00		tetrasomic_like	copies					unpaired
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled	residual_partners	exchange_bp	exchange_support	exchange_segments	block_partners
+chr01	4			HAP2_chr01,HAP1_chr01	HAP3_chr01,HAP4_chr01	1.05	0.99	0.13	none	none	0.00	0.00		tetrasomic_like	copies					unpaired											
+chr02	4			HAP1_chr02	HAP4_chr02,HAP2_chr02,HAP3_chr02	1.05	1.16	0.18	regional	regional	0.13	0.00	HAP2:0.0-5.0Mb	tetrasomic_like	copies					unpaired											
+chr03	4			HAP2_chr03,HAP1_chr03	HAP4_chr03,HAP3_chr03	1.00	1.12	0.17	none	none	0.00	0.00		tetrasomic_like	copies					unpaired											
+chr04	2	HAP2,HAP4	with chr15 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired											
+chr05	4			HAP1_chr05	HAP2_chr05,HAP3_chr05,HAP4_chr05	1.05	0.88	0.16	none	none	0.00	0.00		tetrasomic_like	copies					unpaired											
+chr06	4			HAP2_chr06,HAP1_chr06	HAP4_chr06,HAP3_chr06	1.01	0.83	0.13	none	none	0.00	0.00		tetrasomic_like	copies					unpaired											
+chr07	4			HAP2_chr07	HAP4_chr07,HAP1_chr07,HAP3_chr07	1.01	0.83	0.09	none	none	0.00	0.00		tetrasomic_like	copies					unpaired											
+chr08	2	HAP2,HAP4	with chr16 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired											chr20:2.0Mb
+chr09	4			HAP2_chr09	HAP3_chr09,HAP1_chr09,HAP4_chr09	1.04	1.17	0.12	regional	regional	0.07	0.00	HAP3:21.0-23.5Mb	tetrasomic_like	copies					unpaired											
+chr10	4			HAP2_chr10,HAP1_chr10	HAP4_chr10,HAP3_chr10	1.03	1.06	0.14	none	none	0.00	0.00		tetrasomic_like	copies					unpaired											
+chr11	2	HAP2,HAP4	with chr14 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired											
+chr12	4			HAP2_chr12,HAP1_chr12,HAP4_chr12	HAP3_chr12	1.03	1.04	0.13	regional	regional	0.11	0.00	HAP2:16.8-20.0Mb	tetrasomic_like	copies					unpaired											
+chr13	4			HAP2_chr13,HAP1_chr13	HAP3_chr13,HAP4_chr13	1.02	0.94	0.11	none	none	0.00	0.00		tetrasomic_like	copies					unpaired											
+chr14	2	HAP2,HAP4	with chr11 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired											
+chr15	2	HAP2,HAP4	with chr04 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired											
+chr16	2	HAP2,HAP4	with chr08 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired											
+chr17	4			HAP2_chr17,HAP3_chr17	HAP4_chr17,HAP1_chr17	1.15	1.91	0.26	regional	regional	0.20	0.00	HAP3:26.8-33.4Mb	candidate	copies					unpaired											
+chr18	4			HAP2_chr18	HAP3_chr18,HAP1_chr18,HAP4_chr18	1.02	1.17	0.11	none	none	0.00	0.00		tetrasomic_like	copies					unpaired											
+chr19	2	HAP2,HAP4	with chr22 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired											
+chr20	2	HAP2,HAP4	with chr23 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired											
+chr21	4			HAP1_chr21,HAP2_chr21,HAP4_chr21	HAP3_chr21	1.04	1.09	0.12	none	regional	0.09	0.00	HAP2:7.8-10.5Mb	tetrasomic_like	copies					unpaired											
+chr22	2	HAP2,HAP4	with chr19 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired											
+chr23	2	HAP2,HAP4	with chr20 in HAP2,HAP4									0.00		fusion_lineages	fusion					unpaired											
+chr24	4			HAP2_chr24,HAP1_chr24,HAP3_chr24	HAP4_chr24	1.02	1.23	0.14	regional	regional	0.12	0.00	HAP3:15.8-19.0Mb	tetrasomic_like	copies					unpaired											
+chr25	4			HAP1_chr25,HAP3_chr25	HAP4_chr25,HAP2_chr25	1.03	1.02	0.13	none	none	0.00	0.00		tetrasomic_like	copies					unpaired											

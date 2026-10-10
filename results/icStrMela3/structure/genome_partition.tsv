@@ -1,10 +1,1 @@
 species	k	group_sizes	separation_ratio	null_mean_ratio	z_score	groups
-icStrMela3	10	2,2,2,2,2,2,2,2,2,2	1.8527	0.9988	22.74	chr01,chr11 | chr02,chr14 | chr03,chr12 | chr04,chr13 | chr05,chr17 | chr06,chr15 | chr07,chr18 | chr08,chr16 | chr09,chr19 | chr10,chr20
-icStrMela3	9	2,2,2,2,2,2,2,2,4	1.5827	0.9996	18.91	chr01,chr11 | chr02,chr14,chr08,chr16 | chr03,chr12 | chr04,chr13 | chr05,chr17 | chr06,chr15 | chr07,chr18 | chr09,chr19 | chr10,chr20
-icStrMela3	8	2,2,2,2,2,2,4,4	1.4301	1.0008	14.42	chr01,chr11 | chr02,chr14,chr08,chr16 | chr03,chr12 | chr04,chr13 | chr05,chr17,chr09,chr19 | chr06,chr15 | chr07,chr18 | chr10,chr20
-icStrMela3	7	2,2,2,2,2,2,8	1.2139	1.0011	10.70	chr01,chr11 | chr02,chr14,chr08,chr16,chr05,chr17,chr09,chr19 | chr03,chr12 | chr04,chr13 | chr06,chr15 | chr07,chr18 | chr10,chr20
-icStrMela3	6	2,2,2,2,2,10	1.1465	1.0005	9.09	chr01,chr11,chr02,chr14,chr08,chr16,chr05,chr17,chr09,chr19 | chr03,chr12 | chr04,chr13 | chr06,chr15 | chr07,chr18 | chr10,chr20
-icStrMela3	5	2,2,2,2,12	1.1101	1.0004	7.68	chr01,chr11,chr02,chr14,chr08,chr16,chr05,chr17,chr09,chr19,chr03,chr12 | chr04,chr13 | chr06,chr15 | chr07,chr18 | chr10,chr20
-icStrMela3	4	2,2,2,14	1.0875	0.9996	6.91	chr01,chr11,chr02,chr14,chr08,chr16,chr05,chr17,chr09,chr19,chr03,chr12,chr06,chr15 | chr04,chr13 | chr07,chr18 | chr10,chr20
-icStrMela3	3	2,2,16	1.0715	0.9993	6.16	chr01,chr11,chr02,chr14,chr08,chr16,chr05,chr17,chr09,chr19,chr03,chr12,chr06,chr15,chr07,chr18 | chr04,chr13 | chr10,chr20
-icStrMela3	2	2,18	1.0643	0.9990	4.41	chr01,chr11,chr02,chr14,chr08,chr16,chr05,chr17,chr09,chr19,chr03,chr12,chr06,chr15,chr07,chr18,chr04,chr13 | chr10,chr20

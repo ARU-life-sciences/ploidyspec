@@ -18,9 +18,19 @@ n_fusion_candidates_partner_present	0
 ancient_paired_chromosomes	16
 ancient_distance_ratio_median	494.70
 ancient_distance_ratio_cv	0.93
-residual_tested_chromosomes	16
+residual_tested_chromosomes	18
 residual_chromosomes	0
 residual_bp	0
 residual_terminal_frac	
 residual_null_run_windows	8
 residual_controlled	yes
+exchange_chromosomes	0
+exchange_bp	0
+exchange_list	
+map_duplicated_frac	0.168
+map_n_blocks	38
+map_n_partner_pairs	9
+map_multi_partner_chromosomes	0
+map_multi_partner_list	
+map_block_dist_median	0.0420
+map_block_dist_cv	0.063

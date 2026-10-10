@@ -2,4 +2,4 @@ species	question	answer	confidence	evidence
 ddSalCine1	ploidy	Not assessable from this assembly: only one usable haplotype (18 chromosome numbers).	not assessable	no duplicated sets of chromosome numbers detected
 ddSalCine1	origin_like_structure	Not assessable from this assembly.	not assessable	fewer than three copies and nothing to pool
 ddSalCine1	te_markers	TE markers not run for this species.	not assessable	
-ddSalCine1	rediploidization	Not assessable from this assembly.	not assessable	
+ddSalCine1	rediploidization	Not assessable: no duplicated sets to read rediploidization from.	not assessable	homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs

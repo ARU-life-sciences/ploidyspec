@@ -1,5 +1,5 @@
 species	question	answer	confidence	evidence
-ddSalTria1	ploidy	3 haplotype copies of each of 19 chromosome numbers; no older duplicated sets detected.	high	copies from the assembly (3 per number)
+ddSalTria1	ploidy	3 haplotype copies of each of 19 chromosome numbers; an odd copy number (triploid-like or higher odd ploidy); no older duplicated sets detected.	high	copies from the assembly (3 per number)
 ddSalTria1	origin_like_structure	Auto-like (tetrasomic-like): on most chromosomes all copies are about equally close.	medium	19 chromosome numbers assessed: 0 split into lineages, 13 tetrasomic-like, 6 one divergent copy, 0 candidate
 ddSalTria1	te_markers	Repeat history tracks the lineages on 2 chromosome(s) only.	low	TE split >= 2 on 2/19 chromosomes (median 1.22); absolute te_marker_fraction 0.2473 (reference only)
-ddSalTria1	rediploidization	No sign yet: copies interchangeable throughout.	medium	0 split / 13 tetrasomic-like chromosomes; 0 regional split(s); residual tetrasomy on 0/4 homeolog-paired chromosome numbers; pair-depth CV 0.02
+ddSalTria1	rediploidization	No sign yet: copies interchangeable throughout.	medium	0 split / 13 tetrasomic-like chromosomes; 0 regional split(s); residual tetrasomy on 0/4 homeolog-paired chromosome numbers; pair-depth CV 0.02; homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs

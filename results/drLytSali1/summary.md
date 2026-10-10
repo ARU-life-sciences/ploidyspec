@@ -23,8 +23,8 @@ Repeat history tracks the lineages on 1 chromosome(s) only.
 
 ## Rediploidization
 
-No sign yet: copies interchangeable throughout.
+No sign yet: copies interchangeable throughout. Also: 4 chromosome(s) carry blocks homeologous to two or more others (chr04:chr05+chr07, chr05:chr04+chr10, chr07:chr04+chr10, chr10:chr05+chr07): fusions, fissions or translocations since the duplication.
 
 *Confidence:* medium  
-*Evidence:* 0 split / 13 tetrasomic-like chromosomes; 1 regional split(s); residual tetrasomy on 0/10 homeolog-paired chromosome numbers; pair-depth CV 0.05
+*Evidence:* 0 split / 13 tetrasomic-like chromosomes; 1 regional split(s); residual tetrasomy on 0/10 homeolog-paired chromosome numbers; pair-depth CV 0.05; homeology map: 36% of the genome in 24 homeolog blocks, 7 chromosome pairs, block-divergence CV 0.05
 

@@ -1,3 +1,1 @@
 scaffold	hap	length	origin	components	containment	sibling_excess	lineage_divergence	max_z	status
-HAP1_chr33	HAP1	38517081	placed_long_copy	chr30+chr33	chr30:0.912	chr30:6.46	chr30:0.0040	60.9	candidate_partner_present
-HAP2_chr35	HAP2	34359488	placed_long_copy	chr35+chr38	chr38:0.812	chr38:3.89	chr38:0.0091	53.3	candidate_partner_present

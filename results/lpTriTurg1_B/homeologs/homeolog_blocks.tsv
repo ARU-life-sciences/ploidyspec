@@ -1,0 +1,5 @@
+anchor	chrom	partner	start	end	length	n_windows	median_dist	median_z	position	reciprocal
+HAP1_chr02	chr02	chr03	410000001	413500000	3500000	8	0.01745	5.10	interior	no
+HAP1_chr02	chr02	chr03	536500001	539750000	3250000	8	0.01484	4.93	interior	no
+HAP1_chr05	chr05	chr04	500001	3250000	2750000	9	0.02877	4.32	start	no
+HAP1_chr05	chr05	chr04	12250001	14500000	2250000	8	0.01818	4.47	start	no
