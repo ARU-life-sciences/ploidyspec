@@ -21,6 +21,8 @@
   raw("laPotPerf1"), emph("Potamogeton perfoliatus"), "2 × 26", "60%", "Allo-like (disomic-like) (medium)", "Advanced (medium)",
   raw("daPilAura1"), emph("Pilosella aurantiaca"), "2 × 18", "82%", "One copy apart on most chromosomes, changing haplotype between chromo… (medium)", "Partly (medium)",
   raw("llColAutu1"), emph("Colchicum autumnale"), "2 × 51", "46%", "Allo-like (disomic-like) (high)", "Partly (medium)",
+  raw("lpElePalu1"), emph(""), "2 × 19", "69%", "Auto-like origin, mostly rediploidized (medium)", "Partly (medium)",
+  raw("lpTriTurg1"), emph("Triticum turgidum"), "2 × 14", "7%", "Allo-like (disomic-like) (medium)", "Diverged throughout the paired chromosomes (medium)",
   table.cell(colspan: 6, fill: soft, text(weight: "bold", "Cryptic or partial duplication in two-haplotype genomes")),
   raw("daInuConz1"), emph("Inula conyza (now Pentanema conyzae)"), "2 × 16", "1%", "Allo-like (disomic-like) (medium)", "Diverged throughout the paired chromosomes (medium)",
   raw("dmRanRepe1"), emph("Ranunculus repens"), "2 × 16", "0%", "Not assessable (not assessable)", "Not assessable (not assessable)",
@@ -377,6 +379,44 @@
 ), (
 ))
 
+#spcard("lpElePalu1", "", "", "", (
+  ("Assembly", "HAP1 (19), HAP2 (19); 19 chromosome numbers, 2 copies each; 1116 sequences unplaced"),
+  ("Numbering fixes", "corrected 1, swapped 1"),
+  ("Distances", "same number 0.0184, different numbers 0.0905"),
+  ("Homeolog pairs", "9 (median 0.020, CV 0.5434)"),
+  ("Homeology map", "69% of the genome in 108 blocks; 14 chromosome pairs; block CV 0.476; two or more partners: chr01:chr02+chr18, chr02:chr01+chr03+chr07+chr18, chr03:chr02+chr18, chr07:chr02+chr08, chr13:chr06+chr17, chr18:chr01+chr02+chr03"),
+  ("States", "tetrasomic like 8, candidate 4, resolved lineages 4, one divergent copy 2, not assessable 1"),
+  ("Fusions", "none"),
+  ("Residual tetrasomy", "10 of 19 tested, 310.0 Mb, 52% terminal; chr04 38.0 Mb (chr05:4/4); chr05 39.5 Mb (chr04:4/4); chr07 3.0 Mb (chr02:0/4;chr08:3/4); chr08 7.8 Mb (chr07:3/4); chr09 32.0 Mb (chr10:4/4); chr10 33.5 Mb (chr09:4/4); +4 more"),
+  ("Exchange candidates", "chr01 14.5 Mb (chr18:2/2); chr02 15.2 Mb (chr03:1/2;chr07:2/2;chr18:1/2); chr03 11.0 Mb (chr02:1/2); chr07 10.8 Mb (chr02:2/2;chr08:1/2); chr08 6.8 Mb (chr07:1/2); chr10 2.8 Mb (chr09:1/2); +5 more"),
+), (
+  ("Ploidy", "medium", "2 haplotype copies of each of 19 chromosome numbers; the numbers form sets of 2 (7 groups of mostly 2 chromosome numbers), so x ≈ 7 and up to 4x relative to x.", "copies from the assembly (2 per number); 7 groups of mostly 2 chromosome numbers (genome partition z = 15.6); homeolog distance 0.020 vs unrelated 0.091"),
+  ("Auto- or allo-like", "medium", "Auto-like origin, mostly rediploidized: the duplicated sets have separated along most of their length, but 10 of 19 paired chromosome numbers keep stretches where the homeologs are as close as alleles (residual tetrasomy). That is expected after an autopolyploidization; recent homeologous exchanges in an allopolyploid can leave similar stretches.", "18 chromosome numbers assessed: 4 split into lineages, 8 tetrasomic-like, 2 one divergent copy, 4 candidate; residual tetrasomy on 10/19 homeolog-paired chromosome numbers (5 pair(s)), 310.0 Mb, 52% of it terminal"),
+  ("TE markers", "not assessable", "Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it.", "te_marker_fraction mean 0.0819"),
+  ("Rediploidization", "medium", "Partly: 10 of 19 homeolog-paired chromosome numbers keep stretches of residual tetrasomy (310.0 Mb, 52% of it at chromosome ends) where the homeologs are still as close as alleles; elsewhere they have diverged. Also: 6 chromosome(s) carry blocks homeologous to two or more others (chr01:chr02+chr18, chr02:chr01+chr03+chr07+chr18, chr03:chr02+chr18, chr07:chr02+chr08, chr13:chr06+chr17, chr18:chr01+chr02+chr03): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.48), as when regions resolve at different times; homeologous-exchange candidates on 11 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).", "residual tetrasomy on 10/19 homeolog-paired chromosome numbers (5 pair(s)), 310.0 Mb, 52% of it terminal; pair-depth CV 0.54; homeology map: 69% of the genome in 108 homeolog blocks, 14 chromosome pairs, block-divergence CV 0.48; exchange: chr01(chr18:2/2);chr02(chr03:1/2;chr07:2/2;chr18:1/2);chr03(chr02:1/2);chr07(chr02:2/2;chr08:1/2);chr08(chr07:1/2);chr10(chr09:1/2);chr11(chr12:1/2);chr12(chr11:1/2);chr15(chr14:1/2);chr16(chr19:1/2);chr17(chr13:1/2)"),
+), (
+  "Holocentric chromosomes (Eleocharis): fission and fusion are frequent, so chromosome numbers need not reflect ancestral units. HAP2 chr11/chr12 were swapped in the assembly (corrected; confirmed collinear by alignment).",
+))
+
+#spcard("lpTriTurg1", "Triticum turgidum", "2n = 4x = 28 (AABB), allotetraploid", "known", (
+  ("Assembly", "HAP1 (14), HAP2 (14); 14 chromosome numbers, 2 copies each; 1876 sequences unplaced"),
+  ("Numbering fixes", "corrected 14"),
+  ("Distances", "same number 0.0004, different numbers 0.0812"),
+  ("Homeolog pairs", "0"),
+  ("Homeology map", "7% of the genome in 52 blocks; 1 chromosome pairs; block CV 0.090"),
+  ("States", "resolved lineages 14"),
+  ("Fusions", "none"),
+  ("Residual tetrasomy", "0 of 2 tested, 0.0 Mb"),
+  ("Exchange candidates", "none"),
+), (
+  ("Ploidy", "medium", "2 haplotype copies of each of 14 chromosome numbers; the numbers form sets of 2 (no accepted pairs, but a balanced two-group partition), so x ≈ 7 and up to 4x relative to x.", "copies from the assembly (2 per number); no accepted pairs, but a balanced two-group partition (7 vs 7, z = 11.2)"),
+  ("Auto- or allo-like", "medium", "Allo-like (disomic-like): the duplicated sets do not interchange, from a genome-wide partition (no accepted pairs). This is also what a long-rediploidized autopolyploid looks like.", "14 chromosome numbers assessed: 14 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate"),
+  ("TE markers", "not assessable", "Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it.", "te_marker_fraction mean 0.0137"),
+  ("Rediploidization", "medium", "Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start.", "residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 7% of the genome in 52 homeolog blocks, 1 chromosome pairs, block-divergence CV 0.09"),
+), (
+  "Chromosomes numbered automatically (by length); the k=2 partition is exactly the A (1A-7A) and B (1B-7B) subgenomes. No A-B homeolog pair is detectable by k-mers.",
+))
+
 == Cryptic or partial duplication in two-haplotype genomes
 
 #spcard("daInuConz1", "Inula conyza (now Pentanema conyzae)", "tetraploid, 2n=4x=32, base number x=8 -- confirmed across at least 7 independent karyological studies spanning 1977-2024, single cytotype reported (no mixed-ploidy populations found for this species specifically, unlike some congeners); 2n=32; origin: allo-leaning, from clade-level context rather than a direct genomic study of this species: the Pentanema conyzae clade (Inula's Inuleae relatives, this species' genus following 2018 recircumscription) shows \"reticulate patterns... best explained by hybridization and introgression\" (Gutierrez-Larruscain et al. 2018) and allopolyploidization is explicitly proposed as a diversification mechanism within this exact clade (Gutierrez-Larruscain et al. 2019, AFLP fingerprinting, for congeners P. langeanum/P. maletii); ploidy across the clade ranges 2n=2x=16 (diploid) to hexaploid on the same x=8 base -- this species' tetraploid level is consistent with being an early/founding polyploidization step in that documented reticulate history", "Siljak-Yakovlev, Garnatje, Perez-Lorenzo & Valles 2024; Garnatje et al. 2024 Flora Mediterranea; Santos-Vicente, Rico & Martinez-Ortega 2009 Taxon (IAPT/IOPB data 8); Morton 1977 Watsonia; Marhold et al. 2009/2013 Taxon; Zonneveld 2019; Chalup & Seijo 2013 Taxon; Gutierrez-Larruscain et al. 2018 Taxon (Pentanema phylogeny); Gutierrez-Larruscain et al. 2019 Bot J Linn Soc (AFLP)", (
@@ -431,6 +471,7 @@
   ("TE markers", "not assessable", "Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it.", "te_marker_fraction mean 0.1979"),
   ("Rediploidization", "medium", "Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start.", "residual tetrasomy on 0/36 homeolog-paired chromosome numbers; pair-depth CV 0.03; homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs"),
 ), (
+  "Each of its 18 homeolog pairs joins a large and a small chromosome: subgenomes of different chromosome size (found after the size adjustment).",
 ))
 
 #spcard("daSonOler1", "Sonchus oleraceus", "not formally verified this session; general recollection of 2n=18 (n=9) flagged as uncertain, conflicts with our n=16; uncertain, possible discrepancy; origin: n/a (appears diploid from our own data)", "none formally checked", (

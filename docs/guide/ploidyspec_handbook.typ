@@ -260,7 +260,10 @@ Four limits shape every answer the tool gives.
 + *k-mers see homeology only up to about 8–10% divergence.* Glechoma's
   homeologs (0.042 apart) are mapped over 79% of the genome; the ~90-My-old
   salmonid duplication over 16–30%, and Cerastium's homeologs (~0.08 apart)
-  are found by the whole-chromosome test but not by the window map.
+  are found by the whole-chromosome test but not by the window map. In durum
+  wheat, whose genome is mostly fast-turning-over transposons, no A–B pair is
+  detectable at all; the subgenomes show only as a partition by repeat
+  content.
   "Not detected" never means "not there".
 
 #caution(title: "Assembly artefacts look like biology")[
@@ -960,6 +963,7 @@ test (22 tests) runs the whole pipeline on each scenario.
   [`SchCurv1`, `SchYoun1`], [autotetraploid snow carps, fusions (Xie et al. 2026)], [all published fusions, in wave order; mixed with fusions],
   [`drLytSali1`], [tetrasomic by classical genetics], [13/15 `tetrasomic_like`],
   [`icStrMela3`], [triploid, AAB (k-mer ploidy plot)], [3 copies, AAB-like (high)],
+  [`lpTriTurg1`], [durum wheat, AABB], [no homeolog pair is detectable (A–B intergenic sequence turned over), but the genome partition splits the 14 automatically numbered chromosomes into exactly the 7 A and 7 B (z = 11.3); allo-like via the partition],
 )
 
 // ================================================================ 8

@@ -1,2 +1,3 @@
-status	unit_id	old_chrom	new_chrom	own_group_dist	alt_group_dist	ratio
-ambiguous	HAP2_chr12	12	11	0.020691	0.006472	3.20
+status	unit_id	old_chrom	new_chrom	own_group_dist	alt_group_dist	ratio	new_hap
+swapped	HAP2_chr11	11	12	0.020292	0.020375	1.00	
+corrected	HAP2_chr12	12	11	0.020691	0.006472	3.20	

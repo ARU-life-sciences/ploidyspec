@@ -1,0 +1,15 @@
+status	unit_id	old_chrom	new_chrom	own_group_dist	alt_group_dist	ratio	new_hap
+corrected	HAP2_chr1001	1001	1	nan	0.000764	inf	
+corrected	HAP2_chr1002	1002	2	nan	0.000333	inf	
+corrected	HAP2_chr1003	1003	3	nan	0.000098	inf	
+corrected	HAP2_chr1004	1004	4	nan	0.000311	inf	
+corrected	HAP2_chr1005	1005	5	nan	0.000125	inf	
+corrected	HAP2_chr1006	1006	7	nan	0.000436	inf	
+corrected	HAP2_chr1007	1007	9	nan	0.001041	inf	
+corrected	HAP2_chr1008	1008	10	nan	0.000247	inf	
+corrected	HAP2_chr1009	1009	8	nan	0.000812	inf	
+corrected	HAP2_chr1010	1010	12	nan	0.001061	inf	
+corrected	HAP2_chr1011	1011	6	nan	0.001523	inf	
+corrected	HAP2_chr1012	1012	11	nan	0.000604	inf	
+corrected	HAP2_chr1013	1013	13	nan	0.000400	inf	
+corrected	HAP2_chr1014	1014	14	nan	0.000259	inf	

@@ -1,0 +1,14 @@
+metric	value
+n_chromosomes	14
+n_blocks	52
+n_blocks_unmatched	97
+duplicated_frac	0.067
+duplicated_bp	684250000
+n_partner_pairs	1
+partner_pairs	chr13xchr14
+multi_partner_chromosomes	0
+multi_partner_list	
+block_dist_median	0.0160
+block_dist_cv	0.090
+null_run_windows	13
+min_block_windows	14

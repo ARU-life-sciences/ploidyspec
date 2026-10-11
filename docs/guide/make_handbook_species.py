@@ -21,7 +21,7 @@ GROUPS = [
     ("Two-haplotype genomes with duplicated sets (allo-like anchors and relatives)",
      ["daGleHede1", "drTriRepe1", "drSorDevo1", "ddSalPent1", "drMyrVert1", "drMyrSpic1", "drRosSpin1",
       "daLatSqua1", "daLatClan1", "daSenVulg1", "laPotCris1", "laPotLuce1", "laPotNata1", "laPotNodo1",
-      "laPotPerf1", "daPilAura1", "llColAutu1", "lpElePalu1"]),
+      "laPotPerf1", "daPilAura1", "llColAutu1", "lpElePalu1", "lpTriTurg1"]),
     ("Cryptic or partial duplication in two-haplotype genomes",
      ["daInuConz1", "dmRanRepe1", "dcCerAlpi1", "daSonOler1", "dcHonPepl1"]),
     ("Genomes assembled with three or more copies",
@@ -32,7 +32,7 @@ GROUPS = [
      ["ddMalSylv1", "fLepOcu1", "fAmiCal2", "xgCepNemo3", "xgHygCinc1", "xgDauRufa1", "xgLitLitt3",
       "xgMonCant1", "xgPomEleg1", "xgStaPalu1", "lpTriTurg1_A", "lpTriTurg1_B"]),
     ("One usable haplotype", ["daEupConf1", "ddAraThal4", "ddPopNigr1", "ddSalCine1", "drIngLaur1",
-                              "drTriDubi3", "drUrtDioi1", "lpTriTurg1_AB"]),
+                              "drTriDubi3", "drUrtDioi1"]),
 ]
 
 

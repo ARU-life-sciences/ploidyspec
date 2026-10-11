@@ -48,7 +48,7 @@ EXTRA = {
     "xgLitLitt3": ("Littorina littorea", "selected as a WGD candidate (periwinkle)", "candidate list"),
     "lpTriTurg1_A": ("Triticum turgidum, A subgenome", "2n = 4x = 28 (AABB); A run alone", "known"),
     "lpTriTurg1_B": ("Triticum turgidum, B subgenome", "2n = 4x = 28 (AABB); B run alone", "known"),
-    "lpTriTurg1_AB": ("Triticum turgidum", "2n = 4x = 28 (AABB), allotetraploid", "known"),
+    "lpTriTurg1": ("Triticum turgidum", "2n = 4x = 28 (AABB), allotetraploid", "known"),
 }
 
 # known issues that the result files cannot show by themselves
@@ -59,7 +59,12 @@ NOTES = {
     "xgMonCant1": "HAP1 carries chr23+chr24 fused, HAP2 has them apart: a fusion polymorphism or a "
                   "scaffolding join; HAP2 was numbered automatically.",
     "lpElePalu1": "Holocentric chromosomes (Eleocharis): fission and fusion are frequent, so chromosome "
-                  "numbers need not reflect ancestral units.",
+                  "numbers need not reflect ancestral units. HAP2 chr11/chr12 were swapped in the assembly "
+                  "(corrected; confirmed collinear by alignment).",
+    "lpTriTurg1": "Chromosomes numbered automatically (by length); the k=2 partition is exactly the A "
+                  "(1A-7A) and B (1B-7B) subgenomes. No A-B homeolog pair is detectable by k-mers.",
+    "dcCerAlpi1": "Each of its 18 homeolog pairs joins a large and a small chromosome: subgenomes of "
+                  "different chromosome size (found after the size adjustment).",
     "icStrMela3": "HAP1 holds two chromosome sets (A as chr1-10, B as chr11-20); the matrix stage splits B "
                   "out as HAP1B. HAP1 chr09 sits between A and B (0.030 to HAP2 chr09, 0.027 to B).",
     "fCorLav1": "HAP2's NCBI chromosome numbers differ from HAP1's on 30 of 40 chromosomes (cycles); "

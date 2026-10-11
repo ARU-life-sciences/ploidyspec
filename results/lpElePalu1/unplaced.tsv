@@ -604,8 +604,8 @@ CFRUDG010000602.1	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/a
 CFRUDG010000603.1	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	1000	below-min-len
 OZ485895.1	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	866511	below-min-len
 OZ485896.1	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264755.1/insdc/GCA_986264755.1.fa.gz	187968	below-min-len
-CFRUDF010000003.1	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	4510583	no-chrom-match
-CFRUDF010000016.1	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	6745856	no-chrom-match
+CFRUDF010000003.1	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	4510583	unlocalised
+CFRUDF010000016.1	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	6745856	unlocalised
 CFRUDF010000022.1	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	10921156	no-chrom-match
 CFRUDF010000023.1	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	5492000	no-chrom-match
 CFRUDF010000024.1	/lustre/scratch122/tol/data/e/e/e/d/3/9/Eleocharis_palustris/assembly/release/GCA_986264795.1/insdc/GCA_986264795.1.fa.gz	4658159	no-chrom-match
