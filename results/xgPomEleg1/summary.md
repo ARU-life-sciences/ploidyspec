@@ -12,7 +12,7 @@
 Not assessable: two haplotypes and no duplicated sets to compare. Diploid-like as assembled.
 
 *Confidence:* not assessable  
-*Evidence:* 1 whole-chromosome homeolog pair(s); no duplicated sets
+*Evidence:* 0 whole-chromosome homeolog pair(s); no duplicated sets
 
 ## TE markers
 

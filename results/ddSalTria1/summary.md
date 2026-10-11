@@ -23,8 +23,8 @@ Repeat history tracks the lineages on 2 chromosome(s) only.
 
 ## Rediploidization
 
-No sign yet: copies interchangeable throughout.
+No sign yet: copies interchangeable throughout. Also: lineage switches on 1 chromosome(s) (chr03): a copy that is one lineage's sequence along part of its length and another's along the rest (homeologous exchange, or a phasing switch between copies).
 
 *Confidence:* medium  
-*Evidence:* 0 split / 13 tetrasomic-like chromosomes; 0 regional split(s); residual tetrasomy on 0/4 homeolog-paired chromosome numbers; pair-depth CV 0.02; homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs
+*Evidence:* 0 split / 13 tetrasomic-like chromosomes; 0 regional split(s); residual tetrasomy on 0/6 homeolog-paired chromosome numbers; pair-depth CV 0.03; homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs
 

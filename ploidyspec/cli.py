@@ -363,7 +363,8 @@ def cmd_windowed_homeologs(args):
         # segmental homeology genome-wide: block pairs join the whole-chromosome
         # pairs for the windowed tracks (salmonid homeology runs per arm)
         compute_homeology_map(seq_tsv, args.outdir, samtools_bin, fastk_bin, logex_bin, histex_bin,
-                              args.window, step, args.threads, args.min_segment_bp)
+                              args.window, step, args.threads, args.min_segment_bp,
+                              reuse=getattr(args, "reuse_map_windows", False))
         if getattr(args, "map_only", False):
             return
     whole = set(pairs)
@@ -478,6 +479,8 @@ def cmd_rediploidization(args):
         residual_ratio=args.residual_ratio,
         residual_homeolog_frac=args.residual_homeolog_frac,
         residual_min_run=args.residual_min_run,
+        window=getattr(args, "window", 250_000),
+        window_k=getattr(args, "window_k", 15),
     )
 
     def tools():
@@ -691,6 +694,10 @@ def main(argv=None):
         help="skip the genome-wide homeology map (blocks of segmental homeology; every "
         "chromosome against every other in one haplotype) and use whole-chromosome pairs only")
     p_win_homeo.add_argument(
+        "--reuse-map-windows", action="store_true",
+        help="re-analyse an existing raw homeology-map window table instead of recomputing "
+        "it (when only the analysis has changed)")
+    p_win_homeo.add_argument(
         "--map-only", action="store_true",
         help="only (re)compute the homeology map, not the pair tracks")
     p_win_homeo.add_argument("--min-segment-bp", type=int, default=DEFAULT_MIN_SEGMENT_BP,
@@ -750,6 +757,9 @@ def main(argv=None):
     )
     add_common_args(p_redip)
     add_rediploidization_args(p_redip)
+    add_window_k_arg(p_redip)
+    p_redip.add_argument("--window", type=int, default=250_000,
+                         help="window size in bp for the fusion profiles (default 250000)")
     p_redip.set_defaults(func=cmd_rediploidization)
 
     p_struct = sub.add_parser(

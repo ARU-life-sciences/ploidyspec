@@ -301,6 +301,31 @@ class TestDetectRelabeling(unittest.TestCase):
                          {"HAP2_chr02": "3", "HAP2_chr03": "1", "HAP2_chr01": "4"})
         self.assertTrue(next(c for c in corrections if c["unit_id"] == "HAP2_chr01")["displaced"])
 
+    def test_one_sided_swap_applies_when_the_total_improves(self):
+        # lpElePalu1: HAP2_chr12 is clearly chr11; HAP2_chr11 is tied between
+        # chr11 and chr12, so the swap costs it nothing
+        units = [unit("HAP1_chr11", "HAP1", "11", "fileA"), unit("HAP1_chr12", "HAP1", "12", "fileA"),
+                 unit("HAP1_chr13", "HAP1", "13", "fileA"),
+                 unit("HAP2_chr11", "HAP2", "11", "fileB"), unit("HAP2_chr12", "HAP2", "12", "fileB"),
+                 unit("HAP2_chr13", "HAP2", "13", "fileB")]
+        distance = symmetric_matrix(6, {(0, 1): 0.019, (3, 0): 0.0203, (3, 1): 0.0204,
+                                        (4, 0): 0.0065, (4, 1): 0.0207, (2, 5): 0.005}, default=0.073)
+        corrections, ambiguous = detect_relabeling(units, distance)
+        self.assertEqual(ambiguous, [])
+        self.assertEqual({c["unit_id"]: c["new_chrom"] for c in corrections},
+                         {"HAP2_chr12": "11", "HAP2_chr11": "12"})
+
+    def test_swap_that_makes_one_side_worse_stays_ambiguous(self):
+        # daPilAura1 chr01/chr14: both HAP2 copies prefer HAP1 chr14
+        units = [unit("HAP1_chr01", "HAP1", "1", "fileA"), unit("HAP1_chr14", "HAP1", "14", "fileA"),
+                 unit("HAP1_chr02", "HAP1", "2", "fileA"),
+                 unit("HAP2_chr01", "HAP2", "1", "fileB"), unit("HAP2_chr14", "HAP2", "14", "fileB"),
+                 unit("HAP2_chr02", "HAP2", "2", "fileB")]
+        distance = symmetric_matrix(6, {(0, 1): 0.043, (3, 1): 0.0267, (3, 0): 0.0452,
+                                        (4, 1): 0.0406, (4, 0): 0.0515, (2, 5): 0.01}, default=0.08)
+        corrections, _ = detect_relabeling(units, distance)
+        self.assertEqual(corrections, [])
+
     def test_move_into_occupied_non_moving_slot_is_rejected_not_applied(self):
         # regression: real lpElePalu1 run crashed because HAP2_chr12 was
         # "corrected" to chr11 while the genuinely-correct HAP2_chr11 stayed

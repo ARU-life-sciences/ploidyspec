@@ -23,7 +23,7 @@ Repeat content differs between the split copies on several chromosomes, but the 
 
 ## Rediploidization
 
-Not assessable: the copies split as one divergent set (AAAB-like), not into lineages within a duplicated genome. Also: homeologous-exchange candidates on 2 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
+Not assessable: the copies split as one divergent set (AAAB-like), not into lineages within a duplicated genome. Also: lineage switches on 1 chromosome(s) (chr06): a copy that is one lineage's sequence along part of its length and another's along the rest (homeologous exchange, or a phasing switch between copies); homeologous-exchange candidates on 2 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
 
 *Confidence:* not assessable  
 *Evidence:* 0 split / 0 tetrasomic-like chromosomes; 0 regional split(s); residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs; exchange: chr01(chr03:1/4);chr03(chr01:1/4)

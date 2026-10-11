@@ -15,7 +15,20 @@ copy_state:not_assessable	0
 n_distinct_fusions	5
 n_fused_scaffolds	10
 n_fusion_candidates_partner_present	0
-ancient_paired_chromosomes	0
+ancient_paired_chromosomes	2
+ancient_distance_ratio_median	9.28
+ancient_distance_ratio_cv	0.00
+residual_tested_chromosomes	2
+residual_chromosomes	0
+residual_bp	0
+residual_terminal_frac	
+residual_null_run_windows	8
+residual_controlled	yes
+exchange_chromosomes	0
+exchange_bp	0
+exchange_list	
+lineage_switch_chromosomes	0
+lineage_switch_list	
 map_duplicated_frac	0.000
 map_n_blocks	0
 map_n_partner_pairs	0

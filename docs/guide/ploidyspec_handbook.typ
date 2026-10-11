@@ -258,8 +258,9 @@ Four limits shape every answer the tool gives.
   its homeolog's sequence and is far from its own homolog. ploidyspec now
   tests both (Section 4.10) because the first version confused them.
 + *k-mers see homeology only up to about 8–10% divergence.* Glechoma's
-  homeologs (0.042 apart) are mapped over 78% of the genome; the ~90-My-old
-  salmonid duplication only over 6–10% (the least-diverged regions).
+  homeologs (0.042 apart) are mapped over 79% of the genome; the ~90-My-old
+  salmonid duplication over 16–30%, and Cerastium's homeologs (~0.08 apart)
+  are found by the whole-chromosome test but not by the window map.
   "Not detected" never means "not there".
 
 #caution(title: "Assembly artefacts look like biology")[
@@ -404,8 +405,12 @@ disk, so all later stages see the corrected numbers.
     a mutual swap needs only ≥ 2× on both sides (`ddHesMatr1`, 3.1× and 2.3×).
   + A move into a slot whose occupant stays would duplicate a unit name. If the
     occupant is no closer to its own label than to the slot the matching gave
-    it, it is *displaced* there (the label had no support). Otherwise the whole
-    file's batch is rejected as `ambiguous`, never partly applied.
+    it, it is *displaced* there (the label had no support). If the move vacates
+    the occupant's matched slot, costs it ≤ 5% and improves the two units'
+    summed distance ≥ 1.5×, the pair is *swapped* (evidence on one side only:
+    `lpElePalu1` HAP2 chr12 is 3.2× closer to chr11 while HAP2 chr11 is tied).
+    Otherwise the whole file's batch is rejected as `ambiguous`, never partly
+    applied.
 ]
 The displacement rule was added for the European whitefish (`fCorLav1`): its
 HAP2 numbering differs from HAP1 on 30 of 40 chromosomes in long cycles (7 → 9
@@ -434,15 +439,25 @@ Monacha fusion leftover) is never a set.
 #algo("homeolog pairs")[
   + For every pair of chromosome numbers (i, j): the mean distance over all copy
     combinations, so each number is one node whatever its copy count.
+  + *Size adjustment*: regress these distances on log(L_i) + log(L_j) and
+    |log L_i − log L_j| (three rounds, dropping pairs beyond 3 robust SD so
+    homeologs do not shape the fit) and keep each pair's residual around the
+    mean. Pairs are tested, and the partition and pooling are run, on these
+    `adjusted_distance` values.
   + Fit the background: mean and SD of all pair distances, σ-clipping low values
     (2σ, 3 rounds) so a genome full of homeologs does not hide its own signal.
   + z = (d − mean) / SD; one-sided normal p; Benjamini–Hochberg q.
   + Accept pairs with q ≤ 0.05 *and* d ≤ 0.98 × median background (`--min-effect`
     2%), greedily one partner per number, closest first.
 ]
-The 2% effect floor exists because a tight background makes tiny differences
-significant: on simulated diploids, a pair 1.25% below the median reached
-z = −4. Outputs: `homeolog_pairs.tsv`, every candidate in
+The size adjustment exists because whole-chromosome distance depends on the
+chromosomes' sizes: it correlates 0.8 with the size difference in Cerastium
+and in the diploid _Malva_. Without it, clustering sorted chromosomes into
+large and small, and Cerastium's and Ranunculus's "two subgenomes" were exactly
+that; adjusted, Cerastium resolves into 18 pairs and Ranunculus shows no clear
+structure. The 2% effect floor exists because a tight background makes tiny
+differences significant: on simulated diploids, a pair 1.25% below the median
+reached z = −4. Outputs: `homeolog_pairs.tsv`, every candidate in
 `homeolog_candidates_ranked.tsv`, and per chromosome in
 `ploidy_ancestry_summary.tsv` (`distance_ratio` = homeolog distance / own
 allelic distance).
@@ -464,6 +479,9 @@ pairs from the map), plus control tracks.
   + Take the haplotype with the most chromosomes. Window every chromosome
     (250 kb) against every *other* chromosome of that haplotype, at k = 23
     (Section 3.4; n² profiles).
+  + *Size correction*: a larger chromosome contains more of any window's k-mers.
+    Fit one slope of window distance on log(target length) over all (window,
+    target) pairs, dropping outliers, and subtract it.
   + Per window: the closest chromosome, the median distance to all others, and
     robust z = (median − closest) / (1.4826 MAD). Homeolog-like if z ≥ 3.
   + Label each window with its closest chromosome if homeolog-like, else none.
@@ -476,7 +494,14 @@ pairs from the map), plus control tracks.
   + Pairs of numbers with ≥ 2 Mb of reciprocal blocks join the pair list;
     chromosomes with reciprocal blocks on two or more partners are reported.
 ]
-Why k = 23: at k = 15 about 40% of a window's k-mers occur by chance in any
+Why the size correction: in the repeat-rich _Hesperis matronalis_ (six
+chromosomes of up to 875 Mb, every window 0.022–0.026 from every chromosome)
+the closest chromosome was simply the largest, producing chr01/chr02 "blocks"
+over 21% of the genome; in Arctic charr, ten unmatched blocks pointed at its
+largest chromosome, which alignment showed shares only scattered short hits
+with them. A per-target baseline would also remove this, but absorbs real
+homeology where many chromosomes are related (_Lathraea_), so a single slope is
+used. Why k = 23: at k = 15 about 40% of a window's k-mers occur by chance in any
 100 Mb chromosome, and salmonid homeologs barely stand out (masu 0.049 vs 0.057
 for unrelated chromosomes). Why reciprocity: homeology runs both ways, repeats
 need not. Without it, Glechoma gained two short blocks onto chr16 at a third of
@@ -559,6 +584,33 @@ scaffolding join, not rediploidization; the summary says so.
     crossing grouping of its own chromosome.
 ]
 
+=== Lineage switches
+
+#algo("lineage switches (three or more copies)")[
+  + Along each copy, label every window with its closest other copy of the same
+    number; runs of one label (2-window gaps bridged) covering ≥ 10% of the
+    chromosome and ≥ 2 Mb are kept.
+  + Two consecutive runs with neighbours X then Y are a *switch* when over the
+    first the copy is ≥ 2.5× closer to X than to Y (median over windows), over
+    the second the reverse, and the far copy sits ≥ 3× the genome's allelic
+    level away (per chromosome the most allelic copy's median closest
+    distance; median over chromosomes).
+]
+The exchange readout compares different chromosome numbers; when subgenome
+copies share a number, an exchange shows as a switch. The weevil's HAP1 chr09
+is A to 40 Mb and B after it. In polysomic genomes the nearest copy changes in
+short blocks between equally close copies, which the contrast and lineage-level
+rules exclude.
+
+=== Divergence along fused chromosomes
+
+Each confirmed fusion is windowed along the fused sequence against the unfused
+copies of its components (`d_unfused`, labelled by component) and the other
+fused copy (`d_fused`). The junction is the boundary that best separates the
+two components' windows; `junction_gradient` = median `d_unfused` within the
+inner 20% of each arm over the outer 20%. Above 1 means divergence peaks at the
+fusion site (Xie et al. 2026).
+
 === Pooling for two-copy genomes
 
 With two copies per number nothing can be split. The chromosome is pooled with
@@ -599,7 +651,9 @@ from Section 4.5, for every homeolog pair (whole-chromosome or block).
     - the copy's *own* homolog is also within 3 × allelic level (in residual
       tetrasomy every copy is close to every other);
     - the unrelated control is not as close (shared repeats are close to every
-      chromosome carrying them).
+      chromosome carrying them);
+    - the window is not low-complexity: its sequence compresses (zlib) to at
+      least 0.75 of the genome's median ratio.
   + Runs of near-allelic windows (1-window gaps bridged) count when longer than
     the 95th percentile of the genome-wide longest run under shuffling (200
     permutations), floored at 8 windows, and ≥ 2 Mb.
@@ -616,6 +670,18 @@ from Section 4.5, for every homeolog pair (whole-chromosome or block).
   + No pair vote: an exchange is usually carried by one copy;
     `exchange_support` says how many.
 ]
+#caution(title: "Why the complexity guard matters")[
+  Position-free containment cannot tell shared repeats from shared sequence.
+  Glechoma's chr14/chr17 block (16–22 Mb) read as near-allelic in all eight
+  copy directions, but it is a centromeric satellite: it compresses to
+  0.06–0.13 against 0.32 for the rest of the chromosome and aligns at only
+  94–96%. Homeologous centromeres inherit one satellite family, so the
+  unrelated control does not remove it. _Lathraea clandestina_'s chr03/chr04
+  segment is repeat-dense (0.19–0.27 against a median 0.29) and aligns at
+  98–99% against 99.9–100% for the alleles. Pilosella's segments, by contrast,
+  align at the allelic level (99.6–99.8%) and are kept.
+]
+
 #caution(title: "Why the own-homolog condition matters")[
   The first version counted any window close to a homeolog copy. An exchange in
   one copy then passed the pair vote from the three copies that see it (the
@@ -641,8 +707,9 @@ sets are stated.
 
 *Origin-like structure.*
 + A fusion on one haplotype with no other duplication: not assessable.
-+ Two copies and no duplication evidence (no sets and fewer than 3 pairs by
-  either method): not assessable (gar and bowfin pass one pair each).
++ Two copies and no duplication evidence (no sets, fewer than 3 whole-
+  chromosome pairs at |z| ≥ 5, and fewer than 3 map pairs): not assessable
+  (gar and bowfin pass one pair each; Stagnicola one strong and two marginal).
 + One copy apart on most chromosomes: the same haplotype every time is read as
   an assembly or phasing problem, unless that haplotype is a split-out extra
   set, which reads as AAB-like (high); changing haplotype reads as A…AB-like.
@@ -741,27 +808,26 @@ same nine pairs, no chromosome with two partners, block CV 0.047.
   detected (diverged beyond k-mer reach, or lost).])
 
 *Rediploidization stage.* Each chromosome is pooled with its partner (four
-copies); every pool splits by `dist_split` 3.5–4.6, so 16 chromosomes are
-`resolved_lineages`. The residual test finds one pair, chr14/chr17: 2.75 Mb
-on HAP1 chr14 (16.8–19.5 Mb) and 6.75 Mb on HAP2 chr17 (16.0–22.8 Mb),
-mid-chromosome, support 3 of 4. Both chromosomes become `partially_resolved`.
+copies); every pool splits by `dist_split` 3.5–4.6, so all 18 are
+`resolved_lineages`. The residual test finds nothing. An earlier version called
+chr14/chr17 residual-tetrasomic over a mid-chromosome block (figure below);
+that block is a centromeric satellite and is now excluded (Section 4.10).
 
 #figure(image("../../results/daGleHede1/homeologs/windowed_chr14x17.png", width: 100%),
   caption: [chr14 × chr17, all eight copy directions. Outside ~14–23 Mb the
-  homeologs are 0.03–0.05 apart; inside they drop to ~0.003, as close as
-  alleles. A mid-chromosome block like this could be retained pairing, a
-  recent homeologous exchange shared by both haplotypes, or a centromeric
-  repeat specific to this pair: the data cannot tell which.])
+  homeologs are 0.03–0.05 apart; inside, k-mer containment says ~0.003, as close
+  as alleles. Alignment disagrees (94–96% identity there, for the allele as well
+  as the homeolog), and the block compresses 3–5× better than the rest of the
+  chromosome: a satellite array shared by the two homeologous centromeres, not
+  retained pairing.])
 
 *Summary.* Ploidy: 2 copies × 18 numbers in sets of 2, x ≈ 9, up to 4x.
-Origin: allo-like (disomic-like), high: one residual pair is not enough to call
-an auto-like origin (the rule needs two independent pairs). Rediploidization:
-partly, 9.5 Mb of residual tetrasomy on one pair, plus one exchange candidate.
+Origin: allo-like (disomic-like), high. Rediploidization: diverged throughout.
 
 *What to take away.* Glechoma is the textbook allo-like genome: a single
-synchronous duplication, every chromosome paired, and almost no shared
-stretches. The one near-identical block is worth a look but does not change the
-reading.
+synchronous duplication, every chromosome paired, no stretch where homeologs
+are as close as alleles. Its one apparent exception taught the tool to ignore
+repeat-dense windows.
 
 == Schizothorax curvilabiatus: rediploidization by fusion
 
@@ -788,7 +854,9 @@ chromosomes (17 of 25) are `tetrasomic_like`.
 *Summary.* 4 copies × 25, no older sets. Origin: mixed (tetrasomic-like and
 split chromosomes). Rediploidization: yes, one fusion between copies (the snow
 carp mechanism), high. This is the published result of Xie et al. (2026),
-recovered without being told where to look.
+recovered without being told where to look. Aligning HAP3 chr17 to HAP1 shows
+why chr17 splits only at its end: HAP3 is inverted from ~27 Mb to the end, the
+inversion mechanism Xie et al. describe for this chromosome.
 
 == Strophosoma melanogrammum: an AAB triploid in two files
 
@@ -810,9 +878,13 @@ odd haplotype HAP1B, on 9 of 10 chromosomes.
 Origin: AAB-like, one divergent chromosome set, high. Rediploidization: not
 assessable (a divergent set is not a lineage that split off).
 
-*The odd one out.* On chr09 the outlier is HAP2, not HAP1B: HAP1 chr09 sits
-between A and B (0.030 to HAP2 chr09, 0.027 to B). A homeologous exchange, or a
-phasing mix-up in HAP1 chr09; worth checking in the assembly.
+*The odd one out.* On chr09 the outlier is HAP2, not HAP1B. Along HAP1 chr09
+the windows show why: it matches the other A copy over 0–40 Mb (0.004 against
+0.015 to B) and the B copy from 40 Mb to its end (0.004 against 0.018 to A), so
+chr09 reads AAB on one half and ABB on the other. The lineage-switch readout
+(Section 4.9) reports it as `HAP1:0.0-40.0Mb~HAP2;40.0-81.4Mb~HAP1B`: a
+homeologous exchange with replacement, or a phasing switch between the two sets
+held in HAP1's file (Hi-C would tell).
 
 == Oncorhynchus masou: when a guard is missing
 
@@ -831,25 +903,27 @@ from its own HAP2 A (which carries B's). Three of the four copies see a
 near-allelic stretch and the pair vote passed. The tell: those windows' own
 homolog distance was 0.03–0.085, homeolog distance.
 
-*The current result.* With the own-homolog condition: residual tetrasomy on 4
-chromosomes in 2 pairs (chr17/chr29 and chr28/chr33, both seen from all 4
-copies), 17.7 Mb, 70% at chromosome ends; exchange candidates on 5 chromosomes, each in
-1 of 2 copies (the swapped contigs, now read as what they are). The homeology
-map finds 10% of the genome in blocks with two chromosomes carrying two
-partners (chr10: chr12+chr13; chr28: chr05+chr33).
+*The current result.* With the own-homolog condition and the repeat guard:
+residual tetrasomy on one pair, chr17/chr29 (8.6 Mb, seen from all 4 copies);
+exchange candidates on 3 chromosomes, each in 1 of 2 copies (the swapped
+contigs, now read as what they are). The size-corrected homeology map finds
+16.5% of the genome in blocks, 17 chromosome pairs, and 8 chromosomes with
+blocks on two or three others (chr32: chr01+chr04+chr33): the reshuffled
+salmonid karyotype. One residual pair is not enough to call an auto-like
+origin, so the origin reads allo-like (medium).
 
 *What to take away.* Our own preprocessing produced the strongest
 "biological" signal in the panel. Masu remains a useful salmonid, but its
 residual numbers carry that history; Arctic charr and whitefish, assembled
-with both haplotypes scaffolded, are the cleaner salmonid tests, and the
-k-mer method only reaches their least-diverged 6–17%.
+with both haplotypes scaffolded, are the cleaner salmonid tests. The k-mer map
+reaches 18–30% of their genomes; neither shows residual tetrasomy.
 
 #figure(image("../../results/fSalAlp3/homeologs/homeology_map.png", width: 82%),
-  caption: [Arctic charr: the salmonid duplication is mostly beyond k-mer reach.
-  Reciprocal blocks (solid) cover 6% of the genome. Hatched blocks on chr12 and
-  chr24 point at chr01 (the largest chromosome, 117 Mb) without a block back:
-  consistent with chr01 being a fused chromosome whose arms are homeologous to
-  chr12 and chr24, but too weak from chr01's side to count.])
+  caption: [Arctic charr after the size correction: reciprocal blocks (solid)
+  cover 18% of the genome in 18 chromosome pairs, and 6 chromosomes carry
+  blocks on two homeologs (salmonid fusions since the duplication). Before the
+  correction, ten unmatched blocks pointed at chr01, the largest chromosome;
+  alignment showed only scattered short hits, a target-size artefact.])
 
 // ================================================================ 7
 = Validation
@@ -859,7 +933,7 @@ k-mer method only reaches their least-diverged 6–17%.
 `ploidyspec simulate` writes random-sequence genomes with transposable-element
 families at high copy number; every haplotype except HAP1 carries a
 transposition and an inversion, so copies are not collinear. The end-to-end
-test (21 tests) runs the whole pipeline on each scenario.
+test (22 tests) runs the whole pipeline on each scenario.
 
 #table(
   columns: (1.3fr, 2.7fr, 1.4fr),
@@ -868,9 +942,9 @@ test (21 tests) runs the whole pipeline on each scenario.
   [autotetraploid], [four equivalent haplotypes], [all `tetrasomic_like`, no blocks],
   [autotetraploid, 2 hap], [the same, each base chromosome numbered twice], [pairs (i, i+n), pooled `tetrasomic_like`],
   [allotetraploid], [two progenitors, own TE bursts, 2 haplotypes], [`resolved_lineages`, no residual tetrasomy],
-  [rediploidized], [whole and 40% lineage splits, a placed and an unplaced fusion], [states and both fusions],
+  [rediploidized], [whole and 40% lineage splits, a placed and an unplaced fusion], [states, both fusions, and the fusion junction at the middle of each fused copy],
   [mislabelled], [one file shifted by one, a swap in another], [all relabelled],
-  [residual tetrasomy], [diverged homeologs except the tails of two pairs; a satellite at every chromosome start], [residual on exactly those four chromosomes; satellite excluded by the control; "auto-like origin"],
+  [residual tetrasomy], [diverged homeologs except the last 60% of two pairs; a satellite at every chromosome start], [residual on exactly those four chromosomes; satellite excluded; "auto-like origin"],
   [allotriploid, one file], [AAB with A + B in HAP1's file], [HAP1B split out; AAB-like],
   [segmental homeology], [a fused chromosome whose arms are homeologous to two others; an exchange in one haplotype], [two partners on chr01; exchange on HAP1 chr04 only],
 )
@@ -931,11 +1005,23 @@ test (21 tests) runs the whole pipeline on each scenario.
 
 == Open questions
 
-- Confirm the Glechoma chr14/chr17 block, the Lathraea chr03/chr04 and the
-  Pilosella chr04/chr05 residual segments with dotplots.
-- Check weevil HAP1 chr09 (between A and B).
-- Gene-based methods for old duplications (salmonids, snails).
-- The `SchCurv1` chr17 block against Xie et al.'s coordinates.
+Settled on 10–11 October (by alignment, read k-mer spectra, or a fix):
+Glechoma chr14/chr17 (satellite), Lathraea chr03/chr04 (repeats; 98–99% vs
+99.9% alleles), Pilosella chr04/chr05 (real: homeolog = allele identity),
+weevil chr09 (A to 40 Mb, B after: a lineage switch), snow carp chr17 (an
+inversion in HAP3 from ~27 Mb), Monacha (HAP2 chr24 + chr23 joined at
+~37 Mb), drAriEdul1 chr01 (a 19 Mb divergent HAP4 block), _Salix triandra_
+(triploid) and _Rosa spinosissima_ (tetraploid, AABB), Hesperis chr01/chr02
+and charr chr01 (size artefacts), Cerastium (18 large–small homeolog pairs:
+subgenomes of different chromosome size) and Ranunculus (no structure once
+size is removed).
+
+Still open:
+- Xie et al.'s exact coordinates for the `SchCurv1` chr17 inversion.
+- Primary chromosome counts for Cerastium and Ranunculus.
+- Hi-C to tell biology from assembly for the weevil chr09 switch and the
+  Monacha join.
+- Gene-based methods for duplications beyond k-mer reach (salmonids, snails).
 
 // ================================================================ 9
 = Every species so far

@@ -2,10 +2,10 @@
 
 ## Ploidy
 
-2 haplotype copies of each of 26 chromosome numbers; the numbers form sets of 2 (10 groups of mostly 2 chromosome numbers), so x ≈ 10 and up to 4x relative to x.
+2 haplotype copies of each of 26 chromosome numbers; the numbers form sets of 2 (12 groups of mostly 2 chromosome numbers), so x ≈ 12 and up to 4x relative to x.
 
-*Confidence:* medium  
-*Evidence:* copies from the assembly (2 per number); 10 groups of mostly 2 chromosome numbers (genome partition z = 15.0); homeolog distance 0.080 vs unrelated 0.117
+*Confidence:* high  
+*Evidence:* copies from the assembly (2 per number); 12 groups of mostly 2 chromosome numbers (genome partition z = 19.5); homeolog distance 0.080 vs unrelated 0.117
 
 ## Auto-like or allo-like?
 
@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 6 chromosome(s) carry blocks homeologous to two or more others (chr01:chr06+chr15+chr16+chr22, chr03:chr12+chr19+chr24, chr06:chr01+chr22, chr15:chr01+chr18, chr19:chr03+chr21, chr22:chr01+chr06): fusions, fissions or translocations since the duplication.
+Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 9 chromosome(s) carry blocks homeologous to two or more others (chr01:chr06+chr15+chr16+chr22, chr03:chr12+chr19+chr24, chr06:chr01+chr22, chr12:chr03+chr21, chr15:chr01+chr18, chr16:chr01+chr20, chr19:chr03+chr21, chr21:chr12+chr19, chr22:chr01+chr06): fusions, fissions or translocations since the duplication.
 
 *Confidence:* medium  
-*Evidence:* residual tetrasomy on 0/26 homeolog-paired chromosome numbers; pair-depth CV 0.11; homeology map: 48% of the genome in 47 homeolog blocks, 17 chromosome pairs, block-divergence CV 0.05
+*Evidence:* residual tetrasomy on 0/26 homeolog-paired chromosome numbers; pair-depth CV 0.11; homeology map: 71% of the genome in 57 homeolog blocks, 19 chromosome pairs, block-divergence CV 0.05
 

@@ -1,7 +1,13 @@
-chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac	n_exchange	exchange_segments	exchange_bp
-chr02	chr08	HAP1B_chr02	chr01	505	2	9	0.00415	2	8		0	0.000	16		0
-chr08	chr02	HAP1B_chr08	chr01	496	1	9	0.00585	1	8		0	0.000	171	2.25-12.50Mb(start);13.25-17.00Mb(interior);19.25-22.75Mb(interior);28.50-35.00Mb(interior);35.50-38.75Mb(interior);42.00-44.50Mb(interior);64.75-69.00Mb(interior)	34000000
-chr02	chr08	HAP1_chr02	chr01	614	1	0	0.00415	1	8		0	0.000	0		0
-chr08	chr02	HAP1_chr08	chr01	357	0	6	0.00585	0	8		0	0.000	0		0
-chr02	chr08	HAP2_chr02	chr01	618	2	0	0.00415	2	8		0	0.000	0		0
-chr08	chr02	HAP2_chr08	chr01	352	0	1	0.00585	0	8		0	0.000	0		0
+chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac	n_exchange	exchange_segments	exchange_bp	n_low_complexity
+chr02	chr08	HAP1B_chr02	chr09	505	2	8	0.00415	2	8		0	0.000	16		0	10
+chr05	chr09	HAP1B_chr05	chr08	497	0	11	0.00395	0	8		0	0.000	0		0	15
+chr08	chr02	HAP1B_chr08	chr05	496	0	10	0.00585	0	8		0	0.000	170	2.25-12.50Mb(start);13.25-17.00Mb(interior);19.25-22.75Mb(interior);28.50-35.00Mb(interior);35.50-38.75Mb(interior);42.00-44.50Mb(interior);64.75-69.00Mb(interior)	34000000	15
+chr09	chr05	HAP1B_chr09	chr02	321	0	11	0.00673	0	8		0	0.000	0		0	11
+chr02	chr08	HAP1_chr02	chr09	614	1	0	0.00415	1	8		0	0.000	0		0	4
+chr05	chr09	HAP1_chr05	chr08	480	0	3	0.00395	0	8		0	0.000	0		0	7
+chr08	chr02	HAP1_chr08	chr05	357	0	6	0.00585	0	8		0	0.000	0		0	9
+chr09	chr05	HAP1_chr09	chr02	326	0	4	0.00673	0	8		0	0.000	1		0	5
+chr02	chr08	HAP2_chr02	chr09	618	2	0	0.00415	2	8		0	0.000	0		0	4
+chr05	chr09	HAP2_chr05	chr08	462	0	6	0.00395	0	8		0	0.000	0		0	9
+chr08	chr02	HAP2_chr08	chr05	352	0	1	0.00585	0	8		0	0.000	0		0	2
+chr09	chr05	HAP2_chr09	chr02	349	0	0	0.00673	0	8		0	0.000	0		0	2

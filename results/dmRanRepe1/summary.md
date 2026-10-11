@@ -2,17 +2,17 @@
 
 ## Ploidy
 
-2 haplotype copies of each of 16 chromosome numbers; the numbers form sets of 2 (no accepted pairs, but a balanced two-group partition), so x ≈ 8 and up to 4x relative to x.
+2 haplotype copies of each of 16 chromosome numbers; no older duplicated sets detected.
 
-*Confidence:* medium  
-*Evidence:* copies from the assembly (2 per number); no accepted pairs, but a balanced two-group partition (8 vs 8, z = 10.9)
+*Confidence:* high  
+*Evidence:* copies from the assembly (2 per number)
 
 ## Auto-like or allo-like?
 
-Allo-like (disomic-like): the duplicated sets do not interchange, from a genome-wide partition (no accepted pairs). This is also what a long-rediploidized autopolyploid looks like.
+Not assessable: two haplotypes and no duplicated sets to compare. Diploid-like as assembled.
 
-*Confidence:* medium  
-*Evidence:* 16 chromosome numbers assessed: 16 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate
+*Confidence:* not assessable  
+*Evidence:* 0 whole-chromosome homeolog pair(s); no duplicated sets
 
 ## TE markers
 
@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start. Also: homeolog blocks diverged to different depths (CV 0.20), as when regions resolve at different times.
+Not assessable: no duplicated sets to read rediploidization from.
 
-*Confidence:* medium  
-*Evidence:* residual tetrasomy on 0/4 homeolog-paired chromosome numbers; homeology map: 0% of the genome in 5 homeolog blocks, 2 chromosome pairs, block-divergence CV 0.20
+*Confidence:* not assessable  
+*Evidence:* residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 0% of the genome in 10 homeolog blocks, 1 chromosome pairs, block-divergence CV 0.07
 

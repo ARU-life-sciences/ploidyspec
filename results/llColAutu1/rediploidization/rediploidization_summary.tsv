@@ -18,7 +18,7 @@ n_fusion_candidates_partner_present	0
 ancient_paired_chromosomes	48
 ancient_distance_ratio_median	568.19
 ancient_distance_ratio_cv	0.59
-residual_tested_chromosomes	49
+residual_tested_chromosomes	51
 residual_chromosomes	2
 residual_bp	5000000
 residual_terminal_frac	0.00
@@ -27,10 +27,12 @@ residual_controlled	yes
 exchange_chromosomes	0
 exchange_bp	0
 exchange_list	
-map_duplicated_frac	0.331
-map_n_blocks	133
-map_n_partner_pairs	20
-map_multi_partner_chromosomes	2
-map_multi_partner_list	chr04:chr10+chr12+chr49;chr10:chr04+chr17
-map_block_dist_median	0.0427
-map_block_dist_cv	0.079
+lineage_switch_chromosomes	0
+lineage_switch_list	
+map_duplicated_frac	0.462
+map_n_blocks	295
+map_n_partner_pairs	30
+map_multi_partner_chromosomes	7
+map_multi_partner_list	chr04:chr10+chr12+chr49;chr06:chr15+chr27+chr51;chr10:chr04+chr17;chr20:chr44+chr48;chr27:chr06+chr37;chr29:chr36+chr43;chr43:chr29+chr33
+map_block_dist_median	0.0437
+map_block_dist_cv	0.103

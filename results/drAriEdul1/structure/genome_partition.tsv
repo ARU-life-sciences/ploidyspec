@@ -1,8 +1,8 @@
 species	k	group_sizes	separation_ratio	null_mean_ratio	z_score	groups
-drAriEdul1	8	2,2,2,2,2,2,2,3	1.0931	0.9998	10.04	chr01,chr14,chr06 | chr02,chr03 | chr04,chr08 | chr05,chr10 | chr07,chr12 | chr09,chr17 | chr11,chr15 | chr13,chr16
-drAriEdul1	7	2,2,2,2,2,3,4	1.0722	1.0002	9.13	chr01,chr14,chr06 | chr02,chr03 | chr04,chr08 | chr05,chr10 | chr07,chr12 | chr09,chr17 | chr11,chr15,chr13,chr16
-drAriEdul1	6	2,2,2,3,4,4	1.0603	1.0002	8.21	chr01,chr14,chr06 | chr02,chr03,chr04,chr08 | chr05,chr10 | chr07,chr12 | chr09,chr17 | chr11,chr15,chr13,chr16
-drAriEdul1	5	2,2,3,4,6	1.0479	1.0003	7.52	chr01,chr14,chr06 | chr02,chr03,chr04,chr08,chr05,chr10 | chr07,chr12 | chr09,chr17 | chr11,chr15,chr13,chr16
-drAriEdul1	4	2,2,3,10	1.0308	1.0000	5.38	chr01,chr14,chr06 | chr02,chr03,chr04,chr08,chr05,chr10,chr11,chr15,chr13,chr16 | chr07,chr12 | chr09,chr17
-drAriEdul1	3	2,3,12	1.0253	0.9995	4.41	chr01,chr14,chr06 | chr02,chr03,chr04,chr08,chr05,chr10,chr11,chr15,chr13,chr16,chr09,chr17 | chr07,chr12
-drAriEdul1	2	2,15	1.0238	0.9997	3.26	chr01,chr14,chr06,chr02,chr03,chr04,chr08,chr05,chr10,chr11,chr15,chr13,chr16,chr09,chr17 | chr07,chr12
+drAriEdul1	8	2,2,2,2,2,2,2,3	1.0921	0.9997	10.05	chr01,chr14,chr06 | chr02,chr03 | chr04,chr08 | chr05,chr10 | chr07,chr12 | chr09,chr17 | chr11,chr15 | chr13,chr16
+drAriEdul1	7	2,2,2,2,2,3,4	1.0716	1.0002	9.29	chr01,chr14,chr06 | chr02,chr03 | chr04,chr08 | chr05,chr10 | chr07,chr12 | chr09,chr17 | chr11,chr15,chr13,chr16
+drAriEdul1	6	2,2,2,2,3,6	1.0506	1.0001	7.58	chr01,chr14,chr06 | chr02,chr03 | chr04,chr08,chr11,chr15,chr13,chr16 | chr05,chr10 | chr07,chr12 | chr09,chr17
+drAriEdul1	5	2,2,2,3,8	1.0377	1.0000	6.64	chr01,chr14,chr06 | chr02,chr03,chr04,chr08,chr11,chr15,chr13,chr16 | chr05,chr10 | chr07,chr12 | chr09,chr17
+drAriEdul1	4	2,2,3,10	1.0303	1.0001	5.61	chr01,chr14,chr06 | chr02,chr03,chr04,chr08,chr11,chr15,chr13,chr16,chr05,chr10 | chr07,chr12 | chr09,chr17
+drAriEdul1	3	2,3,12	1.0257	0.9996	4.90	chr01,chr14,chr06 | chr02,chr03,chr04,chr08,chr11,chr15,chr13,chr16,chr05,chr10,chr09,chr17 | chr07,chr12
+drAriEdul1	2	2,15	1.0246	0.9998	3.64	chr01,chr14,chr06,chr02,chr03,chr04,chr08,chr11,chr15,chr13,chr16,chr05,chr10,chr09,chr17 | chr07,chr12

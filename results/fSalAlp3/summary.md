@@ -2,17 +2,17 @@
 
 ## Ploidy
 
-2 haplotype copies of each of 40 chromosome numbers; an older duplication shows on part of the genome (6 whole-chromosome homeolog pairs, 6% of the genome in homeolog blocks), too little to read duplicated sets from.
+2 haplotype copies of each of 40 chromosome numbers; the numbers form sets of 2 (12 homeolog pairs covering 60% of numbers), so x ≈ 20 and up to 4x relative to x; the sets are nearly as diverged as unrelated chromosomes, so they may be an old (paleo) duplication.
 
-*Confidence:* high  
-*Evidence:* copies from the assembly (2 per number); 6 whole-chromosome homeolog pairs, 6% of the genome in homeolog blocks
+*Confidence:* medium  
+*Evidence:* copies from the assembly (2 per number); 12 homeolog pairs covering 60% of numbers; homeolog distance 0.105 vs unrelated 0.116
 
 ## Auto-like or allo-like?
 
-Allo-like (disomic-like): the duplicated sets do not interchange, from homeolog pairs (pair-depth CV 0.03). This is also what a long-rediploidized autopolyploid looks like.
+Allo-like (disomic-like): the duplicated sets do not interchange, from homeolog pairs (pair-depth CV 0.04). This is also what a long-rediploidized autopolyploid looks like.
 
 *Confidence:* high  
-*Evidence:* 12 chromosome numbers assessed: 12 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate
+*Evidence:* 24 chromosome numbers assessed: 24 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate
 
 ## TE markers
 
@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 1 chromosome(s) carry blocks homeologous to two or more others (chr10:chr32+chr35): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.19), as when regions resolve at different times.
+Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 6 chromosome(s) carry blocks homeologous to two or more others (chr04:chr18+chr27, chr05:chr07+chr13, chr07:chr05+chr16+chr38, chr10:chr32+chr35, chr11:chr09+chr25, chr13:chr05+chr23): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.16), as when regions resolve at different times; homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
 
 *Confidence:* medium  
-*Evidence:* residual tetrasomy on 0/19 homeolog-paired chromosome numbers; pair-depth CV 0.03; homeology map: 6% of the genome in 24 homeolog blocks, 7 chromosome pairs, block-divergence CV 0.19
+*Evidence:* residual tetrasomy on 0/29 homeolog-paired chromosome numbers; pair-depth CV 0.04; homeology map: 18% of the genome in 72 homeolog blocks, 18 chromosome pairs, block-divergence CV 0.16; exchange: chr09(chr11:1/2)
 

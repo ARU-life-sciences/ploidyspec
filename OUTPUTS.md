@@ -105,7 +105,9 @@ this file is where that shows up per-chromosome.
 **`chrom_label_corrections.tsv`**: every change the matrix stage made to
 chromosome numbering, from the all-vs-all distances. `status`:
 `corrected` (a unit decisively closer to another number of the reference
-haplotype; swaps and longer cycles are applied together), `displaced` (a unit
+haplotype; swaps and longer cycles are applied together), `swapped` (the other side of a two-way swap whose evidence sits on one side:
+moved when that costs it ≤ 5% and the pair's summed distance improves ≥ 1.5×,
+as for `lpElePalu1` HAP2 chr11/chr12), `displaced` (a unit
 with no allele under its own number, moved into the slot a cycle left free),
 `extra_set` (see below), or `ambiguous` (not applied). `own_group_dist` /
 `alt_group_dist` / `ratio` give the evidence; `new_hap` is set for
@@ -178,6 +180,17 @@ stretches that break from an otherwise-uniform distance) is a candidate
 partial-rediploidization or homeologous-exchange region for that pair.
 
 ## `homeologs/` — ancient (paleopolyploid) chromosome pairs
+
+**Chromosome size.** Whole-chromosome k-mer distance depends on the two
+chromosomes' sizes as well as their relatedness (correlation 0.8 with the size
+difference in `dcCerAlpi1` and the diploid `ddMalSylv1`), so clustering sorted
+chromosomes by size: `dcCerAlpi1`'s and `dmRanRepe1`'s "two subgenomes" were
+large against small chromosomes. Pairs are therefore tested on
+`adjusted_distance`: the distance regressed on log(L_a) + log(L_b) and
+|log L_a − log L_b| (reweighted to ignore outlying pairs), kept as residual
+around the mean. The genome partition and pooling read the adjusted distances
+too; `distance`, `mean_distance` and pair depths stay raw. After adjustment
+`dcCerAlpi1` resolves into 18 pairs; the anchors keep theirs.
 
 **`homeolog_pairs.tsv`**: candidate retained-duplicate chromosome pairs from
 an ancestral whole-genome duplication, found by testing every
@@ -302,7 +315,13 @@ different homeologs (masu and Arctic charr pass only 5–6 whole-chromosome
 pairs). Every window of every chromosome of one haplotype (the one with the
 most chromosomes) is compared with every other chromosome of that haplotype,
 position-free, at k=23 (at k=15 chance hits swamp old homeology: salmonid
-homeolog windows 0.049 vs 0.057 unrelated). Per window: the closest
+homeolog windows 0.049 vs 0.057 unrelated). Distances are first corrected for
+target size: a larger chromosome contains more of any window's k-mers, so in
+the repeat-rich `ddHesMatr1` every window's "closest" chromosome was the
+largest one, and in Arctic charr unmatched blocks pointed at its largest
+chromosome. One slope of distance on log(target length), fitted genome-wide,
+is removed (a per-target baseline would also absorb real homeology where many
+chromosomes are related, as in _Lathraea_). Per window: the closest
 chromosome, the median distance to all others, and z = (median − closest) /
 (1.4826 MAD); homeolog-like when z ≥ 3. A **block** is a run of windows with
 the same closest chromosome (gaps of up to 2 windows bridged), longer than the
@@ -574,6 +593,17 @@ scaffold are tested:
   (e.g. `SchYoun1`'s `Sy_Chr04_15_M2`). New k-mer table, intersected with
   every placed copy. Results are cached in `orphan_containment.tsv`.
 
+Confirmed fusions are profiled along the fused sequence (`fusion_profile.tsv`,
+`fusion_profile_<scaffold>.png`): each window's distance to the closest unfused
+copy of either component (`d_unfused`, labelled with that `component`) and to
+the other fused copy of the same fusion (`d_fused`). `junction_mb` is the
+boundary that best separates the components' windows (`junction_agreement` =
+share of windows on the right side); `near_junction_div` and `arm_end_div` are
+the median `d_unfused` in the inner and outer 20% of each arm, and
+`junction_gradient` their ratio: above 1 means divergence is highest at the
+fusion site (Xie et al. 2026); `fused_within_div` is the fused lineage's own
+spread.
+
 `containment` = fraction of a chromosome copy's k-mers found in the scaffold
 (best copy per chromosome number). A chromosome counts as a component when its
 containment is >= `--containment-z` (10) robust z-scores above the species'
@@ -734,6 +764,17 @@ Xie et al. 2026, oldest first, recovered without prior knowledge.
   (an exchange is usually in one copy), `exchange_support` says how many.
 - `block_partners`: the homeology map's partners for this chromosome with the
   bp of blocks on each.
+- `lineage_switches`: copies that are one lineage's sequence along part of
+  their length and another's along the rest, e.g.
+  `HAP1:0.0-40.0Mb~HAP2;40.0-81.4Mb~HAP1B` (`icStrMela3` chr09: the A copy in
+  HAP1 matches the other A to 40 Mb and the B copy after it, AAB reading ABB
+  there). The exchange columns compare different chromosome numbers; this is
+  the same event when subgenome copies share a number. Runs of one nearest copy
+  must cover ≥ 10% of the chromosome; over each run the copy must be ≥ 2.5×
+  closer to its neighbour than to the other run's neighbour, and that other
+  copy must be ≥ 3× the genome's allelic level away (switches between allelic
+  haplotypes in an autopolyploid are ordinary recombination). Homeologous
+  exchange or a phasing switch between copies.
 
 **`residual_tetrasomy.tsv`**: one row per copy of a paired chromosome. A
 window is *near-allelic* when its distance to the closest copy of the homeolog
@@ -753,7 +794,17 @@ Columns: `chrom`, `partner`, `anchor`, `control`, `n_windows`,
 `n_near_allelic`, `n_shared_with_control` (windows discarded because the
 control was as close), `allele_level`, `longest_run`, `null_max_run`,
 `segments`, `covered_bp`, `covered_frac`, `n_exchange`, `exchange_segments`,
-`exchange_bp`. One row per copy and partner.
+`exchange_bp`, `n_low_complexity`. One row per copy and partner.
+
+Low-complexity windows are read by neither test: a window whose sequence
+compresses (zlib) to under 0.75 of the genome's median ratio is a satellite
+array or repeat-dense, where position-free containment cannot tell shared
+repeats from shared sequence (`daLatClan1` chr03/chr04 read 0.0005 apart over
+29–40 Mb but align at 98–99% against 99.9–100% for the alleles). Homeologous centromeres share a satellite family, so the control does
+not remove it: `daGleHede1`'s chr14/chr17 "residual" block (16–22 Mb) had
+k-mer containment near 1 against both homeologs but alignment identity
+94–96% and a compression ratio of 0.06–0.13 against 0.32 elsewhere. Ratios are
+cached in `windowed/window_complexity.tsv`.
 
 Why a pair vote: in a haplotype scaffolded onto the other
 (`scaffold_by_reference.py`), a contig from a still-tetrasomic region aligns
@@ -836,9 +887,11 @@ Supplementary (`supplementary/`):
   (`ddMalSylv1`) reaches 0.25 per chromosome, above the allo anchor
   `daGleHede1`'s 0.22.
 - `poly_space_features.tsv` / `poly_space_loadings.tsv` / `poly_space_pca.png`:
-  an exploratory PCA over seven core numbers (allele distance, paired fraction,
-  pair-depth CV, best partition z, resolved and tetrasomic fractions, TE split).
-  Missing values are mean-imputed, so species with few real features
-  (`n_features_present`) sit near the origin by construction.
+  an exploratory PCA over six numbers every genome with two or more copies
+  has (allele distance, homeology-map duplicated fraction, paired fraction,
+  best partition z, resolved and tetrasomic fractions). No imputation: a
+  species missing a feature is listed as `excluded` (in practice the
+  one-haplotype assemblies). No significant partition counts as z = 0, and a
+  genome with nothing assessable as 0 resolved and 0 tetrasomic.
 
 `--categories` only colours the plot.

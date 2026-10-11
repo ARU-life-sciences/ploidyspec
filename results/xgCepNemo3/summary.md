@@ -12,7 +12,7 @@
 Not assessable: two haplotypes and no duplicated sets to compare. Diploid-like as assembled.
 
 *Confidence:* not assessable  
-*Evidence:* 0 whole-chromosome homeolog pair(s); no duplicated sets
+*Evidence:* 1 whole-chromosome homeolog pair(s); no duplicated sets
 
 ## TE markers
 
@@ -26,5 +26,5 @@ Only the absolute marker fraction is available (two copies per number); it does 
 Not assessable: no duplicated sets to read rediploidization from.
 
 *Confidence:* not assessable  
-*Evidence:* homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs
+*Evidence:* residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs
 

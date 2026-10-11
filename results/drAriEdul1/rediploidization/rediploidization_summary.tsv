@@ -28,10 +28,12 @@ residual_controlled	yes
 exchange_chromosomes	0
 exchange_bp	0
 exchange_list	
-map_duplicated_frac	0.192
-map_n_blocks	23
-map_n_partner_pairs	8
-map_multi_partner_chromosomes	1
-map_multi_partner_list	chr01:chr06+chr14
-map_block_dist_median	0.0838
-map_block_dist_cv	0.080
+lineage_switch_chromosomes	0
+lineage_switch_list	
+map_duplicated_frac	0.244
+map_n_blocks	29
+map_n_partner_pairs	10
+map_multi_partner_chromosomes	3
+map_multi_partner_list	chr01:chr06+chr14;chr13:chr15+chr16;chr15:chr11+chr13
+map_block_dist_median	0.0817
+map_block_dist_cv	0.056

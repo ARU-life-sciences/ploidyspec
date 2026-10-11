@@ -26,5 +26,5 @@ Only the absolute marker fraction is available (two copies per number); it does 
 Not assessable: no duplicated sets to read rediploidization from.
 
 *Confidence:* not assessable  
-*Evidence:* residual tetrasomy on 0/2 homeolog-paired chromosome numbers (no unrelated-chromosome control; shared repeats not excluded); homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs
+*Evidence:* residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 1% of the genome in 2 homeolog blocks, 1 chromosome pairs
 

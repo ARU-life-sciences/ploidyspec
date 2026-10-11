@@ -5,7 +5,7 @@
 2 haplotype copies of each of 18 chromosome numbers; the numbers form sets of 2 (9 groups of mostly 2 chromosome numbers), so x ≈ 9 and up to 4x relative to x.
 
 *Confidence:* high  
-*Evidence:* copies from the assembly (2 per number); 9 groups of mostly 2 chromosome numbers (genome partition z = 23.8); homeolog distance 0.052 vs unrelated 0.115
+*Evidence:* copies from the assembly (2 per number); 9 groups of mostly 2 chromosome numbers (genome partition z = 24.5); homeolog distance 0.052 vs unrelated 0.115
 
 ## Auto-like or allo-like?
 
@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Partly: 2 of 18 homeolog-paired chromosome numbers keep stretches of residual tetrasomy (9.5 Mb, 0% of it at chromosome ends) where the homeologs are still as close as alleles; elsewhere they have diverged. Also: homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
+Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start.
 
 *Confidence:* medium  
-*Evidence:* residual tetrasomy on 2/18 homeolog-paired chromosome numbers (1 pair(s)), 9.5 Mb, 0% of it terminal; pair-depth CV 0.04; homeology map: 78% of the genome in 39 homeolog blocks, 9 chromosome pairs, block-divergence CV 0.05; exchange: chr10(chr04:1/2)
+*Evidence:* residual tetrasomy on 0/18 homeolog-paired chromosome numbers; pair-depth CV 0.04; homeology map: 79% of the genome in 36 homeolog blocks, 9 chromosome pairs, block-divergence CV 0.05
 

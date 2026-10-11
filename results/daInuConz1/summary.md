@@ -5,7 +5,7 @@
 2 haplotype copies of each of 16 chromosome numbers; the numbers form sets of 2 (no accepted pairs, but a balanced two-group partition), so x ≈ 8 and up to 4x relative to x.
 
 *Confidence:* medium  
-*Evidence:* copies from the assembly (2 per number); no accepted pairs, but a balanced two-group partition (8 vs 8, z = 10.6)
+*Evidence:* copies from the assembly (2 per number); no accepted pairs, but a balanced two-group partition (8 vs 8, z = 10.3)
 
 ## Auto-like or allo-like?
 
@@ -26,5 +26,5 @@ Only the absolute marker fraction is available (two copies per number); it does 
 Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start.
 
 *Confidence:* medium  
-*Evidence:* residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 6% of the genome in 15 homeolog blocks, 1 chromosome pairs, block-divergence CV 0.08
+*Evidence:* residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 1% of the genome in 9 homeolog blocks, 1 chromosome pairs, block-divergence CV 0.09
 

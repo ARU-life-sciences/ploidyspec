@@ -1,12 +1,13 @@
 import csv
 import os
+import random
 import sys
 import tempfile
 import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from ploidyspec.residual import allele_levels, near_allelic_track, null_max_run, residual_tetrasomy, runs
+from ploidyspec.residual import allele_levels, low_complexity, near_allelic_track, window_complexity, null_max_run, residual_tetrasomy, runs
 from ploidyspec.windowed import FIELDNAMES, control_pairs
 
 W = 250_000
@@ -135,6 +136,24 @@ class TestPairVote(unittest.TestCase):
         # the carrier's exchanged windows are not near-allelic (own homolog far)
         track = {r["anchor"]: r for r in rows if r["partner"] == "chr04"}["HAP1_chr03"]
         self.assertEqual(track["n_near_allelic"], 12)  # only its last 12 (misplaced-contig) windows
+
+
+class TestLowComplexity(unittest.TestCase):
+    def test_satellite_window_is_flagged_and_not_near_allelic(self):
+        rng = random.Random(0)
+        unique = "".join(rng.choice("ACGT") for _ in range(3 * W))
+        unit_ = "".join(rng.choice("ACGT") for _ in range(170))
+        satellite = (unit_ * (W // 170 + 1))[:W]
+        with tempfile.TemporaryDirectory() as d:
+            os.makedirs(os.path.join(d, "chroms"))
+            with open(os.path.join(d, "chroms", "HAP1_chr01.fa"), "w") as f:
+                f.write(">x\n" + unique[:2 * W] + satellite + unique[2 * W:] + "\n")
+            starts = [(i * W + 1, (i + 1) * W) for i in range(4)]
+            low = low_complexity(window_complexity(d, {"HAP1_chr01": starts}))
+        self.assertEqual(low["HAP1_chr01"], {2 * W + 1})
+        windows = {s: (e, {"HAP1_chr02": 0.001}) for s, e in starts}
+        track = near_allelic_track(windows, 0.003, 3.0, low=low["HAP1_chr01"])
+        self.assertEqual([t[2] for t in track], [True, True, False, True])
 
 
 if __name__ == "__main__":

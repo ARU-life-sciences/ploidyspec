@@ -23,8 +23,8 @@ Repeat history tracks the lineages on 4 chromosome(s) only.
 
 ## Rediploidization
 
-Yes: 1 chromosome fusion(s) between copies, which separate fused and unfused lineages (the snow carp mechanism).
+Yes: 1 chromosome fusion(s) between copies, which separate fused and unfused lineages (the snow carp mechanism). Also: homeolog blocks diverged to different depths (CV 0.19), as when regions resolve at different times; homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
 
 *Confidence:* high  
-*Evidence:* 1 fusion(s): chr19+chr22; 4 split / 17 tetrasomic-like chromosomes; 4 regional split(s); residual tetrasomy on 0/4 homeolog-paired chromosome numbers; pair-depth CV 0.15; homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs
+*Evidence:* 1 fusion(s): chr19+chr22; 4 split / 17 tetrasomic-like chromosomes; 4 regional split(s); residual tetrasomy on 0/4 homeolog-paired chromosome numbers; pair-depth CV 0.16; homeology map: 2% of the genome in 4 homeolog blocks, 1 chromosome pairs, block-divergence CV 0.19; exchange: chr10(chr03:1/4)
 

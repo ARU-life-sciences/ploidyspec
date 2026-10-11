@@ -89,6 +89,8 @@ def gather(outdir):
         n_numbers=n_numbers,
         allele=allele, cross=cross,
         n_pairs=len(independent),
+        # xgStaPalu1: one pair at z = -16 and two at -3 to -4 (3-4% below background)
+        n_strong_pairs=sum(1 for r in independent if abs(_num(r.get("z_score")) or 0) >= STRONG_PAIR_Z),
         n_fusion_pairs=len(pairs) - len(independent),
         pair_depth=statistics.median(depths) if depths else None,
         pair_cv=_num(sync.get("pair_depth_cv")),
@@ -162,6 +164,11 @@ def further_signals(g):
         if seg["cv"] is not None and seg["cv"] >= BLOCK_ASYNC_CV and seg["blocks"] >= 4:
             said.append(f"homeolog blocks diverged to different depths (CV {seg['cv']:.2f}), as when "
                         "regions resolve at different times")
+    n_sw = int(s.get("lineage_switch_chromosomes") or 0)
+    if n_sw:
+        said.append(f"lineage switches on {n_sw} chromosome(s) ({s.get('lineage_switch_list', '')}): a "
+                    "copy that is one lineage's sequence along part of its length and another's along "
+                    "the rest (homeologous exchange, or a phasing switch between copies)")
     n_ex = int(s.get("exchange_chromosomes") or 0)
     if n_ex:
         said.append(f"homeologous-exchange candidates on {n_ex} chromosome(s), stretches closer to "
@@ -294,15 +301,17 @@ def one_copy_apart(g, onediv, ev):
 
 
 MIN_DUPLICATION_PAIRS = 3
+STRONG_PAIR_Z = 5.0  # a whole-chromosome pair counted towards duplication evidence
 
 
 def duplication_evidence(g):
     """Enough duplicated sequence to read structure or rediploidization from in a
     two-copy genome: duplicated sets, or >= MIN_DUPLICATION_PAIRS homeolog pairs
     (whole-chromosome or from the homeology map). A single pair is not enough:
-    spotted gar and bowfin (no duplication since 2R) each pass one."""
+    spotted gar and bowfin (no duplication since 2R) each pass one. Whole-
+    chromosome pairs count only at |z| >= STRONG_PAIR_Z."""
     seg = segmental(g)
-    return (duplicated_sets(g)[0] > 1 or g["n_pairs"] >= MIN_DUPLICATION_PAIRS
+    return (duplicated_sets(g)[0] > 1 or g.get("n_strong_pairs", g["n_pairs"]) >= MIN_DUPLICATION_PAIRS
             or bool(seg and seg["pairs"] >= MIN_DUPLICATION_PAIRS))
 
 

@@ -2,10 +2,10 @@
 
 ## Ploidy
 
-4 haplotype copies of each of 15 chromosome numbers; the numbers form sets of 3 (5 groups of mostly 3 chromosome numbers), so x ≈ 5 and up to 12x relative to x.
+4 haplotype copies of each of 15 chromosome numbers; the numbers form sets of 2 (5 homeolog pairs covering 67% of numbers), so x ≈ 8 and up to 8x relative to x.
 
 *Confidence:* medium  
-*Evidence:* copies from the assembly (4 per number); 5 groups of mostly 3 chromosome numbers (genome partition z = 10.5); homeolog distance 0.097 vs unrelated 0.125
+*Evidence:* copies from the assembly (4 per number); 5 homeolog pairs covering 67% of numbers; homeolog distance 0.097 vs unrelated 0.125
 
 ## Auto-like or allo-like?
 
@@ -23,8 +23,8 @@ Repeat history tracks the lineages on 1 chromosome(s) only.
 
 ## Rediploidization
 
-No sign yet: copies interchangeable throughout. Also: 4 chromosome(s) carry blocks homeologous to two or more others (chr04:chr05+chr07, chr05:chr04+chr10, chr07:chr04+chr10, chr10:chr05+chr07): fusions, fissions or translocations since the duplication.
+No sign yet: copies interchangeable throughout. Also: 5 chromosome(s) carry blocks homeologous to two or more others (chr04:chr05+chr07, chr05:chr04+chr10, chr07:chr04+chr10, chr10:chr05+chr07, chr13:chr12+chr14): fusions, fissions or translocations since the duplication.
 
 *Confidence:* medium  
-*Evidence:* 0 split / 13 tetrasomic-like chromosomes; 1 regional split(s); residual tetrasomy on 0/10 homeolog-paired chromosome numbers; pair-depth CV 0.05; homeology map: 36% of the genome in 24 homeolog blocks, 7 chromosome pairs, block-divergence CV 0.05
+*Evidence:* 0 split / 13 tetrasomic-like chromosomes; 1 regional split(s); residual tetrasomy on 0/11 homeolog-paired chromosome numbers; pair-depth CV 0.05; homeology map: 42% of the genome in 31 homeolog blocks, 8 chromosome pairs, block-divergence CV 0.06
 

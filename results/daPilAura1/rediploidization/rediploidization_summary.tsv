@@ -28,10 +28,12 @@ residual_controlled	yes
 exchange_chromosomes	1
 exchange_bp	3250000
 exchange_list	chr02(chr03:1/2)
-map_duplicated_frac	0.738
-map_n_blocks	200
+lineage_switch_chromosomes	0
+lineage_switch_list	
+map_duplicated_frac	0.818
+map_n_blocks	211
 map_n_partner_pairs	10
 map_multi_partner_chromosomes	2
 map_multi_partner_list	chr01:chr07+chr14;chr07:chr01+chr06
-map_block_dist_median	0.0172
-map_block_dist_cv	0.326
+map_block_dist_median	0.0171
+map_block_dist_cv	0.323

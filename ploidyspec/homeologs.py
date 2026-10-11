@@ -9,6 +9,7 @@ from .common import homeologs_dir, log, matrix_dir
 from .kmer_tables import load_sequences
 
 DEFAULT_MIN_EFFECT = 0.02
+LENGTH_ADJUST_MIN_PAIRS = 10
 
 
 def load_distance_matrix(outdir):
@@ -41,6 +42,53 @@ def cross_chrom_distances(groups, mat):
         vals = [mat[a][b] for a in groups[i] for b in groups[j]]
         pair_dist[(i, j)] = statistics.mean(vals)
     return pair_dist
+
+
+def chrom_lengths(units):
+    """{chromosome number: mean length of its copies}"""
+    by = defaultdict(list)
+    for u in units:
+        by[int(u["chrom"])].append(int(u["length"]))
+    return {c: statistics.mean(v) for c, v in by.items()}
+
+
+def length_adjust(pair_dist, lengths):
+    """
+    Number-to-number distances with the chromosome-size effect removed.
+
+    Whole-chromosome k-mer distance depends on the two chromosomes' sizes, not
+    only on their relatedness: in dcCerAlpi1 and the diploid ddMalSylv1 the
+    distance correlates 0.8 with the size difference. Clustering then sorts
+    chromosomes by size -- dcCerAlpi1's "16 vs 20 subgenome" partition (z = 21)
+    and dmRanRepe1's "8 vs 8" (z = 10.6) were large against small chromosomes.
+    The distance is regressed on log(L_a) + log(L_b) and |log L_a - log L_b|,
+    twice reweighted to drop pairs more than 3 robust SD from the fit (real
+    homeologs must not shape the size model), and each pair keeps its
+    residual around the overall mean. A homeolog pair is far closer than its
+    sizes predict and stays an outlier; after adjustment dcCerAlpi1 resolves
+    into 18 pairs (z = 25.9) while daGleHede1, drSorDevo1 and drTriRepe1 keep
+    their pairs and the diploid ddMalSylv1 still has none. Returns the input
+    unchanged with fewer than LENGTH_ADJUST_MIN_PAIRS pairs.
+    """
+    import numpy as np
+
+    keys = [k for k in pair_dist if k[0] in lengths and k[1] in lengths]
+    if len(keys) < LENGTH_ADJUST_MIN_PAIRS:
+        return dict(pair_dist)
+    X = np.array([[1.0, math.log(lengths[a]) + math.log(lengths[b]),
+                   abs(math.log(lengths[a]) - math.log(lengths[b]))] for a, b in keys])
+    y = np.array([pair_dist[k] for k in keys])
+    w = np.ones(len(y))
+    for _ in range(3):
+        beta = np.linalg.lstsq(X * w[:, None], y * w, rcond=None)[0]
+        r = y - X @ beta
+        spread = 1.4826 * np.median(np.abs(r - np.median(r))) or 1e-9
+        w = (np.abs(r) < 3 * spread).astype(float)
+    out = dict(pair_dist)
+    mean = float(np.mean(y))
+    for k, ri in zip(keys, y - X @ beta):
+        out[k] = mean + float(ri)
+    return out
 
 
 def load_pair_resolution_flags(outdir):
@@ -220,19 +268,21 @@ def own_chrom_distances(groups, mat):
     return result
 
 
-def rank_candidates(pair_dist, p_values, q_values, z_scores, accepted_keys):
+def rank_candidates(pair_dist, p_values, q_values, z_scores, accepted_keys, adjusted=None):
     """Every cross-chromosome-number pair tested, ranked by ascending
     distance, each carrying its full evidence (z/p/q) and whether it was
     accepted into the greedy 1:1 match -- unlike homeolog_pairs.tsv (accepted
     only), this doesn't let a real but FDR-rejected signal silently
     disappear (see detect_homeolog_pairs)."""
+    adjusted = adjusted or pair_dist
     rows = []
-    for (i, j), d in sorted(pair_dist.items(), key=lambda kv: kv[1]):
+    for (i, j), d in sorted(pair_dist.items(), key=lambda kv: adjusted[kv[0]]):
         rows.append(
             dict(
                 chrom_a=i,
                 chrom_b=j,
                 distance=d,
+                adjusted_distance=adjusted[(i, j)],
                 z_score=z_scores[(i, j)],
                 p_value=p_values[(i, j)],
                 q_value=q_values[(i, j)],
@@ -293,7 +343,8 @@ def write_ranked_candidates(outdir, ranked):
     with open(path, "w", newline="") as f:
         w = csv.writer(f, delimiter="\t")
         w.writerow(
-            ["chrom_a", "chrom_b", "distance", "z_score", "p_value", "q_value", "accepted"]
+            ["chrom_a", "chrom_b", "distance", "adjusted_distance", "z_score", "p_value", "q_value",
+             "accepted"]
         )
         for r in ranked:
             w.writerow(
@@ -301,6 +352,7 @@ def write_ranked_candidates(outdir, ranked):
                     f"chr{r['chrom_a']:02d}",
                     f"chr{r['chrom_b']:02d}",
                     f"{r['distance']:.6f}",
+                    f"{r['adjusted_distance']:.6f}",
                     f"{r['z_score']:.3f}",
                     f"{r['p_value']:.6g}",
                     f"{r['q_value']:.6g}",
@@ -352,9 +404,12 @@ def run(seq_tsv, outdir, fdr_alpha=0.05, min_effect=DEFAULT_MIN_EFFECT):
         return []
 
     pair_dist = cross_chrom_distances(groups, mat)
+    # pairs are tested on size-adjusted distances; files report the raw ones
+    adjusted = length_adjust(pair_dist, chrom_lengths(units))
     accepted, unmatched, background, p_values, q_values, z_scores = detect_homeolog_pairs(
-        pair_dist, chrom_nums, fdr_alpha, min_effect
+        adjusted, chrom_nums, fdr_alpha, min_effect
     )
+    accepted = [(i, j, pair_dist[(i, j)], p, q, z) for i, j, _, p, q, z in accepted]
     flags = load_pair_resolution_flags(outdir)
     status_by_pair = {
         (i, j): chrom_pair_resolution_status(groups, flags, i, j)
@@ -418,7 +473,7 @@ def run(seq_tsv, outdir, fdr_alpha=0.05, min_effect=DEFAULT_MIN_EFFECT):
         )
 
     accepted_keys = {(i, j) for i, j, *_ in accepted}
-    ranked = rank_candidates(pair_dist, p_values, q_values, z_scores, accepted_keys)
+    ranked = rank_candidates(pair_dist, p_values, q_values, z_scores, accepted_keys, adjusted)
     write_ranked_candidates(outdir, ranked)
 
     own_dist = own_chrom_distances(groups, mat)

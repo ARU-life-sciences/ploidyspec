@@ -1,1 +1,2 @@
 chrom_a	chrom_b	mean_distance	z_score	p_value	q_value	n_haplotype_copy_pairs	resolution_limited	n_resolution_limited_of_total
+chr06	chr11	0.128800	-3.704	0.00010609	0.0162317	1	False	0/1

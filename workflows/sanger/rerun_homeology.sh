@@ -4,7 +4,8 @@
 # job per jobs.tsv species with k-mer tables; threads and memory sized from
 # the longest chromosome as in rerun_residual_controls.sh.
 # Usage: rerun_homeology.sh [species ...]   (default: all eligible)
-# Env: QUEUE (default normal); MAP_ONLY=1 computes only the map.
+# Env: QUEUE (default normal); MAP_ONLY=1 computes only the map; MAP_REUSE=1 re-analyses
+# existing raw map windows. Runs homeologs and structure first (2026-10-11: size-adjusted pairs).
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$HERE"
@@ -36,7 +37,9 @@ while IFS=$'\t' read -r sp manifest regex hap; do
     if [ "${MAP_ONLY:-0}" = 1 ]; then
         stages="./ploidyspec.sh windowed-homeologs $q --map-only --window 250000 --threads $threads"
     else
-        stages="./ploidyspec.sh windowed-homeologs $q --window-k 15 --window 250000 --threads $threads; \
+        stages="./ploidyspec.sh homeologs $q; \
+./ploidyspec.sh windowed-homeologs $q --window-k 15 --window 250000 --threads $threads ${MAP_REUSE:+--reuse-map-windows}; \
+./ploidyspec.sh structure --outdir $d; \
 ./ploidyspec.sh rediploidization $q --threads $threads; \
 ./ploidyspec.sh summary --outdir $d; \
 ./ploidyspec.sh report --outdir $d"

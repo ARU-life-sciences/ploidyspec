@@ -23,8 +23,8 @@ Repeat history tracks the lineages on several chromosomes: separate TE histories
 
 ## Rediploidization
 
-Little sign: 1 chromosome(s) partly split among tetrasomic-like ones.
+Little sign: 1 chromosome(s) partly split among tetrasomic-like ones. Also: lineage switches on 1 chromosome(s) (chr06): a copy that is one lineage's sequence along part of its length and another's along the rest (homeologous exchange, or a phasing switch between copies).
 
 *Confidence:* low  
-*Evidence:* 1 split / 1 tetrasomic-like chromosomes; 0 regional split(s); residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 21% of the genome in 82 homeolog blocks, 1 chromosome pairs, block-divergence CV 0.11
+*Evidence:* 1 split / 1 tetrasomic-like chromosomes; 0 regional split(s); residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs
 

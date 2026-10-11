@@ -1,1 +1,1 @@
-scaffold	hap	length	origin	components	containment	sibling_excess	lineage_divergence	max_z	status
+scaffold	hap	length	origin	components	containment	sibling_excess	lineage_divergence	max_z	status	junction_mb	junction_agreement	near_junction_div	arm_end_div	junction_gradient	fused_within_div

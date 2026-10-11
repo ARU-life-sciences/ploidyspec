@@ -90,9 +90,12 @@ def reference_hap(units):
 
 
 def compute_homeology_map(seq_tsv, outdir, samtools_bin, fastk_bin, logex_bin, histex_bin,
-                          window, step, threads, min_segment_bp, k=MAP_K):
+                          window, step, threads, min_segment_bp, k=MAP_K, reuse=False):
     """All-vs-all windowed comparison within one haplotype, then blocks.
-    Returns the summary dict, or None when there are too few chromosomes."""
+    reuse: analyse an existing raw window table instead of recomputing it, when
+    it covers exactly the current haplotype's chromosomes (only the analysis
+    changed). Returns the summary dict, or None when there are too few
+    chromosomes."""
     from .windowed import compute_windowed_groups
 
     units = load_sequences(seq_tsv)
@@ -101,6 +104,12 @@ def compute_homeology_map(seq_tsv, outdir, samtools_bin, fastk_bin, logex_bin, h
     if len(group) <= MIN_TARGETS:
         log(f"homeology map: only {len(group)} chromosomes in {ref} -- skipping")
         return None
+    raw = os.path.join(homeologs_dir(outdir), WINDOWS_TSV)
+    if reuse and os.path.exists(raw):
+        if set(load_map_windows(raw)) == {u["unit_id"] for u in group}:
+            log(f"homeology map: reusing {WINDOWS_TSV} ({len(group)} chromosomes of {ref})")
+            return analyse_map(outdir, min_segment_bp)
+        log(f"homeology map: {WINDOWS_TSV} does not match the current chromosomes -- recomputing")
     log(f"homeology map: {len(group)} chromosomes of {ref}, each window against every other "
         f"chromosome (k={k})")
     compute_windowed_groups({"map": group}, homeologs_dir(outdir), samtools_bin, fastk_bin,
@@ -108,6 +117,15 @@ def compute_homeology_map(seq_tsv, outdir, samtools_bin, fastk_bin, logex_bin, h
                             all_tsv_name=WINDOWS_TSV, overview_png_name="", only_cross_chrom=True,
                             species_outdir=outdir, plots=False)
     return analyse_map(outdir, min_segment_bp)
+
+
+def reference_lengths(outdir, windows):
+    """{chrom: length} of the mapped haplotype's chromosomes, from sequences.tsv."""
+    anchors = set(windows)
+    path = os.path.join(outdir, "sequences.tsv")
+    if not os.path.exists(path):
+        return {}
+    return {int(u["chrom"]): int(u["length"]) for u in load_sequences(path) if u["unit_id"] in anchors}
 
 
 def load_map_windows(path):
@@ -189,22 +207,60 @@ def position(start, end, span_start, span_end, frac=0.1):
     return "interior"
 
 
-def analyse_map(outdir, min_segment_bp, z_min=MAP_Z):
+def size_slope(windows, lengths):
+    """Slope of window distance on log(target length), fitted over every
+    (window, target) pair with two rounds of dropping pairs beyond 3 robust SD
+    (homeolog windows must not shape it). Larger targets contain more of any
+    window's k-mers: in the repeat-rich ddHesMatr1 (6 chromosomes of up to
+    875 Mb, every window 0.022-0.026 from every chromosome) the raw closest
+    chromosome was simply the largest, giving chr01/chr02 "blocks" over 21% of
+    the genome. A single slope removes that without absorbing the homeology of
+    particular pairs (a per-target baseline did, in the Lathraea genomes, where
+    many chromosomes are interrelated)."""
+    import numpy as np
+
+    xs, ys = [], []
+    for wins in windows.values():
+        for _, chrom, dists in wins.values():
+            for c, d in dists.items():
+                if c in lengths:
+                    xs.append(math.log(lengths[c]))
+                    ys.append(d)
+    if len(set(xs)) < 3:
+        return 0.0, 0.0
+    x, y = np.array(xs), np.array(ys)
+    keep = np.ones(len(y), dtype=bool)
+    for _ in range(3):
+        b, a = np.polyfit(x[keep], y[keep], 1)
+        r = y - (a + b * x)
+        spread = 1.4826 * np.median(np.abs(r - np.median(r))) or 1e-9
+        keep = np.abs(r) < 3 * spread
+    return float(b), float(np.mean(x))
+
+
+def analyse_map(outdir, min_segment_bp, z_min=MAP_Z, normalise=True, lengths=None):
     hdir = homeologs_dir(outdir)
     path = os.path.join(hdir, WINDOWS_TSV)
     if not os.path.exists(path):
         return None
     windows = load_map_windows(path)
+    # distances corrected for target size (size_slope)
+    if lengths is None:
+        lengths = reference_lengths(outdir, windows)
+    slope, mean_log = size_slope(windows, lengths) if normalise else (0.0, 0.0)
     map_rows, tracks, per_anchor = [], [], {}
     for anchor in sorted(windows):
         wins = windows[anchor]
         scored = []
         for s in sorted(wins):
             e, chrom, dists = wins[s]
-            sc = score_window(dists)
+            rel = {c: d - slope * (math.log(lengths[c]) - mean_log) if c in lengths else d
+                   for c, d in dists.items()}
+            sc = score_window(rel)
             if sc is None:
                 continue
-            best, bd, second, sd, med, z = sc
+            best, _, second, _, _, z = sc
+            bd, sd, med = dists[best], dists[second], statistics.median(dists.values())
             like = z >= z_min
             scored.append((s, e, chrom, best if like else None, bd, med, z))
             map_rows.append(dict(anchor=anchor, chrom=f"chr{chrom:02d}", win_start=s, win_end=e,

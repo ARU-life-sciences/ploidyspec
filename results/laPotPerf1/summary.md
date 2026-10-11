@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 3 chromosome(s) carry blocks homeologous to two or more others (chr03:chr13+chr15+chr20, chr11:chr16+chr25, chr20:chr03+chr10): fusions, fissions or translocations since the duplication; homeologous-exchange candidates on 2 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
+Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 9 chromosome(s) carry blocks homeologous to two or more others (chr03:chr10+chr13+chr15+chr20+chr26, chr09:chr13+chr24, chr10:chr03+chr20+chr26, chr11:chr16+chr25, chr13:chr03+chr09, chr15:chr03+chr26, chr16:chr11+chr21, chr20:chr03+chr10, chr26:chr03+chr10+chr15): fusions, fissions or translocations since the duplication.
 
 *Confidence:* medium  
-*Evidence:* residual tetrasomy on 0/26 homeolog-paired chromosome numbers; pair-depth CV 0.08; homeology map: 36% of the genome in 35 homeolog blocks, 14 chromosome pairs, block-divergence CV 0.04; exchange: chr09(chr24:1/2);chr17(chr07:1/2)
+*Evidence:* residual tetrasomy on 0/26 homeolog-paired chromosome numbers; pair-depth CV 0.08; homeology map: 60% of the genome in 58 homeolog blocks, 20 chromosome pairs, block-divergence CV 0.05
 

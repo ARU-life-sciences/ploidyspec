@@ -1,12 +1,15 @@
 import itertools
+import math
 import os
 import random
+import statistics
 import sys
 import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ploidyspec.homeologs import (
+    length_adjust,
     bh_qvalues,
     build_ploidy_ancestry_rows,
     detect_homeolog_pairs,
@@ -155,6 +158,37 @@ class TestDetectHomeologPairs(unittest.TestCase):
             self.assertNotIn(j, seen)
             seen.add(i)
             seen.add(j)
+
+
+class TestLengthAdjust(unittest.TestCase):
+    """dcCerAlpi1: distance grows with the size difference, so large and small
+    chromosomes look like two groups. After adjustment the size groups are
+    gone and a planted homeolog pair is still the closest pair."""
+
+    def build(self):
+        rng = random.Random(1)
+        lengths = {c: (60e6 if c <= 10 else 25e6) * rng.uniform(0.9, 1.1) for c in range(1, 21)}
+        dist = {}
+        for i, j in itertools.combinations(sorted(lengths), 2):
+            d = 0.10 + 0.05 * abs(math.log(lengths[i]) - math.log(lengths[j])) + rng.uniform(-0.003, 0.003)
+            dist[(i, j)] = d
+        dist[(3, 14)] = 0.05  # a homeolog pair of a large and a small chromosome
+        return lengths, dist
+
+    def test_size_groups_disappear_and_the_pair_stays(self):
+        lengths, dist = self.build()
+        adj = length_adjust(dist, lengths)
+        within = [adj[(i, j)] for i, j in adj if (i <= 10) == (j <= 10)]
+        across = [adj[(i, j)] for i, j in adj if (i <= 10) != (j <= 10) and (i, j) != (3, 14)]
+        self.assertLess(abs(statistics.mean(within) - statistics.mean(across)), 0.002)
+        self.assertEqual(min(adj, key=adj.get), (3, 14))
+        raw_within = [dist[(i, j)] for i, j in dist if (i <= 10) == (j <= 10)]
+        raw_across = [dist[(i, j)] for i, j in dist if (i <= 10) != (j <= 10) and (i, j) != (3, 14)]
+        self.assertGreater(statistics.mean(raw_across) - statistics.mean(raw_within), 0.03)
+
+    def test_too_few_pairs_unchanged(self):
+        dist = {(1, 2): 0.1, (1, 3): 0.2}
+        self.assertEqual(length_adjust(dist, {1: 1e6, 2: 2e6, 3: 3e6}), dist)
 
 
 class TestOwnChromDistances(unittest.TestCase):

@@ -56,6 +56,13 @@ SET_MIN_UNITS = 3
 # swap (ratios 3.1 and 2.3) sits below the single-unit threshold because its
 # allele distances are only 2-4x below its between-chromosome distance.
 MUTUAL_SWAP_RATIO = 2.0
+# A swap whose evidence sits on one side: lpElePalu1 HAP2_chr12 is 3.2x closer
+# to chr11, while HAP2_chr11 is tied between chr11 and chr12 (0.0203 vs
+# 0.0204). The occupant moves into the vacated slot when that costs it at most
+# SWAP_TOLERANCE and the two units' summed distance improves SWAP_TOTAL_RATIO.
+# daPilAura1's chr01/chr14 quartet fails it (total 1.10x, one side 27% worse).
+SWAP_TOLERANCE = 1.05
+SWAP_TOTAL_RATIO = 1.5
 
 
 def is_auto(u):
@@ -255,13 +262,16 @@ def detect_relabeling(units, distance, ratio_threshold=DEFAULT_RATIO_THRESHOLD):
                 if new is None or new == c["new_chrom"] or own_dist is None:
                     continue
                 new_dist = mean_distance(j, ref_groups[new], distance)
-                if own_dist < new_dist:
+                swap = (new == c["old_chrom"] and new_dist <= SWAP_TOLERANCE * own_dist
+                        and c["own_dist"] + own_dist >= SWAP_TOTAL_RATIO * (c["alt_dist"] + new_dist))
+                if own_dist < new_dist and not swap:
                     continue
                 held = [h for h in held if h["index"] != j]
                 moves.append(dict(index=j, unit_id=units[j]["unit_id"], old_chrom=c["new_chrom"],
                                   new_chrom=new, own_dist=own_dist, alt_dist=new_dist,
                                   ratio=own_dist / new_dist if new_dist > 0 else float("inf"),
-                                  displaced=True))
+                                  displaced=own_dist >= new_dist,
+                                  status="swapped" if own_dist < new_dist else None))
                 changed = True
                 break
         # a held move below the floor is only the matching's leftover, not evidence

@@ -2,10 +2,10 @@
 
 ## Ploidy
 
-Not assessable from this assembly: only one usable haplotype (22 chromosome numbers). The numbers do form duplicated sets (11 groups of mostly 2 chromosome numbers (genome partition z = 19.2)).
+Not assessable from this assembly: only one usable haplotype (22 chromosome numbers). The numbers do form duplicated sets (11 groups of mostly 2 chromosome numbers (genome partition z = 18.9)).
 
 *Confidence:* not assessable  
-*Evidence:* 11 groups of mostly 2 chromosome numbers (genome partition z = 19.2)
+*Evidence:* 11 groups of mostly 2 chromosome numbers (genome partition z = 18.9)
 
 ## Auto-like or allo-like?
 
@@ -25,5 +25,5 @@ TE markers not run for this species.
 Not assessable from this assembly.
 
 *Confidence:* not assessable  
-*Evidence:* pair-depth CV 0.04; homeology map: 25% of the genome in 38 homeolog blocks, 11 chromosome pairs, block-divergence CV 0.09
+*Evidence:* pair-depth CV 0.04; homeology map: 24% of the genome in 40 homeolog blocks, 11 chromosome pairs, block-divergence CV 0.07
 

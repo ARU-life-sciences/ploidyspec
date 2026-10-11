@@ -97,6 +97,17 @@ class TestEndToEnd(unittest.TestCase):
         for c in ("chr02", "chr03", "chr06", "chr07"):
             self.assertEqual(rows[c]["exchange_bp"] or "0", "0", c)
 
+    def test_fusion_profiles_find_the_junction(self):
+        fusions = [r for r in read_tsv(self.out("rediploidized", "rediploidization", "fusions.tsv"))
+                   if r["status"] == "fusion"]
+        self.assertTrue(fusions)
+        for f in fusions:
+            # the simulated fusions join two equal-length chromosomes
+            frac = float(f["junction_mb"]) * 1e6 / int(f["length"])
+            self.assertTrue(0.35 <= frac <= 0.65, (f["scaffold"], frac))
+            self.assertGreaterEqual(float(f["junction_agreement"]), 0.8, f["scaffold"])
+        self.assertTrue(os.path.exists(self.out("rediploidized", "rediploidization", "fusion_profile.tsv")))
+
     def test_rediploidized_states(self):
         self.assertEqual(self.states("rediploidized"), self.expected_states("rediploidized"))
 

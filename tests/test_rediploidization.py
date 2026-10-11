@@ -13,6 +13,7 @@ from ploidyspec.rediploidization import (
     copy_state,
     fusion_row,
     lineage_divergence,
+    lineage_switches,
     load_partition_pairs,
     long_copy_outliers,
     reciprocal_matches,
@@ -300,6 +301,42 @@ class TestSummary(unittest.TestCase):
         self.assertEqual(summary["n_distinct_fusions"], 1)
         self.assertEqual(summary["n_fused_scaffolds"], 2)
         self.assertEqual(summary["ancient_paired_chromosomes"], 1)
+
+
+class TestLineageSwitches(unittest.TestCase):
+    """AAB: HAP1 chr01 is A to the middle, B after it."""
+
+    def build(self, switch=True):
+        from collections import defaultdict
+        units = [dict(unit_id=u, chrom=1) for u in ("HAP1_chr01", "HAP2_chr01", "HAP1B_chr01")]
+        units += [dict(unit_id=u, chrom=2) for u in ("HAP1_chr02", "HAP2_chr02", "HAP1B_chr02")]
+        W = 250_000
+        windowed = defaultdict(dict)
+        for c in (1, 2):
+            for anchor in (f"HAP1_chr{c:02d}", f"HAP2_chr{c:02d}", f"HAP1B_chr{c:02d}"):
+                wins = {}
+                for i in range(40):
+                    a1, a2, b = f"HAP1_chr{c:02d}", f"HAP2_chr{c:02d}", f"HAP1B_chr{c:02d}"
+                    hap1_is_b = switch and c == 1 and i >= 20
+                    d = {}
+                    for other in (a1, a2, b):
+                        if other == anchor:
+                            continue
+                        lineage = lambda u: "B" if u == b or (u == a1 and hap1_is_b) else "A"  # noqa: E731
+                        d[other] = 0.003 if lineage(anchor) == lineage(other) else 0.016
+                    wins[i * W + 1] = ((i + 1) * W, d)
+                windowed[f"chr{c:02d}"][anchor] = wins
+        return units, windowed
+
+    def test_a_copy_switching_lineage_is_reported(self):
+        units, windowed = self.build()
+        sw = lineage_switches(units, {}, windowed, 2_000_000)
+        self.assertEqual(set(sw), {1})
+        self.assertIn("HAP1:0.0-5.0Mb~HAP2;5.0-10.0Mb~HAP1B", sw[1])
+
+    def test_no_switch_no_report(self):
+        units, windowed = self.build(switch=False)
+        self.assertEqual(lineage_switches(units, {}, windowed, 2_000_000), {})
 
 
 if __name__ == "__main__":

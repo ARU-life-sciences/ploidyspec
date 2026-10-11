@@ -2,22 +2,21 @@ metric	value
 n_chromosome_numbers	16
 state_basis:copies	0
 state_basis:homeolog_pool	0
-state_basis:partition_pool	16
+state_basis:partition_pool	0
 state_basis:fusion	0
-state_basis:none	0
+state_basis:none	16
 copy_state:tetrasomic_like	0
 copy_state:candidate	0
 copy_state:partially_resolved	0
-copy_state:resolved_lineages	16
+copy_state:resolved_lineages	0
 copy_state:fusion_lineages	0
 copy_state:one_divergent_copy	0
-copy_state:not_assessable	0
+copy_state:not_assessable	16
 n_distinct_fusions	0
 n_fused_scaffolds	0
 n_fusion_candidates_partner_present	0
-partition_pool_z	10.93
 ancient_paired_chromosomes	0
-residual_tested_chromosomes	4
+residual_tested_chromosomes	2
 residual_chromosomes	0
 residual_bp	0
 residual_terminal_frac	
@@ -26,10 +25,12 @@ residual_controlled	yes
 exchange_chromosomes	0
 exchange_bp	0
 exchange_list	
-map_duplicated_frac	0.001
-map_n_blocks	5
-map_n_partner_pairs	2
+lineage_switch_chromosomes	0
+lineage_switch_list	
+map_duplicated_frac	0.004
+map_n_blocks	10
+map_n_partner_pairs	1
 map_multi_partner_chromosomes	0
 map_multi_partner_list	
-map_block_dist_median	0.0007
-map_block_dist_cv	0.199
+map_block_dist_median	0.0166
+map_block_dist_cv	0.069

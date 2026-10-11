@@ -24,13 +24,15 @@ residual_bp	0
 residual_terminal_frac	
 residual_null_run_windows	8
 residual_controlled	yes
-exchange_chromosomes	1
-exchange_bp	3000000
-exchange_list	chr24(chr01:1/2)
-map_duplicated_frac	0.305
-map_n_blocks	28
-map_n_partner_pairs	11
-map_multi_partner_chromosomes	2
-map_multi_partner_list	chr01:chr22+chr24;chr02:chr10+chr21
-map_block_dist_median	0.0692
+exchange_chromosomes	0
+exchange_bp	0
+exchange_list	
+lineage_switch_chromosomes	0
+lineage_switch_list	
+map_duplicated_frac	0.524
+map_n_blocks	45
+map_n_partner_pairs	17
+map_multi_partner_chromosomes	8
+map_multi_partner_list	chr01:chr22+chr24;chr02:chr10+chr21+chr23;chr05:chr09+chr21+chr25;chr09:chr05+chr19;chr10:chr02+chr17;chr19:chr09+chr25;chr21:chr02+chr05;chr25:chr05+chr19
+map_block_dist_median	0.0707
 map_block_dist_cv	0.047

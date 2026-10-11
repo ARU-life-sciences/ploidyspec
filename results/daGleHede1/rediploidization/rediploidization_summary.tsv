@@ -7,8 +7,8 @@ state_basis:fusion	0
 state_basis:none	0
 copy_state:tetrasomic_like	0
 copy_state:candidate	0
-copy_state:partially_resolved	2
-copy_state:resolved_lineages	16
+copy_state:partially_resolved	0
+copy_state:resolved_lineages	18
 copy_state:fusion_lineages	0
 copy_state:one_divergent_copy	0
 copy_state:not_assessable	0
@@ -19,18 +19,20 @@ ancient_paired_chromosomes	18
 ancient_distance_ratio_median	3.50
 ancient_distance_ratio_cv	0.11
 residual_tested_chromosomes	18
-residual_chromosomes	2
-residual_bp	9500000
-residual_terminal_frac	0.00
+residual_chromosomes	0
+residual_bp	0
+residual_terminal_frac	
 residual_null_run_windows	8
 residual_controlled	yes
-exchange_chromosomes	1
-exchange_bp	2250000
-exchange_list	chr10(chr04:1/2)
-map_duplicated_frac	0.778
-map_n_blocks	39
+exchange_chromosomes	0
+exchange_bp	0
+exchange_list	
+lineage_switch_chromosomes	0
+lineage_switch_list	
+map_duplicated_frac	0.790
+map_n_blocks	36
 map_n_partner_pairs	9
 map_multi_partner_chromosomes	0
 map_multi_partner_list	
-map_block_dist_median	0.0420
+map_block_dist_median	0.0422
 map_block_dist_cv	0.047

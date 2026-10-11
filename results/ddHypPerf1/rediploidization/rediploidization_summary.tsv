@@ -26,6 +26,8 @@ residual_controlled	no
 exchange_chromosomes	0
 exchange_bp	0
 exchange_list	
+lineage_switch_chromosomes	0
+lineage_switch_list	
 map_duplicated_frac	0.000
 map_n_blocks	0
 map_n_partner_pairs	0

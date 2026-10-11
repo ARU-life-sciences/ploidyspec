@@ -5,7 +5,7 @@
 4 haplotype copies of each of 16 chromosome numbers; the numbers form sets of 2 (8 groups of mostly 2 chromosome numbers), so x ≈ 8 and up to 8x relative to x.
 
 *Confidence:* high  
-*Evidence:* copies from the assembly (4 per number); 8 groups of mostly 2 chromosome numbers (genome partition z = 18.8); homeolog distance 0.069 vs unrelated 0.143
+*Evidence:* copies from the assembly (4 per number); 8 groups of mostly 2 chromosome numbers (genome partition z = 19.4); homeolog distance 0.069 vs unrelated 0.143
 
 ## Auto-like or allo-like?
 
@@ -26,5 +26,5 @@ Repeat history tracks the lineages on 1 chromosome(s) only.
 Little sign: 1 chromosome(s) partly split among tetrasomic-like ones. Also: homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
 
 *Confidence:* low  
-*Evidence:* 1 split / 8 tetrasomic-like chromosomes; 1 regional split(s); residual tetrasomy on 0/16 homeolog-paired chromosome numbers; pair-depth CV 0.06; homeology map: 70% of the genome in 33 homeolog blocks, 8 chromosome pairs, block-divergence CV 0.13; exchange: chr03(chr06:1/4)
+*Evidence:* 1 split / 8 tetrasomic-like chromosomes; 1 regional split(s); residual tetrasomy on 0/16 homeolog-paired chromosome numbers; pair-depth CV 0.06; homeology map: 68% of the genome in 34 homeolog blocks, 8 chromosome pairs, block-divergence CV 0.13; exchange: chr03(chr06:1/4)
 

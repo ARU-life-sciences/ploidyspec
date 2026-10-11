@@ -1,7 +1,7 @@
 metric	value
 n_chromosomes	8
 n_blocks	0
-n_blocks_unmatched	1
+n_blocks_unmatched	2
 duplicated_frac	0.000
 duplicated_bp	0
 n_partner_pairs	0

@@ -19,8 +19,11 @@ and to --outdir/supplementary/:
   allo anchors, so it is reported for reference only.
 - poly_space_features.tsv / poly_space_loadings.tsv / poly_space_pca.png: an
   exploratory PCA over the core numbers (Twyford et al. 2025's "poly-space").
-  Missing values are mean-imputed, so species with few features sit near the
-  origin by construction; n_features_present says how many were real.
+  Only features every genome with two or more copies has are used, and a
+  species missing any of them is left out (listed in the log and in
+  poly_space_features.tsv as excluded) rather than mean-imputed: imputation put
+  species with few features at the origin by construction. "No significant
+  partition" is z = 0, a value, not a missing one.
 """
 
 import csv
@@ -47,12 +50,11 @@ SUMMARY_FIELDS = (
 
 FEATURE_COLS = [
     "allelic_distance_median",
+    "duplicated_fraction",
     "paired_fraction",
-    "pair_depth_cv",
     "partition_best_z",
     "resolved_fraction",
     "tetrasomic_fraction",
-    "te_split_median",
 ]
 
 TE_FIELDS = ["species", "n_chromosomes", "te_split_median", "te_marker_fraction_mean"]
@@ -170,6 +172,10 @@ def features(summary, te_rows, redip):
         assessable = (n - (num(r.get("copy_state:not_assessable")) or 0)) if n else None
 
         def frac(*states):
+            # nothing assessable (a diploid-like genome): no chromosome split or
+            # tetrasomic, rather than unknown
+            if assessable == 0:
+                return 0.0
             if not assessable:
                 return None
             return sum(num(r.get(f"copy_state:{s}")) or 0 for s in states) / assessable
@@ -178,34 +184,35 @@ def features(summary, te_rows, redip):
         out[sp] = {
             "allelic_distance_median": num(row["allelic_distance_median"]),
             "paired_fraction": paired / n if paired is not None and n else None,
-            "pair_depth_cv": num(row["pair_depth_cv"]),
-            "partition_best_z": num(row["partition_best_z"]),
+            # the homeology map (absent for one haplotype or runs before it)
+            "duplicated_fraction": num(r.get("map_duplicated_frac")),
+            # no partition reported means none reached |z| >= 2
+            "partition_best_z": num(row["partition_best_z"]) or 0.0,
             "resolved_fraction": frac("resolved_lineages", "fusion_lineages"),
             "tetrasomic_fraction": frac("tetrasomic_like"),
-            "te_split_median": num((te_rows.get(sp) or {}).get("te_split_median")),
         }
     return out
 
 
 def poly_space(raw, categories, outdir):
-    # below 2 real features a point is pure column-mean imputation
-    kept = [sp for sp in sorted(raw) if sum(v is not None for v in raw[sp].values()) >= 2]
+    kept = [sp for sp in sorted(raw) if all(raw[sp][c] is not None for c in FEATURE_COLS)]
+    excluded = [sp for sp in sorted(raw) if sp not in kept]
+    if excluded:
+        log(f"poly-space: {len(excluded)} species lack a feature and are left out "
+            f"({', '.join(excluded[:8])}{', ...' if len(excluded) > 8 else ''})")
     if len(kept) < 3:
-        log(f"poly-space: only {len(kept)} species with >= 2 features -- skipping PCA")
+        log(f"poly-space: only {len(kept)} species with every feature -- skipping PCA")
         return
-    n_present = {sp: sum(v is not None for v in raw[sp].values()) for sp in kept}
-    col_means = {}
-    for col in FEATURE_COLS:
-        vals = [raw[sp][col] for sp in kept if raw[sp][col] is not None]
-        col_means[col] = sum(vals) / len(vals) if vals else 0.0
-    X = np.array([[raw[sp][c] if raw[sp][c] is not None else col_means[c] for c in FEATURE_COLS]
-                  for sp in kept])
+    X = np.array([[raw[sp][c] for c in FEATURE_COLS] for sp in kept])
 
     with open(os.path.join(outdir, "poly_space_features.tsv"), "w", newline="") as f:
         w = csv.writer(f, delimiter="\t")
-        w.writerow(["species", "n_features_present"] + FEATURE_COLS)
+        w.writerow(["species", "status"] + FEATURE_COLS)
         for i, sp in enumerate(kept):
-            w.writerow([sp, n_present[sp]] + [f"{x:.4f}" for x in X[i]])
+            w.writerow([sp, "in_pca"] + [f"{x:.4f}" for x in X[i]])
+        for sp in excluded:
+            w.writerow([sp, "excluded"] + ["" if raw[sp][c] is None else f"{raw[sp][c]:.4f}"
+                                           for c in FEATURE_COLS])
 
     sigma = X.std(axis=0)
     sigma[sigma == 0] = 1.0
@@ -231,13 +238,11 @@ def poly_space(raw, categories, outdir):
     colour = {c: cmap(i % 10) for i, c in enumerate(cats)}
     for i, sp in enumerate(kept):
         cat = categories.get(sp, "data-only / unresolved")
-        ax.scatter(scores[i, 0], scores[i, 1], color=colour[cat],
-                   marker="o" if n_present[sp] >= 4 else "x", s=60)
+        ax.scatter(scores[i, 0], scores[i, 1], color=colour[cat], marker="o", s=60)
         ax.annotate(sp, (scores[i, 0], scores[i, 1]), fontsize=7, xytext=(3, 3),
                     textcoords="offset points")
     for c, col in colour.items():
         ax.scatter([], [], color=col, label=c)
-    ax.scatter([], [], color="gray", marker="x", label="<4 features present (mostly imputed)")
     ax.legend(fontsize=8, loc="best")
     ax.set_xlabel(f"PC1 ({explained[0] * 100:.1f}% variance)")
     ax.set_ylabel(f"PC2 ({explained[1] * 100:.1f}% variance)")

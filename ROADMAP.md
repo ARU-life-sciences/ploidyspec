@@ -209,6 +209,47 @@ autopolyploid lineages).
 
 Newest first. Check a running batch with the command given for it.
 
+- **2026-10-11 — open questions worked through; four algorithm fixes.**
+  Alignment checks with `workflows/prep/dotplot_pair.py` (minimap2) and the
+  ToL read k-mer spectra. Panel re-run from `homeologs` onward
+  (`MAP_REUSE=1 workflows/sanger/rerun_homeology.sh`).
+  - *Chromosome size* biased whole-chromosome distance (correlation 0.8 with
+    the size difference in `dcCerAlpi1`, `ddMalSylv1`): `dcCerAlpi1`'s and
+    `dmRanRepe1`'s "two subgenomes" were large vs small chromosomes. Pairs,
+    partition and pooling now use size-adjusted distances
+    (`homeologs.length_adjust`): `dcCerAlpi1` 18 pairs, `dmRanRepe1` no clear
+    structure, salmonids gain pairs, anchors unchanged.
+  - *Target size* biased the homeology map: in the repeat-rich `ddHesMatr1`
+    the closest chromosome was the largest (its chr01/chr02 blocks), and charr
+    blocks pointed at its largest chromosome (alignment: no arm-scale homeology,
+    1.7-4.4 Mb of scattered hits). One size slope removed (per-target baselines
+    absorbed real homeology in _Lathraea_). Salmonid mapped homeology roughly
+    doubles.
+  - *Repeat-rich windows* read as residual tetrasomy: `daGleHede1` chr14/chr17
+    is a centromeric satellite (zlib 0.06-0.13 vs 0.32, alignment 94-96%);
+    `daLatClan1` chr03/chr04 align at 98-99% vs 99.9-100% alleles. Windows
+    compressing below 0.75 of the genome median are not read. `daPilAura1`'s
+    residual tetrasomy is alignment-confirmed (homeolog 99.6-99.8% = alleles).
+  - *Lineage switches* (new readout): a copy that changes lineage along its
+    length -- `icStrMela3` HAP1 chr09 is A to 40 Mb and B after (AAB reads ABB
+    there); the exchange readout could not see it (one chromosome number).
+  - *Renumbering*: one-sided swaps (`lpElePalu1` HAP2 chr11/chr12, confirmed
+    collinear by alignment); `daPilAura1`'s ambiguous cases are an AAAB-like
+    quartet, correctly left.
+  - *Fusion profiles* along fused chromosomes (`fusion_profile.tsv`).
+  - *PCA* without imputation (51 species). *Duplication evidence* counts pairs
+    at |z| >= 5 only.
+  - Resolved by data: `ddSalTria1` triploid (read k-mer peaks 1:2:3);
+    `drRosSpin1` tetraploid AABB (read ploidy plot); `SchCurv1` chr17 split =
+    an inversion in HAP3 from ~27 Mb (Xie et al.'s mechanism); `xgMonCant1`
+    HAP1 chr23 = HAP2 chr24 + chr23 joined at ~37 Mb (fusion or scaffolding;
+    needs Hi-C); `drAriEdul1` chr01 = a 19 Mb divergent HAP4 block (likely an
+    inversion polymorphism). `lpTriTurg1_AB` (A-vs-B pseudo-haplotypes)
+    replaced by a full two-haplotype `lpTriTurg1` run.
+  - Still open: exact `SchCurv1` chr17 coordinates vs Xie et al.;
+    `dcCerAlpi1`/`dmRanRepe1` primary chromosome counts; whether `icStrMela3`
+    chr09 and `xgMonCant1` are biology or assembly (Hi-C).
+
 - **2026-10-10 — odd ploidy, homeology map, rediploidization signals; panel
   re-run.** Per-species detail: `docs/species/species_breakdown.md`
   (`docs/species/make_species_breakdown.py`).

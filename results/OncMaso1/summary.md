@@ -2,17 +2,17 @@
 
 ## Ploidy
 
-2 haplotype copies of each of 33 chromosome numbers; an older duplication shows on part of the genome (5 whole-chromosome homeolog pairs, 10% of the genome in homeolog blocks), too little to read duplicated sets from.
+2 haplotype copies of each of 33 chromosome numbers; an older duplication shows on part of the genome (7 whole-chromosome homeolog pairs, 16% of the genome in homeolog blocks), too little to read duplicated sets from.
 
 *Confidence:* high  
-*Evidence:* copies from the assembly (2 per number); 5 whole-chromosome homeolog pairs, 10% of the genome in homeolog blocks
+*Evidence:* copies from the assembly (2 per number); 7 whole-chromosome homeolog pairs, 16% of the genome in homeolog blocks
 
 ## Auto-like or allo-like?
 
-Auto-like origin, mostly rediploidized: the duplicated sets have separated along most of their length, but 4 of 18 paired chromosome numbers keep stretches where the homeologs are as close as alleles (residual tetrasomy). That is expected after an autopolyploidization; recent homeologous exchanges in an allopolyploid can leave similar stretches.
+Allo-like (disomic-like): the duplicated sets do not interchange, from homeolog pairs (pair-depth CV 0.09). This is also what a long-rediploidized autopolyploid looks like.
 
 *Confidence:* medium  
-*Evidence:* 10 chromosome numbers assessed: 10 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate; residual tetrasomy on 4/18 homeolog-paired chromosome numbers (2 pair(s)), 17.7 Mb, 70% of it terminal
+*Evidence:* 14 chromosome numbers assessed: 14 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate
 
 ## TE markers
 
@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Partly: 4 of 18 homeolog-paired chromosome numbers keep stretches of residual tetrasomy (17.7 Mb, 70% of it at chromosome ends) where the homeologs are still as close as alleles; elsewhere they have diverged. Also: 2 chromosome(s) carry blocks homeologous to two or more others (chr10:chr12+chr13, chr28:chr05+chr33): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.24), as when regions resolve at different times; homeologous-exchange candidates on 5 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
+Partly: 2 of 25 homeolog-paired chromosome numbers keep stretches of residual tetrasomy (8.6 Mb, 39% of it at chromosome ends) where the homeologs are still as close as alleles; elsewhere they have diverged. Also: 8 chromosome(s) carry blocks homeologous to two or more others (chr01:chr31+chr32, chr09:chr12+chr19, chr10:chr12+chr13, chr12:chr09+chr10, chr30:chr02+chr31, chr31:chr01+chr30, chr32:chr01+chr04+chr33, chr33:chr08+chr32): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.24), as when regions resolve at different times; homeologous-exchange candidates on 3 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
 
 *Confidence:* medium  
-*Evidence:* residual tetrasomy on 4/18 homeolog-paired chromosome numbers (2 pair(s)), 17.7 Mb, 70% of it terminal; pair-depth CV 0.07; homeology map: 10% of the genome in 27 homeolog blocks, 10 chromosome pairs, block-divergence CV 0.24; exchange: chr03(chr15:1/2);chr15(chr03:1/2);chr16(chr06:1/2);chr29(chr17:1/2);chr30(chr02:1/2)
+*Evidence:* residual tetrasomy on 2/25 homeolog-paired chromosome numbers (1 pair(s)), 8.6 Mb, 39% of it terminal; pair-depth CV 0.09; homeology map: 16% of the genome in 48 homeolog blocks, 17 chromosome pairs, block-divergence CV 0.24; exchange: chr16(chr06:1/2);chr29(chr17:1/2);chr30(chr02:1/2)
 

@@ -5,7 +5,7 @@
 4 haplotype copies of each of 17 chromosome numbers; the numbers form sets of 2 (8 groups of mostly 2 chromosome numbers), so x ≈ 8 and up to 8x relative to x; the sets are nearly as diverged as unrelated chromosomes, so they may be an old (paleo) duplication.
 
 *Confidence:* medium  
-*Evidence:* copies from the assembly (4 per number); 8 groups of mostly 2 chromosome numbers (genome partition z = 10.0); homeolog distance 0.099 vs unrelated 0.109
+*Evidence:* copies from the assembly (4 per number); 8 groups of mostly 2 chromosome numbers (genome partition z = 10.1); homeolog distance 0.099 vs unrelated 0.109
 
 ## Auto-like or allo-like?
 
@@ -23,8 +23,8 @@ Repeat content differs between the split copies on several chromosomes, but the 
 
 ## Rediploidization
 
-Likely under way: some chromosomes have split into lineages while others stay tetrasomic-like. Also: 1 chromosome(s) carry blocks homeologous to two or more others (chr01:chr06+chr14): fusions, fissions or translocations since the duplication.
+Likely under way: some chromosomes have split into lineages while others stay tetrasomic-like. Also: 3 chromosome(s) carry blocks homeologous to two or more others (chr01:chr06+chr14, chr13:chr15+chr16, chr15:chr11+chr13): fusions, fissions or translocations since the duplication.
 
 *Confidence:* medium  
-*Evidence:* 3 split / 3 tetrasomic-like chromosomes; 5 regional split(s); residual tetrasomy on 0/17 homeolog-paired chromosome numbers; pair-depth CV 0.03; homeology map: 19% of the genome in 23 homeolog blocks, 8 chromosome pairs, block-divergence CV 0.08
+*Evidence:* 3 split / 3 tetrasomic-like chromosomes; 5 regional split(s); residual tetrasomy on 0/17 homeolog-paired chromosome numbers; pair-depth CV 0.03; homeology map: 24% of the genome in 29 homeolog blocks, 10 chromosome pairs, block-divergence CV 0.06
 

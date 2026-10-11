@@ -1,46 +1,58 @@
-species	n_chromosome_numbers	ancient_distance_ratio_cv	ancient_distance_ratio_median	ancient_paired_chromosomes	copy_state:candidate	copy_state:fusion_lineages	copy_state:not_assessable	copy_state:one_divergent_copy	copy_state:partially_resolved	copy_state:resolved_lineages	copy_state:tetrasomic_like	most_frequent_outlier_hap	n_distinct_fusions	n_fused_scaffolds	n_fusion_candidates_partner_present	partition_pool_z	state_basis:copies	state_basis:fusion	state_basis:homeolog_pool	state_basis:none	state_basis:partition_pool
-SchCurv1	25	0.00	7.59	2	2	2	0	2	2	0	17	HAP4 (1 chromosomes)	1	2	0		23	2	0	0	0
-SchYoun1	25			0	1	10	0	0	0	0	14		5	10	0		15	10	0	0	0
-daBudDavi1	19			0	1	0	0	2	1	0	15	HAP2 (1 chromosomes)	0	0	0		19	0	0	0	0
-daEupConf1	22			22	0	0	22	0	0	0	0		0	0	0		0	0	0	22	0
-daGalBore1	11	0.10	4.09	4	0	0	0	0	1	0	10		0	0	0		11	0	0	0	0
-daGleHede1	18	0.11	3.50	18	0	0	0	0	0	18	0		0	0	0		0	0	18	0	0
-daInuConz1	16			0	0	0	0	0	0	16	0		0	0	0	10.63	0	0	0	0	16
-daLatClan1	21	0.19	29.95	18	0	0	3	0	0	18	0		0	0	0		0	0	18	3	0
-daLatSqua1	18	1.04	235.23	16	0	0	2	0	0	16	0		0	0	0		0	0	16	2	0
-daPilAura1	18	0.11	1.04	18	0	0	0	18	0	0	0	HAP1 (10 chromosomes)	0	0	0		0	0	18	0	0
-daSenVulg1	20	0.93	494.70	16	0	0	4	0	0	16	0		0	0	0		0	0	16	4	0
-daSonOler1	16			0	0	0	16	0	0	0	0		0	0	0		0	0	0	16	0
-dcCerAlpi1	36			0	0	0	4	0	0	32	0		0	0	0	18.93	0	0	0	4	32
-dcHonPepl1	34			0	0	0	34	0	0	0	0		0	0	0		0	0	0	34	0
-ddAraThal4	5			0	0	0	5	0	0	0	0		0	0	0		0	0	0	5	0
-ddEmpNigr1	13	0.00	4.67	2	0	0	0	3	8	2	0	HAP4 (2 chromosomes)	0	0	0		13	0	0	0	0
-ddHesMatr1	6			0	0	0	0	4	0	1	1	HAP1 (2 chromosomes)	0	0	0		6	0	0	0	0
-ddHypMacu1	8	0.00	3.21	2	0	0	0	8	0	0	0	HAP1 (8 chromosomes)	0	0	0		8	0	0	0	0
-ddHypPerf1	8			0	0	0	0	4	2	0	2	HAP2 (2 chromosomes)	0	0	0		8	0	0	0	0
-ddLepDrab1	16	0.10	3.09	16	1	0	0	6	1	0	8	HAP4 (4 chromosomes)	0	0	0		16	0	0	0	0
-ddMalSylv1	21			0	0	0	21	0	0	0	0		0	0	0		0	0	0	21	0
-ddPopNigr1	19			0	0	0	19	0	0	0	0		0	0	0		0	0	0	19	0
-ddSalCine1	18			0	0	0	18	0	0	0	0		0	0	0		0	0	0	18	0
-ddSalPent1	38	0.13	8.40	38	0	0	0	0	0	38	0		0	0	0		0	0	38	0	0
-ddSalTria1	19	0.13	7.41	4	0	0	0	6	0	0	13	HAP3 (5 chromosomes)	0	0	0		19	0	0	0	0
-dmRanRepe1	16			0	0	0	0	0	0	16	0		0	0	0	10.93	0	0	0	0	16
-drAriEdul1	17	0.16	7.38	16	7	0	0	4	3	0	3	HAP4 (3 chromosomes)	0	0	0		17	0	0	0	0
-drIngLaur1	13			0	0	0	13	0	0	0	0		0	0	0		0	0	0	13	0
-drLytSali1	15	0.09	3.89	10	1	0	0	1	0	0	13	HAP2 (1 chromosomes)	0	0	0		15	0	0	0	0
-drMyrSpic1	21	0.33	6.98	16	0	0	5	0	0	16	0		0	0	0		0	0	16	5	0
-drMyrVert1	14	0.06	4.81	14	0	0	0	0	0	14	0		0	0	0		0	0	14	0	0
-drRosSpin1	14	0.13	3.93	14	0	0	0	0	0	14	0		0	0	0		0	0	14	0	0
-drSorDevo1	34	0.23	4.06	34	0	0	0	0	0	34	0		0	0	0		0	0	34	0	0
-drTriDubi3	15			14	0	0	15	0	0	0	0		0	0	0		0	0	0	15	0
-drTriRepe1	16	0.04	3.41	16	0	0	0	0	0	16	0		0	0	0		0	0	16	0	0
-drUrtDioi1	13			0	0	0	13	0	0	0	0		0	0	0		0	0	0	13	0
-laPotCris1	26	0.50	45.12	24	0	0	2	0	0	24	0		0	0	0		0	0	24	2	0
-laPotLuce1	26	0.19	8.28	24	0	0	2	0	0	24	0		0	0	0		0	0	24	2	0
-laPotNata1	25	0.22	16.11	24	0	0	1	0	0	24	0		0	0	0		0	0	24	1	0
-laPotNodo1	26	0.46	27.55	26	0	0	0	0	0	26	0		0	0	0		0	0	26	0	0
-laPotPerf1	26	0.13	6.10	26	0	0	0	0	0	26	0		0	0	0		0	0	26	0	0
-llColAutu1	51	0.59	568.19	48	0	0	3	0	0	48	0		0	0	0		0	0	48	3	0
-lpElePalu1	19	1.34	0.99	18	4	0	1	2	0	4	8	HAP1 (2 chromosomes)	0	0	0		0	0	18	1	0
-lpTriTurg1_A	7			0	0	0	7	0	0	0	0		0	0	0		0	0	0	7	0
-lpTriTurg1_B	7			0	0	0	7	0	0	0	0		0	0	0		0	0	0	7	0
+species	n_chromosome_numbers	ancient_distance_ratio_cv	ancient_distance_ratio_median	ancient_paired_chromosomes	copy_state:candidate	copy_state:fusion_lineages	copy_state:not_assessable	copy_state:one_divergent_copy	copy_state:partially_resolved	copy_state:resolved_lineages	copy_state:tetrasomic_like	exchange_bp	exchange_chromosomes	exchange_list	lineage_switch_chromosomes	lineage_switch_list	map_block_dist_cv	map_block_dist_median	map_duplicated_frac	map_multi_partner_chromosomes	map_multi_partner_list	map_n_blocks	map_n_partner_pairs	most_frequent_outlier_hap	n_distinct_fusions	n_fused_scaffolds	n_fusion_candidates_partner_present	partition_pool_z	residual_bp	residual_chromosomes	residual_controlled	residual_null_run_windows	residual_terminal_frac	residual_tested_chromosomes	state_basis:copies	state_basis:fusion	state_basis:homeolog_pool	state_basis:none	state_basis:partition_pool
+OncMaso1	33	0.23	13.87	14	0	0	19	0	2	12	0	9000000	3	chr16(chr06:1/2);chr29(chr17:1/2);chr30(chr02:1/2)	0		0.241	0.0589	0.165	8	chr01:chr31+chr32;chr09:chr12+chr19;chr10:chr12+chr13;chr12:chr09+chr10;chr30:chr02+chr31;chr31:chr01+chr30;chr32:chr01+chr04+chr33;chr33:chr08+chr32	48	17		0	0	0		8564981	2	yes	8	0.39	25	0	0	14	19	0
+SchCurv1	25	0.00	7.34	2	2	2	0	2	2	0	17	2250000	1	chr10(chr03:1/4)	0		0.186	0.0390	0.022	0		4	1	HAP4 (1 chromosomes)	1	2	0		0	0	yes	8		4	23	2	0	0	0
+SchYoun1	25	0.00	9.28	2	1	10	0	0	0	0	14	0	0		0				0.000	0		0	0		5	10	0		0	0	yes	8		2	15	10	0	0	0
+daBudDavi1	19	0.00	3.89	2	1	0	0	2	1	0	15	0	0		0				0.000	0		0	0	HAP2 (1 chromosomes)	0	0	0		0	0	yes	8		2	19	0	0	0	0
+daEupConf1	22			22	0	0	22	0	0	0	0				0		0.066	0.0459	0.240	0		40	11		0	0	0								0	0	0	22	0
+daGalBore1	11			0	0	0	0	0	1	0	10	0	0		0				0.000	0		0	0		0	0	0		0	0	yes	8		4	11	0	0	0	0
+daGleHede1	18	0.11	3.50	18	0	0	0	0	0	18	0	0	0		0		0.047	0.0422	0.790	0		36	9		0	0	0		0	0	yes	8		18	0	0	18	0	0
+daInuConz1	16			0	0	0	0	0	0	16	0	0	0		0		0.086	0.0240	0.012	0		9	1		0	0	0	10.32	0	0	yes	8		2	0	0	0	0	16
+daLatClan1	21	0.20	28.94	20	0	0	1	0	0	20	0	3154489	1	chr07(chr05:1/2)	0		0.859	0.0162	0.101	4	chr04:chr03+chr15;chr05:chr07+chr17;chr11:chr01+chr02;chr15:chr04+chr18	25	10		0	0	0		0	0	yes	8		20	0	0	20	1	0
+daLatSqua1	18	0.91	375.04	16	0	0	2	0	0	16	0	0	0		0		0.061	0.0716	0.268	7	chr03:chr02+chr16;chr05:chr06+chr10;chr10:chr05+chr13;chr11:chr13+chr17;chr13:chr10+chr11;chr14:chr15+chr18;chr18:chr04+chr14	35	12		0	0	0		0	0	yes	8		17	0	0	16	2	0
+daPilAura1	18	0.11	1.04	18	0	0	0	18	0	0	0	3250000	1	chr02(chr03:1/2)	0		0.323	0.0171	0.818	2	chr01:chr07+chr14;chr07:chr01+chr06	211	10	HAP1 (10 chromosomes)	0	0	0		79000000	4	yes	8	0.00	18	0	0	18	0	0
+daSenVulg1	20	0.94	494.70	20	0	0	0	0	0	20	0	0	0		0		0.236	0.0426	0.091	0		15	5		0	0	0		0	0	yes	8		20	0	0	20	0	0
+daSonOler1	16	0.00	2830.01	2	0	0	14	0	0	2	0	0	0		0		0.133	0.0666	0.180	3	chr01:chr10+chr13;chr06:chr07+chr14;chr07:chr06+chr16	27	9		0	0	0		0	0	yes	8		15	0	0	2	14	0
+dcCerAlpi1	36	0.17	11.44	36	0	0	0	0	0	36	0	0	0		0				0.000	0		0	0		0	0	0		0	0	yes	8		36	0	0	36	0	0
+dcHonPepl1	34			0	0	0	34	0	0	0	0	0	0		0		0.150	0.0530	0.026	4	chr02:chr29+chr34;chr03:chr16+chr25;chr04:chr11+chr26;chr06:chr05+chr13+chr22	22	10		0	0	0		0	0	yes	8		15	0	0	0	34	0
+ddAraThal4	5			0	0	0	5	0	0	0	0														0	0	0								0	0	0	5	0
+ddEmpNigr1	13			0	0	0	0	3	8	2	0	0	0		2	chr05;chr10		0.0585	0.019	0		2	1	HAP4 (2 chromosomes)	0	0	0		0	0	yes	8		2	13	0	0	0	0
+ddHesMatr1	6			0	0	0	0	4	0	1	1	0	0		1	chr06			0.000	0		0	0	HAP1 (2 chromosomes)	0	0	0		0	0	yes	8		2	6	0	0	0	0
+ddHypMacu1	8	0.00	3.21	2	0	0	0	8	0	0	0	21500000	2	chr01(chr03:1/4);chr03(chr01:1/4)	1	chr06			0.000	0		0	0	HAP1 (8 chromosomes)	0	0	0		0	0	yes	8		2	8	0	0	0	0
+ddHypPerf1	8			0	0	0	0	4	2	0	2	0	0		0				0.000	0		0	0	HAP2 (2 chromosomes)	0	0	0		0	0	no	8		2	8	0	0	0	0
+ddLepDrab1	16	0.10	3.09	16	1	0	0	6	1	0	8	3750000	1	chr03(chr06:1/4)	0		0.132	0.0595	0.679	0		34	8	HAP4 (4 chromosomes)	0	0	0		0	0	yes	8		16	16	0	0	0	0
+ddMalSylv1	21			0	0	0	21	0	0	0	0	0	0		0			0.0946	0.010	0		2	1		0	0	0		0	0	yes	8		2	0	0	0	21	0
+ddPopNigr1	19			0	0	0	19	0	0	0	0				0		0.031	0.1373	0.228	2	chr03:chr15+chr17;chr04:chr02+chr05	21	8		0	0	0								0	0	0	19	0
+ddSalCine1	18			2	0	0	18	0	0	0	0				0				0.000	0		0	0		0	0	0								0	0	0	18	0
+ddSalPent1	38	0.13	8.40	38	0	0	0	0	0	38	0	0	0		0		0.086	0.0657	0.782	2	chr03:chr09+chr16;chr16:chr03+chr04	62	20		0	0	0		0	0	yes	8		38	0	0	38	0	0
+ddSalTria1	19	0.03	7.37	6	0	0	0	6	0	0	13	0	0		1	chr03			0.000	0		0	0	HAP3 (5 chromosomes)	0	0	0		0	0	yes	8		6	19	0	0	0	0
+dmRanRepe1	16			0	0	0	16	0	0	0	0	0	0		0		0.069	0.0166	0.004	0		10	1		0	0	0		0	0	yes	8		2	0	0	0	16	0
+drAriEdul1	17	0.16	7.38	16	7	0	0	4	3	0	3	0	0		0		0.056	0.0817	0.244	3	chr01:chr06+chr14;chr13:chr15+chr16;chr15:chr11+chr13	29	10	HAP4 (3 chromosomes)	0	0	0		0	0	yes	8		17	17	0	0	0	0
+drIngLaur1	13			0	0	0	13	0	0	0	0				0				0.000	0		0	0		0	0	0								0	0	0	13	0
+drLytSali1	15	0.09	3.89	10	1	0	0	1	0	0	13	0	0		0		0.057	0.0740	0.424	5	chr04:chr05+chr07;chr05:chr04+chr10;chr07:chr04+chr10;chr10:chr05+chr07;chr13:chr12+chr14	31	8	HAP2 (1 chromosomes)	0	0	0		0	0	yes	8		11	15	0	0	0	0
+drMyrSpic1	21	0.33	6.98	16	0	0	5	0	0	16	0	0	0		0		0.129	0.0466	0.440	3	chr01:chr02+chr07;chr02:chr01+chr07;chr07:chr01+chr02	38	9		0	0	0		0	0	yes	8		17	0	0	16	5	0
+drMyrVert1	14	0.06	4.81	14	0	0	0	0	0	14	0	0	0		0		0.033	0.0834	0.693	0		27	7		0	0	0		0	0	yes	8		14	0	0	14	0	0
+drRosSpin1	14	0.13	3.93	14	0	0	0	0	0	14	0	0	0		0		0.076	0.0389	0.351	0		52	7		0	0	0		0	0	yes	8		14	0	0	14	0	0
+drSorDevo1	34	0.23	4.06	34	0	0	0	0	0	34	0	5876986	1	chr30(chr31:1/2)	0		0.045	0.0401	0.711	0		80	17		0	0	0		0	0	yes	8		34	0	0	34	0	0
+drTriDubi3	15			12	0	0	15	0	0	0	0				0		0.051	0.0580	0.349	3	chr02:chr12+chr15;chr03:chr13+chr15;chr15:chr02+chr03	30	9		0	0	0								0	0	0	15	0
+drTriRepe1	16	0.04	3.41	16	0	0	0	0	0	16	0	0	0		0		0.042	0.0479	0.521	0		57	8		0	0	0		0	0	yes	8		16	0	0	16	0	0
+drUrtDioi1	13			0	0	0	13	0	0	0	0				0				0.000	0		0	0		0	0	0								0	0	0	13	0
+fAmiCal2	23	0.00	77.32	2	0	0	21	0	0	2	0	0	0		0				0.000	0		0	0		0	0	0		0	0	yes	8		2	0	0	2	21	0
+fCorLav1	40	0.45	16.77	28	0	0	12	2	0	26	0	4250000	1	chr35(chr38:1/2)	0		0.344	0.0447	0.297	6	chr03:chr07+chr13;chr05:chr13+chr16+chr19;chr06:chr21+chr40;chr13:chr03+chr05;chr15:chr10+chr24;chr19:chr05+chr23	84	21	HAP2 (2 chromosomes)	0	0	0		0	0	yes	8		37	0	0	28	12	0
+fLepOcu1	29	0.00	7.41	2	0	0	27	0	0	2	0	0	0		0				0.000	0		0	0		0	0	0		0	0	yes	8		2	0	0	2	27	0
+fSalAlp3	40	0.36	20.49	24	0	0	16	0	0	24	0	5000000	1	chr09(chr11:1/2)	0		0.161	0.0568	0.184	6	chr04:chr18+chr27;chr05:chr07+chr13;chr07:chr05+chr16+chr38;chr10:chr32+chr35;chr11:chr09+chr25;chr13:chr05+chr23	72	18		0	0	0		0	0	yes	8		29	0	0	24	16	0
+icStrMela3	10	0.19	2.15	4	0	0	0	10	0	0	0	34000000	1	chr08(chr02:1/3)	1	chr09			0.000	0		0	0	HAP1B (9 chromosomes)	0	0	0		0	0	yes	8		4	10	0	0	0	0
+laPotCris1	26	0.50	45.12	24	0	0	2	0	0	24	0	0	0		0		0.047	0.0707	0.524	8	chr01:chr22+chr24;chr02:chr10+chr21+chr23;chr05:chr09+chr21+chr25;chr09:chr05+chr19;chr10:chr02+chr17;chr19:chr09+chr25;chr21:chr02+chr05;chr25:chr05+chr19	45	17		0	0	0		0	0	yes	8		26	0	0	24	2	0
+laPotLuce1	26	0.19	8.28	24	0	0	2	0	0	24	0	0	0		0		0.054	0.0579	0.710	9	chr01:chr06+chr15+chr16+chr22;chr03:chr12+chr19+chr24;chr06:chr01+chr22;chr12:chr03+chr21;chr15:chr01+chr18;chr16:chr01+chr20;chr19:chr03+chr21;chr21:chr12+chr19;chr22:chr01+chr06	57	19		0	0	0		0	0	yes	8		26	0	0	24	2	0
+laPotNata1	25	0.22	16.11	24	0	0	1	0	0	24	0	0	0		0		0.059	0.0590	0.586	7	chr01:chr03+chr15+chr17+chr20;chr03:chr01+chr15;chr10:chr16+chr24;chr15:chr01+chr03;chr16:chr10+chr21;chr17:chr01+chr22;chr20:chr01+chr13	51	17		0	0	0		0	0	yes	8		25	0	0	24	1	0
+laPotNodo1	26	0.46	27.55	26	0	0	0	0	0	26	0	0	0		0		0.054	0.0679	0.587	9	chr03:chr07+chr11+chr17+chr19;chr07:chr03+chr25;chr08:chr17+chr20;chr11:chr03+chr19+chr25;chr12:chr16+chr26;chr16:chr12+chr22;chr17:chr03+chr08;chr19:chr03+chr11;chr25:chr07+chr11	51	19		0	0	0		0	0	yes	8		26	0	0	26	0	0
+laPotPerf1	26	0.13	6.10	26	0	0	0	0	0	26	0	0	0		0		0.054	0.0672	0.599	9	chr03:chr10+chr13+chr15+chr20+chr26;chr09:chr13+chr24;chr10:chr03+chr20+chr26;chr11:chr16+chr25;chr13:chr03+chr09;chr15:chr03+chr26;chr16:chr11+chr21;chr20:chr03+chr10;chr26:chr03+chr10+chr15	58	20		0	0	0		0	0	yes	8		26	0	0	26	0	0
+llColAutu1	51	0.59	568.19	48	0	0	3	0	2	46	0	0	0		0		0.103	0.0437	0.462	7	chr04:chr10+chr12+chr49;chr06:chr15+chr27+chr51;chr10:chr04+chr17;chr20:chr44+chr48;chr27:chr06+chr37;chr29:chr36+chr43;chr43:chr29+chr33	295	30		0	0	0		5000000	2	yes	8	0.00	51	0	0	48	3	0
+lpTriTurg1_A	7			0	0	0	7	0	0	0	0	0	0		0		0.223	0.0362	0.003	0		5	1		0	0	0		0	0	yes	8		2	0	0	0	7	0
+lpTriTurg1_B	7			0	0	0	7	0	0	0	0	0	0		0				0.000	0		0	0		0	0	0		0	0	no	8		2	0	0	0	7	0
+xgCepNemo3	22	0.00	5.87	2	0	0	20	0	0	2	0	0	0		0				0.000	0		0	0		0	0	0		0	0	yes	8		2	0	0	2	20	0
+xgDauRufa1	28	0.00	4.84	2	0	0	26	0	0	2	0	0	0		0				0.000	0		0	0		0	0	0		0	0	yes	8		2	0	0	2	26	0
+xgHygCinc1	21	0.00	8.89	2	0	0	19	0	0	2	0	0	0		0				0.000	0		0	0		0	0	0		0	0	yes	8		2	0	0	2	19	0
+xgLitLitt3	17	0.00	6.12	2	0	0	15	0	0	2	0	0	0		0				0.000	0		0	0		0	0	0		0	0	yes	8		2	0	0	2	15	0
+xgMonCant1	24			0	0	2	22	0	0	0	0	28000000	1	chr23(chr24:1/2)	0				0.000	0		0	0		1	1	0		0	0	yes	8		1	0	2	0	22	0
+xgPomEleg1	13			0	0	0	13	0	0	0	0	0	0		0				0.000	0		0	0		0	0	0		0	0	yes	8		2	0	0	0	13	0
+xgStaPalu1	18	0.32	8.41	6	0	0	12	0	0	6	0	0	0		0		0.167	0.0544	0.016	0		5	1		0	0	0		0	0	yes	8		7	0	0	6	12	0

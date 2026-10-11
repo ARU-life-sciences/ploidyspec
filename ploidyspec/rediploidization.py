@@ -62,6 +62,7 @@ from .common import (
     windowed_dir,
 )
 from .kmer_tables import build_one, ktab_prefix_path, load_sequences
+from .fusion_profile import PROFILE_FIELDS, fusion_profiles
 from .homeology_map import BLOCKS_TSV, read_summary as read_map_summary
 from .residual import FIELDS as RESIDUAL_FIELDS, residual_tetrasomy
 from .subgenome_report import bipartition_by_distance, load_whole_chrom_distances
@@ -545,6 +546,100 @@ def crossing_groupings(ids, group_a):
     return out
 
 
+SWITCH_CONTRAST = 2.5  # in each run, the other lineage this much further than the run's neighbour
+SWITCH_MIN_FRAC = 0.1  # each run covers at least this share of the chromosome
+SWITCH_LINEAGE_LEVEL = 3.0  # the far copy at least this x the genome's allelic level
+MAX_SWITCH_GAP = 2
+
+
+def lineage_switches(units, dist, windowed, min_bp):
+    """
+    {chrom: "HAP1:0.0-39.8Mb~HAP2|40.0-81.4Mb~HAP1B"} for copies that are one
+    lineage's sequence along part of their length and another's along the rest.
+
+    The homeologous-exchange readout (residual.py) compares different chromosome
+    numbers; when the subgenome copies share a number (an AAB or AABB assembly
+    with the sets under one number) an exchange shows instead here. icStrMela3
+    HAP1 chr09 is closest to the other A copy (HAP2) over 0-40 Mb (0.004 vs
+    0.015 to B) and to the B copy (HAP1B) over 40-81 Mb (0.004 vs 0.018 to
+    HAP2): AAB reads ABB there. Along a copy, runs of one nearest other copy
+    (gaps of MAX_SWITCH_GAP windows bridged) are kept when they cover
+    >= SWITCH_MIN_FRAC of the chromosome and min_bp; two consecutive runs with
+    different neighbours X then Y are a switch when, over the first, the copy is
+    >= SWITCH_CONTRAST x closer to X than to Y (median over windows) and over
+    the second the reverse. In a polysomic genome the nearest copy changes in
+    short blocks between about equally close copies (drAriEdul1, daBudDavi1),
+    which neither rule passes. The far copy must also sit at a lineage-level
+    distance, >= SWITCH_LINEAGE_LEVEL x the genome's allelic level (median over
+    all windows of the distance to the closest copy): a switch between two
+    allelic haplotypes in an autopolyploid is ordinary recombination.
+    """
+    by_chrom = defaultdict(list)
+    for u in units:
+        by_chrom[u["chrom"]].append(u["unit_id"])
+    # allelic level: per chromosome, the most allelic copy's median distance to
+    # its closest copy; median over chromosomes (a divergent extra set's windows,
+    # always closest to another lineage, must not raise it: icStrMela3 0.0067
+    # over all windows, 0.003 this way)
+    per_chrom = []
+    for tracks in windowed.values():
+        meds = [statistics.median(min(v for u, v in d.items() if u != anchor)
+                                  for _, d in wins.values() if len(d) > (anchor in d))
+                for anchor, wins in tracks.items() if wins]
+        if meds:
+            per_chrom.append(min(meds))
+    allelic = statistics.median(per_chrom) if per_chrom else 0.0
+    out = {}
+    for chrom, ids in by_chrom.items():
+        if len(ids) < 3:
+            continue
+        tracks = windowed.get(f"chr{chrom:02d}", {})
+        found = []
+        for anchor in sorted(ids):
+            wins = tracks.get(anchor, {})
+            if not wins:
+                continue
+            labels = []
+            for s_ in sorted(wins):
+                e, d = wins[s_]
+                others = {u: v for u, v in d.items() if u in ids and u != anchor}
+                labels.append((s_, e, min(others, key=others.get) if others else None, others))
+            span = labels[-1][1] - labels[0][0] + 1
+            runs_, i = [], 0
+            while i < len(labels):
+                lab, first, last, gap, j = labels[i][2], i, i, 0, i + 1
+                while j < len(labels) and gap <= MAX_SWITCH_GAP:
+                    if labels[j][2] == lab:
+                        last, gap = j, 0
+                    else:
+                        gap += 1
+                    j += 1
+                length = labels[last][1] - labels[first][0] + 1
+                if lab is not None and length >= max(min_bp, SWITCH_MIN_FRAC * span):
+                    runs_.append((labels[first][0], labels[last][1], lab, labels[first:last + 1]))
+                i = last + 1
+
+            def contrast(run, near, far):
+                vals = [w[3][far] / max(w[3][near], 1e-3) for w in run if near in w[3] and far in w[3]]
+                return statistics.median(vals) if vals else 0.0
+
+            def far_level(run, far):
+                vals = [w[3][far] for w in run if far in w[3]]
+                return statistics.median(vals) if vals else 0.0
+
+            switched = any(a[2] != b[2] and contrast(a[3], a[2], b[2]) >= SWITCH_CONTRAST
+                           and contrast(b[3], b[2], a[2]) >= SWITCH_CONTRAST
+                           and min(far_level(a[3], b[2]), far_level(b[3], a[2]))
+                           >= SWITCH_LINEAGE_LEVEL * allelic
+                           for a, b in zip(runs_, runs_[1:]))
+            if switched:
+                found.append(f"{anchor.split('_')[0]}:" + ";".join(
+                    f"{s_ / 1e6:.1f}-{e / 1e6:.1f}Mb~{lab.split('_')[0]}" for s_, e, lab, _ in runs_))
+        if found:
+            out[chrom] = "|".join(found)
+    return out
+
+
 def quantile(values, q):
     v = sorted(values)
     return v[int(q * (len(v) - 1))] if v else 0.0
@@ -632,7 +727,7 @@ def load_chrom_distances(outdir):
     with open(path) as f:
         for r in csv.DictReader(f, delimiter="\t"):
             a, b = int(r["chrom_a"].replace("chr", "")), int(r["chrom_b"].replace("chr", ""))
-            out[(a, b)] = out[(b, a)] = float(r["distance"])
+            out[(a, b)] = out[(b, a)] = float(r.get("adjusted_distance") or r["distance"])
     return out
 
 
@@ -702,6 +797,17 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
     n_tested = len(fusions)
     fusions = [f for f in fusions if f["status"] != "no_fusion_signal"]
     log(f"rediploidization: {n_tested} long/unplaced scaffold(s) tested, {len(fusions)} with fusion signal")
+    profile_rows = []
+    if any(f["status"] == "fusion" for f in fusions):
+        by_id = {u["unit_id"]: u for u in units}
+        by_seq = {o["seq_id"]: o for o in orphans}
+        fused_units = {f["scaffold"]: by_id.get(f["scaffold"]) or by_seq.get(f["scaffold"])
+                       for f in fusions if f["status"] == "fusion"}
+        fused_units = {k: v for k, v in fused_units.items() if v is not None}
+        log("rediploidization: divergence along fused chromosomes")
+        profile_rows = fusion_profiles(outdir, rediploidization_dir(outdir), units, fusions, fused_units,
+                                       tools_fn(), thresholds.get("window_k", 15),
+                                       thresholds.get("window", 250_000))
 
     fused_in = defaultdict(lambda: defaultdict(set))  # chrom -> partner -> haps
     for f in fusions:
@@ -714,7 +820,11 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
                     fused_in[c][p].add(f["hap"])
 
     log("rediploidization: lineage structure per chromosome")
-    lineages = chromosome_lineages(units, dist, load_windowed(outdir), load_te_split(outdir), thresholds)
+    windowed = load_windowed(outdir)
+    lineages = chromosome_lineages(units, dist, windowed, load_te_split(outdir), thresholds)
+    switches = lineage_switches(units, dist, windowed, thresholds["min_segment_bp"])
+    if switches:
+        log(f"rediploidization: lineage switches along {len(switches)} chromosome(s)")
     ancient = load_ancient_pairs(outdir)
     partition, partition_z = {}, None
     if not ancient:
@@ -809,13 +919,21 @@ def compute_rediploidization(outdir, k_values, min_len, thresholds, tools_fn, th
                 exchange_support=residual.get(chrom, {}).get("exchange_support", ""),
                 exchange_segments=residual.get(chrom, {}).get("exchange_segments", ""),
                 block_partners=block_partners.get(chrom, ""),
+                lineage_switches=switches.get(chrom, ""),
             )
         )
 
     rdir = rediploidization_dir(outdir)
     write_tsv(os.path.join(rdir, "fusions.tsv"), fusions,
               ["scaffold", "hap", "length", "origin", "components", "containment",
-               "sibling_excess", "lineage_divergence", "max_z", "status"])
+               "sibling_excess", "lineage_divergence", "max_z", "status", "junction_mb",
+               "junction_agreement", "near_junction_div", "arm_end_div", "junction_gradient",
+               "fused_within_div"])
+    if profile_rows:
+        write_tsv(os.path.join(rdir, "fusion_profile.tsv"),
+                  [dict(r, d_unfused=f"{r['d_unfused']:.5f}",
+                        d_fused="" if r["d_fused"] is None else f"{r['d_fused']:.5f}") for r in profile_rows],
+                  PROFILE_FIELDS)
     write_tsv(os.path.join(rdir, "rediploidization_by_chrom.tsv"), rows, list(rows[0]) if rows else [])
     if residual_rows:
         write_tsv(os.path.join(rdir, "residual_tetrasomy.tsv"), residual_rows, RESIDUAL_FIELDS)
@@ -886,6 +1004,9 @@ def summarize(rows, fusions, partition_z=None, residual_null=None, homeology=Non
                 dict(metric="exchange_bp", value=sum(r["exchange_bp"] for r in ex)),
                 dict(metric="exchange_list", value=";".join(
                     f"{r['chrom']}({r['exchange_support']})" for r in ex))]
+    sw = [r for r in rows if r.get("lineage_switches")]
+    out += [dict(metric="lineage_switch_chromosomes", value=len(sw)),
+            dict(metric="lineage_switch_list", value=";".join(r["chrom"] for r in sw))]
     # segmental homeology from the genome-wide map (homeology_map.py)
     for key in ("duplicated_frac", "n_blocks", "n_partner_pairs", "multi_partner_chromosomes",
                 "multi_partner_list", "block_dist_median", "block_dist_cv"):

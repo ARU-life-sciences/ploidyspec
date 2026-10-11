@@ -4,12 +4,12 @@ chr02	1
 chr03	1						
 chr04	1						
 chr05	1						
-chr06	1						
+chr06	1		chr11	0.128800	-3.704	0.0162317	
 chr07	1						
 chr08	1						
 chr09	1						
 chr10	1						
-chr11	1						
+chr11	1		chr06	0.128800	-3.704	0.0162317	
 chr12	1						
 chr13	1						
 chr14	1						

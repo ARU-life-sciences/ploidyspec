@@ -61,7 +61,7 @@ def load_chrom_distance_matrix(species_dir):
     with open(path) as f:
         for r in csv.DictReader(f, delimiter="\t"):
             a, b = r["chrom_a"], r["chrom_b"]
-            d = float(r["distance"])
+            d = float(r.get("adjusted_distance") or r["distance"])
             dist[(a, b)] = d
             dist[(b, a)] = d
             chroms.add(a)

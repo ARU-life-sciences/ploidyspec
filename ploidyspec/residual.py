@@ -78,12 +78,18 @@ wrong chromosome (masu's reference-scaffolded HAP1). Runs are tested against
 their own shuffle null; no pair vote, since an exchange is usually carried by
 one copy -- `exchange_support` says how many.
 
+Low-complexity windows (satellite arrays and repeat-dense stretches: zlib
+compression ratio below 0.75 of the genome median) are not read for either test: homeologous centromeres share
+a satellite family, which reads as near-allelic in every copy (LOW_COMPLEXITY_FRAC).
+
 Needs `windowed` and `windowed-homeologs` outputs; returns nothing without them.
 """
 
+import csv
 import os
 import random
 import statistics
+import zlib
 from collections import defaultdict
 
 from .common import homeologs_dir, window_rows, windowed_dir
@@ -96,6 +102,19 @@ ALLELE_FLOOR = 1e-3  # an almost homozygous chromosome must not inflate every ra
 TERMINAL_FRAC = 0.1  # a segment within this fraction of either end is terminal
 MAX_GAP = 1
 ALLELE_CAP = 1.5  # a chromosome's allelic level is at most this times the genome median
+# Satellite arrays and repeat-dense windows: a window whose sequence compresses
+# to under this fraction of the genome's median compression ratio is not read.
+# Position-free containment cannot tell shared repeats from shared sequence
+# there: daLatClan1's chr03/chr04 "residual" segment (29-40 Mb, zlib 0.19-0.27
+# against a median 0.29) read 0.0005 between homeologs, but they align at
+# only 98-99% against 99.9-100% for the alleles. At 0.75 that call goes while
+# daPilAura1's (homeolog identity 99.6-99.8%, as its alleles) and masu's stay.
+# daGleHede1's chr14/chr17 "residual" block (16-22 Mb) is a centromeric
+# satellite: k-mer containment ~1 against both homeologs (shared satellite
+# family) but alignment identity 94-96%, and zlib ratio 0.06-0.13 against
+# 0.32 for the rest of the chromosome. Homeologous centromeres inherit one
+# satellite family, so the unrelated-chromosome control does not remove it.
+LOW_COMPLEXITY_FRAC = 0.75
 EXCHANGE_RATIO = 2.0  # homeolog copy this much closer than the anchor's own copies
 HOMEOLOG_FRAC = 0.25  # near-allelic also means well below the typical homeolog distance
 MIN_NULL_RUN = 8  # floor on the shuffled-run null, in windows
@@ -103,7 +122,7 @@ MIN_NULL_RUN = 8  # floor on the shuffled-run null, in windows
 FIELDS = ["chrom", "partner", "anchor", "control", "n_windows", "n_near_allelic", "n_shared_with_control",
           "allele_level",
           "longest_run", "null_max_run", "segments", "covered_bp", "covered_frac",
-          "n_exchange", "exchange_segments", "exchange_bp"]
+          "n_exchange", "exchange_segments", "exchange_bp", "n_low_complexity"]
 
 
 def load_tracks(path):
@@ -157,7 +176,55 @@ def own_copy_distances(path):
     return out
 
 
-def exchange_track(anchor, windows, own, allele, ratio):
+def compress_ratio(seq):
+    return len(zlib.compress(seq, 1)) / max(len(seq), 1)
+
+
+def window_complexity(outdir, windows_by_anchor):
+    """{anchor: {win_start: zlib compression ratio}} for every anchor's
+    windows, from its chroms/ FASTA; cached in windowed/window_complexity.tsv.
+    Anchors without a FASTA are left out (no guard for them)."""
+    from .kmer_tables import chrom_fasta_path
+
+    path = os.path.join(windowed_dir(outdir), "window_complexity.tsv")
+    cached = defaultdict(dict)
+    if os.path.exists(path):
+        with open(path) as f:
+            for r in csv.DictReader(f, delimiter="\t"):
+                cached[r["anchor"]][int(r["win_start"])] = float(r["ratio"])
+    out, new = {}, []
+    for anchor, starts in windows_by_anchor.items():
+        if anchor in cached and all(s in cached[anchor] for s, _ in starts):
+            out[anchor] = cached[anchor]
+            continue
+        fa = chrom_fasta_path(outdir, anchor)
+        if not os.path.exists(fa):
+            continue
+        with open(fa, "rb") as f:
+            seq = b"".join(line.strip() for line in f if not line.startswith(b">")).upper()
+        out[anchor] = {s: compress_ratio(seq[s - 1:e]) for s, e in starts}
+        new += [(anchor, s, out[anchor][s]) for s, _ in starts]
+    if new:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        fresh = not os.path.exists(path)
+        with open(path, "a", newline="") as f:
+            w = csv.writer(f, delimiter="\t")
+            if fresh:
+                w.writerow(["anchor", "win_start", "ratio"])
+            w.writerows((a, s, f"{r:.4f}") for a, s, r in new)
+    return out
+
+
+def low_complexity(complexity):
+    """{anchor: set of low-complexity window starts}"""
+    values = [r for per in complexity.values() for r in per.values()]
+    if not values:
+        return {}
+    cut = LOW_COMPLEXITY_FRAC * statistics.median(values)
+    return {a: {s for s, r in per.items() if r < cut} for a, per in complexity.items()}
+
+
+def exchange_track(anchor, windows, own, allele, ratio, low=()):
     """[(start, end, exchange)]: windows closer to a homeolog copy than to the
     anchor's own copies (see module docstring)."""
     floor = ratio * max(allele, ALLELE_FLOOR)
@@ -165,12 +232,13 @@ def exchange_track(anchor, windows, own, allele, ratio):
     for s in sorted(windows):
         d_own = own.get((anchor, s))
         d_hom = min(windows[s][1].values())
-        hit = d_own is not None and d_own > floor and d_hom < d_own / EXCHANGE_RATIO
+        hit = (d_own is not None and d_own > floor and d_hom < d_own / EXCHANGE_RATIO
+               and s not in low)
         out.append((s, windows[s][0], hit))
     return out
 
 
-def near_allelic_track(windows, allele, ratio, control=None, ceiling=None, own=None):
+def near_allelic_track(windows, allele, ratio, control=None, ceiling=None, own=None, low=()):
     """[(start, end, near_allelic, shared_with_control)] along one anchor. A
     window close to the control chromosome as well is not near-allelic; the
     cut never exceeds `ceiling` (a fraction of the homeolog distance). With
@@ -188,7 +256,7 @@ def near_allelic_track(windows, allele, ratio, control=None, ceiling=None, own=N
             near = False
         ctl = control.get(s) if control else None
         shared = bool(ctl and min(ctl[1].values()) < cut)
-        out.append((s, windows[s][0], near and not shared, near and shared))
+        out.append((s, windows[s][0], near and not shared and s not in low, near and shared))
     return out
 
 
@@ -259,20 +327,25 @@ def residual_tetrasomy(outdir, chrom_of, thresholds):
     ceiling = thresholds.get("residual_homeolog_frac", HOMEOLOG_FRAC) * homeolog_level
 
     own = own_copy_distances(os.path.join(windowed_dir(outdir), "windowed_all.tsv"))
+    starts = defaultdict(dict)
+    for (anchor, _), windows in tracks.items():
+        starts[anchor].update({s: windows[s][0] for s in windows})
+    low = low_complexity(window_complexity(outdir, {a: sorted(v.items()) for a, v in starts.items()}))
     built = {}
     for (anchor, partner), windows in sorted(tracks.items()):
         if anchor not in alleles:
             continue
         built[(anchor, partner)] = near_allelic_track(
             windows, alleles[anchor], ratio, control_of.get(anchor, (None, None))[1], ceiling,
-            {s: own.get((anchor, s)) for s in windows})
+            {s: own.get((anchor, s)) for s in windows}, low.get(anchor, set()))
     lengths = [len(t) for t in built.values()]
     n_true = sum(t[2] for track in built.values() for t in track)
     null = null_max_run(lengths, n_true, thresholds.get("residual_permutations", RESIDUAL_PERMUTATIONS),
                         RESIDUAL_NULL_QUANTILE)
     null = max(null, thresholds.get("residual_min_run", MIN_NULL_RUN))
 
-    ex_tracks = {key: exchange_track(key[0], tracks[key], own, alleles[key[0]], ratio) for key in built}
+    ex_tracks = {key: exchange_track(key[0], tracks[key], own, alleles[key[0]], ratio,
+                                     low.get(key[0], set())) for key in built}
     ex_null = null_max_run([len(t) for t in ex_tracks.values()],
                            sum(t[2] for track in ex_tracks.values() for t in track),
                            thresholds.get("residual_permutations", RESIDUAL_PERMUTATIONS),
@@ -308,7 +381,8 @@ def residual_tetrasomy(outdir, chrom_of, thresholds):
                          n_exchange=sum(t[2] for t in ex_tracks[(anchor, partner)]),
                          exchange_segments=";".join(f"{s / 1e6:.2f}-{e / 1e6:.2f}Mb({p})"
                                                     for s, e, p in ex_segs),
-                         exchange_bp=ex_bp))
+                         exchange_bp=ex_bp,
+                         n_low_complexity=sum(1 for t in track if t[0] in low.get(anchor, ()))))
         reads_by_pair[tuple(sorted((chrom, partner)))].append(
             dict(chrom=chrom, partner=partner, anchor=anchor, covered=covered, frac=covered / span,
                  segs=segs, ex_bp=ex_bp, ex_segs=ex_segs))

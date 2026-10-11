@@ -26,8 +26,10 @@ residual_terminal_frac
 residual_null_run_windows	8
 residual_controlled	yes
 exchange_chromosomes	2
-exchange_bp	22500000
+exchange_bp	21500000
 exchange_list	chr01(chr03:1/4);chr03(chr01:1/4)
+lineage_switch_chromosomes	1
+lineage_switch_list	chr06
 map_duplicated_frac	0.000
 map_n_blocks	0
 map_n_partner_pairs	0
