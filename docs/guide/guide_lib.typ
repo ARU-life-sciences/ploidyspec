@@ -1,4 +1,4 @@
-// shared definitions for the ploidyspec handbook and its generated species chapter
+// shared definitions for the ploidyspec guide and its generated species chapter
 
 #let accent = rgb("#2b6cb0")
 #let warm = rgb("#c05621")
@@ -7,7 +7,7 @@
 #let grey = rgb("#4a5568")
 #let green = rgb("#2f855a")
 
-// species cards (filled by handbook_species.typ)
+// species cards (filled by guide_species.typ)
 #let confcol(c) = if c == "high" { green } else if c == "medium" { rgb("#b7791f") } else if c == "low" { warm } else { rgb("#a0aec0") }
 #let spcard(code, name, known, source, facts, answers, caveats) = block(
   breakable: true, width: 100%, inset: 9pt, radius: 4pt, stroke: 0.5pt + rgb("#cbd5e0"), below: 10pt, [
