@@ -3,6 +3,7 @@
 # $D/old_empnigr_windowed.tsv (pre-fix windowed_all.tsv from git), and the
 # SchCurv1 chr17/chr19 position-free tracks at $TMPDIR/wcarp (or results/SchCurv1 once re-run).
 # The Ranunculus figure reads results/dmRanRepe1/homeologs/{subgenome_partition,homeolog_pairs}.tsv.
+# The residual-vs-exchange figure reads windowed/ and homeologs/ window tracks of daPilAura1 and icStrMela3.
 # The TE split figure reads results/{ddEmpNigr1,icStrMela3}/subgenomes/te_marker_fraction_by_lineage.tsv.
 import csv, os, collections, statistics as st
 import numpy as np
@@ -154,5 +155,28 @@ for ax,sp,title in [(axs[0],'ddEmpNigr1','Empetrum nigrum (4 × 13)'),(axs[1],'i
     ax.set_title(title,fontsize=9,style='italic')
 axs[0].set_ylabel('TE marker fraction'); axs[0].legend(fontsize=7,frameon=False,loc='upper right')
 fig.tight_layout(); fig.savefig(F+'/te_split.png',dpi=200); plt.close(fig)
+
+# Fig: residual tetrasomy vs homeologous exchange, one copy's own-homolog and homeolog tracks
+def track(path, unit, others):
+    d=collections.defaultdict(dict)
+    for r in csv.DictReader(open(path),delimiter='\t'):
+        if r['unit_a']==unit and r['unit_b'] in others: d[int(r['win_start'])][r['unit_b']]=float(r['distance'])
+    xs=sorted(d); return np.array(xs)/1e6, np.array([min(d[x].values()) for x in xs])
+def rmed(y,n=5): return np.array([np.median(y[max(0,i-n//2):i+n//2+1]) for i in range(len(y))])
+cases=[('daPilAura1','HAP1_chr04','chr04','chr04x05',['HAP2_chr04'],['HAP1_chr05','HAP2_chr05'],[(116.75,134.5)],
+        'Residual tetrasomy: Pilosella aurantiaca HAP1 chr04','own homolog (HAP2 chr04)','closest chr05 copy'),
+       ('icStrMela3','HAP1B_chr08','chr08','chr02x08',['HAP1_chr08','HAP2_chr08'],['HAP1_chr02','HAP2_chr02','HAP1B_chr02'],
+        [(2.25,12.5),(13.25,17),(19.25,22.75),(28.5,35),(35.5,38.75),(42,44.5),(64.75,69)],
+        'Homeologous exchange: Strophosoma HAP1B chr08 (the B copy)','own homologs (A copies of chr08)','closest chr02 copy')]
+fig,axs=plt.subplots(2,1,figsize=(9,5.4))
+for ax,(sp,unit,num,pair,own,hom,segs,title,lo,lh) in zip(axs,cases):
+    x,y=track(f'results/{sp}/windowed/windowed_{num}.tsv',unit,own)
+    xh,yh=track(f'results/{sp}/homeologs/windowed_{pair}.tsv',unit,hom)
+    for a,b in segs: ax.axvspan(a,b,color=GOLD,alpha=0.25,lw=0)
+    ax.plot(x,rmed(y),color=BLUE,lw=1,label=lo); ax.plot(xh,rmed(yh),color=RED,lw=1,label=lh)
+    ax.set_title(title,fontsize=9,loc='left'); ax.set_ylabel('distance (5-window median)'); ax.set_ylim(bottom=0)
+    ax.legend(fontsize=7,frameon=False,loc='upper right',ncol=2)
+axs[1].set_xlabel('position (Mb); shaded: called segments')
+fig.tight_layout(); fig.savefig(F+'/residual_vs_exchange.png',dpi=200); plt.close(fig)
 
 print('ok', len(S))
