@@ -1,0 +1,27 @@
+status	unit_id	old_chrom	new_chrom	own_group_dist	alt_group_dist	ratio	new_hap
+corrected	HAP2_chr01	1	4	0.120097	0.005092	23.59	
+corrected	HAP2_chr04	4	20	0.121398	0.022511	5.39	
+corrected	HAP2_chr05	5	13	0.125064	0.009408	13.29	
+corrected	HAP2_chr06	6	15	0.116832	0.011308	10.33	
+corrected	HAP2_chr07	7	6	0.119301	0.005562	21.45	
+corrected	HAP2_chr09	9	11	0.122699	0.006517	18.83	
+corrected	HAP2_chr11	11	7	0.110379	0.007362	14.99	
+corrected	HAP2_chr13	13	9	0.095536	0.006853	13.94	
+corrected	HAP2_chr14	14	19	0.112821	0.006357	17.75	
+corrected	HAP2_chr15	15	1	0.119733	0.016542	7.24	
+corrected	HAP2_chr16	16	17	0.121115	0.009268	13.07	
+displaced	HAP2_chr17	17	31	0.130819	0.139943	0.93	
+corrected	HAP2_chr18	18	29	0.126339	0.012192	10.36	
+corrected	HAP2_chr19	19	16	0.118248	0.012313	9.60	
+corrected	HAP2_chr20	20	5	0.126091	0.012408	10.16	
+corrected	HAP2_chr21	21	18	0.122674	0.020718	5.92	
+displaced	HAP2_chr23	23	25	0.128481	0.129505	0.99	
+corrected	HAP2_chr24	24	21	0.120237	0.009332	12.88	
+corrected	HAP2_chr25	25	27	0.123904	0.005901	21.00	
+corrected	HAP2_chr26	26	23	0.121045	0.004160	29.09	
+corrected	HAP2_chr27	27	30	0.122685	0.013618	9.01	
+corrected	HAP2_chr28	28	24	0.112948	0.007588	14.89	
+corrected	HAP2_chr29	29	28	0.125978	0.006744	18.68	
+corrected	HAP2_chr30	30	26	0.124306	0.007753	16.03	
+corrected	HAP2_chr31	31	14	0.137318	0.019578	7.01	
+ambiguous	HAP2_chr32	32	16	0.127963	0.044196	2.90	

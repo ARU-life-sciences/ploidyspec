@@ -36,3 +36,9 @@ map_multi_partner_chromosomes	9
 map_multi_partner_list	chr03:chr07+chr11+chr17+chr19;chr07:chr03+chr25;chr08:chr17+chr20;chr11:chr03+chr19+chr25;chr12:chr16+chr26;chr16:chr12+chr22;chr17:chr03+chr08;chr19:chr03+chr11;chr25:chr07+chr11
 map_block_dist_median	0.0679
 map_block_dist_cv	0.054
+map_n_lore_blocks	0
+map_lore_bp	0
+map_lore_frac	0.000
+map_lore_terminal_frac	
+map_lore_pairs	
+map_n_near_allelic_blocks	0

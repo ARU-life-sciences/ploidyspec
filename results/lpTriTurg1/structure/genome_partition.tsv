@@ -1,2 +1,2 @@
 species	k	group_sizes	separation_ratio	null_mean_ratio	z_score	groups
-lpTriTurg1	2	7,7	1.2663	0.9994	11.25	chr01,chr11,chr08,chr12,chr09,chr02,chr07 | chr03,chr05,chr14,chr13,chr10,chr06,chr04
+lpTriTurg1	2	7,7	1.2662	0.9994	11.25	chr01,chr11,chr09,chr08,chr12,chr02,chr07 | chr03,chr05,chr14,chr10,chr13,chr06,chr04

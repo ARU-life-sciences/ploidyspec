@@ -36,3 +36,9 @@ map_multi_partner_chromosomes	6
 map_multi_partner_list	chr04:chr18+chr27;chr05:chr07+chr13;chr07:chr05+chr16+chr38;chr10:chr32+chr35;chr11:chr09+chr25;chr13:chr05+chr23
 map_block_dist_median	0.0568
 map_block_dist_cv	0.161
+map_n_lore_blocks	2
+map_lore_bp	8500000
+map_lore_frac	0.022
+map_lore_terminal_frac	1.000
+map_lore_pairs	chr09xchr11
+map_n_near_allelic_blocks	1

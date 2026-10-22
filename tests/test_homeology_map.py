@@ -15,10 +15,10 @@ W = 250_000
 N_WIN = 40
 
 
-def build(d, homeology, n_chrom=8, seed=0):
+def build(d, homeology, n_chrom=8, seed=0, low=(), near=()):
     """homeology: {(anchor_chrom, window_index): partner_chrom}, symmetric
     applied by the caller. Homeolog windows 0.10 from their partner, the rest
-    0.30 +- noise."""
+    0.30 +- noise. Anchors in `low` sit 0.03 from their partner, in `near` 0.01."""
     rng = random.Random(seed)
     os.makedirs(os.path.join(d, "homeologs"))
     with open(os.path.join(d, "homeologs", WINDOWS_TSV), "w", newline="") as f:
@@ -29,7 +29,8 @@ def build(d, homeology, n_chrom=8, seed=0):
                 for b in range(1, n_chrom + 1):
                     if a == b:
                         continue
-                    dist = 0.10 if homeology.get((a, i)) == b else 0.30 + rng.uniform(-0.02, 0.02)
+                    close = 0.01 if a in near else 0.03 if a in low else 0.10
+                    dist = close if homeology.get((a, i)) == b else 0.30 + rng.uniform(-0.02, 0.02)
                     w.writerow(dict(group="map", win_start=i * W + 1, win_end=(i + 1) * W,
                                     unit_a=f"HAP1_chr{a:02d}", unit_b=f"HAP1_chr{b:02d}", hap_a="HAP1",
                                     hap_b="HAP1", chrom_a=a, chrom_b=b, kmers_a=W, shared=0,
@@ -63,6 +64,68 @@ class TestHomeologyMap(unittest.TestCase):
             whole = [b for b in blocks if b["chrom"] == "chr04"]
             self.assertEqual([b["position"] for b in whole], ["whole"])
             self.assertTrue(all(b["reciprocal"] == "yes" for b in blocks))
+
+    def test_low_divergence_pair_is_lore_like(self):
+        # five whole pairs; chr09/chr10 diverged far less than the rest
+        h = {}
+        for a in range(1, 11, 2):
+            for i in range(N_WIN):
+                h[(a, i)], h[(a + 1, i)] = a + 1, a
+        with tempfile.TemporaryDirectory() as d:
+            build(d, h, n_chrom=10, low=(9, 10))
+            s = analyse_map(d, min_segment_bp=1_000_000)
+            self.assertEqual(s["n_partner_pairs"], 5)
+            self.assertEqual(s["n_lore_blocks"], 2)
+            self.assertEqual(s["lore_pairs"], "chr09xchr10")
+            self.assertEqual(s["lore_frac"], "0.200")
+            with open(os.path.join(d, "homeologs", BLOCKS_TSV)) as f:
+                low = {b["chrom"] for b in csv.DictReader(f, delimiter="\t") if b["low_divergence"] == "yes"}
+            self.assertEqual(low, {"chr09", "chr10"})
+
+    def test_near_allelic_pair_is_not_lore_like(self):
+        # chr09/chr10 as close as alleles (0.1x the median): residual territory
+        h = {}
+        for a in range(1, 11, 2):
+            for i in range(N_WIN):
+                h[(a, i)], h[(a + 1, i)] = a + 1, a
+        with tempfile.TemporaryDirectory() as d:
+            build(d, h, n_chrom=10, near=(9, 10))
+            s = analyse_map(d, min_segment_bp=1_000_000)
+            self.assertEqual(s["n_lore_blocks"], 0)
+            self.assertEqual(s["n_near_allelic_blocks"], 2)
+
+    def test_uniform_divergence_has_no_lore_blocks(self):
+        h = {}
+        for a in range(1, 11, 2):
+            for i in range(N_WIN):
+                h[(a, i)], h[(a + 1, i)] = a + 1, a
+        with tempfile.TemporaryDirectory() as d:
+            build(d, h, n_chrom=10)
+            self.assertEqual(analyse_map(d, min_segment_bp=1_000_000)["n_lore_blocks"], 0)
+
+    def test_cross_subgenome_map_skips_own_set(self):
+        # chr01-04 and chr05-08 are subgenomes: every window is closest to its
+        # own set (shared repeats, 0.05), its homeolog across sets at 0.10
+        h = {(a, i): a + 4 for a in range(1, 5) for i in range(N_WIN)}
+        h.update({(a + 4, i): a for a in range(1, 5) for i in range(N_WIN)})
+        with tempfile.TemporaryDirectory() as d:
+            build(d, h)
+            path = os.path.join(d, "homeologs", WINDOWS_TSV)
+            with open(path) as f:
+                rows = list(csv.DictReader(f, delimiter="\t"))
+            for r in rows:
+                if (int(r["chrom_a"]) <= 4) == (int(r["chrom_b"]) <= 4):
+                    r["distance"] = "0.05"
+            with open(path, "w", newline="") as f:
+                w = csv.DictWriter(f, fieldnames=FIELDNAMES, delimiter="\t")
+                w.writeheader()
+                w.writerows(rows)
+            self.assertEqual(analyse_map(d, min_segment_bp=1_000_000)["n_partner_pairs"], 0)
+            with open(os.path.join(d, "homeologs", "subgenome_partition.tsv"), "w") as f:
+                f.write("metric\tvalue\npair_test\tcross_subgenome\n"
+                        "set_a\tchr01,chr02,chr03,chr04\nset_b\tchr05,chr06,chr07,chr08\n")
+            analyse_map(d, min_segment_bp=1_000_000)
+            self.assertEqual(sorted(partner_pairs(d)), [(1, 5), (2, 6), (3, 7), (4, 8)])
 
     def test_no_homeology_gives_no_blocks(self):
         with tempfile.TemporaryDirectory() as d:

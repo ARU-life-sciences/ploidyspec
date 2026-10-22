@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 6 chromosome(s) carry blocks homeologous to two or more others (chr03:chr07+chr13, chr05:chr13+chr16+chr19, chr06:chr21+chr40, chr13:chr03+chr05, chr15:chr10+chr24, chr19:chr05+chr23): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.34), as when regions resolve at different times; homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
+Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 6 chromosome(s) carry blocks homeologous to two or more others (chr03:chr07+chr13, chr05:chr13+chr16+chr19, chr06:chr21+chr40, chr13:chr03+chr05, chr15:chr10+chr24, chr19:chr05+chr23): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.34), as when regions resolve at different times; 13 low-divergence homeolog blocks (243 Mb, 40% of the block span; chr02xchr28, chr03xchr13, chr04xchr37, chr05xchr13, chr06xchr40): regions that stopped recombining later than the rest (delayed, LORe-like rediploidization), or a younger duplication; homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
 
 *Confidence:* medium  
-*Evidence:* residual tetrasomy on 0/37 homeolog-paired chromosome numbers; pair-depth CV 0.19; homeology map: 30% of the genome in 84 homeolog blocks, 21 chromosome pairs, block-divergence CV 0.34; exchange: chr35(chr38:1/2)
+*Evidence:* residual tetrasomy on 0/37 homeolog-paired chromosome numbers; pair-depth CV 0.19; homeology map: 30% of the genome in 84 homeolog blocks, 21 chromosome pairs, block-divergence CV 0.34; LORe-like blocks: 13, 243.0 Mb; exchange: chr35(chr38:1/2)
 

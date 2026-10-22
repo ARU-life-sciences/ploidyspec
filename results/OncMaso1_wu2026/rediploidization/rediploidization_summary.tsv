@@ -1,0 +1,45 @@
+metric	value
+n_chromosome_numbers	33
+state_basis:copies	0
+state_basis:homeolog_pool	16
+state_basis:partition_pool	0
+state_basis:fusion	0
+state_basis:none	17
+copy_state:tetrasomic_like	0
+copy_state:candidate	2
+copy_state:partially_resolved	0
+copy_state:resolved_lineages	10
+copy_state:fusion_lineages	0
+copy_state:one_divergent_copy	4
+copy_state:not_assessable	17
+most_frequent_outlier_hap	HAP2 (4 chromosomes)
+n_distinct_fusions	0
+n_fused_scaffolds	0
+n_fusion_candidates_partner_present	7
+ancient_paired_chromosomes	16
+ancient_distance_ratio_median	4.38
+ancient_distance_ratio_cv	0.82
+residual_tested_chromosomes	28
+residual_chromosomes	0
+residual_bp	0
+residual_terminal_frac	
+residual_null_run_windows	8
+residual_controlled	yes
+exchange_chromosomes	13
+exchange_bp	165548778
+exchange_list	chr01(chr25:1/2);chr02(chr21:1/2;chr31:1/2);chr09(chr13:1/2);chr14(chr29:1/2);chr16(chr03:1/2);chr17(chr04:1/2);chr18(chr20:1/2);chr21(chr02:1/2);chr25(chr01:1/2);chr29(chr14:1/2);chr30(chr32:1/2);chr31(chr02:2/2);chr32(chr30:1/2)
+lineage_switch_chromosomes	0
+lineage_switch_list	
+map_duplicated_frac	0.215
+map_n_blocks	63
+map_n_partner_pairs	17
+map_multi_partner_chromosomes	7
+map_multi_partner_list	chr02:chr21+chr31;chr07:chr08+chr11;chr08:chr07+chr16+chr26;chr09:chr13+chr22;chr11:chr07+chr12;chr16:chr03+chr08;chr21:chr02+chr30
+map_block_dist_median	0.0615
+map_block_dist_cv	0.425
+map_n_lore_blocks	0
+map_lore_bp	0
+map_lore_frac	0.000
+map_lore_terminal_frac	
+map_lore_pairs	
+map_n_near_allelic_blocks	6

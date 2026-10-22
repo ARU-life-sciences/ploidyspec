@@ -50,14 +50,6 @@
 #show table: set text(size: 8.8pt)
 #show table: set par(justify: false)
 
-#let note(title: none, body) = block(
-  fill: soft, inset: 10pt, radius: 4pt, width: 100%, stroke: (left: 3pt + accent),
-  [#if title != none [#text(weight: "bold", fill: accent, title) \ ]#body],
-)
-#let caution(title: none, body) = block(
-  fill: softwarm, inset: 10pt, radius: 4pt, width: 100%, stroke: (left: 3pt + warm),
-  [#if title != none [#text(weight: "bold", fill: warm, title) \ ]#body],
-)
 // an algorithm box: numbered steps in a framed block
 #let algo(title, body) = block(
   stroke: 0.6pt + accent, radius: 4pt, inset: 10pt, width: 100%, breakable: true,
@@ -89,8 +81,9 @@
     One place to understand the whole project: why it exists (Chapters 1–3),
     how to run it (4), how each number is computed (5–6), what every output
     file and plot means (7–8), four walkthroughs on real species (9), how it
-    was validated and corrected (10–11), how to interpret a result (12), and
-    what it says about each of the 59 assemblies (13).
+    was validated and corrected (10–11), how to interpret a result (12),
+    what it says about each of the 59 assemblies (13), and how it stands
+    against the literature (14).
   ],
   note(title: "Status")[
     Reflects the code and results of 12 October 2026, after the panel was
@@ -139,7 +132,8 @@ a confidence:
 
 It does this from DNA sequence alone: no gene annotation, no reference
 genome, no read data, no alignment. The core measurement is k-mer distance
-between chromosome copies, whole and in windows.
+between chromosome copies, whole and in windows. Chapter 14 compares this with
+published methods and checks the panel's conclusions against the literature.
 
 #caution(title: "The one thing to remember")[
   Sequence from a single individual shows how its chromosome copies relate
@@ -153,71 +147,190 @@ between chromosome copies, whole and in windows.
 
 = Background: why this question, why now
 
+This chapter summarizes the literature the method rests on. Chapter 14 goes
+further: it sets ploidyspec beside every comparable method, checks our
+conclusions against the published record, and lists what the literature changed
+in the tool. All works are listed in Appendix C.
+
 == Polyploidy is common, and its categories are blurry
 
 Whole-genome duplication (WGD) has happened again and again in the history
-of plants and animals, and nearly all flowering plants descend from
-polyploid ancestors. Polyploids are traditionally sorted into two kinds.
-*Autopolyploids* double a genome within one species; their chromosome
-copies are near-identical and pair freely at meiosis (*polysomic*, or
-*tetrasomic* in a tetraploid, inheritance). *Allopolyploids* combine the
-genomes of two diverged species; each chromosome has a preferred partner
-from its own parent (*disomic* inheritance), and the two parental sets
-remain as *subgenomes*.
+of plants and animals. Most lineages have been through several cycles of
+duplication and diploidization, and all seed plants descend from polyploid
+ancestors @Doyle2017-ii @Van-de-Peer2009-hf. Phylogenomic surveys keep finding
+new WGDs; duplicate genes from them are lost roughly exponentially, with a
+half-life of about 21.6 million years in angiosperms @Ren2018-pj @Qiao2019-wp.
+Established WGDs may be rare successes among many failed polyploids, but they
+coincide with radiations and novelty @Van-de-Peer2009-hf, and much basic
+biology of polyploids is still open @Soltis2010-jk.
 
-Twyford et al. (2025) argue that this binary is better seen as a
+Polyploids are traditionally sorted into two kinds. *Autopolyploids* double a
+genome within one species; their chromosome copies are near-identical and
+pair freely at meiosis (*polysomic*, or *tetrasomic* in a tetraploid,
+inheritance). *Allopolyploids* combine the genomes of two diverged species;
+each chromosome has a preferred partner from its own parent (*disomic*
+inheritance), and the two parental sets remain as *subgenomes*.
+#tc(<Stebbins1947-ei>) already added a third class, the *segmental
+allopolyploid*, whose parents were only partly diverged, so that some
+chromosomes pair disomically and some polysomically.
+
+The two kinds are defined in two incompatible ways. *Taxonomic* (mode-of-origin)
+definitions ask whether one species or two contributed the genomes; *genetic*
+or *cytological* definitions ask whether inheritance is polysomic or disomic
+@Doyle2017-ii. The two often disagree. #tc(<Lv2024-yo>) found pure or
+predominantly polysomic inheritance in 39 of 43 putative autopolyploids
+(91%), but also in seven species that are taxonomically allopolyploid, with a
+further five partly polysomic; inheritance can relabel species. Complex
+polyploids with more than two contributing lineages, and introgression between
+cytotypes, blur the picture further @Leal2024-va.
+
+#tc(<Twyford2025-xy>) argue that the binary is better seen as a
 *continuum*, or a multidimensional "poly-space", because the definitions
-(by origin, by meiotic pairing, by inheritance) often disagree, and because
-genomes move through that space over time. Their Box 2 makes the point
-that matters most here: after duplication a genome undergoes
-*diploidization* (or *rediploidization*), and a diploidized autopolyploid
-can have diverged duplicate chromosomes "indistinguishable from those in a
-classic allopolyploid". They suggest measurable axes to place genomes in
-poly-space: heterozygosity, sequence divergence between duplicated sets,
-gene-level divergence, and structural variation, ideally from
-haplotype-resolved genomes. ploidyspec measures several of these directly
-(Section 12.5).
+disagree and because genomes move through that space over time. Their Box 2
+makes the point that matters most here: after duplication a genome undergoes
+*diploidization* (or *rediploidization*), and a diploidized autopolyploid can
+have diverged duplicate chromosomes "indistinguishable from those in a classic
+allopolyploid". They suggest measurable axes to place genomes in poly-space:
+heterozygosity, sequence divergence between duplicated sets, gene-level
+divergence, and structural variation, ideally from haplotype-resolved genomes.
+Phased genomes are what now make these questions answerable: which part of the
+genome came from which lineage, and whether the lineages have mixed
+@Thomas2026-kv. ploidyspec measures several of these axes directly
+(Section 12.4).
+
+== Meiosis decides what the sequence records
+
+What a polyploid genome looks like after some time depends on how its
+chromosomes pair. In a new polyploid, related chromosomes can form multivalents
+or pair with any partner; stable polyploids usually evolve diploid-like,
+bivalent pairing, under genetic control that is now partly known
+@Grandont2013-or @Soares2021-rh. The transition from polysomic to disomic
+inheritance need not wait for dedicated pairing genes: in simulations, drift
+together with a threshold for pairing fidelity is enough, inversions and
+reduced chiasma numbers help, and sub- or neofunctionalization speeds it up
+@Le-Comber2010-au.
+
+The transition is rarely genome-wide at once. In tetraploid rose, pairing is
+*partially preferential*, differs between chromosomes, varies along chromosome
+arms, and depends on the genotype @Bourke2017-hd. In apomictic _Brachiaria
+decumbens_, homologs pair preferentially across the genome but one chromosome
+segregates multisomically @Worthington2016-jx. The Adriatic sturgeon shows
+tetrasomic segregation at 11 of 14 loci and disomic at three
+@Dalle-Palle2022-vr, and an AABB banana shows both disomic and polysomic
+inheritance cytologically @Jeridi2012-vy. Mixed inheritance within one genome
+is therefore expected, not exceptional. For ploidyspec this is why every
+reading is made per chromosome and per window.
+
+Inheritance itself is measured from crosses, populations or cytology:
+segregation in mapping populations @Bourke2017-hd @Bicknell2023-qk, allele
+dosage in families @Delaval2024-dr, approximate Bayesian computation on
+population samples @Roux2015-wy, and the population-genetic tools reviewed by
+#tc(<Dufresne2014-rt>). One assembled individual cannot measure inheritance;
+it records the sequence consequences of past pairing.
 
 == Rediploidization: the time axis of the continuum
 
-Xie et al. (2026) caught rediploidization near its start. Snow carps
-(Schizothoracinae) share one autotetraploid origin. In _Schizopygopsis
-younghusbandi_ most of the 25 chromosome quartets are still tetrasomic:
-their four copies are about equally similar (Ks ≈ 0.01). But on ten
-chromosomes, two of the four copies have fused with another chromosome
-(five fusions). On those chromosomes, fused copies pair with fused copies
-and unfused with unfused, so the quartet has split into two lineages that
-diverge. Divergence is highest at the fusion site and spreads outwards
-along the arms, and the fusions happened in three "waves" of different
-ages. A separate mechanism, a centromeric inversion, made the short arm of
-chromosome 17 disomic while the long arm stayed tetrasomic. The authors
+#tc(<Xie2026-aq>) caught rediploidization near its start (commentary in
+#tc(<Xie2026-zb>)). Snow carps (Schizothoracinae) share one autotetraploid
+origin. In _Schizopygopsis younghusbandi_ most of the 25 chromosome quartets
+are still tetrasomic: their four copies are about equally similar
+(Ks ≈ 0.01). But on ten chromosomes, two of the four copies have fused with
+another chromosome (five fusions). On those chromosomes, fused copies pair
+with fused copies and unfused with unfused, so the quartet has split into two
+lineages that diverge. Divergence is highest at the fusion site and spreads
+outwards along the arms, and the fusions happened in three "waves" of
+different ages. A separate mechanism, a centromeric inversion, made the short
+arm of chromosome 17 disomic while the long arm stayed tetrasomic. The authors
 also note that downstream consequences of rediploidization, such as biased
-gene loss and expression between the two lineages, mimic subgenome
-dominance in allopolyploids.
+gene loss and expression between the two lineages, mimic subgenome dominance
+in allopolyploids.
+
+At the other end of the time axis, salmonids show what a duplication about 80–95
+million years old looks like. Their ancestor was autotetraploid, and
+rediploidization was slow and regional @Lien2016-lf. About a quarter of each
+salmonid genome rediploidized only after the lineages had split
+(*lineage-specific ohnologue resolution*, LORe), more than 50 million years
+after the WGD, so these regions have diverged less than the rest
+@Robertson2017-ya. In Atlantic salmon the most similar duplicated regions
+(above 90% sequence similarity, 25.6% of the anchored sequence) cluster in
+seven pairs of chromosome arms, each a large collinear block that includes a
+telomere @Lien2016-lf; in
+resequencing data from charr, whitefish and salmon they are where deviant SNPs
+concentrate @Dallaire2023-bn. The same pattern holds on deeper timescales:
+across 74 teleost genomes some duplicated regions stayed tetraploid for more
+than 60 million years after the teleost WGD, which points to an autopolyploid
+origin @Parey2022-ic; and sturgeon and paddlefish share one WGD that was masked
+for decades because the two lineages separated before rediploidization was half
+done @Redmond2023-fm. Rediploidization also reshapes karyotypes: the
+"pseudotriploid" _Cardamine cordifolia_ (2n = 24) is a diploidized tetraploid
+whose chromosome number fell from 32 by terminal translocations
+@Mandakova2016-ul, and the mangrove _Sonneratia_ rearranged its chromosomes
+extensively after a whole-genome triplication @Feng2024-ew. Gene loss during
+rediploidization proceeds mainly by DNA deletion rather than pseudogenization
+@Crombez2025-iz, and allele loss is already measurable in a young
+autotetraploid @Yu2023-rd; #tc(<Li2021-dp>) review the patterns in plants.
 
 This is the pattern ploidyspec was built to read: per chromosome, and
 along each chromosome, whether the copies still behave as one pool or have
 separated. The snow carp genomes are part of our panel, and we recover
 their fusions and their wave order without being told where to look
-(Section 9.2).
+(Section 9.2); three salmonids are in the panel too (Sections 9.4, 14.4).
 
 == Homoeologous exchange blurs things from the other side
 
-Allopolyploids do not stay neatly separated either. Deb et al. (2023)
-review homoeologous exchange (HE): recombination between chromosomes of
-different subgenomes. HE can be reciprocal, or "with replacement", where one
-subgenome's segment is overwritten by a copy of the other's, homogenizing
-that region. HE is common in young allopolyploids, concentrated towards
-chromosome ends, often biased towards one subgenome, and leaves a mosaic.
-For ploidyspec this means an allopolyploid can show local blocks where
-one homeolog carries the other's sequence. ploidyspec reads these as
-exchange candidates, and keeps them apart from residual tetrasomy, where
-homeologs still pair in an old autopolyploid (Lien et al. (2016) mapped such
-regions in Atlantic salmon).
+Allopolyploids do not stay neatly separated either. Homoeologous exchange (HE)
+is recombination between chromosomes of different subgenomes
+@Gaeta2010-va @Mason2020-mz @Deb2023-bo. HE can be reciprocal, or "with
+replacement", where one subgenome's segment is overwritten by a copy of the
+other's, homogenizing that region. It is common in young allopolyploids,
+concentrated towards chromosome ends, often biased towards one subgenome, and
+leaves a mosaic @Deb2023-bo. In a nascent wheat allotetraploid, HEs are biased
+to low-copy, subtelomeric regions, behave like homologous recombination
+hotspots, and often fall within genes @Zhang2020-ms. Repeated rounds of HE
+with replacement act as a "polyploid ratchet" @Gaeta2010-va and produce
+presence/absence variation @Hurgobin2018-nw; fixed exchanges can leave a
+genome that looks partly auto- and partly allopolyploid, a modern route to
+segmental allopolyploidy @Mason2020-mz. Segmental allopolyploid genomes have
+been described in peanut @Leal-Bertioli2018-gp, sour cherry
+@Wohner2023-pu and the decaploid _Thinopyrum ponticum_ @Deng2026-gt;
+allotriploid AAB bananas carry frequent exchanges between A and B
+@Xie2024-lk; and allopolyploid dodders show homoeologous recombination between
+subgenomes @Segawa2025-tu. HE is not universal: three independent origins of
+_Brachypodium hybridum_ show none @Mu2023-qq, and the young allopolyploid
+_Arabidopsis suecica_ shows no "genome shock" but gradual adaptation of meiosis
+@Burns2021-gz @Burns2024-md.
+
+For ploidyspec this means an allopolyploid can show local blocks where one
+homeolog carries the other's sequence. ploidyspec reads these as exchange
+candidates and as lineage switches, and keeps them apart from residual
+tetrasomy, where homeologs still pair in an old autopolyploid.
+
+== Repeats and centromeres turn over fastest
+
+The fastest-changing parts of a genome are repeats. Centromeric satellites have
+diverged between the subgenomes of wheat @Su2019-kj; in _Brachypodium_,
+centromeres turned over between homologous pairs from diploid to tetraploid
+@Chen2024-qk; in cotton, centromeric repeats of the D progenitor invaded the A
+subgenome after polyploidization @Yan2025-bz, and TE landscapes evolved
+asymmetrically between subgenomes @Shi2026-ar. Repeats active in one
+progenitor before the merger are therefore a subgenome label that survives
+after unique sequence has diverged beyond alignment. This is the basis of
+TE-signature subgenome phasing @Gordon2019-in @Session2023-vh @Jia2022-bo, and
+subgenome-specific TE content is used to support allopolyploid origins in new
+assemblies @Song2024-am @Robbins2026-qo @Nieuwenhuis2024-hf.
+
+Two consequences for ploidyspec. In durum wheat our subgenome partition
+recovers the A and B subgenomes exactly from the same signal those methods
+use, and every chromosome is closer to the others of its own subgenome than
+to its homeolog. Homeolog pairs therefore only stand out against the
+cross-subgenome background, where all seven A–B pairs are found
+(Section 6.4). And shared satellites
+masquerade as near-identical sequence: Glechoma's apparent residual
+tetrasomy was a centromeric satellite (Section 6.10).
 
 == Divergence records isolation, not duplication
 
-A preprint by Gaynor et al. (2026, bioRxiv; not yet peer reviewed) makes
+A preprint by #tc(<Gaynor2026-rc>) (bioRxiv; not yet peer reviewed) makes
 an argument that applies to any divergence-based method, including ours.
 Using haplotype-phased polyploid assemblies, they find that synonymous
 divergence (Ks) builds up only between gene copies that do not recombine.
@@ -225,6 +338,10 @@ Copies on chromosomes that pair at meiosis stay similar, whatever the
 ploidy. Duplicate-gene divergence therefore detects meiotic isolation, or
 divergence inherited from hybridizing parents, rather than genome
 doubling as such. That is why tetrasomic autopolyploid copies stay close.
+Simulations make the same point for Ks histograms: the peak can mark parental
+divergence, the last migration between parents, or the ancestral coalescence,
+and can be hidden at zero @Dunn2025-qy. Gene conversion between WGD duplicates
+is highest just after polyploidization and declines with time @Qiao2019-wp.
 
 ploidyspec's distances behave the same way, and we use this deliberately.
 Low distance among all copies of a chromosome means the copies still mix.
@@ -236,24 +353,41 @@ little divergence to find.
 
 == Other ways to tell auto from allo, and how ploidyspec differs
 
-- *Gene-loss balance (P-index; Wang et al., 2019).* After duplication, an
+- *Gene-loss balance (P-index; #tc(<Wang2019-zs>)).* After duplication, an
   allopolyploid tends to lose genes unequally between subgenomes (biased
   fractionation), and an autopolyploid equally. Wang et al. turn this into
-  a 0-1 index from gene collinearity against an outgroup genome, with
+  a 0–1 index from gene collinearity against an outgroup genome, with
   about 0.3 separating auto from allo. It needs gene annotation, synteny,
   and a suitable outgroup. Xie et al. found biased gene loss towards the
-  fused copies in an autopolyploid, so biased fractionation can also arise
+  fused copies in an autopolyploid, and #tc(<Parey2022-ic>) biased retention
+  in the autopolyploid teleost WGD, so biased fractionation can also arise
   after rediploidization.
-- *Duplicated BUSCOs and gene clusters.* McHale et al. (2025) detect the
+- *Duplicated BUSCOs and gene clusters.* #tc(<McHale2025-wt>) detect the
   ancient land snail and slug WGD from the proportion of duplicated BUSCO
-  genes (16-21% in Stylommatophora versus 0.5-1.5% in other molluscs). They
-  follow it in the patchwork retention of duplicated Hox clusters,
-  mirroring vertebrates. These approaches suit old duplications whose copies
+  genes (16–21% in Stylommatophora versus 0.5–1.5% in other molluscs) and
+  follow it in the patchwork retention of duplicated Hox clusters, mirroring
+  vertebrates; #tc(<Farhat2023-fp>) infer a WGD in neogastropods from synteny,
+  Hox duplication and Ks. These approaches suit old duplications whose copies
   have diverged beyond the reach of k-mer comparison.
-- *k-mer spectra from reads* (for example GenomeScope 2.0 and Smudgeplot,
-  Ranallo-Benavidez et al., 2020; Tetmer, Becher et al., 2020) estimate
-  ploidy and subgenome divergence without an assembly, but summarize the
-  whole genome in one number.
+- *Gene trees and ancestral karyotypes* (#tc(<Robertson2017-ya>);
+  #tc(<Parey2022-ic>); #tc(<Redmond2023-fm>)) date when each duplicated region
+  stopped recombining, across many species. They need annotated genomes of
+  many related species.
+- *k-mer spectra from reads* (GenomeScope 2.0 and Smudgeplot,
+  #tc(<Ranallo-Benavidez2020-uv>); Tetmer, #tc(<Becher2020-go>)) estimate
+  ploidy, heterozygosity and subgenome divergence without an assembly, but
+  summarize the whole genome in one number. Tetmer showed tetraploid
+  _Euphrasia_ to be allopolyploid with about 5% subgenome divergence
+  @Becher2020-go; the same read-based profiling detects polyploidy across
+  Microsporidia @Khalaf2024-xo. #tc(<Jenike2025-uu>) review k-mer methods for
+  biodiversity genomics.
+- *Subgenome phasing* assigns chromosomes of a known allopolyploid to
+  subgenomes: by repeat signatures @Gordon2019-in @Session2023-vh, by
+  subgenome-specific k-mers (SubPhaser, @Jia2022-bo, which fails on
+  autopolyploids by design), or by differential divergence against related
+  genomes (M3, @Lv2025-te). #tc(<Zhang2023-va>) benchmark these;
+  #tc(<Session2024-sl>) reviews the field. They assume allopolyploidy and
+  answer "which subgenome", not "auto or allo".
 - *Allele dosage and segregation.* Gaynor et al. and Xie et al. use
   genotype classes (AAAB/ABBB versus AABB) or resequencing of many
   individuals to infer disomic versus polysomic inheritance directly.
@@ -262,7 +396,24 @@ ploidyspec sits between these. It uses chromosome-scale, haplotype-resolved
 assemblies of one individual, as produced at scale by the Darwin Tree of
 Life project, and reads structure chromosome by chromosome and along
 chromosomes, without annotation. It complements gene-based methods rather
-than replacing them.
+than replacing them. Section 14.1 sets them side by side.
+
+== Haplotype-resolved assemblies make this possible
+
+Polyploid genomes were long assembled as collapsed mosaics
+@Kyriakidou2018-xv. Long reads, Hi-C and new phasing methods now separate
+haplotypes in polyploids @Zhao2025-yc: a tetraploid potato with four
+haplotypes, where about 50% of the genome turned out identical by descent and
+about 20% structurally rearranged @Sun2022-tc; hexaploid sweet potato
+@Yang2017-zi; the amphitriploid (AAABBB) gibel carp @Wang2022-am; AAB bananas
+@Xie2024-lk; octoploid strawberry @Song2024-am; autopolyploid snow carps
+@Xie2026-aq; a phased masu salmon @Wu2026-zm. The Earth BioGenome Project
+aims to sequence all eukaryotes @Exposito-Alonso2020-qh and has set standards
+for phased reference assemblies @Howe2026-nw. ploidyspec is designed for
+exactly this stream of assemblies, and treats the assembly as part of the
+measurement: reference-guided scaffolding @Alonge2019-fr can place a contig on
+the wrong homeolog, which is how masu's first residual-tetrasomy signal arose
+(Section 9.4).
 
 == What we are trying to achieve
 
@@ -312,7 +463,7 @@ random (*polysomic*, in a tetraploid *tetrasomic*, inheritance); allopolyploid
 copies pair with their own parent's partner (*disomic* inheritance), so the
 parental sets persist as *subgenomes*.
 
-Twyford et al. (2025) argue this is a continuum, and their key point for us is
+#tc(<Twyford2025-xy>) argue this is a continuum, and their key point for us is
 that genomes move along it. After a duplication, an autopolyploid gradually
 *rediploidizes*: chromosomes stop pairing at random, region by region, and the
 copies diverge into two lineages that eventually look exactly like the
@@ -364,6 +515,10 @@ ploidyspec is one of these signatures.
     [Homeolog pairs or blocks diverged to different depths.],
     [`pair_depth_cv`; `block_dist_cv`],
 
+    [Delayed (LORe-like) rediploidization],
+    [Homeolog blocks far less diverged than the rest but not near-allelic: arms that stopped recombining late (salmonid LORe).],
+    [homeology map: `n_lore_blocks`, `lore_bp`, `lore_pairs`; block `low_divergence`],
+
     [An extra divergent set (AAB, AAAB)],
     [One copy of every chromosome stands apart from the others.],
     [`one_divergent_copy`; extra-set split (Section 6.3)],
@@ -381,9 +536,12 @@ Four limits shape every answer the tool gives.
   long-rediploidized autopolyploid looks the same. Only leftovers of the
   transition (residual tetrasomy, fusions, a mix of states) point to an
   autopolyploid origin.
-+ *Divergence records isolation, not duplication* (Gaynor et al., 2026):
++ *Divergence records isolation, not duplication* @Gaynor2026-rc:
   copies that still recombine stay similar. A tetrasomic autopolyploid leaves
-  little to see beyond equal distances.
+  little to see beyond equal distances. A pair of number sets that is *not*
+  detected is therefore one of two opposite things: copies so similar they
+  still recombine (then they show as near-identical copies, not as missing
+  pairs), or copies diverged beyond k-mer reach.
 + *Exchange and residual tetrasomy are mirror images.* Both make homeologs
   locally near-identical. The difference is which copies agree: in residual
   tetrasomy all copies are close to each other; in an exchange one copy carries
@@ -393,9 +551,10 @@ Four limits shape every answer the tool gives.
   homeologs (0.042 apart) are mapped over 79% of the genome; the ~90-My-old
   salmonid duplication over 16–30%, and Cerastium's homeologs (~0.08 apart)
   are found by the whole-chromosome test but not by the window map. In durum
-  wheat, whose genome is mostly fast-turning-over transposons, no A–B pair is
-  detectable at all; the subgenomes show only as a partition by repeat
-  content.
+  wheat, whose genome is mostly fast-turning-over transposons, the seven A–B
+  pairs (0.080–0.082 apart) are found only at whole-chromosome scale, and
+  only against the cross-subgenome background; the window map finds no
+  blocks.
   "Not detected" never means "not there".
 
 #caution(title: "Assembly artefacts look like biology")[
@@ -540,7 +699,7 @@ k-mers; `Profex` reads a per-position profile (below).
   + For each k in the sweep (default 15 and 23): $n_A$, $n_B$ = distinct k-mers;
     $s$ = shared k-mers; Jaccard $J = s \/ (n_A + n_B - s)$.
   + Mash distance $d = -1/k ln(2J \/ (1 + J))$, the per-base substitution rate
-    under which a k-mer survives with probability $(1-d)^k$ (Ondov et al., 2016).
+    under which a k-mer survives with probability $(1-d)^k$ @Ondov2016-jo.
   + Chance floor: two unrelated sequences share $E = n_A n_B \/ (4^k \/ 2)$
     k-mers by chance. Resolution $z = (s - E) \/ sqrt(E)$; k is usable if $z ≥ 5$.
   + Report $d$ at the *largest usable k* (most specific). If no k is usable,
@@ -685,13 +844,47 @@ Monacha fusion leftover) is never a set.
   + z = (d − mean) / SD; one-sided normal p; Benjamini–Hochberg q.
   + Accept pairs with q ≤ 0.05 *and* d ≤ 0.98 × median background (`--min-effect`
     2%), greedily one partner per number, closest first.
+  + *Subgenome partition*: cut the average-linkage tree of the raw
+    number-to-number distances at two groups, and fit the size model with a
+    same-set term added. The partition is accepted when the same-set
+    coefficient (in robust SD) is at least 10 SD above 200 random splits of
+    the same group sizes (z ≥ 10) and the smaller set holds ≥ 25% of the
+    numbers.
+  + *Cross-subgenome test*: with an accepted partition, remove only the size
+    terms (keeping the set effect) and test the cross-set pairs against the
+    cross-set background, as above. The result replaces the genome-wide test
+    only if it finds more pairs (`pair_test` in `subgenome_partition.tsv`).
 ]
 The size adjustment exists because whole-chromosome distance depends on the
 chromosomes' sizes: it correlates 0.8 with the size difference in Cerastium
 and in the diploid _Malva_. Without it, clustering sorted chromosomes into
-large and small, and Cerastium's and Ranunculus's "two subgenomes" were exactly
-that; adjusted, Cerastium resolves into 18 pairs and Ranunculus shows no clear
-structure. The 2% effect floor exists because a tight background makes tiny
+large and small; adjusted, Cerastium resolves into 18 pairs.
+
+But the size adjustment alone also removed real subgenomes. In an
+allopolyploid each subgenome carries its own repeats, so non-homologous
+chromosomes of one subgenome can be closer than homeologs across them
+(@fig-ranunculus). Tested against every other pair in the genome, the
+homeologs then do not stand out. When one subgenome is also larger, the size
+regression absorbs the split. _Ranunculus repens_ (2 × 16, 4x on x = 8
+@Karbstein2025-ou) is the case: A (chr01–08, 4.7 Gb) and B (chr09–16, 3.8 Gb),
+within-set distances 0.064–0.068, homeologs 0.070–0.073, other A–B pairs
+0.078–0.081. The genome-wide test found no pair. The subgenome partition
+(z = 109) and the cross-subgenome test find all eight (1–9, 2–15, 3–10,
+4–12, 5–13, 6–11, 7–16, 8–14; z −13 to −17), and every A chromosome is larger
+than its homeolog. The same change recovers durum wheat's seven A–B pairs
+(sets exactly A and B, z = 179) and eight pairs in _Inula conyzae_ (z = 136).
+No species without subgenomes reaches z = 5 (_Malva_ 2.6), and Cerastium
+(z = 35, sets misplacing two chromosomes) keeps the genome-wide test's 18 pairs.
+
+#figure(
+  image("fig/ranunculus_subgenomes.png", width: 100%),
+  caption: [_Ranunculus repens_: number-to-number distances ordered by
+  subgenome (white boxes) with homeolog pairs (red boxes), and the 8 × 8
+  A-versus-B block. Within a subgenome chromosomes are closer than homeologs
+  across subgenomes; each A chromosome is closest to one B partner.],
+) <fig-ranunculus>
+
+The 2% effect floor exists because a tight background makes tiny
 differences significant: on simulated diploids, a pair 1.25% below the median
 reached z = −4. Outputs: `homeolog_pairs.tsv`, every candidate in
 `homeolog_candidates_ranked.tsv`, and per chromosome in
@@ -718,6 +911,9 @@ pairs from the map), plus control tracks.
   + *Size correction*: a larger chromosome contains more of any window's k-mers.
     Fit one slope of window distance on log(target length) over all (window,
     target) pairs, dropping outliers, and subtract it.
+  + *Cross-subgenome mode*: when the homeologs stage used the cross-subgenome
+    test, each window is scored only against the other subgenome's
+    chromosomes, so its own subgenome's shared repeats cannot win.
   + Per window: the closest chromosome, the median distance to all others, and
     robust z = (median − closest) / (1.4826 MAD). Homeolog-like if z ≥ 3.
   + Label each window with its closest chromosome if homeolog-like, else none.
@@ -729,6 +925,11 @@ pairs from the map), plus control tracks.
   + *Reciprocity*: a block A → B counts only if B has a block back on A.
   + Pairs of numbers with ≥ 2 Mb of reciprocal blocks join the pair list;
     chromosomes with reciprocal blocks on two or more partners are reported.
+  + *Low-divergence (LORe-like) blocks*: with at least 6 reciprocal blocks,
+    a block is LORe-like when its median distance lies between 0.25× and
+    0.6× the median of all reciprocal blocks, and the pair is low in both
+    directions. Below 0.25× it is `near_allelic`, left to the
+    residual-tetrasomy test and its repeat guards.
 ]
 Why the size correction: in the repeat-rich _Hesperis matronalis_ (six
 chromosomes of up to 875 Mb, every window 0.022–0.026 from every chromosome)
@@ -744,6 +945,18 @@ need not. Without it, Glechoma gained two short blocks onto chr16 at a third of
 the homeolog distance (shared repeats) and the diploid _Malva sylvestris_ had
 seven blocks; with it, Glechoma has exactly its nine known pairs (78% of the
 genome) and _Malva_ none.
+
+Why a LORe-like class: in salmonids about a quarter of the genome
+rediploidized tens of millions of years after the rest @Robertson2017-ya
+@Lien2016-lf. Those arms stopped recombining late, so they are less diverged
+than other homeologs, but they are no longer near-identical, so the
+residual-tetrasomy test (Section 6.10) is blind to them by design. The map
+sees them: in whitefish 13 reciprocal blocks (243 Mb, 40% of the block span)
+sit at 0.011–0.026 against a median block distance of 0.045. The band's lower bound keeps
+near-allelic blocks out (they are residual tetrasomy or repeats:
+_Lathraea clandestina_'s chr03/chr04 blocks at 0.002 against a median of 0.016
+are repeats, Section 6.10), and the two-way rule drops one-way low blocks. A
+second, younger duplication looks the same, so the reading names both.
 
 #algo("pair tracks and controls")[
   + For each pair (i, j): window every copy of i against every copy of j and the
@@ -762,8 +975,10 @@ genome) and _Malva_ none.
     z = (observed − null mean) / null SD; report k with |z| ≥ 2.
 ]
 A strong balanced two-group partition (`daInuConz1` 8 vs 8, z = 10.6) is a
-candidate subgenome structure that no single pair test finds; the
-rediploidization stage pools chromosomes across it (Section 6.9).
+candidate subgenome structure; the rediploidization stage pools chromosomes
+across it (Section 6.9). For _Inula_ the genome-wide pair test found nothing,
+but the size-independent subgenome partition of the homeologs stage
+(Section 6.4) gives the same sets and eight cross-set pairs.
 `pair_depth_cv` = SD / mean of the accepted pairs' distances: one duplication
 event diverges every pair to about the same depth (`daGleHede1` 0.042).
 
@@ -845,7 +1060,7 @@ copies of its components (`d_unfused`, labelled by component) and the other
 fused copy (`d_fused`). The junction is the boundary that best separates the
 two components' windows; `junction_gradient` = median `d_unfused` within the
 inner 20% of each arm over the outer 20%. Above 1 means divergence peaks at the
-fusion site (Xie et al. 2026).
+fusion site @Xie2026-aq.
 
 === Pooling for two-copy genomes
 
@@ -963,9 +1178,12 @@ distance means separate repeat histories.
 two-copy genomes with residual tetrasomy → partly; no residual tetrasomy but
 chromosomes with two or more homeolog partners → advanced; otherwise diverged
 throughout. Exchange candidates, rearrangements and block-divergence spread
-(CV ≥ 0.15) are appended as "Also:". Residual tetrasomy ≥ 90% at chromosome
-ends is low confidence (homeolog-specific subtelomeric repeats pass the
-control).
+(CV ≥ 0.15) and LORe-like blocks (at least one reciprocal pair, ≥ 4 Mb) are
+appended as "Also:". Residual tetrasomy ≥ 90% at chromosome ends is low
+confidence (homeolog-specific subtelomeric repeats pass the control), although
+real delayed rediploidization and homoeologous exchange are also biased
+towards chromosome ends @Lien2016-lf @Zhang2020-ms, so terminal signal is
+flagged, not discarded.
 
 == report, panel, simulate, cleanup
 
@@ -992,9 +1210,10 @@ map: what each file is for and the columns you will actually read.
   [`matrix/*heatmap*.png`], [the full matrix; the contrast version shows block structure],
   [`homeologs/homeolog_pairs.tsv`], [accepted pairs: `mean_distance`, `z_score`, `q_value`],
   [`homeologs/ploidy_ancestry_summary.tsv`], [per chromosome: partner, `distance_ratio`],
+  [`homeologs/subgenome_partition.tsv`], [the two subgenomes, their z against random splits, and which pair test was used],
   [`homeologs/homeology_map.tsv`], [per window: `best`, `best_dist`, `median_dist`, `z`, `homeolog_like`],
-  [`homeologs/homeolog_blocks.tsv`], [per block: `chrom`, `partner`, `start`–`end`, `median_dist`, `position`, `reciprocal`],
-  [`homeologs/homeology_map_summary.tsv`], [`duplicated_frac`, `n_partner_pairs`, `multi_partner_list`, `block_dist_cv`],
+  [`homeologs/homeolog_blocks.tsv`], [per block: `chrom`, `partner`, `start`–`end`, `median_dist`, `position`, `reciprocal`, `low_divergence`],
+  [`homeologs/homeology_map_summary.tsv`], [`duplicated_frac`, `n_partner_pairs`, `multi_partner_list`, `block_dist_cv`, `n_lore_blocks`, `lore_bp`],
   [`homeologs/homeology_map.png`], [each chromosome painted by its partner; hatched = unmatched],
   [`homeologs/windowed_chrAAxBB.png`], [window distances between the copies of a homeolog pair],
   [`windowed/windowed_all.tsv`], [per window of `unit_a` vs `unit_b` (same number): `kmers_a`, `shared`, `distance`],
@@ -1096,7 +1315,7 @@ chromosomes (17 of 25) are `tetrasomic_like`.
 
 *Summary.* 4 copies × 25, no older sets. Origin: mixed (tetrasomic-like and
 split chromosomes). Rediploidization: yes, one fusion between copies (the snow
-carp mechanism), high. This is the published result of Xie et al. (2026),
+carp mechanism), high. This is the published result of #tc(<Xie2026-aq>),
 recovered without being told where to look. Aligning HAP3 chr17 to HAP1 shows
 why chr17 splits only at its end: HAP3 is inverted from ~27 Mb to the end, the
 inversion mechanism Xie et al. describe for this chromosome.
@@ -1136,7 +1355,7 @@ for this project (`workflows/prep/scaffold_by_reference.py`): its contigs were
 placed where they align best on HAP1.
 
 *The first result.* Residual tetrasomy on 8 of 10 paired chromosomes, 54 Mb,
-62% terminal: an apparently textbook salmonid. Lien et al. (2016) describe such
+62% terminal: an apparently textbook salmonid. #tc(<Lien2016-lf>) describe such
 regions in Atlantic salmon.
 
 *What was wrong.* In a region where two homeologs are similar, a HAP2 contig
@@ -1159,7 +1378,33 @@ origin, so the origin reads allo-like (medium).
 "biological" signal in the panel. Masu remains a useful salmonid, but its
 residual numbers carry that history; Arctic charr and whitefish, assembled
 with both haplotypes scaffolded, are the cleaner salmonid tests. The k-mer map
-reaches 18–30% of their genomes; neither shows residual tetrasomy.
+reaches 18–30% of their genomes; neither shows residual tetrasomy, but both
+show LORe-like blocks (Section 6.6): whitefish 243 Mb in five chromosome pairs,
+charr 8.5 Mb on one pair (chr09/chr11), at chromosome ends, as #tc(<Lien2016-lf>)
+found the delayed regions of salmon to include telomeres.
+
+*Since then.* A phased Hi-C assembly of masu with both haplotypes at
+chromosome level has been published @Wu2026-zm (GenBank GCA_052849675.1 and
+GCA_052849655.1). It replaces our self-scaffolded pair as `OncMaso1_wu2026`
+(`workflows/prep/masu_wu2026_prep.sh`). Its HAP2 numbers its chromosomes
+differently from HAP1: renumbering corrected 23, displaced 2 (HAP2 chr17 →
+31, chr23 → 25) and left HAP2 chr32 ambiguous (2.9×). The first renumbering
+run blocked these corrections because a few chromosomes had no allele in the
+other haplotype (Section 6.3).
+
+On the published assembly: residual tetrasomy on none of 28 tested
+chromosomes (the self-scaffolded chr17/chr29 signal does not reappear), no
+LORe-like blocks, and 6 near-allelic blocks that the residual test's guards
+reject. The homeology map finds 22% of the genome in 63 blocks, 17
+chromosome pairs, and 7 chromosomes with blocks on two or three partners
+(chr08: chr07+chr16+chr26). Exchange candidates sit on 13 chromosomes
+(166 Mb), almost all in one of the two copies; on a Hi-C-phased assembly
+they are either real exchanges or phasing switches between homeologs, and
+need alignment before either reading. The origin reads allo-like (medium) and
+rediploidization advanced. Set against Atlantic salmon, where about a quarter
+of the genome rediploidized late @Lien2016-lf, the k-mer map does not see
+masu's delayed regions as a distinct low-divergence class. Chapter 13 shows
+both masu assemblies.
 
 #figure(image("../../results/fSalAlp3/homeologs/homeology_map.png", width: 82%),
   caption: [Arctic charr after the size correction: reciprocal blocks (solid)
@@ -1201,16 +1446,17 @@ test (22 tests) runs the whole pipeline on each scenario.
   [`daGleHede1`], [allopolyploid], [9 pairs, CV 0.042, allo-like (high); map: exactly 9 pairs, 78%],
   [`ddMalSylv1`], [diploid], [no pairs, 0% duplicated; not assessable],
   [`fLepOcu1`, `fAmiCal2`], [no duplication since 2R], [one pair each, 0% in blocks; not assessable],
-  [`SchCurv1`, `SchYoun1`], [autotetraploid snow carps, fusions (Xie et al. 2026)], [all published fusions, in wave order; mixed with fusions],
+  [`SchCurv1`, `SchYoun1`], [autotetraploid snow carps, fusions @Xie2026-aq], [all published fusions, in wave order; mixed with fusions],
   [`drLytSali1`], [tetrasomic by classical genetics], [13/15 `tetrasomic_like`],
   [`icStrMela3`], [triploid, AAB (k-mer ploidy plot)], [3 copies, AAB-like (high)],
-  [`lpTriTurg1`], [durum wheat, AABB], [no homeolog pair is detectable (A–B intergenic sequence turned over), but the genome partition splits the 14 automatically numbered chromosomes into exactly the 7 A and 7 B (z = 11.3); allo-like via the partition],
+  [`lpTriTurg1`], [durum wheat, AABB], [the subgenome partition splits the 14 automatically numbered chromosomes into exactly the 7 A and 7 B (z = 179), and the cross-subgenome test finds all seven pairs, 1A–1B … 7A–7B (0.080–0.082, z −11 to −15), blind to the names; no window-map blocks; allo-like],
+  [`dmRanRepe1`], [4x on x = 8 @Karbstein2025-ou], [two subgenomes of 8 (z = 109, A 1.23× B), eight one-to-one pairs; window map 7 of 8 pairs, 6% of the genome; allo-like],
 )
 
 // ================================================================ 8
 == Fusion profiles: divergence spreads from the fusion site
 
-Xie et al. (2026) report that in snow carps divergence between fused and
+#tc(<Xie2026-aq>) report that in snow carps divergence between fused and
 unfused copies is highest at the fusion site and spreads along the arms. The
 fusion profiles (Section 6.9) measure this directly, without being told where
 the junctions are. Every one of the eleven fused copies is placed with its
@@ -1233,8 +1479,8 @@ stay within 0.001–0.008 of each other along their whole length.
 = What we got wrong, and fixed
 
 
-Checking results by hand found problems in two rounds (7 October, and 9–11
-October). All are fixed and covered by tests; they are listed because earlier
+Checking results by hand found problems in three rounds (7 October, 9–11
+October, and 21 October). All are fixed and covered by tests; they are listed because earlier
 write-ups quoted numbers that depended on them.
 
 #table(
@@ -1293,9 +1539,29 @@ write-ups quoted numbers that depended on them.
   [Size-adjusted pair distances; one size slope removed in the map (Sections
    6.4, 6.6).],
 
+  [Size adjustment hiding subgenomes],
+  [The size regression absorbed a split into a larger and a smaller
+   subgenome, and the genome-wide pair test compared homeologs against
+   within-subgenome pairs that share repeats and are closer. Ranunculus,
+   durum wheat and _Inula_ lost every pair (the first version had found
+   Ranunculus's eight).],
+  [Size-independent subgenome partition and a cross-subgenome pair test;
+   map windows scored against the other subgenome only (Section 6.4).],
+
   [Exchange between copies of one number],
   [The exchange readout only compared different chromosome numbers.],
   [Lineage switches (Section 6.9).],
+
+  [Silent on delayed rediploidization],
+  [Salmonid-style delayed (LORe) regions are less diverged than other
+   homeologs but not near-allelic, so neither the residual test nor the summary
+   mentioned them, although the map showed them (Chapter 14).],
+  [LORe-like block class in the homeology map (Section 6.6).],
+
+  [Masu assembly],
+  [Our masu HAP2 was contig-level and scaffolded on HAP1 by us; its swapped
+   contigs produced most of the first residual signal.],
+  [Re-run on the published phased assembly @Wu2026-zm (Section 9.4).],
 )
 
 Several inheritance-mode metrics from earlier work (`partition_consistency`,
@@ -1329,6 +1595,10 @@ values are archived in `meta/archive/` with a note.
   [mixture of tetrasomic and split chromosomes, fusions], [rediploidization in progress (snow carps)],
   [diverged pairs with near-allelic stretches on ≥ 2 pairs], [autopolyploid origin with residual tetrasomy (salmonid-like); check terminal fraction and assembly history],
   [chromosomes with blocks on two partners], [karyotype rearranged since the duplication],
+  [homeolog blocks far less diverged than the rest, both directions], [delayed (LORe-like) rediploidization of those regions, or a younger duplication],
+  [two subgenomes, chromosomes closer within a subgenome than to their homeologs], [allopolyploid: each subgenome carries its progenitor's repeats (durum wheat, Ranunculus, _Inula_); pairs show only against the cross-subgenome background],
+  [a strong partition but no detectable homeolog pairs], [subgenomes separated by repeat history after unique sequence diverged beyond k-mer reach],
+  [two copies, no pairs, no partition, in a known polyploid], [the second set is diverged beyond k-mer reach, or the assembly holds one set per haplotype; not evidence of recombining copies],
   [one copy apart, same haplotype always], [assembly/phasing problem, or a split-out extra set (AAB)],
   [one copy apart, haplotype changing], [AAAB-like, a divergent extra genome],
   [exchange in one copy], [homeologous exchange, or a contig on the wrong homeolog],
@@ -1341,12 +1611,19 @@ values are archived in `meta/archive/` with a note.
 - Old duplications fade below k-mer detection (~8–10% divergence).
 - Thresholds are provisional (tuned on simulations, snow carps, Glechoma,
   _Malva_) and every one is a command-line flag (Appendix A).
-- Holocentric genomes (_Eleocharis_) break and fuse chromosomes readily, so
-  chromosome numbers need not track ancestral units.
+- Holocentric genomes (_Eleocharis_) break and fuse chromosomes readily
+  @Hipp2009-hz @Bures2013-zm @Mandrioli2020-hc, so chromosome numbers need not
+  track ancestral units, and arm- and junction-based readings are weaker.
+- Inheritance is per chromosome and can be partial or genotype-dependent
+  @Bourke2017-hd @Dalle-Palle2022-vr; "allo-like" on a chromosome means its
+  copies do not mix today, not that the species is disomic everywhere.
+- Repeat signals (TE split, partition in wheat) separate subgenomes by the
+  same principle as TE-signature phasing @Session2023-vh; they are not
+  independent of repeat turnover at centromeres @Su2019-kj @Chen2024-qk.
 
 == Where ploidyspec sits in poly-space
 
-Twyford et al. (2025) propose placing polyploids in a multidimensional space
+#tc(<Twyford2025-xy>) propose placing polyploids in a multidimensional space
 of measurable genomic features. ploidyspec provides several axes from one
 assembly:
 
@@ -1356,7 +1633,7 @@ assembly:
   [Heterozygosity / segregating variation], [`allelic_distance_median`: distance between copies of the same chromosome number],
   [Sequence divergence between duplicated sets], [homeolog pair distance, `distance_ratio`, `dist_split`],
   [Structural divergence], [fusions between copies; regional lineage splits],
-  [Temporal heterogeneity (diploidization)], [mix of states across chromosomes; `pair_depth_cv`; fusion `lineage_divergence`],
+  [Temporal heterogeneity (diploidization)], [mix of states across chromosomes; `pair_depth_cv`; fusion `lineage_divergence`; LORe-like blocks],
   [TE distribution], [`te_split` (within-genome contrast)],
 )
 
@@ -1373,8 +1650,9 @@ inversion in HAP3 from ~27 Mb), Monacha (HAP2 chr24 + chr23 joined at
 ~37 Mb), drAriEdul1 chr01 (a 19 Mb divergent HAP4 block), _Salix triandra_
 (triploid) and _Rosa spinosissima_ (tetraploid, AABB), Hesperis chr01/chr02
 and charr chr01 (size artefacts), Cerastium (18 large–small homeolog pairs:
-subgenomes of different chromosome size) and Ranunculus (no structure once
-size is removed).
+subgenomes of different chromosome size). Settled on 21 October: Ranunculus
+(two subgenomes of 8 and eight homeolog pairs, hidden by the size adjustment
+and by subgenome-specific repeats until the cross-subgenome test).
 
 Still open:
 - Xie et al.'s exact coordinates for the `SchCurv1` chr17 inversion.
@@ -1382,6 +1660,7 @@ Still open:
 - Hi-C to tell biology from assembly for the weevil chr09 switch and the
   Monacha join.
 - Gene-based methods for duplications beyond k-mer reach (salmonids, snails).
+- The open questions raised by the literature (Section 14.6).
 
 // ================================================================ 9
 
@@ -1396,6 +1675,12 @@ and caveats. "Dup. (map)" is the share of the genome in reciprocal homeolog
 blocks; "–" means the map has not run (one haplotype) or the run predates it.
 
 #include "guide_species.typ"
+
+// ================================================================ 14
+
+= The literature: where ploidyspec stands
+
+#include "literature_chapter.typ"
 
 // ================================================================ A
 
@@ -1419,7 +1704,10 @@ blocks; "–" means the map has not run (one haplotype) or the run predates it.
   [exchange ratio], [2×], [homeolog clearly closer than own homolog],
   [fusion: long ratio, z, sibling excess], [1.4×, 10, 2.5×], [SchCurv1 fusion 3.4×, homeology 0.9×],
   [partition z for pooling], [10], [daInuConz1 10.6],
+  [subgenome partition z, smaller set, permutations], [10, 25%, 200], [subgenome species 109–179; no other species above 5 (_Malva_ 2.6)],
   [summary: residual pairs, duplication pairs, map fraction], [2, 3, 30%], [one pair is not an origin; gar and bowfin pass one pair],
+  [LORe-like band, min blocks], [0.25–0.6× median block distance, 6], [below 0.25× is the residual test's (near-allelic); whitefish LORe-like blocks 0.011–0.026 against a median of 0.045],
+  [LORe-like reading], [≥ 1 two-way pair, ≥ 4 Mb], [one short low block is noise],
 )
 
 
@@ -1432,41 +1720,19 @@ blocks; "–" means the map has not run (one haplotype) or the run predates it.
 / Extra set: a second chromosome set held in one haplotype file under other numbers.
 / Homeolog: a chromosome derived from the same ancestral chromosome through polyploidy.
 / Homeologous exchange: a stretch of one homeolog replaced by the other's sequence.
+/ LORe: lineage-specific ohnologue resolution; regions that rediploidized late, after speciation (salmonids).
+/ Mixed inheritance: some chromosomes or loci segregate disomically, others polysomically, in one species.
 / Pooling: reading two homeologous numbers' copies together.
 / Reciprocal block: a block whose partner has a block back on it.
 / Residual tetrasomy: regions of an otherwise rediploidized genome where homeologs still behave as one pool.
 / Rediploidization: the return of a polyploid to disomic behaviour, region by region.
+/ Segmental allopolyploid: a polyploid whose subgenomes are only partly diverged, so pairing is partly preferential (Stebbins 1947).
 
 
 = Appendix C: references
 
-#set par(justify: false, hanging-indent: 1.2em)
-#set text(size: 9.3pt)
+All works cited in this guide and the further literature reviewed for
+Chapter 14 (86 works).
 
-Becher, H. et al. (2020). Tetmer: k-mer spectrum model for tetraploid genomes. As cited in Twyford et al. (2025).
-
-Deb, S. K., Edger, P. P., Pires, J. C. & McKain, M. R. (2023). Patterns, mechanisms, and consequences of homoeologous exchange in allopolyploid angiosperms: a genomic and epigenomic perspective. _New Phytologist_ 238(6): 2284-2304. doi:10.1111/nph.18927
-
-Gaynor, M. L., Feng, K., Soltis, D. E., Soltis, P. S. & Smith, S. A. (2026). All detectable ancient whole-genome duplications involve hybridization. _bioRxiv_ preprint, posted 28 August 2026, not peer reviewed. doi:10.64898/2026.08.25.747000
-
-Li, Z. et al. (2021). Patterns and processes of diploidization in land plants. _Annual Review of Plant Biology_ 72: 387-410.
-
-Lien, S. et al. (2016). The Atlantic salmon genome provides insights into rediploidization. _Nature_ 533: 200–205.
-
-Lv, Z., Addo Nyarko, C., Ramtekey, V., Behn, H. & Mason, A. S. (2024). Defining autopolyploidy: cytology, genetics, and taxonomy. _American Journal of Botany_ 111(8): e16292.
-
-Mason, A. S. & Wendel, J. F. (2020). Homoeologous exchanges, segmental allopolyploidy, and polyploid genome evolution. _Frontiers in Genetics_ 11: 1014.
-
-McHale, F., Mulhair, P. O. & Holland, P. W. H. (2025). Evolution of duplicated Hox gene clusters in land snails and slugs. _Journal of Experimental Zoology Part B_ 344(6): 363-368. doi:10.1002/jez.b.23322
-
-Ondov, B. D. et al. (2016). Mash: fast genome and metagenome distance estimation using MinHash. _Genome Biology_ 17: 132.
-
-Ranallo-Benavidez, T. R., Jaron, K. S. & Schatz, M. C. (2020). GenomeScope 2.0 and Smudgeplot for reference-free profiling of polyploid genomes. _Nature Communications_ 11: 1432.
-
-Twyford, A. D. et al. (2025). The polyploid continuum and the landscape of polyploid genomic variation. _American Journal of Botany_ 112: e70121.
-
-Wang, J., Qin, J., Sun, P., et al. (2019). Polyploidy index and its implications for the evolution of polyploids. _Frontiers in Genetics_ 10: 807. doi:10.3389/fgene.2019.00807
-
-Xie, C. et al. (2026). Chromosomal fusions trigger rediploidization of autopolyploid genomes. _Nature_ 654: 706–713.
-
-Xie, C., Ma, Z., Zhou, C., Ma, K., et al. (2026). Chromosomal fusions trigger rediploidization of autopolyploid genomes. _Nature_ 654: 706-713. doi:10.1038/s41586-026-10439-1
+#set text(size: 9pt)
+#bibliography("references.bib", title: none, full: true, style: "apa")

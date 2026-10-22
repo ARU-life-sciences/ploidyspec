@@ -2,17 +2,17 @@
 
 ## Ploidy
 
-2 haplotype copies of each of 16 chromosome numbers; no older duplicated sets detected.
+2 haplotype copies of each of 16 chromosome numbers; the numbers form sets of 2 (8 homeolog pairs covering 100% of numbers), so x ≈ 8 and up to 4x relative to x; the sets are nearly as diverged as unrelated chromosomes, so they may be an old (paleo) duplication.
 
 *Confidence:* high  
-*Evidence:* copies from the assembly (2 per number)
+*Evidence:* copies from the assembly (2 per number); 8 homeolog pairs covering 100% of numbers; homeolog distance 0.071 vs unrelated 0.071
 
 ## Auto-like or allo-like?
 
-Not assessable: two haplotypes and no duplicated sets to compare. Diploid-like as assembled.
+Allo-like (disomic-like): the duplicated sets do not interchange, from homeolog pairs (pair-depth CV 0.01). This is also what a long-rediploidized autopolyploid looks like. The chromosome numbers form two subgenomes (8 and 8 numbers, size-independent z = 109) and every homeolog pair crosses them. Non-homologous chromosomes within a subgenome are closer (0.066) than homeologs across them (0.071): each subgenome carries its own repeats, as when two diverged genomes merge. One subgenome is 1.23x the size of the other.
 
-*Confidence:* not assessable  
-*Evidence:* 0 whole-chromosome homeolog pair(s); no duplicated sets
+*Confidence:* high  
+*Evidence:* 16 chromosome numbers assessed: 16 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate; subgenomes chr01,chr02,chr03,chr04,chr05,chr06,chr07,chr08 | chr09,chr10,chr11,chr12,chr13,chr14,chr15,chr16 (z = 108.7); homeolog pairs tested across them
 
 ## TE markers
 
@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Not assessable: no duplicated sets to read rediploidization from.
+Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start.
 
-*Confidence:* not assessable  
-*Evidence:* residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 0% of the genome in 10 homeolog blocks, 1 chromosome pairs, block-divergence CV 0.07
+*Confidence:* medium  
+*Evidence:* residual tetrasomy on 0/16 homeolog-paired chromosome numbers; pair-depth CV 0.01; homeology map: 6% of the genome in 170 homeolog blocks, 7 chromosome pairs, block-divergence CV 0.12
 

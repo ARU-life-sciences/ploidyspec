@@ -1009,7 +1009,8 @@ def summarize(rows, fusions, partition_z=None, residual_null=None, homeology=Non
             dict(metric="lineage_switch_list", value=";".join(r["chrom"] for r in sw))]
     # segmental homeology from the genome-wide map (homeology_map.py)
     for key in ("duplicated_frac", "n_blocks", "n_partner_pairs", "multi_partner_chromosomes",
-                "multi_partner_list", "block_dist_median", "block_dist_cv"):
+                "multi_partner_list", "block_dist_median", "block_dist_cv", "n_lore_blocks", "lore_bp",
+                "lore_frac", "lore_terminal_frac", "lore_pairs", "n_near_allelic_blocks"):
         if homeology and key in homeology:
             out.append(dict(metric=f"map_{key}", value=homeology[key]))
     return out

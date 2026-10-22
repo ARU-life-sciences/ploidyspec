@@ -1,1 +1,1 @@
-anchor	chrom	partner	start	end	length	n_windows	median_dist	median_z	position	reciprocal
+anchor	chrom	partner	start	end	length	n_windows	median_dist	median_z	position	reciprocal	low_divergence

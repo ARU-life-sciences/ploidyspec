@@ -10,5 +10,11 @@ multi_partner_chromosomes	4
 multi_partner_list	chr02:chr29+chr34;chr03:chr16+chr25;chr04:chr11+chr26;chr06:chr05+chr13+chr22
 block_dist_median	0.0530
 block_dist_cv	0.150
+n_lore_blocks	0
+lore_bp	0
+lore_frac	0.000
+lore_terminal_frac	
+lore_pairs	
+n_near_allelic_blocks	0
 null_run_windows	3
 min_block_windows	6

@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 6 chromosome(s) carry blocks homeologous to two or more others (chr04:chr18+chr27, chr05:chr07+chr13, chr07:chr05+chr16+chr38, chr10:chr32+chr35, chr11:chr09+chr25, chr13:chr05+chr23): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.16), as when regions resolve at different times; homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
+Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 6 chromosome(s) carry blocks homeologous to two or more others (chr04:chr18+chr27, chr05:chr07+chr13, chr07:chr05+chr16+chr38, chr10:chr32+chr35, chr11:chr09+chr25, chr13:chr05+chr23): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.16), as when regions resolve at different times; 2 low-divergence homeolog blocks (8 Mb, 2% of the block span, mostly at chromosome ends; chr09xchr11): regions that stopped recombining later than the rest (delayed, LORe-like rediploidization), or a younger duplication; homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
 
 *Confidence:* medium  
-*Evidence:* residual tetrasomy on 0/29 homeolog-paired chromosome numbers; pair-depth CV 0.04; homeology map: 18% of the genome in 72 homeolog blocks, 18 chromosome pairs, block-divergence CV 0.16; exchange: chr09(chr11:1/2)
+*Evidence:* residual tetrasomy on 0/29 homeolog-paired chromosome numbers; pair-depth CV 0.04; homeology map: 18% of the genome in 72 homeolog blocks, 18 chromosome pairs, block-divergence CV 0.16; LORe-like blocks: 2, 8.5 Mb; exchange: chr09(chr11:1/2)
 

@@ -27,7 +27,7 @@ GROUPS = [
     ("Genomes assembled with three or more copies",
      ["SchCurv1", "SchYoun1", "drLytSali1", "daBudDavi1", "daGalBore1", "ddLepDrab1", "ddEmpNigr1",
       "drAriEdul1", "ddHesMatr1", "ddHypMacu1", "ddHypPerf1", "ddSalTria1", "icStrMela3"]),
-    ("Salmonids", ["OncMaso1", "fSalAlp3", "fCorLav1"]),
+    ("Salmonids", ["OncMaso1", "OncMaso1_wu2026", "fSalAlp3", "fCorLav1"]),
     ("Diploid-like and negative controls",
      ["ddMalSylv1", "fLepOcu1", "fAmiCal2", "xgCepNemo3", "xgHygCinc1", "xgDauRufa1", "xgLitLitt3",
       "xgMonCant1", "xgPomEleg1", "xgStaPalu1", "lpTriTurg1_A", "lpTriTurg1_B"]),

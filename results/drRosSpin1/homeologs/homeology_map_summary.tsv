@@ -10,5 +10,11 @@ multi_partner_chromosomes	0
 multi_partner_list	
 block_dist_median	0.0389
 block_dist_cv	0.076
+n_lore_blocks	0
+lore_bp	0
+lore_frac	0.000
+lore_terminal_frac	
+lore_pairs	
+n_near_allelic_blocks	0
 null_run_windows	4
 min_block_windows	6

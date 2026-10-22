@@ -2,6 +2,7 @@ import csv
 import itertools
 import math
 import os
+import random
 import statistics
 from collections import defaultdict
 
@@ -10,6 +11,15 @@ from .kmer_tables import load_sequences
 
 DEFAULT_MIN_EFFECT = 0.02
 LENGTH_ADJUST_MIN_PAIRS = 10
+# subgenome partition (subgenome_partition): the two-group split is read as
+# subgenomes when its same-set effect, net of chromosome size, stands this many
+# SD above random splits of the same sizes, and the smaller set holds at least
+# SUBGENOME_MIN_FRAC of the numbers
+SUBGENOME_Z = 10.0
+SUBGENOME_MIN_FRAC = 0.25
+SUBGENOME_PERMUTATIONS = 200
+SUBGENOME_SEED = 20261021
+SUBGENOME_TSV = "subgenome_partition.tsv"
 
 
 def load_distance_matrix(outdir):
@@ -52,15 +62,43 @@ def chrom_lengths(units):
     return {c: statistics.mean(v) for c, v in by.items()}
 
 
-def length_adjust(pair_dist, lengths):
+def _size_design(keys, lengths, sets=None):
+    """Rows [1, log La + log Lb, |log La - log Lb|(, same set)] for length_adjust."""
+    import numpy as np
+
+    rows = []
+    for a, b in keys:
+        row = [1.0, math.log(lengths[a]) + math.log(lengths[b]),
+               abs(math.log(lengths[a]) - math.log(lengths[b]))]
+        if sets is not None:
+            row.append(1.0 if sets[a] == sets[b] else 0.0)
+        rows.append(row)
+    return np.array(rows)
+
+
+def _robust_fit(X, y):
+    """Least squares, twice reweighted to drop points beyond 3 robust SD.
+    Returns (beta, robust SD of the residuals)."""
+    import numpy as np
+
+    w = np.ones(len(y))
+    for _ in range(3):
+        beta = np.linalg.lstsq(X * w[:, None], y * w, rcond=None)[0]
+        r = y - X @ beta
+        spread = 1.4826 * np.median(np.abs(r - np.median(r))) or 1e-9
+        w = (np.abs(r) < 3 * spread).astype(float)
+    return beta, spread
+
+
+def length_adjust(pair_dist, lengths, sets=None):
     """
     Number-to-number distances with the chromosome-size effect removed.
 
     Whole-chromosome k-mer distance depends on the two chromosomes' sizes, not
     only on their relatedness: in dcCerAlpi1 and the diploid ddMalSylv1 the
     distance correlates 0.8 with the size difference. Clustering then sorts
-    chromosomes by size -- dcCerAlpi1's "16 vs 20 subgenome" partition (z = 21)
-    and dmRanRepe1's "8 vs 8" (z = 10.6) were large against small chromosomes.
+    chromosomes by size -- dcCerAlpi1's raw "16 vs 20" partition (z = 21) was
+    large against small chromosomes.
     The distance is regressed on log(L_a) + log(L_b) and |log L_a - log L_b|,
     twice reweighted to drop pairs more than 3 robust SD from the fit (real
     homeologs must not shape the size model), and each pair keeps its
@@ -69,26 +107,135 @@ def length_adjust(pair_dist, lengths):
     into 18 pairs (z = 25.9) while daGleHede1, drSorDevo1 and drTriRepe1 keep
     their pairs and the diploid ddMalSylv1 still has none. Returns the input
     unchanged with fewer than LENGTH_ADJUST_MIN_PAIRS pairs.
+
+    `sets` ({chrom: set index}, from subgenome_partition) adds a same-set term
+    to the model and removes only the size terms. Without it, subgenomes that
+    differ in size are regressed away with the size: dmRanRepe1's subgenomes
+    (chr01-08 and chr09-16, every chromosome of the first larger than its
+    homeolog in the second) were read as large-vs-small and the genome as
+    diploid-like (2026-10-21).
     """
     import numpy as np
 
     keys = [k for k in pair_dist if k[0] in lengths and k[1] in lengths]
     if len(keys) < LENGTH_ADJUST_MIN_PAIRS:
         return dict(pair_dist)
-    X = np.array([[1.0, math.log(lengths[a]) + math.log(lengths[b]),
-                   abs(math.log(lengths[a]) - math.log(lengths[b]))] for a, b in keys])
+    X = _size_design(keys, lengths, sets)
     y = np.array([pair_dist[k] for k in keys])
-    w = np.ones(len(y))
-    for _ in range(3):
-        beta = np.linalg.lstsq(X * w[:, None], y * w, rcond=None)[0]
-        r = y - X @ beta
-        spread = 1.4826 * np.median(np.abs(r - np.median(r))) or 1e-9
-        w = (np.abs(r) < 3 * spread).astype(float)
+    beta, _ = _robust_fit(X, y)
     out = dict(pair_dist)
-    mean = float(np.mean(y))
-    for k, ri in zip(keys, y - X @ beta):
-        out[k] = mean + float(ri)
+    if sets is None:
+        mean = float(np.mean(y))
+        for k, ri in zip(keys, y - X @ beta):
+            out[k] = mean + float(ri)
+        return out
+    size = X[:, 1:3] @ beta[1:3]
+    for k, yi, si in zip(keys, y, size):
+        out[k] = float(yi - si + size.mean())
     return out
+
+
+def subgenome_partition(pair_dist, lengths, seed=SUBGENOME_SEED):
+    """
+    Two subgenomes, if the chromosome numbers split into two sets more than
+    their sizes explain. Returns a dict (sets {chrom: 0/1}, groups, effect,
+    z, accepted) or None when there are too few numbers.
+
+    The split is average linkage on the raw number-to-number distances, cut at
+    two groups. Its strength is the same-set coefficient of the size model
+    (length_adjust with `sets`), in robust SD of the residuals, against the
+    same coefficient for SUBGENOME_PERMUTATIONS random splits of the same
+    sizes. The size terms stay in the model, so a size-sorted split in a
+    diploid gets no credit for its size: across the panel ddMalSylv1 scores
+    z = 2.5 and no species without subgenomes exceeds 5, while dmRanRepe1
+    (108), daInuConz1 (185), lpTriTurg1 (147, exactly the A and B
+    chromosomes) and dcCerAlpi1 (33) stand far out.
+
+    In an allopolyploid whose subgenomes each carry their own repeats,
+    non-homologous chromosomes of one subgenome share more k-mers than
+    homeologs across the two: dmRanRepe1's are 0.064 apart within a set and
+    0.071 across, against 0.079 for the other cross-set pairs. The homeologs
+    are then closer than their cross-set background but not than the genome's,
+    and only a cross-set test (run) sees them.
+    """
+    import numpy as np
+
+    from .structure import agglomerative_merge_sequence
+
+    nums = sorted(lengths)
+    keys = [k for k in pair_dist if k[0] in lengths and k[1] in lengths]
+    if len(nums) < 6 or len(keys) < LENGTH_ADJUST_MIN_PAIRS:
+        return None
+    sym = {}
+    for (a, b), d in pair_dist.items():
+        sym[(a, b)] = sym[(b, a)] = d
+    groups = next(c for k, c in agglomerative_merge_sequence(sym, nums) if k == 2)
+    sets = {c: gi for gi, g in enumerate(groups) for c in g}
+    y = np.array([pair_dist[k] for k in keys])
+
+    def effect(assign):
+        beta, spread = _robust_fit(_size_design(keys, lengths, assign), y)
+        return -beta[3] / spread
+
+    obs = effect(sets)
+    rng = random.Random(seed)
+    n0 = len(groups[0])
+    null = []
+    for _ in range(SUBGENOME_PERMUTATIONS):
+        pool = list(nums)
+        rng.shuffle(pool)
+        null.append(effect({c: 0 if i < n0 else 1 for i, c in enumerate(pool)}))
+    z = (obs - statistics.mean(null)) / (statistics.pstdev(null) or 1e-9)
+    balanced = min(len(g) for g in groups) >= SUBGENOME_MIN_FRAC * len(nums)
+    return dict(sets=sets, groups=[sorted(g) for g in groups], effect=float(obs), z=float(z),
+                accepted=bool(balanced and z >= SUBGENOME_Z))
+
+
+def cross_set_pairs(adjusted, sets, chrom_nums, fdr_alpha, min_effect):
+    """detect_homeolog_pairs over the pairs that cross the two sets only, each
+    against the cross-set background."""
+    cross = {k: d for k, d in adjusted.items() if sets.get(k[0]) != sets.get(k[1])}
+    return detect_homeolog_pairs(cross, chrom_nums, fdr_alpha, min_effect)
+
+
+def write_subgenome_partition(outdir, part, pair_test, pair_dist, accepted, lengths):
+    """homeologs/subgenome_partition.tsv: the split, its size-independent z and
+    which pair test was used (genome-wide or cross-set)."""
+    rows = [("pair_test", pair_test)]
+    if part is not None:
+        sets = part["sets"]
+        hom = {(i, j) for i, j, *_ in accepted}
+        within = [d for (a, b), d in pair_dist.items() if sets[a] == sets[b]]
+        across = [d for (a, b), d in pair_dist.items() if sets[a] != sets[b] and (a, b) not in hom]
+        homd = [pair_dist[k] for k in hom if sets[k[0]] != sets[k[1]]]
+        bp = [sum(lengths[c] for c in g) for g in part["groups"]]
+        mean = lambda v: f"{statistics.mean(v):.5f}" if v else ""  # noqa: E731
+        rows += [
+            ("accepted", "yes" if part["accepted"] else "no"),
+            ("z_score", f"{part['z']:.2f}"),
+            ("same_set_effect_sd", f"{part['effect']:.2f}"),
+            ("set_a", ",".join(f"chr{c:02d}" for c in part["groups"][0])),
+            ("set_b", ",".join(f"chr{c:02d}" for c in part["groups"][1])),
+            ("set_a_bp", int(bp[0])),
+            ("set_b_bp", int(bp[1])),
+            ("within_set_mean", mean(within)),
+            ("cross_set_mean", mean(across)),
+            ("cross_set_homeolog_mean", mean(homd)),
+        ]
+    path = os.path.join(homeologs_dir(outdir), SUBGENOME_TSV)
+    with open(path, "w", newline="") as f:
+        w = csv.writer(f, delimiter="\t")
+        w.writerow(["metric", "value"])
+        w.writerows(rows)
+
+
+def read_subgenome_partition(outdir):
+    """{metric: value} from subgenome_partition.tsv, {} when absent."""
+    path = os.path.join(homeologs_dir(outdir), SUBGENOME_TSV)
+    if not os.path.exists(path):
+        return {}
+    with open(path) as f:
+        return {r["metric"]: r["value"] for r in csv.DictReader(f, delimiter="\t")}
 
 
 def load_pair_resolution_flags(outdir):
@@ -404,11 +551,33 @@ def run(seq_tsv, outdir, fdr_alpha=0.05, min_effect=DEFAULT_MIN_EFFECT):
         return []
 
     pair_dist = cross_chrom_distances(groups, mat)
+    lengths = chrom_lengths(units)
+    part = subgenome_partition(pair_dist, lengths)
+    sets = part["sets"] if part and part["accepted"] else None
     # pairs are tested on size-adjusted distances; files report the raw ones
-    adjusted = length_adjust(pair_dist, chrom_lengths(units))
+    adjusted = length_adjust(pair_dist, lengths)
     accepted, unmatched, background, p_values, q_values, z_scores = detect_homeolog_pairs(
         adjusted, chrom_nums, fdr_alpha, min_effect
     )
+    pair_test = "genome"
+    if sets is not None:
+        # subgenomes: homeologs cross them, tested against the cross-set
+        # background on distances that keep the subgenome split; used when
+        # that finds more pairs. dcCerAlpi1 keeps its genome-wide 18 (its
+        # two-group cut misplaces chr19 and chr27, so only 16 cross it);
+        # dmRanRepe1 goes from 0 to 8, lpTriTurg1 from 0 to 7 (1A-1B ... 7A-7B)
+        set_adjusted = length_adjust(pair_dist, lengths, sets)
+        cross = cross_set_pairs(set_adjusted, sets, chrom_nums, fdr_alpha, min_effect)
+        if len(cross[0]) > len(accepted):
+            pair_test = "cross_subgenome"
+            adjusted = set_adjusted
+            accepted, unmatched, background = cross[:3]
+            p_values, q_values, z_scores = ({**a, **b} for a, b in
+                                            zip((p_values, q_values, z_scores), cross[3:]))
+    if part is not None:
+        log(f"subgenome partition: {len(part['groups'][0])} vs {len(part['groups'][1])} numbers, "
+            f"size-independent z = {part['z']:.1f} ({'accepted' if sets else 'not accepted'}); "
+            f"pair test: {pair_test}")
     accepted = [(i, j, pair_dist[(i, j)], p, q, z) for i, j, _, p, q, z in accepted]
     flags = load_pair_resolution_flags(outdir)
     status_by_pair = {
@@ -472,6 +641,7 @@ def run(seq_tsv, outdir, fdr_alpha=0.05, min_effect=DEFAULT_MIN_EFFECT):
             f"  no significant ancestral partner found for: {', '.join(f'chr{c:02d}' for c in unmatched)}"
         )
 
+    write_subgenome_partition(outdir, part, pair_test, pair_dist, accepted, lengths)
     accepted_keys = {(i, j) for i, j, *_ in accepted}
     ranked = rank_candidates(pair_dist, p_values, q_values, z_scores, accepted_keys, adjusted)
     write_ranked_candidates(outdir, ranked)

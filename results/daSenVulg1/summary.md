@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start. Also: homeolog blocks diverged to different depths (CV 0.24), as when regions resolve at different times.
+Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start. Also: homeolog blocks diverged to different depths (CV 0.24), as when regions resolve at different times; 2 low-divergence homeolog blocks (7 Mb, 6% of the block span; chr15xchr19): regions that stopped recombining later than the rest (delayed, LORe-like rediploidization), or a younger duplication.
 
 *Confidence:* medium  
-*Evidence:* residual tetrasomy on 0/20 homeolog-paired chromosome numbers; pair-depth CV 0.07; homeology map: 9% of the genome in 15 homeolog blocks, 5 chromosome pairs, block-divergence CV 0.24
+*Evidence:* residual tetrasomy on 0/20 homeolog-paired chromosome numbers; pair-depth CV 0.07; homeology map: 9% of the genome in 15 homeolog blocks, 5 chromosome pairs, block-divergence CV 0.24; LORe-like blocks: 2, 7.0 Mb
 

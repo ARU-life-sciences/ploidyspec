@@ -2,6 +2,7 @@
 # (figures go to $D/fig). Needs $D/panel from `ploidyspec panel --outdir $D/panel`,
 # $D/old_empnigr_windowed.tsv (pre-fix windowed_all.tsv from git), and the
 # SchCurv1 chr17/chr19 position-free tracks at $TMPDIR/wcarp (or results/SchCurv1 once re-run).
+# The Ranunculus figure reads results/dmRanRepe1/homeologs/{subgenome_partition,homeolog_pairs}.tsv.
 import csv, os, collections, statistics as st
 import numpy as np
 import matplotlib; matplotlib.use("Agg")
@@ -97,4 +98,46 @@ for k,lab,cc in states:
 ax.set_yticks(y,[f"{r['species']} ({r['copies_per_chromosome']}x{r['n_chromosome_numbers']})" for r in S],fontsize=7); ax.invert_yaxis()
 ax.set_xlabel('fraction of chromosome numbers'); ax.legend(fontsize=7,ncol=4,loc='lower center',bbox_to_anchor=(0.5,1.0),frameon=False)
 fig.tight_layout(); fig.savefig(F+'/panel_states.png',dpi=200); plt.close(fig)
+# Fig: Ranunculus subgenomes and cross-subgenome homeolog pairs (homeologs stage outputs)
+from matplotlib.patches import Rectangle
+sp='dmRanRepe1'; d=pairs(sp)
+part={r['metric']:r['value'] for r in csv.DictReader(open(f'results/{sp}/homeologs/subgenome_partition.tsv'),delimiter='\t')}
+hp={}
+for r in csv.DictReader(open(f'results/{sp}/homeologs/homeolog_pairs.tsv'),delimiter='\t'):
+    a,b=int(r['chrom_a'][3:]),int(r['chrom_b'][3:]); hp[a]=b; hp[b]=a
+def m(a,b): return st.mean(d[(f'{h1}_chr{a:02d}',f'{h2}_chr{b:02d}')] for h1 in ('HAP1','HAP2') for h2 in ('HAP1','HAP2'))
+A=[int(c[3:]) for c in part['set_a'].split(',')]; B=[hp[a] for a in A]; order=A+B; n=len(A)
+full=np.array([[np.nan if a==b else m(a,b) for b in order] for a in order])
+block=np.array([[m(a,b) for b in B] for a in A])
+within=[m(a,b) for g in (A,B) for i,a in enumerate(g) for b in g[i+1:]]
+other=[block[i,j] for i in range(n) for j in range(n) if i!=j]
+fig,(ax1,ax2)=plt.subplots(1,2,figsize=(14,6.4),gridspec_kw=dict(width_ratios=[1,1.05]))
+im=ax1.imshow(full,cmap='viridis_r',vmin=min(within)-0.0015,vmax=max(other))
+lab=[f'chr{c:02d}' for c in order]
+ax1.set_xticks(range(2*n),lab,rotation=90,fontsize=8); ax1.set_yticks(range(2*n),lab,fontsize=8)
+for x in (0,n): ax1.add_patch(Rectangle((x-.5,x-.5),n,n,fill=False,ec='white',lw=2))
+for i in range(n):
+    ax1.add_patch(Rectangle((n+i-.5,i-.5),1,1,fill=False,ec='red',lw=1.5))
+    ax1.add_patch(Rectangle((i-.5,n+i-.5),1,1,fill=False,ec='red',lw=1.5))
+ax1.text((n-1)/2,-0.9,f'subgenome A (chr{A[0]:02d}–{A[-1]:02d})',ha='center',fontsize=9)
+ax1.text(n+(n-1)/2,-0.9,'subgenome B (partner order)',ha='center',fontsize=9)
+ax1.set_title('Ranunculus repens: 16 chromosome numbers, two subgenomes\n'
+              '(mean k-mer distance over the four haplotype combinations)',fontsize=10,pad=30)
+fig.colorbar(im,ax=ax1,fraction=0.046,pad=0.03,label='distance (k = 23)')
+lo2=block.diagonal().min()-0.001; hi2=max(other)
+im2=ax2.imshow(block,cmap='viridis_r',vmin=lo2,vmax=hi2)
+ax2.set_xticks(range(n),[f'chr{b:02d}' for b in B],fontsize=9); ax2.set_yticks(range(n),[f'chr{a:02d}' for a in A],fontsize=9)
+ax2.set_xlabel('subgenome B'); ax2.set_ylabel('subgenome A')
+for i in range(n):
+    for j in range(n):
+        v=block[i,j]; t=(v-lo2)/(hi2-lo2)
+        ax2.text(j,i,f'{v:.3f}',ha='center',va='center',fontsize=8,color='black' if t<0.45 else 'white',
+                 fontweight='bold' if i==j else None)
+    ax2.add_patch(Rectangle((i-.5,i-.5),1,1,fill=False,ec='red',lw=2))
+ax2.set_title('A vs B: one homeolog per chromosome (red)\n'
+              f'homeologs {block.diagonal().min():.3f}–{block.diagonal().max():.3f}; other A–B pairs '
+              f'{min(other):.3f}–{max(other):.3f}; within a subgenome {min(within):.3f}–{max(within):.3f}',fontsize=10)
+fig.colorbar(im2,ax=ax2,fraction=0.046,pad=0.03,label='distance (k = 23)')
+fig.tight_layout(); fig.savefig(F+'/ranunculus_subgenomes.png',dpi=200); plt.close(fig)
+
 print('ok', len(S))

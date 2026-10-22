@@ -1,4 +1,4 @@
-anchor	chrom	partner	start	end	length	n_windows	median_dist	median_z	position	reciprocal
-HAP1_chr02	chr02	chr04	679500001	682500000	3000000	6	0.02484	3.81	interior	no
-HAP1_chr04	chr04	chr05	437500001	441000000	3500000	7	0.02045	4.97	end	no
-HAP1_chr05	chr05	chr01	405500001	408500000	3000000	6	0.03087	4.64	interior	no
+anchor	chrom	partner	start	end	length	n_windows	median_dist	median_z	position	reciprocal	low_divergence
+HAP1_chr02	chr02	chr04	679500001	682500000	3000000	6	0.02484	3.81	interior	no	no
+HAP1_chr04	chr04	chr05	437500001	441000000	3500000	7	0.02045	4.97	end	no	no
+HAP1_chr05	chr05	chr01	405500001	408500000	3000000	6	0.03087	4.64	interior	no	no

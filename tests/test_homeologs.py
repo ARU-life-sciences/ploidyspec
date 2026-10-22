@@ -16,6 +16,8 @@ from ploidyspec.homeologs import (
     empirical_pvalues,
     own_chrom_distances,
     rank_candidates,
+    cross_set_pairs,
+    subgenome_partition,
 )
 
 
@@ -189,6 +191,43 @@ class TestLengthAdjust(unittest.TestCase):
     def test_too_few_pairs_unchanged(self):
         dist = {(1, 2): 0.1, (1, 3): 0.2}
         self.assertEqual(length_adjust(dist, {1: 1e6, 2: 2e6, 3: 3e6}), dist)
+
+
+class TestSubgenomes(unittest.TestCase):
+    """dmRanRepe1: chr01-08 and chr09-16 are two subgenomes, every chromosome of
+    the first larger than its homeolog in the second. Within a set the numbers
+    are 0.064 apart (shared repeats), homeologs across the sets 0.071, the other
+    cross-set pairs 0.079. The genome-wide test finds no pair; the cross-set
+    test finds all eight."""
+
+    PAIRS = {1: 9, 2: 15, 3: 10, 4: 12, 5: 13, 6: 11, 7: 16, 8: 14}
+
+    def build(self, subgenomes=True):
+        rng = random.Random(3)
+        lengths = {c: (600e6 if c <= 8 else 480e6) * rng.uniform(0.9, 1.1) for c in range(1, 17)}
+        partner = {**self.PAIRS, **{b: a for a, b in self.PAIRS.items()}}
+        dist = {}
+        for i, j in itertools.combinations(range(1, 17), 2):
+            d = 0.07 + 0.01 * abs(math.log(lengths[i]) - math.log(lengths[j]))
+            if subgenomes:
+                d = 0.064 if (i <= 8) == (j <= 8) else 0.071 if partner[i] == j else 0.079
+            dist[(i, j)] = d + rng.uniform(-0.0008, 0.0008)
+        return lengths, dist
+
+    def test_partition_found_and_pairs_cross_it(self):
+        lengths, dist = self.build()
+        self.assertEqual(detect_homeolog_pairs(length_adjust(dist, lengths), list(range(1, 17)))[0], [])
+        part = subgenome_partition(dist, lengths)
+        self.assertTrue(part["accepted"])
+        self.assertEqual(part["groups"], [list(range(1, 9)), list(range(9, 17))])
+        adj = length_adjust(dist, lengths, part["sets"])
+        accepted = cross_set_pairs(adj, part["sets"], list(range(1, 17)), 0.05, 0.02)[0]
+        self.assertEqual(sorted((i, j) for i, j, *_ in accepted), sorted(self.PAIRS.items()))
+
+    def test_size_sorted_diploid_is_not_subgenomes(self):
+        lengths, dist = self.build(subgenomes=False)
+        part = subgenome_partition(dist, lengths)
+        self.assertFalse(part["accepted"])
 
 
 class TestOwnChromDistances(unittest.TestCase):

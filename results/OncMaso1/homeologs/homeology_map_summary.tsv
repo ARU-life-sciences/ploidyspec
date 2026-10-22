@@ -10,5 +10,11 @@ multi_partner_chromosomes	8
 multi_partner_list	chr01:chr31+chr32;chr09:chr12+chr19;chr10:chr12+chr13;chr12:chr09+chr10;chr30:chr02+chr31;chr31:chr01+chr30;chr32:chr01+chr04+chr33;chr33:chr08+chr32
 block_dist_median	0.0589
 block_dist_cv	0.241
+n_lore_blocks	0
+lore_bp	0
+lore_frac	0.000
+lore_terminal_frac	
+lore_pairs	
+n_near_allelic_blocks	6
 null_run_windows	4
 min_block_windows	6

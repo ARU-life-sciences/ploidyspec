@@ -95,6 +95,22 @@ class TestSummary(unittest.TestCase):
             self.assertTrue(a["rediploidization"]["answer"].startswith("Advanced"))
             self.assertIn("different depths", a["rediploidization"]["answer"])
 
+    def test_lore_like_blocks_are_reported(self):
+        # whitefish-like: a share of the block span far less diverged than the rest
+        with tempfile.TemporaryDirectory() as d:
+            species(d, 2, ["not_assessable"] * 10)
+            write(os.path.join(d, "rediploidization", "rediploidization_summary.tsv"), ["metric", "value"],
+                  [["residual_tested_chromosomes", "8"], ["residual_chromosomes", "0"], ["residual_bp", "0"],
+                   ["residual_controlled", "yes"], ["exchange_chromosomes", "0"],
+                   ["map_duplicated_frac", "0.62"], ["map_n_blocks", "14"], ["map_n_partner_pairs", "6"],
+                   ["map_multi_partner_chromosomes", "0"], ["map_block_dist_cv", "0.10"],
+                   ["map_n_lore_blocks", "4"], ["map_lore_bp", "60000000"], ["map_lore_frac", "0.25"],
+                   ["map_lore_terminal_frac", "0.8"], ["map_lore_pairs", "chr03xchr13;chr04xchr37"]])
+            a = answers(d)["rediploidization"]["answer"]
+            self.assertIn("LORe-like", a)
+            self.assertIn("chr03xchr13, chr04xchr37", a)
+            self.assertIn("chromosome ends", a)
+
     def test_a_single_pair_is_not_a_duplicated_genome(self):
         # spotted gar / bowfin: one homeolog pair passes, nothing else
         with tempfile.TemporaryDirectory() as d:

@@ -99,6 +99,19 @@ def mean_distance(i, group_indices, distance):
     return sum(distance[i][j] for j in group_indices) / len(group_indices)
 
 
+def label_supported(i, chrom, ref_groups, distance):
+    """Whether unit i's distance to reference group `chrom` is at least
+    AMBIGUOUS_RATIO_FLOOR times closer than to any other reference group: an
+    allele. A unit with no allele in the reference is about equally far from
+    every group, and its label carries no information."""
+    own = mean_distance(i, ref_groups.get(chrom, []), distance)
+    others = [mean_distance(i, m, distance) for c, m in ref_groups.items() if c != chrom]
+    others = [d for d in others if d is not None]
+    if own is None or not others:
+        return False
+    return min(others) >= AMBIGUOUS_RATIO_FLOOR * own
+
+
 def match_to_reference(units, idxs, ref_groups, distance):
     """
     One-to-one assignment of the units `idxs` (one source file) to reference
@@ -248,6 +261,11 @@ def detect_relabeling(units, distance, ratio_threshold=DEFAULT_RATIO_THRESHOLD):
         # 40 chromosomes (ratios 10-32x); HAP2_chr33 has no allele in HAP1 at
         # all (0.12 to its own chr33, 0.11 to the one unmatched HAP1 chr35), and
         # its staying put blocked chr30 -> chr33 and with it the whole batch.
+        # An occupant with no allele at all is displaced even when it sits a
+        # hair closer to its own label: in the Wu et al. 2026 masu assembly HAP2
+        # is renumbered on 23 of 33 chromosomes (5-29x), and HAP2_chr17 (0.131
+        # to chr17, 0.140 to chr31) and HAP2_chr23 (0.129 vs 0.130), both
+        # unrelated-level to everything, blocked chr16 -> chr17 and chr26 -> chr23.
         changed = True
         while changed:
             changed = False
@@ -264,14 +282,15 @@ def detect_relabeling(units, distance, ratio_threshold=DEFAULT_RATIO_THRESHOLD):
                 new_dist = mean_distance(j, ref_groups[new], distance)
                 swap = (new == c["old_chrom"] and new_dist <= SWAP_TOLERANCE * own_dist
                         and c["own_dist"] + own_dist >= SWAP_TOTAL_RATIO * (c["alt_dist"] + new_dist))
-                if own_dist < new_dist and not swap:
+                unsupported = not label_supported(j, c["new_chrom"], ref_groups, distance)
+                if own_dist < new_dist and not swap and not unsupported:
                     continue
                 held = [h for h in held if h["index"] != j]
                 moves.append(dict(index=j, unit_id=units[j]["unit_id"], old_chrom=c["new_chrom"],
                                   new_chrom=new, own_dist=own_dist, alt_dist=new_dist,
                                   ratio=own_dist / new_dist if new_dist > 0 else float("inf"),
-                                  displaced=own_dist >= new_dist,
-                                  status="swapped" if own_dist < new_dist else None))
+                                  displaced=own_dist >= new_dist or unsupported,
+                                  status="swapped" if swap and own_dist < new_dist else None))
                 changed = True
                 break
         # a held move below the floor is only the matching's leftover, not evidence

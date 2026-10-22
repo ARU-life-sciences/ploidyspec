@@ -37,3 +37,9 @@ map_multi_partner_chromosomes	2
 map_multi_partner_list	chr01:chr07+chr14;chr07:chr01+chr06
 map_block_dist_median	0.0171
 map_block_dist_cv	0.323
+map_n_lore_blocks	5
+map_lore_bp	115481339
+map_lore_frac	0.039
+map_lore_terminal_frac	0.058
+map_lore_pairs	chr01xchr07;chr08xchr13
+map_n_near_allelic_blocks	4

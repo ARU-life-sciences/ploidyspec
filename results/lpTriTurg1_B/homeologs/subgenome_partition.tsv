@@ -1,0 +1,12 @@
+metric	value
+pair_test	genome
+accepted	no
+z_score	1.54
+same_set_effect_sd	2.67
+set_a	chr01,chr02,chr03,chr04,chr06,chr07
+set_b	chr05
+set_a_bp	4475642768
+set_b_bp	739787580
+within_set_mean	0.06955
+cross_set_mean	0.06996
+cross_set_homeolog_mean	

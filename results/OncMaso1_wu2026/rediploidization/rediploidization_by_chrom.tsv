@@ -1,0 +1,34 @@
+chrom	n_copies	haps_missing	fusion	group_a	group_b	dist_split	te_split	window_split_frac	split_extent	split_extent_raw	window_covered	window_null_q95	split_segments	copy_state	state_basis	pooled_with	outlier_hap	ancient_partner	distance_ratio	ancient_state	residual_bp	residual_frac	residual_terminal_bp	residual_support	residual_segments	residual_controlled	residual_partners	exchange_bp	exchange_support	exchange_segments	block_partners	lineage_switches
+chr01	2			HAP1_chr25,HAP2_chr01	HAP2_chr25,HAP1_chr01	1.29						0.00		candidate	homeolog_pool	chr25		chr25	1.40	paired	0	0.000	0	chr25:0/4		yes	chr25	27250000	chr25:1/2	HAP1:42.3-47.0Mb(interior)~chr25;HAP1:47.5-50.2Mb(interior)~chr25;HAP1:50.8-70.5Mb(interior)~chr25		
+chr02	2			HAP1_chr31,HAP1_chr02,HAP2_chr02	HAP2_chr31	2.38						0.00		one_divergent_copy	homeolog_pool	chr31	HAP2	chr31	1.34	paired	0	0.000	0	chr21:0/4;chr31:0/4		yes	chr21,chr31	21750000	chr21:1/2;chr31:1/2	HAP2:7.0-12.0Mb(start)~chr21;HAP2:12.0-25.8Mb(start)~chr31;HAP2:105.8-108.8Mb(interior)~chr31	chr31:17.0Mb,chr21:6.5Mb,chr19:3.2Mb	
+chr03	2			HAP1_chr03,HAP2_chr03	HAP2_chr16,HAP1_chr16	11.88						0.00		resolved_lineages	homeolog_pool	chr16		chr16	11.88	paired	0	0.000	0	chr16:0/4		yes	chr16	0			chr16:21.8Mb,chr21:2.5Mb	
+chr04	2			HAP2_chr04,HAP1_chr04	HAP2_chr17,HAP1_chr17	14.67						0.00		resolved_lineages	homeolog_pool	chr17		chr17	14.67	paired	0	0.000	0	chr17:0/4		yes	chr17	0			chr17:11.3Mb	
+chr05	2											0.00		not_assessable	none					unpaired											chr12:5.2Mb	
+chr06	2											0.00		not_assessable	none					unpaired											chr19:6.0Mb	
+chr07	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr08:0/4;chr11:0/4		yes	chr08,chr11	0			chr11:32.2Mb,chr08:12.0Mb	
+chr08	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr07:0/4;chr16:0/4;chr26:0/4		yes	chr07,chr16,chr26	0			chr07:6.8Mb,chr16:5.8Mb,chr26:5.8Mb	
+chr09	2			HAP2_chr09,HAP1_chr09	HAP2_chr13,HAP1_chr13	10.68						0.00		resolved_lineages	homeolog_pool	chr13		chr13	10.68	paired	0	0.000	0	chr13:2/4;chr22:0/4		yes	chr13,chr22	4250000	chr13:1/2	HAP1:9.3-13.5Mb(start)~chr13	chr13:44.0Mb,chr22:6.2Mb	
+chr10	2											0.00		not_assessable	none					unpaired											chr33:2.2Mb	
+chr11	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr07:0/4;chr12:0/4		yes	chr07,chr12	0			chr07:32.0Mb,chr12:19.5Mb	
+chr12	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr11:0/4		yes	chr11	0			chr11:14.2Mb	
+chr13	2			HAP2_chr09,HAP1_chr09	HAP2_chr13,HAP1_chr13	10.68						0.00		resolved_lineages	homeolog_pool	chr09		chr09	10.68	paired	0	0.000	0	chr09:2/4		yes	chr09	0			chr09:46.8Mb	
+chr14	2			HAP2_chr14,HAP1_chr14	HAP2_chr29,HAP1_chr29	5.36						0.00		resolved_lineages	homeolog_pool	chr29		chr29	5.36	paired	0	0.000	0	chr29:2/4		yes	chr29	13250000	chr29:1/2	HAP1:43.5-56.8Mb(interior)~chr29	chr29:24.8Mb	
+chr15	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr27:0/4		yes	chr27	0			chr27:3.8Mb	
+chr16	2			HAP1_chr03,HAP2_chr03	HAP2_chr16,HAP1_chr16	11.88						0.00		resolved_lineages	homeolog_pool	chr03		chr03	11.88	paired	0	0.000	0	chr03:0/4;chr08:0/4		yes	chr03,chr08	7413730	chr03:1/2	HAP1:79.8-84.5Mb(end)~chr03;HAP1:85.0-87.7Mb(end)~chr03	chr03:18.9Mb,chr08:4.5Mb	
+chr17	2			HAP2_chr04,HAP1_chr04	HAP2_chr17,HAP1_chr17	14.67						0.00		resolved_lineages	homeolog_pool	chr04		chr04	14.67	paired	0	0.000	0	chr04:0/4		yes	chr04	2750000	chr04:1/2	HAP1:9.8-12.5Mb(interior)~chr04	chr04:10.5Mb,chr32:2.2Mb	
+chr18	2			HAP2_chr18,HAP1_chr18	HAP2_chr20,HAP1_chr20	3.41						0.00		resolved_lineages	homeolog_pool	chr20		chr20	3.41	paired	0	0.000	0	chr20:2/4		yes	chr20	8500000	chr20:1/2	HAP1:37.8-46.2Mb(interior)~chr20	chr20:53.3Mb,chr29:3.5Mb	
+chr19	2											0.00		not_assessable	none					unpaired												
+chr20	2			HAP2_chr18,HAP1_chr18	HAP2_chr20,HAP1_chr20	3.41						0.00		resolved_lineages	homeolog_pool	chr18		chr18	3.41	paired	0	0.000	0	chr18:2/4		yes	chr18	0			chr18:53.8Mb	
+chr21	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr02:0/4;chr30:0/4		yes	chr02,chr30	5250000	chr02:1/2	HAP1:48.5-53.8Mb(end)~chr02	chr32:5.2Mb,chr16:4.6Mb,chr02:3.0Mb,chr30:2.8Mb	
+chr22	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr09:0/4		yes	chr09	0			chr09:3.8Mb	
+chr23	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr25:0/4		yes	chr25	0			chr25:10.0Mb	
+chr24	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr28:0/4		yes	chr28	0			chr28:8.2Mb	
+chr25	2			HAP1_chr25,HAP2_chr01	HAP2_chr25,HAP1_chr01	1.29						0.00		candidate	homeolog_pool	chr01		chr01	1.40	paired	0	0.000	0	chr01:0/4;chr23:0/4		yes	chr01,chr23	28091697	chr01:1/2	HAP2:9.8-12.8Mb(interior)~chr01;HAP2:33.5-58.6Mb(end)~chr01	chr23:10.5Mb	
+chr26	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr08:0/4		yes	chr08	0			chr08:2.5Mb	
+chr27	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr15:0/4		yes	chr15	0			chr15:4.2Mb	
+chr28	2											0.00		not_assessable	none					unpaired	0	0.000	0	chr24:0/4		yes	chr24	0			chr24:6.0Mb	
+chr29	2			HAP2_chr14,HAP1_chr14	HAP2_chr29,HAP1_chr29	5.36						0.00		resolved_lineages	homeolog_pool	chr14		chr14	5.36	paired	0	0.000	0	chr14:2/4		yes	chr14	7750000	chr14:1/2	HAP2:2.8-10.5Mb(start)~chr14	chr14:22.8Mb	
+chr30	2			HAP2_chr30,HAP1_chr30,HAP1_chr32	HAP2_chr32	2.15						0.00		one_divergent_copy	homeolog_pool	chr32	HAP2	chr32	1.52	paired	0	0.000	0	chr21:0/4;chr32:0/4		yes	chr21,chr32	10000000	chr32:1/2	HAP2:34.8-39.8Mb(interior)~chr32;HAP2:41.8-46.8Mb(end)~chr32	chr21:2.5Mb	
+chr31	2			HAP1_chr31,HAP1_chr02,HAP2_chr02	HAP2_chr31	2.38						0.00		one_divergent_copy	homeolog_pool	chr02	HAP2	chr02	1.34	paired	0	0.000	0	chr02:0/4		yes	chr02	17043351	chr02:2/2	HAP1:0.0-17.0Mb(start)~chr02	chr02:17.0Mb	
+chr32	2			HAP2_chr30,HAP1_chr30,HAP1_chr32	HAP2_chr32	2.15						0.00		one_divergent_copy	homeolog_pool	chr30	HAP2	chr30	1.52	paired	0	0.000	0	chr30:0/4		yes	chr30	12250000	chr30:1/2	HAP1:0.0-4.5Mb(start)~chr30;HAP1:5.0-10.0Mb(interior)~chr30;HAP1:11.0-13.8Mb(end)~chr30		
+chr33	2											0.00		not_assessable	none					unpaired												

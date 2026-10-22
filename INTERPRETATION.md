@@ -327,6 +327,17 @@ partner before a state is assigned (`state_basis = homeolog_pool`).
   and `lpElePalu1` (8 tetrasomic, 4 resolved, 4 candidate, 2 one-divergent)
   are the panel's best candidates for rediploidization in progress.
   `ddEmpNigr1` and `drAriEdul1` are already on the hand-check list.
+- **Update 21 October 2026: subgenome pairs found.** `daInuConz1`,
+  `dmRanRepe1` and durum wheat (`lpTriTurg1`) now have homeolog pairs (8, 8
+  and 7; wheat's are exactly 1A–1B … 7A–7B). In all three each subgenome
+  carries its own repeats, so chromosomes of one subgenome are closer to each
+  other than homeologs across subgenomes (Ranunculus 0.064–0.068 within, 0.070–0.073
+  homeologs), and the size regression had absorbed the larger subgenome.
+  The homeologs stage now finds a size-independent two-group partition
+  (z 109–179 here; no other species above 5) and tests pairs against the
+  cross-subgenome background (`homeologs/subgenome_partition.tsv`).
+  `dcCerAlpi1` keeps its 18 pairs from the genome-wide test. The
+  partition-pool notes below predate this.
 - **Cryptic allopolyploid candidates, pooled by partition.** `daInuConz1`,
   `dcCerAlpi1` and `dmRanRepe1` have no accepted homeolog pairs, but each
   has a significant two-group partition (below). Each chromosome is now

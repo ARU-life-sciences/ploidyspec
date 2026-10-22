@@ -31,3 +31,14 @@
   ],
 )
 
+
+// author-year citation in running text ("Twyford et al. (2025)")
+#let tc(l) = cite(l, form: "prose")
+#let note(title: none, body) = block(
+  fill: soft, inset: 10pt, radius: 4pt, width: 100%, stroke: (left: 3pt + accent),
+  [#if title != none [#text(weight: "bold", fill: accent, title) \ ]#body],
+)
+#let caution(title: none, body) = block(
+  fill: softwarm, inset: 10pt, radius: 4pt, width: 100%, stroke: (left: 3pt + warm),
+  [#if title != none [#text(weight: "bold", fill: warm, title) \ ]#body],
+)

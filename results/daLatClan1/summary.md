@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 4 chromosome(s) carry blocks homeologous to two or more others (chr04:chr03+chr15, chr05:chr07+chr17, chr11:chr01+chr02, chr15:chr04+chr18): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.86), as when regions resolve at different times; homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
+Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 4 chromosome(s) carry blocks homeologous to two or more others (chr04:chr03+chr15, chr05:chr07+chr17, chr11:chr01+chr02, chr15:chr04+chr18): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.86), as when regions resolve at different times; 2 low-divergence homeolog blocks (5 Mb, 6% of the block span, mostly at chromosome ends; chr05xchr07): regions that stopped recombining later than the rest (delayed, LORe-like rediploidization), or a younger duplication; homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome).
 
 *Confidence:* medium  
-*Evidence:* residual tetrasomy on 0/20 homeolog-paired chromosome numbers; pair-depth CV 0.03; homeology map: 10% of the genome in 25 homeolog blocks, 10 chromosome pairs, block-divergence CV 0.86; exchange: chr07(chr05:1/2)
+*Evidence:* residual tetrasomy on 0/20 homeolog-paired chromosome numbers; pair-depth CV 0.03; homeology map: 10% of the genome in 25 homeolog blocks, 10 chromosome pairs, block-divergence CV 0.86; LORe-like blocks: 2, 5.2 Mb; exchange: chr07(chr05:1/2)
 

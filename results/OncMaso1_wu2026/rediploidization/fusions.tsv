@@ -1,0 +1,8 @@
+scaffold	hap	length	origin	components	containment	sibling_excess	lineage_divergence	max_z	status	junction_mb	junction_agreement	near_junction_div	arm_end_div	junction_gradient	fused_within_div
+HAP1_chr01	HAP1	135427239	placed_long_copy	chr01+chr25	chr25:0.828	chr25:5.60	chr25:0.0082	56.8	candidate_partner_present						
+HAP1_chr05	HAP1	116090048	placed_long_copy	chr05+chr31	chr31:0.540	chr31:3.63	chr31:0.0268	35.1	candidate_partner_present						
+HAP1_chr14	HAP1	92522250	placed_long_copy	chr14+chr29	chr29:0.435	chr29:3.99	chr29:0.0362	27.2	candidate_partner_present						
+HAP2_chr20	HAP2	122827824	placed_long_copy	chr20+chr25	chr25:0.882	chr25:8.07,chr18:0.57	chr25:0.0054	61.0	candidate_partner_present						
+HAP2_chr30	HAP2	49353328	placed_long_copy	chr30+chr32	chr32:0.878	chr32:6.72	chr32:0.0056	60.7	candidate_partner_present						
+HAP2_chr31	HAP2	65311091	placed_long_copy	chr05+chr31	chr05:0.235	chr05:6.31	chr05:0.0629	12.1	candidate_partner_present						
+HAP2_chr32	HAP2	21433641	placed_long_copy	chr16+chr32	chr16:0.226	chr16:7.28	chr16:0.0647	11.4	candidate_partner_present						

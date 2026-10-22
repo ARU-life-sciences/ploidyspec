@@ -36,3 +36,9 @@ map_multi_partner_chromosomes	7
 map_multi_partner_list	chr04:chr10+chr12+chr49;chr06:chr15+chr27+chr51;chr10:chr04+chr17;chr20:chr44+chr48;chr27:chr06+chr37;chr29:chr36+chr43;chr43:chr29+chr33
 map_block_dist_median	0.0437
 map_block_dist_cv	0.103
+map_n_lore_blocks	2
+map_lore_bp	15000000
+map_lore_frac	0.008
+map_lore_terminal_frac	0.000
+map_lore_pairs	chr29xchr43
+map_n_near_allelic_blocks	2

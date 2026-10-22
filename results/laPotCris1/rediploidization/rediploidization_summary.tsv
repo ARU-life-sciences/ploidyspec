@@ -36,3 +36,9 @@ map_multi_partner_chromosomes	8
 map_multi_partner_list	chr01:chr22+chr24;chr02:chr10+chr21+chr23;chr05:chr09+chr21+chr25;chr09:chr05+chr19;chr10:chr02+chr17;chr19:chr09+chr25;chr21:chr02+chr05;chr25:chr05+chr19
 map_block_dist_median	0.0707
 map_block_dist_cv	0.047
+map_n_lore_blocks	0
+map_lore_bp	0
+map_lore_frac	0.000
+map_lore_terminal_frac	
+map_lore_pairs	
+map_n_near_allelic_blocks	0

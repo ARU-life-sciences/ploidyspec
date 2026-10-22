@@ -40,6 +40,8 @@ PALEO_RATIO = 0.8
 RESIDUAL_MIN_PAIRS = 2  # homeolog pairs with residual tetrasomy before origin is read as auto-like
 SEGMENTAL_MIN_FRAC = 0.3  # share of the genome in homeolog blocks read as a duplicated genome
 BLOCK_ASYNC_CV = 0.15  # spread of block divergence read as asynchronous resolution
+LORE_MIN_BLOCKS = 2  # low-divergence (LORe-like) map blocks: at least one reciprocal pair
+LORE_MIN_BP = 4_000_000  # ... covering at least this much
 RESIDUAL_TERMINAL_ONLY = 0.9  # terminal fraction above which residual tetrasomy is low confidence
 
 
@@ -82,6 +84,8 @@ def gather(outdir):
     extra_sets = sorted({r.get("new_hap", "") for r in _read(os.path.join(
         outdir, "matrix", "chrom_label_corrections.tsv")) or [] if r.get("status") == "extra_set"} - {""})
     te = te_markers_row(species, outdir)
+    subgenomes = {r["metric"]: r["value"] for r in
+                  _read(os.path.join(outdir, "homeologs", "subgenome_partition.tsv")) or []}
     lineage = _read(os.path.join(outdir, "subgenomes", "te_marker_fraction_by_lineage.tsv")) or []
     return dict(
         species=species,
@@ -99,6 +103,7 @@ def gather(outdir):
         by_chrom=by_chrom,
         fusions=fusions,
         extra_sets=extra_sets,
+        subgenomes=subgenomes,
         te=te,
         te_splits=[_num(r["split_ratio"]) for r in lineage if _num(r.get("split_ratio")) is not None],
     )
@@ -145,7 +150,9 @@ def segmental(g):
     return dict(frac=_num(s["map_duplicated_frac"]) or 0.0, pairs=int(s.get("map_n_partner_pairs") or 0),
                 multi=int(s.get("map_multi_partner_chromosomes") or 0),
                 multi_list=s.get("map_multi_partner_list", ""), cv=_num(s.get("map_block_dist_cv")),
-                blocks=int(s.get("map_n_blocks") or 0))
+                blocks=int(s.get("map_n_blocks") or 0), lore=int(s.get("map_n_lore_blocks") or 0),
+                lore_bp=int(s.get("map_lore_bp") or 0), lore_frac=_num(s.get("map_lore_frac")) or 0.0,
+                lore_terminal=_num(s.get("map_lore_terminal_frac")), lore_pairs=s.get("map_lore_pairs", ""))
 
 
 def further_signals(g):
@@ -164,6 +171,15 @@ def further_signals(g):
         if seg["cv"] is not None and seg["cv"] >= BLOCK_ASYNC_CV and seg["blocks"] >= 4:
             said.append(f"homeolog blocks diverged to different depths (CV {seg['cv']:.2f}), as when "
                         "regions resolve at different times")
+        if seg["lore"] >= LORE_MIN_BLOCKS and seg["lore_bp"] >= LORE_MIN_BP:
+            where = (", mostly at chromosome ends" if seg["lore_terminal"] is not None
+                     and seg["lore_terminal"] >= 0.5 else "")
+            said.append(f"{seg['lore']} low-divergence homeolog blocks ({seg['lore_bp'] / 1e6:.0f} Mb, "
+                        f"{seg['lore_frac']:.0%} of the block span{where}; "
+                        f"{seg['lore_pairs'].replace(';', ', ')}): regions that stopped recombining "
+                        "later than the rest (delayed, LORe-like rediploidization), or a younger "
+                        "duplication")
+            ev.append(f"LORe-like blocks: {seg['lore']}, {seg['lore_bp'] / 1e6:.1f} Mb")
     n_sw = int(s.get("lineage_switch_chromosomes") or 0)
     if n_sw:
         said.append(f"lineage switches on {n_sw} chromosome(s) ({s.get('lineage_switch_list', '')}): a "
@@ -326,7 +342,37 @@ def fusion_note(g):
             "besides the fused components")
 
 
+def subgenome_note(g):
+    """(sentence, evidence) when the homeolog pairs came from the cross-subgenome
+    test (homeologs.subgenome_partition), else None."""
+    sg = g.get("subgenomes") or {}
+    if sg.get("pair_test") != "cross_subgenome":
+        return None
+    within, hom = _num(sg.get("within_set_mean")), _num(sg.get("cross_set_homeolog_mean"))
+    a_bp, b_bp = _num(sg.get("set_a_bp")) or 0, _num(sg.get("set_b_bp")) or 0
+    n_a, n_b = (len(sg.get(k, "").split(",")) for k in ("set_a", "set_b"))
+    text = (f" The chromosome numbers form two subgenomes ({n_a} and {n_b} numbers, size-independent "
+            f"z = {_num(sg['z_score']):.0f}) and every homeolog pair crosses them.")
+    if within is not None and hom is not None and within < hom:
+        text += (f" Non-homologous chromosomes within a subgenome are closer ({within:.3f}) than "
+                 f"homeologs across them ({hom:.3f}): each subgenome carries its own repeats, as "
+                 "when two diverged genomes merge.")
+    if a_bp and b_bp and max(a_bp, b_bp) / min(a_bp, b_bp) >= 1.1:
+        text += f" One subgenome is {max(a_bp, b_bp) / min(a_bp, b_bp):.2f}x the size of the other."
+    ev = (f"subgenomes {sg.get('set_a', '')} | {sg.get('set_b', '')} (z = {_num(sg['z_score']):.1f}); "
+          "homeolog pairs tested across them")
+    return text, ev
+
+
 def answer_structure(g):
+    text, conf, ev = _answer_structure(g)
+    note = subgenome_note(g)
+    if note and not text.startswith("Not assessable"):
+        text, ev = text + note[0], f"{ev}; {note[1]}"
+    return text, conf, ev
+
+
+def _answer_structure(g):
     c = g["copies"]
     states, bases = _state_counts(g)
     n = sum(states.values())

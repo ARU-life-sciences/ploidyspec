@@ -10,5 +10,11 @@ multi_partner_chromosomes	8
 multi_partner_list	chr01:chr22+chr24;chr02:chr10+chr21+chr23;chr05:chr09+chr21+chr25;chr09:chr05+chr19;chr10:chr02+chr17;chr19:chr09+chr25;chr21:chr02+chr05;chr25:chr05+chr19
 block_dist_median	0.0707
 block_dist_cv	0.047
+n_lore_blocks	0
+lore_bp	0
+lore_frac	0.000
+lore_terminal_frac	
+lore_pairs	
+n_near_allelic_blocks	0
 null_run_windows	4
 min_block_windows	6

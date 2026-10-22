@@ -34,3 +34,9 @@ map_multi_partner_chromosomes	4
 map_multi_partner_list	chr02:chr29+chr34;chr03:chr16+chr25;chr04:chr11+chr26;chr06:chr05+chr13+chr22
 map_block_dist_median	0.0530
 map_block_dist_cv	0.150
+map_n_lore_blocks	0
+map_lore_bp	0
+map_lore_frac	0.000
+map_lore_terminal_frac	
+map_lore_pairs	
+map_n_near_allelic_blocks	0

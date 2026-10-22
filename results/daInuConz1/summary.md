@@ -2,17 +2,17 @@
 
 ## Ploidy
 
-2 haplotype copies of each of 16 chromosome numbers; the numbers form sets of 2 (no accepted pairs, but a balanced two-group partition), so x ≈ 8 and up to 4x relative to x.
+2 haplotype copies of each of 16 chromosome numbers; the numbers form sets of 2 (8 homeolog pairs covering 100% of numbers), so x ≈ 8 and up to 4x relative to x; the sets are nearly as diverged as unrelated chromosomes, so they may be an old (paleo) duplication.
 
-*Confidence:* medium  
-*Evidence:* copies from the assembly (2 per number); no accepted pairs, but a balanced two-group partition (8 vs 8, z = 10.3)
+*Confidence:* high  
+*Evidence:* copies from the assembly (2 per number); 8 homeolog pairs covering 100% of numbers; homeolog distance 0.095 vs unrelated 0.095
 
 ## Auto-like or allo-like?
 
-Allo-like (disomic-like): the duplicated sets do not interchange, from a genome-wide partition (no accepted pairs). This is also what a long-rediploidized autopolyploid looks like.
+Allo-like (disomic-like): the duplicated sets do not interchange, from homeolog pairs (pair-depth CV 0.02). This is also what a long-rediploidized autopolyploid looks like. The chromosome numbers form two subgenomes (8 and 8 numbers, size-independent z = 136) and every homeolog pair crosses them. Non-homologous chromosomes within a subgenome are closer (0.079) than homeologs across them (0.095): each subgenome carries its own repeats, as when two diverged genomes merge. One subgenome is 1.35x the size of the other.
 
-*Confidence:* medium  
-*Evidence:* 16 chromosome numbers assessed: 16 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate
+*Confidence:* high  
+*Evidence:* 16 chromosome numbers assessed: 16 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate; subgenomes chr01,chr02,chr03,chr04,chr05,chr06,chr09,chr15 | chr07,chr08,chr10,chr11,chr12,chr13,chr14,chr16 (z = 136.5); homeolog pairs tested across them
 
 ## TE markers
 
@@ -23,8 +23,8 @@ Only the absolute marker fraction is available (two copies per number); it does 
 
 ## Rediploidization
 
-Diverged throughout the paired chromosomes: no stretch where homeologs are as close as alleles. Rediploidization is complete, or the genome was allo-like from the start.
+Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 2 chromosome(s) carry blocks homeologous to two or more others (chr01:chr10+chr12, chr10:chr01+chr15): fusions, fissions or translocations since the duplication.
 
 *Confidence:* medium  
-*Evidence:* residual tetrasomy on 0/2 homeolog-paired chromosome numbers; homeology map: 1% of the genome in 9 homeolog blocks, 1 chromosome pairs, block-divergence CV 0.09
+*Evidence:* residual tetrasomy on 0/16 homeolog-paired chromosome numbers; pair-depth CV 0.02; homeology map: 32% of the genome in 188 homeolog blocks, 9 chromosome pairs, block-divergence CV 0.07
 

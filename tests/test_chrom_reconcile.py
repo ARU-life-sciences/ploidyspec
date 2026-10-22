@@ -301,6 +301,25 @@ class TestDetectRelabeling(unittest.TestCase):
                          {"HAP2_chr02": "3", "HAP2_chr03": "1", "HAP2_chr01": "4"})
         self.assertTrue(next(c for c in corrections if c["unit_id"] == "HAP2_chr01")["displaced"])
 
+    def test_occupant_without_allele_is_displaced_even_if_nearer_its_label(self):
+        # Wu et al. 2026 masu HAP2: chr02 -> chr03 -> chr01 in a cycle, and the
+        # unit declared chr01 has no allele anywhere -- marginally nearer its own
+        # chr01 (0.128) than the free chr04 (0.130). Its label is unsupported,
+        # so it is displaced and the cycle applies.
+        units = [unit(f"HAP1_chr0{c}", "HAP1", str(c), "fileA") for c in (1, 2, 3, 4)]
+        units += [unit(f"HAP2_chr0{c}", "HAP2", str(c), "fileB") for c in (1, 2, 3)]
+        distance = symmetric_matrix(
+            7,
+            {(5, 2): 0.004, (6, 0): 0.004,
+             (4, 0): 0.128, (4, 1): 0.131, (4, 2): 0.131, (4, 3): 0.130},
+            default=0.13,
+        )
+        corrections, ambiguous = detect_relabeling(units, distance)
+        self.assertEqual(ambiguous, [])
+        self.assertEqual({c["unit_id"]: c["new_chrom"] for c in corrections},
+                         {"HAP2_chr02": "3", "HAP2_chr03": "1", "HAP2_chr01": "4"})
+        self.assertTrue(next(c for c in corrections if c["unit_id"] == "HAP2_chr01")["displaced"])
+
     def test_one_sided_swap_applies_when_the_total_improves(self):
         # lpElePalu1: HAP2_chr12 is clearly chr11; HAP2_chr11 is tied between
         # chr11 and chr12, so the swap costs it nothing

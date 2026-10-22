@@ -184,13 +184,32 @@ partial-rediploidization or homeologous-exchange region for that pair.
 **Chromosome size.** Whole-chromosome k-mer distance depends on the two
 chromosomes' sizes as well as their relatedness (correlation 0.8 with the size
 difference in `dcCerAlpi1` and the diploid `ddMalSylv1`), so clustering sorted
-chromosomes by size: `dcCerAlpi1`'s and `dmRanRepe1`'s "two subgenomes" were
-large against small chromosomes. Pairs are therefore tested on
+chromosomes by size: `dcCerAlpi1`'s "two subgenomes" were large against small
+chromosomes. Pairs are therefore tested on
 `adjusted_distance`: the distance regressed on log(L_a) + log(L_b) and
 |log L_a − log L_b| (reweighted to ignore outlying pairs), kept as residual
 around the mean. The genome partition and pooling read the adjusted distances
 too; `distance`, `mean_distance` and pair depths stay raw. After adjustment
 `dcCerAlpi1` resolves into 18 pairs; the anchors keep theirs.
+
+**Subgenomes.** The size regression alone also removed real subgenomes of
+different size, and within-subgenome pairs that share their progenitor's
+repeats can be closer than homeologs (`dmRanRepe1`: 0.064–0.068 within,
+0.070–0.073 homeologs). The stage therefore cuts the raw number-to-number
+distances into two groups and refits the size model with a same-set term;
+if that term is ≥ 10 SD above 200 random splits of the same sizes (and the
+smaller set holds ≥ 25% of the numbers), the cross-set pairs are tested on
+distances with only the size terms removed. That result replaces the
+genome-wide test when it finds more pairs. `dmRanRepe1`, `lpTriTurg1` and
+`daInuConz1` go from 0 pairs to 8, 7 and 8.
+
+**`subgenome_partition.tsv`**: `metric`/`value` rows. `pair_test` is
+`cross_subgenome` or `genome` (which test produced `homeolog_pairs.tsv`);
+`accepted` (yes/no), `z_score` (same-set effect against random splits),
+`same_set_effect_sd`, `set_a`/`set_b` (comma-separated numbers),
+`set_a_bp`/`set_b_bp`, `within_set_mean`, `cross_set_mean` and
+`cross_set_homeolog_mean` (raw distances). In `cross_subgenome` mode the
+homeology map scores each window only against the other set.
 
 **`homeolog_pairs.tsv`**: candidate retained-duplicate chromosome pairs from
 an ancestral whole-genome duplication, found by testing every
@@ -199,7 +218,9 @@ cross-chromosome-number pair's distance against the empirical background of
 test against a sigma-clipped normal fit to that background), then
 Benjamini-Hochberg FDR correction (`q_value`, default threshold 0.05, `--fdr-alpha` to
 change it) across every candidate tested simultaneously, then a greedy 1:1
-match (each chromosome gets at most one ancestral partner).
+match (each chromosome gets at most one ancestral partner). With an accepted
+subgenome partition (`pair_test = cross_subgenome` in
+`subgenome_partition.tsv`), the background is the cross-set pairs instead.
 
 **Read `z_score` alongside `p_value`/`q_value`, not instead of them**: once
 `|z|` gets much past ~9, `p`/`q` underflow to exactly `0.0` in float64 and
@@ -344,7 +365,10 @@ windows do no better). Unmapped means "no homeolog detected".
 **`homeolog_blocks.tsv`**: one row per block — `anchor`, `chrom`, `partner`,
 `start`, `end`, `length`, `n_windows`, `median_dist`, `median_z`,
 `position` (`whole`/`start`/`end`/`interior`), `reciprocal` (the partner has
-a block back on this chromosome). Only reciprocal blocks are read: homeology
+a block back on this chromosome), `low_divergence`: `yes` for a LORe-like block (reciprocal,
+0.25-0.6x the median reciprocal block distance, low in both directions of the pair,
+at least six blocks), `near_allelic` below 0.25x (the residual-tetrasomy test's
+territory: real residual tetrasomy, or repeats), else `no`. Only reciprocal blocks are read: homeology
 runs both ways, repeats need not. In `daGleHede1` this leaves exactly its nine
 known homeolog pairs (two short unmatched blocks onto chr16 at a third of the
 homeolog distance drop out); in the diploid `ddMalSylv1` all seven blocks are
@@ -357,6 +381,12 @@ of the genome in reciprocal blocks), `n_blocks`, `n_blocks_unmatched`,
 two or more others: fusions, fissions or translocations since the
 duplication), `block_dist_median`, `block_dist_cv` (length-weighted spread of
 block divergence: blocks resolved at different times differ),
+`n_lore_blocks` / `lore_bp` / `lore_frac` (share of the block span) /
+`lore_terminal_frac` / `lore_pairs`, `n_near_allelic_blocks`: low-divergence (LORe-like) blocks,
+regions that stopped recombining later than the rest. Salmonid delayed
+rediploidization (Lien et al. 2016) is of this kind: less diverged than the other
+homeologs but not near-allelic, so the residual-tetrasomy test does not call
+it. A younger second duplication looks the same.
 `null_run_windows`, `min_block_windows`.
 
 **`homeology_map.png`**: each chromosome painted by the chromosome its blocks

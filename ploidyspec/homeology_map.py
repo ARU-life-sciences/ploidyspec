@@ -45,6 +45,16 @@ seven blocks (5% of the genome) all lack a partner block.
   chromosomes is a fusion/fission or translocation since the duplication;
 - block divergence spread: blocks resolved at different times differ in
   divergence (asynchronous rediploidization);
+- low-divergence (LORe-like) blocks: reciprocal blocks between
+  NEAR_ALLELIC_FRAC and LORE_FRAC of the median block divergence, low in both
+  directions of the pair. Arms still in delayed rediploidization (salmonid
+  LORe, Lien 2016: ~25% of the genome, 7-8 arm pairs) stopped recombining late
+  and are less diverged than the rest, but not near-allelic, so the residual
+  test (residual.py, < 0.25x the homeolog distance) misses them. A younger
+  second duplication would look the same; the reading names both;
+- subgenomes: when the homeolog pairs come from the cross-subgenome test
+  (homeologs.subgenome_partition), windows are scored against the other
+  subgenome's chromosomes only (cross_set_targets);
 - partner pairs feed windowed-homeologs, so residual tetrasomy and homeologous
   exchange are tested per block pair, not only per whole-chromosome pair.
 """
@@ -69,6 +79,11 @@ MIN_TARGETS = 3
 # a pair of chromosome numbers is tested for residual tetrasomy / exchange when
 # their blocks together cover at least this much
 PAIR_MIN_BP = 2_000_000
+# low-divergence (LORe-like) blocks: median distance below this fraction of the
+# median reciprocal block distance; read only with enough blocks for a median
+LORE_FRAC = 0.6
+NEAR_ALLELIC_FRAC = 0.25  # residual.HOMEOLOG_FRAC: below it a block is near-allelic, not LORe-like
+LORE_MIN_BLOCKS = 6
 
 WINDOWS_TSV = "windowed_homeology_map.tsv"  # raw per-window rows (gitignored)
 MAP_TSV = "homeology_map.tsv"
@@ -78,7 +93,7 @@ SUMMARY_TSV = "homeology_map_summary.tsv"
 MAP_FIELDS = ["anchor", "chrom", "win_start", "win_end", "best", "best_dist", "second", "second_dist",
               "median_dist", "z", "homeolog_like"]
 BLOCK_FIELDS = ["anchor", "chrom", "partner", "start", "end", "length", "n_windows", "median_dist",
-                "median_z", "position", "reciprocal"]
+                "median_z", "position", "reciprocal", "low_divergence"]
 
 
 def reference_hap(units):
@@ -238,12 +253,33 @@ def size_slope(windows, lengths):
     return float(b), float(np.mean(x))
 
 
+def cross_set_targets(outdir):
+    """{chrom: set index} when the homeolog pairs came from the cross-subgenome
+    test (homeologs.subgenome_partition), else None. Windows are then scored
+    against the other set's chromosomes only: in dmRanRepe1 every window is
+    closer to non-homologous chromosomes of its own subgenome (shared repeats)
+    than to its homeolog, so the genome-wide map found 0.4% of the genome in
+    blocks; against the other set the homeolog is the closest chromosome along
+    nearly the whole length of each chromosome."""
+    from .homeologs import read_subgenome_partition
+
+    part = read_subgenome_partition(outdir)
+    if part.get("pair_test") != "cross_subgenome":
+        return None
+    return {int(c[3:]): i for i, key in enumerate(("set_a", "set_b"))
+            for c in part.get(key, "").split(",") if c}
+
+
 def analyse_map(outdir, min_segment_bp, z_min=MAP_Z, normalise=True, lengths=None):
     hdir = homeologs_dir(outdir)
     path = os.path.join(hdir, WINDOWS_TSV)
     if not os.path.exists(path):
         return None
     windows = load_map_windows(path)
+    sets = cross_set_targets(outdir)
+    if sets:
+        windows = {a: {s: (e, c, {t: d for t, d in dists.items() if sets.get(t) != sets.get(c)})
+                       for s, (e, c, dists) in wins.items()} for a, wins in windows.items()}
     # distances corrected for target size (size_slope)
     if lengths is None:
         lengths = reference_lengths(outdir, windows)
@@ -293,16 +329,17 @@ def analyse_map(outdir, min_segment_bp, z_min=MAP_Z, normalise=True, lengths=Non
     for b in blocks:
         b["reciprocal"] = "yes" if b["chrom"] in partners_of.get(b["partner"], ()) else "no"
 
+    summary = summarize_map(per_anchor, blocks, null, min_run)
     write_tsv(os.path.join(hdir, MAP_TSV), map_rows, MAP_FIELDS)
     write_tsv(os.path.join(hdir, BLOCKS_TSV), blocks, BLOCK_FIELDS)
-    summary = summarize_map(per_anchor, blocks, null, min_run)
     write_tsv(os.path.join(hdir, SUMMARY_TSV),
               [dict(metric=k, value=v) for k, v in summary.items()], ["metric", "value"])
     plot_map(hdir, per_anchor, blocks)
     log(f"homeology map: {summary['n_blocks']} reciprocal homeolog block(s) "
         f"({summary['n_blocks_unmatched']} unmatched) covering {summary['duplicated_frac']} of "
         f"the genome; {summary['n_partner_pairs']} chromosome pair(s); "
-        f"{summary['multi_partner_chromosomes']} chromosome(s) with blocks on 2+ others")
+        f"{summary['multi_partner_chromosomes']} chromosome(s) with blocks on 2+ others; "
+        f"{summary['n_lore_blocks']} low-divergence (LORe-like) block(s)")
     return summary
 
 
@@ -328,6 +365,9 @@ def summarize_map(per_anchor, blocks, null, min_run):
         mean = sum(d * x for d, x in zip(dists, w)) / sum(w)
         var = sum(x * (d - mean) ** 2 for d, x in zip(dists, w)) / sum(w)
         cv = f"{math.sqrt(var) / mean:.3f}" if mean > 0 else ""
+    lore, n_near = low_divergence_blocks(unmatched + blocks)
+    lore_bp = sum(b["length"] for b in lore)
+    lore_pairs = sorted({tuple(sorted((b["chrom"], b["partner"]))) for b in lore})
     return dict(
         n_chromosomes=len(per_anchor),
         n_blocks=len(blocks),
@@ -340,9 +380,42 @@ def summarize_map(per_anchor, blocks, null, min_run):
         multi_partner_list=";".join(f"{c}:{'+'.join(sorted(partners[c]))}" for c in multi),
         block_dist_median=f"{statistics.median(dists):.4f}" if dists else "",
         block_dist_cv=cv,
+        n_lore_blocks=len(lore),
+        lore_bp=lore_bp,
+        lore_frac=f"{lore_bp / covered:.3f}" if covered else "0.000",
+        lore_terminal_frac=(f"{sum(b['length'] for b in lore if b['position'] in ('start', 'end')) / lore_bp:.3f}"
+                            if lore_bp else ""),
+        lore_pairs=";".join(f"{a}x{b}" for a, b in lore_pairs),
+        n_near_allelic_blocks=n_near,
         null_run_windows=null,
         min_block_windows=min_run,
     )
+
+
+def low_divergence_blocks(blocks):
+    """Marks every block's `low_divergence` and returns the LORe-like ones:
+    reciprocal blocks between NEAR_ALLELIC_FRAC and LORE_FRAC of the median
+    reciprocal block distance, on chromosome pairs low in both directions
+    (delayed rediploidization slows divergence of both copies; a one-way low
+    block is a repeat or a misplaced stretch). Below NEAR_ALLELIC_FRAC is the
+    residual-tetrasomy test's territory, with its repeat guards (daLatClan1's
+    chr03/chr04 blocks, 0.002 against a median of 0.016, are repeats).
+    Second value: the number of near-allelic blocks."""
+    recip = [b for b in blocks if b["reciprocal"] == "yes"]
+    for b in blocks:
+        b["low_divergence"] = "no"
+    if len(recip) < LORE_MIN_BLOCKS:
+        return [], 0
+    med = statistics.median(float(b["median_dist"]) for b in recip)
+    near = [b for b in recip if float(b["median_dist"]) < NEAR_ALLELIC_FRAC * med]
+    band = [b for b in recip if NEAR_ALLELIC_FRAC * med <= float(b["median_dist"]) < LORE_FRAC * med]
+    directions = {(b["chrom"], b["partner"]) for b in band}
+    low = [b for b in band if (b["partner"], b["chrom"]) in directions]
+    for b in low:
+        b["low_divergence"] = "yes"
+    for b in near:
+        b["low_divergence"] = "near_allelic"
+    return low, len(near)
 
 
 def partner_pairs(outdir):

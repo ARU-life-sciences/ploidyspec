@@ -10,5 +10,11 @@ multi_partner_chromosomes	3
 multi_partner_list	chr01:chr10+chr13;chr06:chr07+chr14;chr07:chr06+chr16
 block_dist_median	0.0666
 block_dist_cv	0.133
+n_lore_blocks	0
+lore_bp	0
+lore_frac	0.000
+lore_terminal_frac	
+lore_pairs	
+n_near_allelic_blocks	1
 null_run_windows	6
 min_block_windows	7

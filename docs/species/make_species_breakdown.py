@@ -31,6 +31,8 @@ EXTRA = {
     "SchYoun1": ("Schizopygopsis younghusbandi", "4n = 90, autotetraploid snow carp", "Xie et al. 2026"),
     "OncMaso1": ("Oncorhynchus masou", "salmonid whole-genome duplication (Ss4R, ~90 Mya), autotetraploid "
                  "origin; residual tetrasomy mapped in Atlantic salmon", "Lien et al. 2016"),
+    "OncMaso1_wu2026": ("Oncorhynchus masou", "salmonid whole-genome duplication (Ss4R, ~90 Mya); "
+                        "published Hi-C phased assembly", "Wu et al. 2026"),
     "fSalAlp3": ("Salvelinus alpinus", "salmonid whole-genome duplication (Ss4R)", "Lien et al. 2016"),
     "fCorLav1": ("Coregonus lavaretus", "salmonid whole-genome duplication (Ss4R)", "Lien et al. 2016"),
     "fLepOcu1": ("Lepisosteus oculatus", "no duplication since vertebrate 2R; outgroup to the teleost "

@@ -37,3 +37,9 @@ map_multi_partner_chromosomes	3
 map_multi_partner_list	chr01:chr06+chr14;chr13:chr15+chr16;chr15:chr11+chr13
 map_block_dist_median	0.0817
 map_block_dist_cv	0.056
+map_n_lore_blocks	0
+map_lore_bp	0
+map_lore_frac	0.000
+map_lore_terminal_frac	
+map_lore_pairs	
+map_n_near_allelic_blocks	0

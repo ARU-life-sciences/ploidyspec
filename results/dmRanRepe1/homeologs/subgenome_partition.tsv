@@ -1,0 +1,12 @@
+metric	value
+pair_test	cross_subgenome
+accepted	yes
+z_score	108.66
+same_set_effect_sd	19.80
+set_a	chr01,chr02,chr03,chr04,chr05,chr06,chr07,chr08
+set_b	chr09,chr10,chr11,chr12,chr13,chr14,chr15,chr16
+set_a_bp	4732403916
+set_b_bp	3841091295
+within_set_mean	0.06566
+cross_set_mean	0.07949
+cross_set_homeolog_mean	0.07116

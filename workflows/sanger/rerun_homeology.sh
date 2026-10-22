@@ -6,6 +6,10 @@
 # Usage: rerun_homeology.sh [species ...]   (default: all eligible)
 # Env: QUEUE (default normal); MAP_ONLY=1 computes only the map; MAP_REUSE=1 re-analyses
 # existing raw map windows. Runs homeologs and structure first (2026-10-11: size-adjusted pairs).
+# MAP_ONLY=1 MAP_REUSE=1: re-analyse the map windows, then rediploidization, summary
+# and report only (2026-10-12: LORe-like block class; partner pairs unchanged).
+# PAIRS_ONLY=1: homeologs, structure, summary and report on 1 core / 4 GB, for
+# species whose pairs a replay showed unchanged (2026-10-21: subgenome partition).
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$HERE"
@@ -34,7 +38,19 @@ while IFS=$'\t' read -r sp manifest regex hap; do
     fi
     [ -n "$hap" ] && args+=(--hap-regex "$hap")
     q=$(printf '%q ' "${args[@]}")
-    if [ "${MAP_ONLY:-0}" = 1 ]; then
+    if [ "${PAIRS_ONLY:-0}" = 1 ]; then
+        threads=1
+        mem=4000
+        stages="./ploidyspec.sh homeologs $q; \
+./ploidyspec.sh structure --outdir $d; \
+./ploidyspec.sh summary --outdir $d; \
+./ploidyspec.sh report --outdir $d"
+    elif [ "${MAP_ONLY:-0}" = 1 ] && [ -n "${MAP_REUSE:-}" ]; then
+        stages="./ploidyspec.sh windowed-homeologs $q --map-only --reuse-map-windows --window 250000 --threads $threads; \
+./ploidyspec.sh rediploidization $q --threads $threads; \
+./ploidyspec.sh summary --outdir $d; \
+./ploidyspec.sh report --outdir $d"
+    elif [ "${MAP_ONLY:-0}" = 1 ]; then
         stages="./ploidyspec.sh windowed-homeologs $q --map-only --window 250000 --threads $threads"
     else
         stages="./ploidyspec.sh homeologs $q; \

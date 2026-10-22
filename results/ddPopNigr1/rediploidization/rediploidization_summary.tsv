@@ -25,3 +25,9 @@ map_multi_partner_chromosomes	2
 map_multi_partner_list	chr03:chr15+chr17;chr04:chr02+chr05
 map_block_dist_median	0.1373
 map_block_dist_cv	0.031
+map_n_lore_blocks	0
+map_lore_bp	0
+map_lore_frac	0.000
+map_lore_terminal_frac	
+map_lore_pairs	
+map_n_near_allelic_blocks	0
