@@ -3,6 +3,7 @@
 # $D/old_empnigr_windowed.tsv (pre-fix windowed_all.tsv from git), and the
 # SchCurv1 chr17/chr19 position-free tracks at $TMPDIR/wcarp (or results/SchCurv1 once re-run).
 # The Ranunculus figure reads results/dmRanRepe1/homeologs/{subgenome_partition,homeolog_pairs}.tsv.
+# The TE split figure reads results/{ddEmpNigr1,icStrMela3}/subgenomes/te_marker_fraction_by_lineage.tsv.
 import csv, os, collections, statistics as st
 import numpy as np
 import matplotlib; matplotlib.use("Agg")
@@ -139,5 +140,19 @@ ax2.set_title('A vs B: one homeolog per chromosome (red)\n'
               f'{min(other):.3f}–{max(other):.3f}; within a subgenome {min(within):.3f}–{max(within):.3f}',fontsize=10)
 fig.colorbar(im2,ax=ax2,fraction=0.046,pad=0.03,label='distance (k = 23)')
 fig.tight_layout(); fig.savefig(F+'/ranunculus_subgenomes.png',dpi=200); plt.close(fig)
+
+# Fig: TE split per chromosome, Empetrum (lineages) vs the AAB weevil (one odd set)
+fig,axs=plt.subplots(1,2,figsize=(10,3.6),gridspec_kw={'width_ratios':[13,10]})
+for ax,sp,title in [(axs[0],'ddEmpNigr1','Empetrum nigrum (4 × 13)'),(axs[1],'icStrMela3','Strophosoma melanogrammum (AAB, 3 × 10)')]:
+    L=list(csv.DictReader(open(f'results/{sp}/subgenomes/te_marker_fraction_by_lineage.tsv'),delimiter='\t'))
+    x=np.arange(len(L)); w=0.38
+    ax.bar(x-w/2,[float(r['within_te_marker_fraction']) for r in L],w,color=GREY,label='within lineage')
+    ax.bar(x+w/2,[float(r['cross_te_marker_fraction']) for r in L],w,color=RED,label='across lineages')
+    for i,r in enumerate(L):
+        s=float(r['split_ratio']); ax.text(i,float(r['cross_te_marker_fraction'])+0.008,f'{s:.1f}',ha='center',fontsize=7,fontweight='bold' if s>=2 else 'normal')
+    ax.set_xticks(x,[r['chrom'].replace('chr','') for r in L],fontsize=8); ax.set_xlabel('chromosome number (label: split ratio, bold ≥ 2)')
+    ax.set_title(title,fontsize=9,style='italic')
+axs[0].set_ylabel('TE marker fraction'); axs[0].legend(fontsize=7,frameon=False,loc='upper right')
+fig.tight_layout(); fig.savefig(F+'/te_split.png',dpi=200); plt.close(fig)
 
 print('ok', len(S))
