@@ -73,17 +73,23 @@ def read_descriptions(fasta):
     return descs
 
 
+def first_group(m):
+    """The first group that took part in the match: a regex combining patterns
+    with | has one group per alternative, and only the matching one is set."""
+    return next(g for g in m.groups() if g is not None)
+
+
 def match_chrom(desc, regexes):
     for pat in regexes:
         m = re.search(pat, desc, re.IGNORECASE)
         if m:
-            return int(m.group(1))
+            return int(first_group(m))
     return None
 
 
 def match_hap(desc, hap_regex):
     m = re.search(hap_regex, desc, re.IGNORECASE)
-    return f"HAP{m.group(1)}" if m else None
+    return f"HAP{first_group(m)}" if m else None
 
 
 def read_manifest(manifest_path):

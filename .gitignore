@@ -24,3 +24,4 @@ tmp/
 results/*/windowed/*.tsv
 results/*/homeologs/windowed_*.tsv
 results/*/subgenomes/te_markers_windowed_*.tsv
+/scan

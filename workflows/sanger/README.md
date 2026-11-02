@@ -12,6 +12,14 @@ needed to use ploidyspec elsewhere: it wraps the `ploidyspec` command with
 - `verify_species.sh`, `verify_te_markers.sh` — re-run subsets of stages.
 - `rediploidization_status.sh` — progress of a batch submitted with job IDs in
   `logs/redip_panel_jobs.txt` (see ROADMAP.md's progress log).
+- `scan/` — weekly polyploidy scan of ToL releases, report only. `weekly.py`
+  crawls the ToL data tree (`crawl_tol.py`), flags releases from metadata
+  (`metadata.py`: karyotype, genome size and ploidy from GoaT; BUSCO
+  duplication), runs a cheap k-mer screen (`screen_one.sh`: k = 23, matrix,
+  homeologs, structure) on up to 60 a week, writes `scan/reports/<date>.md`
+  and `scan/candidates.tsv` (`report.py`), and resubmits itself for next week.
+  Start: `bsub -q transfer ... python3 workflows/sanger/scan/weekly.py`;
+  stop: `bkill -J scanweekly`.
 - `archive/` — one-off batch and repair scripts kept for the record.
 
 Run them from anywhere; each changes to the repository root first.
