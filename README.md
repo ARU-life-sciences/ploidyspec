@@ -10,22 +10,47 @@ markers between subgenomes. No reference genome or alignment required.
 See [`OUTPUTS.md`](OUTPUTS.md) for what every output file/column means, with worked
 examples from real runs. This README covers installation and how to run it.
 
+## Quick start
+
+```
+conda env create -f environment.yml && conda activate ploidyspec && pip install .
+ploidyspec check                                   # finds samtools, FastK and Python deps
+ploidyspec simulate --scenario allotetraploid --outdir demo
+ploidyspec all --fasta demo/allotetraploid/*.fa --outdir demo/out --threads 4
+cat demo/out/summary.md                            # compare with demo/allotetraploid/truth.tsv
+```
+
+That takes about 7 minutes on 4 cores. For your own genome, pass one
+FASTA per haplotype copy (plain, gzip or bgzip), in order:
+
+```
+ploidyspec all --fasta hap1.fa.gz hap2.fa.gz --outdir results/mysp --threads 8
+```
+
+and open `results/mysp/report.html`. Add `--full` for every reading (residual
+tetrasomy, homeologous exchange, the homeology map, the TE-marker auto/allo index; see
+below for the cost).
+
 ## Install / setup
 
 With conda (recommended — brings samtools and FastK from bioconda):
 
 ```
-git clone <repo-url> ploidyspec && cd ploidyspec
+git clone https://github.com/ARU-life-sciences/ploidyspec.git && cd ploidyspec
 conda env create -f environment.yml
 conda activate ploidyspec
 pip install .
-ploidyspec --help
+ploidyspec check
 ```
 
-Or, if you already have `samtools` and FastK, just `pip install .` (Python ≥3.9; the only
-Python dependencies are `numpy` and `matplotlib`). Running from a checkout without
-installing also works: `./ploidyspec.sh` is a thin wrapper around
-`python3 -m ploidyspec.cli`.
+Or, if you already have `samtools` and FastK, `pip install
+git+https://github.com/ARU-life-sciences/ploidyspec.git` (Python ≥3.9; the only Python
+dependencies are `numpy` and `matplotlib`). Cloning the repository downloads about 1 GB,
+almost all of it the panel's results; the pip line fetches the same, so for the tool
+alone `git clone --depth 1` is quicker. Running from a checkout without installing also
+works: `./ploidyspec.sh` is a thin wrapper around `python3 -m ploidyspec.cli`.
+`ploidyspec check` lists anything missing and how to install it; `ploidyspec --version`
+prints the version.
 
 External tools this shells out to: `samtools`, and FastK's `FastK`/`Logex`/`Histex`/
 `Tabex` (github.com/thegenemyers/FASTK). Ploidyspec finds them three ways, tried in
@@ -59,39 +84,41 @@ Each haplotype must still be chromosome-scale. A haplotype assembled only to con
 can be placed on another, scaffolded haplotype of the same individual first with
 `workflows/prep/scaffold_by_reference.py` (minimap2).
 
-**Chromosome number** — either of:
+**Chromosome number** — any of:
 - `chromosome: <N>` (or `chromosome<N>`, case-insensitive) anywhere in the description.
+- `SUPER_<N>_HAP<M>` (chromosome-then-haplotype, as several ToL assemblies name them).
 - `SUPER_<N>` or `SUPER-<N>` in the sequence name, as long as nothing else immediately
-  follows the number (so a compound name like `SUPER_4_HAP2` does *not* match this one —
-  see below).
+  follows the number (so `SUPER_22_unloc_1` does not match).
 
 **Haplotype number** — only used when a manifest row is marked `AUTO` (see below):
 `HAP<N>_SUPER` or `HAP<N>-SUPER` in the sequence name (haplotype number comes first).
 
-If your assembly's headers don't match either pattern — e.g. the opposite naming order
-(`SUPER_<N>_HAP<M>`, chromosome-then-haplotype, which several species in this project's
-own panel actually use) — override with `--chrom-regex`/`--hap-regex` (each takes a
-regex with exactly one capturing group, the number). Two real examples from this
-project's `workflows/sanger/jobs.tsv`:
+If your assembly's headers match none of these, override with
+`--chrom-regex`/`--hap-regex` (a regex with one capturing group for the number; patterns
+combined with `|` may each have their own group, and the one that matched is used). A
+real example from this project's `workflows/sanger/jobs.tsv`:
 
 ```
-# daGalBore1: headers mix "chromosome: N" free text with plain "SUPER_N" scaffold
-# names -- one combined --chrom-regex covering both, tried against each header in order:
---chrom-regex 'chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)'
-
-# drLytSali1: scaffold names are "SUPER_<N>_HAP<M>" (chromosome-number-first, the
-# opposite order the default --hap-regex expects), so both are overridden:
---chrom-regex 'chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)'
+# drLytSali1: manifest rows labelled AUTO, scaffolds named "SUPER_<N>_HAP<M>", so the
+# haplotype is read from the name, in the opposite order to the default --hap-regex:
 --hap-regex '(?:SUPER_\d+_)?HAP(\d+)(?:_SUPER)?'
 ```
 
 `--chrom-regex` may be passed multiple times (each tried in order, first match wins) or
-combined into one regex with `|` alternation as above. After a `prepare` run, check
+combined into one regex with `|` alternation. After a `prepare` run, check
 `unplaced.tsv` in the output directory — if far more sequences ended up there than
 expected, your regex isn't matching and needs adjusting before continuing.
 
-A **manifest** is a TSV of `<fasta_path>\t<haplotype_label|AUTO>`, one row per assembly
-file — see `manifests/daBudDavi1.tsv` for a real example. Use an explicit label
+**Input files.** Each haplotype must be one FASTA file, plain, gzip or bgzip. Plain
+gzip cannot be indexed by samtools, so it is recompressed with bgzip (or, without bgzip,
+decompressed) into `<outdir>/inputs/`; a FASTA in a directory you cannot write to is
+linked from there so its index can be written. With `--fasta hap1.fa hap2.fa ...` the
+files are labelled HAP1, HAP2, ... in order (written to `<outdir>/manifest.tsv`). If one
+haplotype's headers carry chromosome numbers and another's do not, all are numbered
+automatically.
+
+A **manifest** (`--manifest`, instead of `--fasta`) is a TSV of
+`<fasta_path>\t<haplotype_label|AUTO>`, one row per assembly file — see `manifests/daBudDavi1.tsv` for a real example. Use an explicit label
 (`HAP1`, `HAP2`, ...) when one file is exactly one haplotype copy; use `AUTO` when a
 single file contains multiple haplotype copies distinguished by header (matched via
 `--hap-regex`/the default above).
@@ -165,6 +192,8 @@ ploidyspec all \
   --threads 8
 ```
 
+(or `--fasta hap1.fa hap2.fa` in place of `--manifest`).
+
 Defaults are the settings the project's panel used: chromosome-scale = >= 1 Mb,
 250 kb windows, window k = 15, marker k = 13. The one difference is the k-mer sweep
 (`--k`, default `15,23`). The panel ran `11,13,15,17,19,23`, but the distance is taken
@@ -174,7 +203,8 @@ third of the k-mer counting. Pass the six-value sweep to reproduce the panel's r
 exactly.
 
 Add `--with-te-markers` (or `--with-te-markers-windowed`) to also get the auto&harr;allo
-index in the same run. Every stage is also runnable individually with the same flags
+index in the same run; `--full` turns on `--with-windowed-homeologs` and
+`--with-te-markers` together. Every stage is also runnable individually with the same flags
 (`./ploidyspec.sh <stage> --manifest ... --outdir ...`) — each stage skips work it's
 already done, so re-running after an interruption (or after adding `--with-*` flags to
 an already-completed run) picks up where it left off rather than redoing everything.
@@ -213,3 +243,7 @@ Sanger farm):
 
 Method reference for the fossil-TE marker stages:
 https://github.com/KamilSJaron/k-mer-approaches-for-biodiversity-genomics/wiki/Separate-sub-genomes-of-an-allopolyploid
+
+## Licence
+
+MIT; see [`LICENSE`](LICENSE).

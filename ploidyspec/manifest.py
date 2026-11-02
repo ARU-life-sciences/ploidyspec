@@ -1,12 +1,16 @@
 import csv
 import os
 import re
+import shutil
 import subprocess
 
 from .common import log, run
 
 DEFAULT_CHROM_REGEXES = [
     r"chromosome:?\s*(\d+)\b",
+    # chromosome-then-haplotype names (SUPER_4_HAP2), which several ToL
+    # assemblies use; the bare pattern below excludes them with (?!_)
+    r"SUPER[_-](\d+)_HAP\d+\b",
     r"SUPER[_-](\d+)\b(?!_)",
 ]
 DEFAULT_HAP_REGEX = r"HAP(\d+)[_-]SUPER"
@@ -33,6 +37,54 @@ CHROM_NAMING = ("detect", "names", "auto")
 # A haplotype with this many times the median number of chromosome-scale
 # sequences of the others is probably contig-level, not chromosome-scale.
 CONTIG_LEVEL_FACTOR = 2.0
+
+
+def gzip_kind(path):
+    """'bgzf', 'gzip' or None (not compressed), from the first bytes: BGZF is
+    gzip with an extra field whose subfield id is 'BC'."""
+    with open(path, "rb") as f:
+        head = f.read(18)
+    if head[:2] != b"\x1f\x8b":
+        return None
+    return "bgzf" if len(head) >= 14 and head[3] & 4 and head[12:14] == b"BC" else "gzip"
+
+
+def usable_fasta(fasta, outdir, samtools_bin):
+    """A path samtools can index and read regions from. Plain gzip cannot be
+    indexed: it is recompressed with bgzip (or, without bgzip, decompressed)
+    into <outdir>/inputs/. A FASTA whose index is missing in a directory we
+    cannot write to is linked from <outdir>/inputs/, so the index is written
+    there. Anything else is used in place."""
+    kind = gzip_kind(fasta)
+    staged_dir = os.path.join(outdir, "inputs")
+    name = os.path.basename(fasta)
+    if kind == "gzip":
+        bgzip = shutil.which("bgzip") or shutil.which("bgzip", path=os.path.dirname(samtools_bin))
+        out = os.path.join(staged_dir, name if bgzip else name[:-len(".gz")])
+        if not os.path.exists(out):
+            os.makedirs(staged_dir, exist_ok=True)
+            log(f"{name} is plain gzip, which samtools cannot index; "
+                f"{'recompressing with bgzip' if bgzip else 'decompressing'} into {out}")
+            with open(out + ".part", "wb") as f:
+                gz = subprocess.Popen(["gzip", "-dc", fasta], stdout=subprocess.PIPE)
+                if bgzip:
+                    subprocess.run([bgzip, "-c"], stdin=gz.stdout, stdout=f, check=True)
+                else:
+                    shutil.copyfileobj(gz.stdout, f)
+                gz.stdout.close()
+                if gz.wait() != 0:
+                    raise SystemExit(f"could not decompress {fasta}")
+            os.replace(out + ".part", out)
+        return out
+    indexes = [fasta + ".fai"] + ([fasta + ".gzi"] if kind == "bgzf" else [])
+    if all(os.path.exists(i) for i in indexes) or os.access(os.path.dirname(os.path.abspath(fasta)), os.W_OK):
+        return fasta
+    os.makedirs(staged_dir, exist_ok=True)
+    link = os.path.join(staged_dir, name)
+    if not os.path.lexists(link):
+        log(f"{os.path.dirname(fasta)} is read-only; indexing {name} under {staged_dir}")
+        os.symlink(os.path.abspath(fasta), link)
+    return link
 
 
 def read_fai(samtools_bin, fasta):
@@ -222,6 +274,7 @@ def prepare(manifest_path, outdir, samtools_bin, min_len, chrom_regexes, hap_reg
     for fasta, hap_label in read_manifest(manifest_path):
         if not os.path.exists(fasta):
             raise SystemExit(f"manifest references missing file: {fasta}")
+        fasta = usable_fasta(fasta, outdir, samtools_bin)
         lengths = read_fai(samtools_bin, fasta)
         descs = read_descriptions(fasta)
         n_before = len(candidates)
@@ -270,10 +323,18 @@ def prepare(manifest_path, outdir, samtools_bin, min_len, chrom_regexes, hap_reg
                 f"haplotypes inside one file without names is {ROADMAP_17}: split the file by "
                 f"haplotype and label each in the manifest, or pass --hap-regex.")
 
-    if chrom_naming == "auto" or (chrom_naming == "detect" and not rows and candidates):
-        if chrom_naming == "detect":
+    # detect: number automatically when no header has a number, or when some
+    # haplotype has chromosome-scale sequences but none with a number
+    # (xgLitLitt3: hap1 "chromosome: N", hap2 "contig: RL_2")
+    unnamed = {(c["source"], c["hap"]) for c in candidates} - {(r["source"], r["hap"]) for r in rows}
+    if chrom_naming == "auto" or (chrom_naming == "detect" and candidates and (not rows or unnamed)):
+        if chrom_naming == "detect" and not rows:
             log("no sequence header matched a chromosome-number pattern -- numbering "
                 "chromosomes automatically (--chrom-naming auto)")
+        elif chrom_naming == "detect":
+            log(f"{', '.join(sorted(h for _, h in unnamed))} has no sequence with a chromosome number "
+                f"while the other haplotypes do -- numbering all chromosomes automatically "
+                f"(--chrom-naming auto); pass --chrom-naming names to keep the names")
         rows, excluded = auto_number(candidates, outdir)
         unplaced = [u for u in unplaced if u[3] != "no-chrom-match"] + excluded
 

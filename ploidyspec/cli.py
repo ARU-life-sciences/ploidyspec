@@ -39,6 +39,7 @@ import csv
 import os
 import sys
 
+from . import __version__
 from .common import (
     cleanup_intermediates,
     find_tool,
@@ -97,8 +98,17 @@ def parse_k_list(s):
 def add_common_args(p):
     p.add_argument(
         "--manifest",
-        required=True,
-        help="TSV: <fasta_path>\\t<hap_label|AUTO> per line",
+        default=None,
+        help="TSV: <fasta_path>\\t<hap_label|AUTO> per line (or use --fasta)",
+    )
+    p.add_argument(
+        "--fasta",
+        nargs="+",
+        default=None,
+        metavar="FASTA",
+        help="the haplotype assemblies, one file per haplotype copy, labelled HAP1, HAP2, ... "
+        "in the order given; instead of --manifest (written to <outdir>/manifest.tsv). "
+        "Plain, gzip or bgzip FASTA",
     )
     p.add_argument(
         "--outdir", required=True, help="output directory (created if missing)"
@@ -259,6 +269,8 @@ def resolve_tools(args):
 
 
 def cmd_prepare(args):
+    if not args.manifest:
+        raise SystemExit("prepare needs the assemblies: pass --fasta hap1.fa hap2.fa ... or --manifest")
     samtools_bin, _, _, _, _ = resolve_tools(args)
     prepare(
         args.manifest,
@@ -513,6 +525,55 @@ def cmd_cleanup(args):
         + "".join(f"\n  {p}" for p in removed))
 
 
+def tool_version(cmd):
+    import subprocess
+
+    try:
+        out = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+    except (OSError, subprocess.TimeoutExpired) as e:
+        return None, str(e)
+    text = (out.stdout or out.stderr).strip().splitlines()
+    return out.returncode, text[0] if text else ""
+
+
+def cmd_check(args):
+    """Find every external tool and Python dependency, and say what is missing."""
+    import importlib
+    import shutil
+
+    from . import __version__
+
+    ok = True
+    print(f"ploidyspec {__version__} (Python {sys.version.split()[0]})")
+    for mod in ("numpy", "matplotlib"):
+        try:
+            m = importlib.import_module(mod)
+            print(f"  ok       {mod} {getattr(m, '__version__', '')}")
+        except ImportError:
+            ok = False
+            print(f"  MISSING  {mod} -- pip install {mod}")
+    for flag, glob_, name, probe in (
+            (args.samtools, "samtools*", "samtools", ["--version"]),
+            (args.fastk_dir, "FASTK*", "FastK", []),
+            (args.fastk_dir, "FASTK*", "Logex", []),
+            (args.fastk_dir, "FASTK*", "Histex", []),
+            (args.fastk_dir, "FASTK*", "Tabex", [])):
+        try:
+            path = find_tool(flag, glob_, name)
+        except SystemExit:
+            ok = False
+            print(f"  MISSING  {name} -- conda install -c bioconda {'samtools' if name == 'samtools' else 'fastk'}"
+                  f", or pass {'--samtools' if name == 'samtools' else '--fastk-dir'}")
+            continue
+        code, first = tool_version([path] + probe)
+        print(f"  ok       {name} {path}" + (f" ({first})" if name == "samtools" and first else ""))
+    bgzip = shutil.which("bgzip")
+    print(f"  {'ok      ' if bgzip else 'optional'} bgzip {bgzip or 'not found: plain-gzip FASTAs are decompressed instead'}")
+    print("ready" if ok else "not ready: install what is MISSING above")
+    if not ok:
+        raise SystemExit(1)
+
+
 def cmd_simulate(args):
     params = dict(n_chrom=args.n_chrom, chrom_len=args.chrom_len)
     for d in simulate(args.scenario, args.outdir, args.seed, params):
@@ -525,6 +586,8 @@ def cmd_report(args):
 
 
 def cmd_all(args):
+    if args.full:
+        args.with_windowed_homeologs = args.with_te_markers = True
     cmd_prepare(args)
     cmd_kmers(args)
     cmd_matrix(args)
@@ -553,6 +616,7 @@ def main(argv=None):
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
+    parser.add_argument("--version", action="version", version=f"ploidyspec {__version__}")
     sub = parser.add_subparsers(dest="stage", required=True)
 
     p_prep = sub.add_parser(
@@ -638,6 +702,13 @@ def main(argv=None):
         help="also run te-markers-windowed (implies --with-te-markers) + "
         "subgenome-report (opt-in: the most expensive stage -- builds a fresh k-mer "
         "table per window)",
+    )
+    p_all.add_argument(
+        "--full",
+        action="store_true",
+        help="every stage that adds a reading: --with-windowed-homeologs (residual "
+        "tetrasomy, exchange, the homeology map) and --with-te-markers (the auto/allo "
+        "TE index). Not --with-te-markers-windowed, the most expensive",
     )
     p_all.add_argument(
         "--cleanup",
@@ -813,9 +884,32 @@ def main(argv=None):
                        help=f"chromosome length in bp (default {SIM_DEFAULTS['chrom_len']})")
     p_sim.set_defaults(func=cmd_simulate)
 
+    p_check = sub.add_parser("check", help="check that samtools, FastK and the Python dependencies "
+                             "are installed and found")
+    p_check.add_argument("--samtools", default=None, help="path to samtools binary or its containing dir")
+    p_check.add_argument("--fastk-dir", default=None, help="dir containing FastK/Logex/Histex binaries")
+    p_check.set_defaults(func=cmd_check)
+
     args = parser.parse_args(argv)
-    os.makedirs(args.outdir, exist_ok=True)
+    if getattr(args, "outdir", None):
+        os.makedirs(args.outdir, exist_ok=True)
+    if getattr(args, "fasta", None):
+        if getattr(args, "manifest", None):
+            parser.error("pass --fasta or --manifest, not both")
+        args.manifest = write_fasta_manifest(args.fasta, args.outdir)
     args.func(args)
+
+
+def write_fasta_manifest(fastas, outdir):
+    """<outdir>/manifest.tsv from --fasta: one haplotype per file, in order."""
+    path = os.path.join(outdir, "manifest.tsv")
+    with open(path, "w") as f:
+        f.write("# fasta_path\thap_label\n")
+        for i, fa in enumerate(fastas, 1):
+            if not os.path.exists(fa):
+                raise SystemExit(f"--fasta: no such file {fa}")
+            f.write(f"{os.path.abspath(fa)}\tHAP{i}\n")
+    return path
 
 
 if __name__ == "__main__":

@@ -4,11 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ploidyspec"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Reference-free k-mer profiling of polyploid origin and rediploidization from haplotype-resolved assemblies"
 readme = "README.md"
 requires-python = ">=3.9"
 authors = [{ name = "Max Brown" }]
+license = { text = "MIT" }
 dependencies = ["numpy", "matplotlib"]
 
 [project.scripts]
@@ -16,3 +17,6 @@ ploidyspec = "ploidyspec.cli:main"
 
 [tool.setuptools]
 packages = ["ploidyspec"]
+
+[tool.setuptools.dynamic]
+version = { attr = "ploidyspec.__version__" }
