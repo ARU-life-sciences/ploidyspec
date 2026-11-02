@@ -327,6 +327,21 @@ partner before a state is assigned (`state_basis = homeolog_pool`).
   and `lpElePalu1` (8 tetrasomic, 4 resolved, 4 candidate, 2 one-divergent)
   are the panel's best candidates for rediploidization in progress.
   `ddEmpNigr1` and `drAriEdul1` are already on the hand-check list.
+- **Update 22 October 2026: residual and exchange guards.** A residual window
+  now needs the copy's own homolog within the same cut as the homeolog
+  (before: within 3 × the allelic level), and the allelic level takes the lower
+  of the two directions per pair of copies. An exchange must also show from the
+  own copies' side, at the corresponding place. Distances are read one way, so
+  sequence missing from one haplotype's assembly read as divergence. Withdrawn:
+  `daPilAura1` residual (79 Mb), `lpElePalu1` residual (310 Mb; its origin
+  reading goes from auto-like to mixed), and one-way exchange candidates in
+  `fSalAlp3`, `OncMaso1`, `daLatClan1`, `xgMonCant1` and 72 Mb of
+  `OncMaso1_wu2026`. Still called: `OncMaso1` chr17/chr29 (8.6 Mb) and
+  `llColAutu1` chr04/chr10 (5 Mb, but the genome is nearly homozygous, so it
+  cannot be told from a recent segmental duplication). `OncMaso1_wu2026` chr18
+  passes: HAP1 runs reversed against HAP2, and its 29 Mb chr20-like end sits
+  where HAP2 has 24 Mb of chr18 that HAP1 lacks (minimap2), an exchange or an
+  arm translocation between the haplotypes.
 - **Update 21 October 2026: subgenome pairs found.** `daInuConz1`,
   `dmRanRepe1` and durum wheat (`lpTriTurg1`) now have homeolog pairs (8, 8
   and 7; wheat's are exactly 1A–1B … 7A–7B). In all three each subgenome

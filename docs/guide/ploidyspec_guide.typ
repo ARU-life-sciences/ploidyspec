@@ -1092,14 +1092,16 @@ Both read the pair tracks of Section 6.6 against each copy's own-homolog track
 from Section 6.5, for every homeolog pair (whole-chromosome or block).
 
 #algo("residual tetrasomy")[
-  + *Allelic level* per copy: median over windows of the distance to its closest
-    own-number copy; per chromosome the median over its copies; capped at 1.5×
+  + *Allelic level* per copy: per pair of copies, the lower of the two
+    directions' median window distance (sequence missing from one copy inflates
+    only the direction read from the other); the copy's closest such copy; per
+    chromosome the median over its copies; capped at 1.5×
     the genome median (a chromosome carrying a large exchange must not raise its
     own yardstick).
   + Per window of a copy, *near-allelic* when all of:
     - closest partner copy < 3 × max(allelic level, 0.001);
     - closest partner copy < 0.25 × the species' median homeolog distance;
-    - the copy's *own* homolog is also within 3 × allelic level (in residual
+    - the copy's *own* homolog is within the same cut (in residual
       tetrasomy every copy is close to every other);
     - the unrelated control is not as close (shared repeats are close to every
       chromosome carrying them);
@@ -1118,6 +1120,11 @@ from Section 6.5, for every homeolog pair (whole-chromosome or block).
     than half the distance to the copy's own homolog, and the own homolog is
     beyond 3 × allelic level.
   + Runs against their own shuffle null (same floor and length).
+  + *Reverse check*: each own copy, read back against the carrier, must be
+    beyond 3 × allelic level over at least half as many windows (runs of ≥ 3) at
+    the corresponding place (same fraction of its length ± 10%, either
+    orientation). Segments failing it are `exchange_one_way_bp`: sequence
+    missing from the own copy's assembly, not an exchange.
   + No pair vote: an exchange is usually carried by one copy;
     `exchange_support` says how many.
 ]
@@ -1130,7 +1137,8 @@ from Section 6.5, for every homeolog pair (whole-chromosome or block).
   unrelated control does not remove it. _Lathraea clandestina_'s chr03/chr04
   segment is repeat-dense (0.19–0.27 against a median 0.29) and aligns at
   98–99% against 99.9–100% for the alleles. Pilosella's segments, by contrast,
-  align at the allelic level (99.6–99.8%) and are kept.
+  align at the allelic level (99.6–99.8%) and passed this guard; they fell to
+  the own-homolog cut on 22 October (below).
 ]
 
 #caution(title: "Why the own-homolog condition matters")[
@@ -1140,6 +1148,20 @@ from Section 6.5, for every homeolog pair (whole-chromosome or block).
   swapped between homeologs in masu's reference-scaffolded HAP2. 6 of masu's 8
   earlier residual chromosomes rested on windows whose own homolog was
   0.03–0.085 away, homeolog distance, not missing sequence.
+]
+
+#caution(title: "Distances are read one way (22 October 2026)")[
+  Each window's distance is −ln(containment)/k of _its_ k-mers in the other
+  copy, so sequence missing from the other copy reads as divergence. Arctic
+  charr HAP1 chr09's first 6 Mb read 0.07–0.09 from HAP2 chr09, but HAP2 (51 Mb
+  against 62) reads 0.0006 back: HAP2's assembly lacks the stretch. Masu's
+  original assembly, _Lathraea_, _Monomorium_ and 72 Mb of masu (Wu 2026) were
+  exchange candidates of this kind. And where a chromosome's own copies are
+  barely closer than its homeologs (_Pilosella_: alleles 0.002–0.020,
+  homeologs a median 0.0115), the old own-homolog condition (3 × the allelic
+  level) admitted windows where a homeolog copy was _closer_ than the copy's own
+  allele: 79 Mb of _Pilosella_'s and 310 Mb of _Eleocharis_' residual
+  tetrasomy, each mostly seen by three of four copies. Both now read zero.
 ]
 
 == summary: the decision logic
@@ -1644,7 +1666,9 @@ assembly:
 
 Settled on 10–11 October (by alignment, read k-mer spectra, or a fix):
 Glechoma chr14/chr17 (satellite), Lathraea chr03/chr04 (repeats; 98–99% vs
-99.9% alleles), Pilosella chr04/chr05 (real: homeolog = allele identity),
+99.9% alleles), Pilosella chr04/chr05 (homeolog = allele identity, but in 3
+of 4 copies, and its alleles are as diverged as its homeologs genome-wide, so
+the residual test cannot read it; dropped 22 October),
 weevil chr09 (A to 40 Mb, B after: a lineage switch), snow carp chr17 (an
 inversion in HAP3 from ~27 Mb), Monacha (HAP2 chr24 + chr23 joined at
 ~37 Mb), drAriEdul1 chr01 (a 19 Mb divergent HAP4 block), _Salix triandra_

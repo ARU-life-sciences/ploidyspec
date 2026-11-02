@@ -24,9 +24,9 @@ residual_bp	8564981
 residual_terminal_frac	0.39
 residual_null_run_windows	8
 residual_controlled	yes
-exchange_chromosomes	3
-exchange_bp	9000000
-exchange_list	chr16(chr06:1/2);chr29(chr17:1/2);chr30(chr02:1/2)
+exchange_chromosomes	0
+exchange_bp	0
+exchange_list	
 lineage_switch_chromosomes	0
 lineage_switch_list	
 map_duplicated_frac	0.165

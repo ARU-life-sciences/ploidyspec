@@ -5,7 +5,7 @@ chr03	2			HAP2_chr03,HAP1_chr03	HAP2_chr10,HAP1_chr10	21.64						0.00		resolved_
 chr04	2			HAP1_chr13,HAP2_chr13	HAP2_chr04,HAP1_chr04	21.11						0.00		resolved_lineages	homeolog_pool	chr13		chr13	21.11	paired	0	0.000	0	chr03:1/4;chr13:0/4;chr15:0/4		yes	chr03,chr13,chr15	0			chr15:5.8Mb,chr13:3.3Mb,chr03:3.0Mb	
 chr05	2			HAP1_chr05,HAP2_chr05	HAP2_chr17,HAP1_chr17	31.67						0.00		resolved_lineages	homeolog_pool	chr17		chr17	31.67	paired	0	0.000	0	chr07:0/4;chr17:0/4		yes	chr07,chr17	0			chr17:4.8Mb,chr07:2.5Mb	
 chr06	2			HAP1_chr06,HAP2_chr06	HAP1_chr07,HAP2_chr07	27.23						0.00		resolved_lineages	homeolog_pool	chr07		chr07	27.23	paired	0	0.000	0	chr07:0/4;chr16:0/4		yes	chr07,chr16	0			chr15:4.2Mb,chr16:3.5Mb	
-chr07	2			HAP1_chr06,HAP2_chr06	HAP1_chr07,HAP2_chr07	27.23						0.00		resolved_lineages	homeolog_pool	chr06		chr06	27.23	paired	0	0.000	0	chr05:0/4;chr06:0/4		yes	chr05,chr06	3154489	chr05:1/2	HAP1:42.0-45.2Mb(end)~chr05	chr14:3.2Mb,chr05:2.8Mb	
+chr07	2			HAP1_chr06,HAP2_chr06	HAP1_chr07,HAP2_chr07	27.23						0.00		resolved_lineages	homeolog_pool	chr06		chr06	27.23	paired	0	0.000	0	chr05:0/4;chr06:0/4		yes	chr05,chr06	0			chr14:3.2Mb,chr05:2.8Mb	
 chr08	2			HAP2_chr08,HAP1_chr08	HAP2_chr20,HAP1_chr20	29.95						0.00		resolved_lineages	homeolog_pool	chr20		chr20	29.95	paired	0	0.000	0	chr20:0/4		yes	chr20	0			chr20:2.5Mb	
 chr09	2			HAP2_chr09,HAP1_chr09	HAP2_chr16,HAP1_chr16	33.15						0.00		resolved_lineages	homeolog_pool	chr16		chr16	33.15	paired	0	0.000	0	chr16:0/4		yes	chr16	0				
 chr10	2			HAP2_chr03,HAP1_chr03	HAP2_chr10,HAP1_chr10	21.64						0.00		resolved_lineages	homeolog_pool	chr03		chr03	21.64	paired	0	0.000	0	chr03:0/4		yes	chr03	0				

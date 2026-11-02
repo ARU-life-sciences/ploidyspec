@@ -20,14 +20,14 @@ ancient_paired_chromosomes	18
 ancient_distance_ratio_median	1.13
 ancient_distance_ratio_cv	1.29
 residual_tested_chromosomes	19
-residual_chromosomes	10
-residual_bp	310000000
-residual_terminal_frac	0.52
+residual_chromosomes	0
+residual_bp	0
+residual_terminal_frac	
 residual_null_run_windows	8
 residual_controlled	yes
-exchange_chromosomes	11
-exchange_bp	82500000
-exchange_list	chr01(chr18:2/2);chr02(chr03:1/2;chr07:2/2;chr18:1/2);chr03(chr02:1/2);chr07(chr02:2/2;chr08:1/2);chr08(chr07:1/2);chr10(chr09:1/2);chr11(chr12:1/2);chr12(chr11:1/2);chr15(chr14:1/2);chr16(chr19:1/2);chr17(chr13:1/2)
+exchange_chromosomes	7
+exchange_bp	62750000
+exchange_list	chr01(chr18:2/2);chr02(chr03:1/2;chr07:2/2;chr18:1/2);chr03(chr02:1/2);chr07(chr02:2/2;chr08:1/2);chr10(chr09:1/2);chr11(chr12:1/2);chr12(chr11:1/2)
 lineage_switch_chromosomes	0
 lineage_switch_list	
 map_duplicated_frac	0.691

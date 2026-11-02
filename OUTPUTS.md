@@ -792,6 +792,12 @@ Xie et al. 2026, oldest first, recovered without prior knowledge.
   homeolog's sequence there: a homeologous exchange, or a contig scaffolded on
   the wrong chromosome. Tested against a shuffle null of its own; no pair vote
   (an exchange is usually in one copy), `exchange_support` says how many.
+  Since 22 October 2026 the own copies must show it from their side too: at
+  least half as many windows far from the carrier, in runs of 3 or more, read
+  from each own copy. Distances are read from one copy's windows, so a stretch
+  missing from the other haplotype's assembly reads as divergence one way only
+  (charr chr09, masu chr18); those go to `exchange_one_way_bp` in
+  `residual_tetrasomy.tsv` instead.
 - `block_partners`: the homeology map's partners for this chromosome with the
   bp of blocks on each.
 - `lineage_switches`: copies that are one lineage's sequence along part of
@@ -810,9 +816,13 @@ Xie et al. 2026, oldest first, recovered without prior knowledge.
 window is *near-allelic* when its distance to the closest copy of the homeolog
 partner is below `--residual-ratio` (default 3) times the chromosome's allelic
 level, below `--residual-homeolog-frac` (default 0.25) of the species' median
-homeolog distance, and not equally close to the control chromosome. The
-allelic level (`allele_level`) is the median over a copy's `windowed/` windows
-of the distance to its closest other copy, then the median over the
+homeolog distance, and not equally close to the control chromosome; the
+copy's own homolog must be within the same cut (since 22 October 2026; before,
+within 3 times the allelic level, which let windows where a homeolog was
+closer than the copy's own allele through). The allelic level
+(`allele_level`) is, per pair of copies, the lower of the two directions'
+median window distance (sequence missing from one copy inflates only the
+other's direction), the closest such copy, then the median over the
 chromosome's copies, so a divergent subgenome copy does not inflate it. Runs
 of near-allelic windows (gaps of one window bridged) count when they have more
 near-allelic windows than the 95th percentile of the genome-wide longest run
@@ -824,7 +834,10 @@ Columns: `chrom`, `partner`, `anchor`, `control`, `n_windows`,
 `n_near_allelic`, `n_shared_with_control` (windows discarded because the
 control was as close), `allele_level`, `longest_run`, `null_max_run`,
 `segments`, `covered_bp`, `covered_frac`, `n_exchange`, `exchange_segments`,
-`exchange_bp`, `n_low_complexity`. One row per copy and partner.
+`exchange_bp`, `exchange_reverse_windows` (the fewest far windows any own
+copy shows back against this copy), `exchange_one_way_bp` (exchange segments
+dropped because the own copies do not show them), `n_low_complexity`. One row
+per copy and partner.
 
 Low-complexity windows are read by neither test: a window whose sequence
 compresses (zlib) to under 0.75 of the genome's median ratio is a satellite

@@ -7,7 +7,7 @@ import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from ploidyspec.residual import allele_levels, low_complexity, near_allelic_track, window_complexity, null_max_run, residual_tetrasomy, runs
+from ploidyspec.residual import allele_levels, low_complexity, own_pair_tracks, near_allelic_track, window_complexity, null_max_run, residual_tetrasomy, runs
 from ploidyspec.windowed import FIELDNAMES, control_pairs
 
 W = 250_000
@@ -75,7 +75,17 @@ class TestAlleleLevels(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             path = os.path.join(d, "windowed_all.tsv")
             write_windows(path, rows)
-            levels = allele_levels(path, {u: 1 for u in units})
+            levels = allele_levels(own_pair_tracks(path), {u: 1 for u in units})
+        self.assertEqual(set(levels.values()), {0.003})
+
+    def test_missing_sequence_inflates_one_direction_only(self):
+        # HAP1 carries sequence HAP2 lacks: HAP1 reads 0.02 from HAP2, HAP2 0.003 back
+        rows = [row("HAP1_chr01", "HAP2_chr01", i * W, 0.02) for i in range(5)]
+        rows += [row("HAP2_chr01", "HAP1_chr01", i * W, 0.003) for i in range(5)]
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "windowed_all.tsv")
+            write_windows(path, rows)
+            levels = allele_levels(own_pair_tracks(path), {"HAP1_chr01": 1, "HAP2_chr01": 1})
         self.assertEqual(set(levels.values()), {0.003})
 
 
@@ -85,7 +95,7 @@ class TestPairVote(unittest.TestCase):
     chr01/chr02; a misplaced contig makes 12 windows near-allelic from only
     two copies of chr03/chr04 -- not enough."""
 
-    def build(self, d, exchange=False):
+    def build(self, d, exchange=False, one_way=False):
         units = [f"HAP{h}_chr{c:02d}" for c in (1, 2, 3, 4) for h in (1, 2)]
         partner = {1: 2, 2: 1, 3: 4, 4: 3}
         homeo, allelic, ctl = [], [], []
@@ -102,7 +112,10 @@ class TestPairVote(unittest.TestCase):
                         d_h = 0.003
                     homeo.append(row(u, f"{hb}_chr{partner[c]:02d}", s, d_h))
                 # with exchange: HAP1_chr03's first 12 windows carry chr04 sequence
-                swapped = exchange and u == "HAP1_chr03" and i < 12
+                # a real exchange shows from HAP2_chr03's side as well (its
+                # original sequence is missing from HAP1); one_way: HAP2 lacks
+                # the stretch instead, and reads close to HAP1 everywhere
+                swapped = exchange and i < 12 and (u == "HAP1_chr03" or (u == "HAP2_chr03" and not one_way))
                 allelic.append(row(u, f"{other_hap}_chr{c:02d}", s, 0.05 if swapped else 0.003))
                 ctl.append(row(u, f"HAP1_chr{(c % 4) + 1:02d}", s, 0.06))
         os.makedirs(os.path.join(d, "homeologs"))
@@ -136,6 +149,40 @@ class TestPairVote(unittest.TestCase):
         # the carrier's exchanged windows are not near-allelic (own homolog far)
         track = {r["anchor"]: r for r in rows if r["partner"] == "chr04"}["HAP1_chr03"]
         self.assertEqual(track["n_near_allelic"], 12)  # only its last 12 (misplaced-contig) windows
+
+
+    def test_one_way_exchange_is_missing_sequence(self):
+        with tempfile.TemporaryDirectory() as d:
+            chrom_of = self.build(d, exchange=True, one_way=True)
+            rows, readings, _ = residual_tetrasomy(d, chrom_of, dict(min_segment_bp=1_000_000))
+        self.assertEqual(readings[3]["exchange_bp"], 0)
+        track = {r["anchor"]: r for r in rows if r["partner"] == "chr04"}["HAP1_chr03"]
+        self.assertEqual(track["exchange_one_way_bp"], 12 * W)
+        self.assertEqual(track["exchange_reverse_windows"], "0")
+
+    def test_far_stretch_elsewhere_on_the_own_copy_does_not_count(self):
+        # HAP2_chr03 lacks HAP1's first 12 windows and has a far stretch of its
+        # own at the other end: not where an exchange would have left one
+        with tempfile.TemporaryDirectory() as d:
+            chrom_of = self.build(d, exchange=True, one_way=True)
+            path = os.path.join(d, "windowed", "windowed_all.tsv")
+            with open(path) as f:
+                rows = list(csv.DictReader(f, delimiter="\t"))
+            for r in rows:
+                if r["unit_a"] == "HAP2_chr03" and 16 <= int(r["win_start"]) // W < 28:
+                    r["distance"] = 0.05
+            write_windows(path, rows)
+            _, readings, _ = residual_tetrasomy(d, chrom_of, dict(min_segment_bp=1_000_000))
+        self.assertEqual(readings[3]["exchange_bp"], 0)
+
+    def test_residual_needs_the_own_homolog_as_close_as_the_homeolog(self):
+        # homeolog 0.001 inside the ceiling, own allele 0.009: within 3 x allele
+        # (0.03) but not within the cut the homeolog had to meet
+        windows = {0: (W - 1, {"HAP1_chr02": 0.001})}
+        track = near_allelic_track(windows, 0.01, 3.0, ceiling=0.003, own={0: 0.009})
+        self.assertFalse(track[0][2])
+        track = near_allelic_track(windows, 0.01, 3.0, ceiling=0.003, own={0: 0.002})
+        self.assertTrue(track[0][2])
 
 
 class TestLowComplexity(unittest.TestCase):

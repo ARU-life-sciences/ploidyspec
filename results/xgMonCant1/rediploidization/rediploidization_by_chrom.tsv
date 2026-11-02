@@ -21,5 +21,5 @@ chr19	2											0.00		not_assessable	none					unpaired
 chr20	2											0.00		not_assessable	none					unpaired												
 chr21	2											0.00		not_assessable	none					unpaired												
 chr22	2											0.00		not_assessable	none					unpaired												
-chr23	2		with chr24 in HAP1									0.00		fusion_lineages	fusion			chr24		fusion_partner	0	0.000	0	chr24:0/2		yes	chr24	28000000	chr24:1/2	HAP1:4.0-19.2Mb(start)~chr24;HAP1:23.8-32.5Mb(interior)~chr24;HAP1:33.5-37.5Mb(interior)~chr24	chr24:16.7Mb	
+chr23	2		with chr24 in HAP1									0.00		fusion_lineages	fusion			chr24		fusion_partner	0	0.000	0	chr24:0/2		yes	chr24	0			chr24:16.7Mb	
 chr24	1	HAP1	with chr23 in HAP1									0.00		fusion_lineages	fusion			chr23		fusion_partner												

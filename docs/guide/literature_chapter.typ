@@ -178,10 +178,10 @@ leaves open (14.5, 14.6). Section 14.7 indexes every work by theme.
     [supported],
     [negative controls],
 
-    [Pilosella: residual tetrasomy on 4 pairs (79 Mb), aligned at allelic identity],
+    [Pilosella: residual tetrasomy on 4 pairs (79 Mb), aligned at allelic identity; withdrawn 22 October],
     [_P. piloselloides_ is autopolyploid with tetrasomic inheritance @Bicknell2023-qk],
-    [consistent],
-    [an auto-like reading with residual tetrasomy fits the genus],
+    [untestable],
+    [its alleles are as diverged as its homeologs (median 0.0115), so "as close as alleles" means nothing; the segments were mostly seen by 3 of 4 copies],
 
     [Weevil HAP1 chr09: A to 40 Mb, B after (a lineage switch)],
     [frequent exchange between A and B in AAB bananas @Xie2024-lk; gene conversion and sporadic recombination in a clonal amphitriploid fish @Wang2022-am; clonal polyploidy common in weevils @Stenberg2003-rt],
@@ -213,7 +213,7 @@ leaves open (14.5, 14.6). Section 14.7 indexes every work by theme.
     [supported (after a fix)],
     [the earlier "no structure" was our size adjustment removing a larger and a smaller subgenome; read as allo-like with asymmetric subgenomes (A 1.23× B)],
 
-    [Eleocharis: auto-like origin, residual tetrasomy on 10 of 19 numbers],
+    [Eleocharis: auto-like origin, residual tetrasomy on 10 of 19 numbers (withdrawn 22 October; now "mixed")],
     [holocentric chromosomes: frequent fission and fusion, restricted chiasmata, inverted meiosis @Hipp2009-hz @Bures2013-zm @Mandrioli2020-hc],
     [caution],
     [chromosome numbers need not track ancestral units; treat arm- and number-based readings as provisional],
@@ -282,7 +282,7 @@ leaves open (14.5, 14.6). Section 14.7 indexes every work by theme.
 
   [`lpElePalu1` _Eleocharis_],
   [holocentric Cyperaceae; fission and fusion dominate number change @Hipp2009-hz @Bures2013-zm],
-  [residual tetrasomy on 10 of 19 numbers, 310 Mb; 13 near-allelic map blocks, no LORe-like ones],
+  [no residual tetrasomy since 22 October (was 10 of 19 numbers, 310 Mb, admitted by the old own-homolog cut); 13 near-allelic map blocks, no LORe-like ones],
 
   [`ddHesMatr1` _Hesperis_],
   [Brassicaceae dysploidy and pseudo-ploidy @Mandakova2016-ul],

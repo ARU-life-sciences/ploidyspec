@@ -113,8 +113,8 @@ dating WGDs.
 | Ranunculus: no structure once size removed | **Wrong, fixed 21 Oct.** 4x on x=8 (Karbstein 2025): two subgenomes of 8 (A 1.23× B) and 8 one-to-one homeolog pairs. The size adjustment and subgenome-specific repeats had hidden them | Read as allo-like with asymmetric subgenomes |
 | "No residual tetrasomy" in salmonids ⇒ rediploidized | **Incomplete.** LORe regions are low-divergence but *not* near-allelic, so our residual test (< 0.25× homeolog distance) misses them by design | **New check (below).** Add a LORe-like class |
 | Masu residual on chr17/chr29 only (8.6 Mb) | **Under-powered.** Our masu HAP2 was self-scaffolded (RaGOO-like; Alonge 2019); Wu 2026 published a Hi-C phased assembly (JBNQWP/JBNQWQ000000000) | Rerun masu on Wu 2026 |
-| Eleocharis 10/19 chromosomes residual, 310 Mb | **Caution.** Holocentric (Hipp 2009; Mandrioli & Manicardi 2020); fission/fusion is free and arm logic does not apply | Flag holocentric lineages in the summary |
-| Pilosella residual tetrasomy real | Consistent with apomictic / polysomic Hieracium-group biology (Lv 2024) | Keep |
+| Eleocharis 10/19 chromosomes residual, 310 Mb | **Withdrawn 22 Oct** (own homolog was not as close as the homeolog; now "mixed", no residual). **Caution** stands: Holocentric (Hipp 2009; Mandrioli & Manicardi 2020); fission/fusion is free and arm logic does not apply | Flag holocentric lineages in the summary |
+| Pilosella residual tetrasomy real | Consistent with apomictic / polysomic Hieracium-group biology (Lv 2024), **but withdrawn 22 Oct**: alleles as diverged as homeologs (0.0115), segments seen by 3 of 4 copies | Untestable with this yardstick |
 | Mixed per-chromosome states (some pairs disomic, some not) | **Supported**: mixed inheritance in sturgeon (Redmond 2023) and rose (Bourke 2017); segmental allopolyploidy (Deng 2026; Leal-Bertioli 2018) | Present it as the expected outcome, not an anomaly |
 | Potato-like autos with partial structure | Sun 2022: about 50% IBD between haplotypes, about 20% SV | IBD blocks can mimic "near-allelic"; we guard via own-homolog rule, so mention it |
 

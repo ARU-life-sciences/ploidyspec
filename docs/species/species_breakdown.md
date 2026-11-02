@@ -14,7 +14,7 @@ Every reading is from one individual's haplotype assemblies; states describe the
 | [daInuConz1](#dainuconz1) | Inula conyza (now Pentanema conyzae) | 2 × 16 | 32% | Allo-like (disomic-like) (high) | Advanced (medium) |
 | [daLatClan1](#dalatclan1) | Lathraea clandestina | 2 × 21 | 10% | Allo-like (disomic-like) (high) | Advanced (medium) |
 | [daLatSqua1](#dalatsqua1) | Lathraea squamaria | 2 × 18 | 27% | Allo-like (disomic-like) (medium) | Advanced (medium) |
-| [daPilAura1](#dapilaura1) | Pilosella aurantiaca | 2 × 18 | 82% | One copy apart on most chromosomes, changing haplotype between chromosomes: AAB-like (one… (medium) | Partly (medium) |
+| [daPilAura1](#dapilaura1) | Pilosella aurantiaca | 2 × 18 | 82% | One copy apart on most chromosomes, changing haplotype between chromosomes: AAB-like (one… (medium) | Advanced (medium) |
 | [daSenVulg1](#dasenvulg1) | Senecio vulgaris | 2 × 20 | 9% | Allo-like (disomic-like) (medium) | Diverged throughout the paired chromosomes: no stretch where homeologs are as close as al… (medium) |
 | [daSonOler1](#dasonoler1) | Sonchus oleraceus | 2 × 16 | 18% | Allo-like (disomic-like) (medium) | Advanced (medium) |
 | [dcCerAlpi1](#dcceralpi1) | Cerastium alpinum | 2 × 36 | 0% | Allo-like (disomic-like) (high) | Diverged throughout the paired chromosomes: no stretch where homeologs are as close as al… (medium) |
@@ -52,7 +52,7 @@ Every reading is from one individual's haplotype assemblies; states describe the
 | [laPotNodo1](#lapotnodo1) | Potamogeton nodosus | 2 × 26 | 59% | Allo-like (disomic-like) (medium) | Advanced (medium) |
 | [laPotPerf1](#lapotperf1) | Potamogeton perfoliatus | 2 × 26 | 60% | Allo-like (disomic-like) (medium) | Advanced (medium) |
 | [llColAutu1](#llcolautu1) | Colchicum autumnale | 2 × 51 | 46% | Allo-like (disomic-like) (high) | Partly (medium) |
-| [lpElePalu1](#lpelepalu1) |  | 2 × 19 | 69% | Auto-like origin, mostly rediploidized (medium) | Partly (medium) |
+| [lpElePalu1](#lpelepalu1) |  | 2 × 19 | 69% | Mixed (medium) | Advanced (medium) |
 | [lpTriTurg1](#lptriturg1) | Triticum turgidum | 2 × 14 | 0% | Allo-like (disomic-like) (high) | Diverged throughout the paired chromosomes: no stretch where homeologs are as close as al… (medium) |
 | [lpTriTurg1_A](#lptriturg1_a) | Triticum turgidum, A subgenome | 2 × 7 | 0% | Not assessable (not assessable) | Not assessable (not assessable) |
 | [lpTriTurg1_B](#lptriturg1_b) | Triticum turgidum, B subgenome | 2 × 7 | 0% | Not assessable (not assessable) | Not assessable (not assessable) |
@@ -307,8 +307,7 @@ Every reading is from one individual's haplotype assemblies; states describe the
 - Per-chromosome states: resolved lineages 20, not assessable 1
 - Fusions between copies: none
 - Residual tetrasomy: 0 of 20 tested chromosomes, 0.0 Mb
-- Homeologous-exchange candidates: 1
-  - chr07: 3.2 Mb, copies chr05:1/2; HAP1:42.0-45.2Mb(end)~chr05
+- Homeologous-exchange candidates: none
 
 **Summary answers**
 
@@ -317,14 +316,14 @@ Every reading is from one individual's haplotype assemblies; states describe the
 | Ploidy | 2 haplotype copies of each of 21 chromosome numbers; the numbers form sets of 2 (9 groups of mostly 2 chromosome numbers), so x ≈ 9 and up to 4x relative to x; the sets are nearly as diverged as unrelated chromosomes, so they may be an old (paleo) duplication. | medium |
 | Auto- or allo-like | Allo-like (disomic-like): the duplicated sets do not interchange, from homeolog pairs (pair-depth CV 0.03). This is also what a long-rediploidized autopolyploid looks like. | high |
 | TE markers | Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it. | not assessable |
-| Rediploidization | Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 4 chromosome(s) carry blocks homeologous to two or more others (chr04:chr03+chr15, chr05:chr07+chr17, chr11:chr01+chr02, chr15:chr04+chr18): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.86), as when regions resolve at different times; 2 low-divergence homeolog blocks (5 Mb, 6% of the block span, mostly at chromosome ends; chr05xchr07): regions that stopped recombining later than the rest (delayed, LORe-like rediploidization), or a younger duplication; homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome). | medium |
+| Rediploidization | Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 4 chromosome(s) carry blocks homeologous to two or more others (chr04:chr03+chr15, chr05:chr07+chr17, chr11:chr01+chr02, chr15:chr04+chr18): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.86), as when regions resolve at different times; 2 low-divergence homeolog blocks (5 Mb, 6% of the block span, mostly at chromosome ends; chr05xchr07): regions that stopped recombining later than the rest (delayed, LORe-like rediploidization), or a younger duplication. | medium |
 
 <details><summary>Evidence</summary>
 
 - Ploidy: copies from the assembly (2 per number); 9 groups of mostly 2 chromosome numbers (genome partition z = 10.8); homeolog distance 0.092 vs unrelated 0.108
 - Auto- or allo-like: 20 chromosome numbers assessed: 20 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate
 - TE markers: te_marker_fraction mean 0.2535
-- Rediploidization: residual tetrasomy on 0/20 homeolog-paired chromosome numbers; pair-depth CV 0.03; homeology map: 10% of the genome in 25 homeolog blocks, 10 chromosome pairs, block-divergence CV 0.86; LORe-like blocks: 2, 5.2 Mb; exchange: chr07(chr05:1/2)
+- Rediploidization: residual tetrasomy on 0/20 homeolog-paired chromosome numbers; pair-depth CV 0.03; homeology map: 10% of the genome in 25 homeolog blocks, 10 chromosome pairs, block-divergence CV 0.86; LORe-like blocks: 2, 5.2 Mb
 
 </details>
 
@@ -393,11 +392,7 @@ Every reading is from one individual's haplotype assemblies; states describe the
 
 - Per-chromosome states: one divergent copy 18
 - Fusions between copies: none
-- Residual tetrasomy: 4 of 18 tested chromosomes, 79.0 Mb, 0% at chromosome ends
-  - chr04: 28.8 Mb, support chr05:3/4; HAP1:46.0-50.8Mb(interior)~chr05;HAP1:116.8-134.5Mb(interior)~chr05;HAP1:158.8-161.5Mb(interior)~chr05;HAP1:163.3-166.8Mb(interior)~chr05
-  - chr05: 34.2 Mb, support chr04:3/4; HAP1:46.5-52.2Mb(interior)~chr04;HAP1:114.5-130.8Mb(interior)~chr04;HAP1:139.8-142.8Mb(interior)~chr04;HAP1:156.5-159.0Mb(interior)~chr04;HAP1:162.8-169.5Mb(interior)~chr04
-  - chr09: 9.8 Mb, support chr11:3/4; HAP2:80.0-87.2Mb(interior)~chr11;HAP2:138.5-141.0Mb(interior)~chr11
-  - chr11: 6.2 Mb, support chr09:3/4; HAP1:81.5-84.8Mb(interior)~chr09;HAP1:141.8-144.8Mb(interior)~chr09
+- Residual tetrasomy: 0 of 18 tested chromosomes, 0.0 Mb
 - Homeologous-exchange candidates: 1
   - chr02: 3.2 Mb, copies chr03:1/2; HAP1:229.0-232.2Mb(end)~chr03
 
@@ -408,14 +403,14 @@ Every reading is from one individual's haplotype assemblies; states describe the
 | Ploidy | 2 haplotype copies of each of 18 chromosome numbers; the numbers form sets of 2 (9 groups of mostly 2 chromosome numbers), so x ≈ 9 and up to 4x relative to x. | high |
 | Auto- or allo-like | One copy apart on most chromosomes, changing haplotype between chromosomes: AAB-like (one divergent genome copy). | medium |
 | TE markers | Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it. | not assessable |
-| Rediploidization | Partly: 4 of 18 homeolog-paired chromosome numbers keep stretches of residual tetrasomy (79.0 Mb, 0% of it at chromosome ends) where the homeologs are still as close as alleles; elsewhere they have diverged. Also: 2 chromosome(s) carry blocks homeologous to two or more others (chr01:chr07+chr14, chr07:chr01+chr06): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.32), as when regions resolve at different times; 5 low-divergence homeolog blocks (115 Mb, 4% of the block span; chr01xchr07, chr08xchr13): regions that stopped recombining later than the rest (delayed, LORe-like rediploidization), or a younger duplication; homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome). | medium |
+| Rediploidization | Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 2 chromosome(s) carry blocks homeologous to two or more others (chr01:chr07+chr14, chr07:chr01+chr06): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.32), as when regions resolve at different times; 5 low-divergence homeolog blocks (115 Mb, 4% of the block span; chr01xchr07, chr08xchr13): regions that stopped recombining later than the rest (delayed, LORe-like rediploidization), or a younger duplication; homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome). | medium |
 
 <details><summary>Evidence</summary>
 
 - Ploidy: copies from the assembly (2 per number); 9 groups of mostly 2 chromosome numbers (genome partition z = 23.5); homeolog distance 0.036 vs unrelated 0.082
 - Auto- or allo-like: 18 chromosome numbers assessed: 0 split into lineages, 0 tetrasomic-like, 18 one divergent copy, 0 candidate
 - TE markers: te_marker_fraction mean 0.2074
-- Rediploidization: residual tetrasomy on 4/18 homeolog-paired chromosome numbers (2 pair(s)), 79.0 Mb, 0% of it terminal; pair-depth CV 0.11; homeology map: 82% of the genome in 211 homeolog blocks, 10 chromosome pairs, block-divergence CV 0.32; LORe-like blocks: 5, 115.5 Mb; exchange: chr02(chr03:1/2)
+- Rediploidization: residual tetrasomy on 0/18 homeolog-paired chromosome numbers; pair-depth CV 0.11; homeology map: 82% of the genome in 211 homeolog blocks, 10 chromosome pairs, block-divergence CV 0.32; LORe-like blocks: 5, 115.5 Mb; exchange: chr02(chr03:1/2)
 
 </details>
 
@@ -1701,8 +1696,7 @@ Every reading is from one individual's haplotype assemblies; states describe the
 - Per-chromosome states: resolved lineages 24, not assessable 16
 - Fusions between copies: none
 - Residual tetrasomy: 0 of 29 tested chromosomes, 0.0 Mb
-- Homeologous-exchange candidates: 1
-  - chr09: 5.0 Mb, copies chr11:1/2; HAP1:1.5-6.5Mb(start)~chr11
+- Homeologous-exchange candidates: none
 
 **Summary answers**
 
@@ -1711,14 +1705,14 @@ Every reading is from one individual's haplotype assemblies; states describe the
 | Ploidy | 2 haplotype copies of each of 40 chromosome numbers; the numbers form sets of 2 (12 homeolog pairs covering 60% of numbers), so x ≈ 20 and up to 4x relative to x; the sets are nearly as diverged as unrelated chromosomes, so they may be an old (paleo) duplication. | medium |
 | Auto- or allo-like | Allo-like (disomic-like): the duplicated sets do not interchange, from homeolog pairs (pair-depth CV 0.04). This is also what a long-rediploidized autopolyploid looks like. | high |
 | TE markers | Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it. | not assessable |
-| Rediploidization | Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 6 chromosome(s) carry blocks homeologous to two or more others (chr04:chr18+chr27, chr05:chr07+chr13, chr07:chr05+chr16+chr38, chr10:chr32+chr35, chr11:chr09+chr25, chr13:chr05+chr23): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.16), as when regions resolve at different times; 2 low-divergence homeolog blocks (8 Mb, 2% of the block span, mostly at chromosome ends; chr09xchr11): regions that stopped recombining later than the rest (delayed, LORe-like rediploidization), or a younger duplication; homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome). | medium |
+| Rediploidization | Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 6 chromosome(s) carry blocks homeologous to two or more others (chr04:chr18+chr27, chr05:chr07+chr13, chr07:chr05+chr16+chr38, chr10:chr32+chr35, chr11:chr09+chr25, chr13:chr05+chr23): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.16), as when regions resolve at different times; 2 low-divergence homeolog blocks (8 Mb, 2% of the block span, mostly at chromosome ends; chr09xchr11): regions that stopped recombining later than the rest (delayed, LORe-like rediploidization), or a younger duplication. | medium |
 
 <details><summary>Evidence</summary>
 
 - Ploidy: copies from the assembly (2 per number); 12 homeolog pairs covering 60% of numbers; homeolog distance 0.105 vs unrelated 0.116
 - Auto- or allo-like: 24 chromosome numbers assessed: 24 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate
 - TE markers: te_marker_fraction mean 0.2206
-- Rediploidization: residual tetrasomy on 0/29 homeolog-paired chromosome numbers; pair-depth CV 0.04; homeology map: 18% of the genome in 72 homeolog blocks, 18 chromosome pairs, block-divergence CV 0.16; LORe-like blocks: 2, 8.5 Mb; exchange: chr09(chr11:1/2)
+- Rediploidization: residual tetrasomy on 0/29 homeolog-paired chromosome numbers; pair-depth CV 0.04; homeology map: 18% of the genome in 72 homeolog blocks, 18 chromosome pairs, block-divergence CV 0.16; LORe-like blocks: 2, 8.5 Mb
 
 </details>
 
@@ -2050,45 +2044,31 @@ Every reading is from one individual's haplotype assemblies; states describe the
 
 - Per-chromosome states: tetrasomic like 8, candidate 4, resolved lineages 4, one divergent copy 2, not assessable 1
 - Fusions between copies: none
-- Residual tetrasomy: 10 of 19 tested chromosomes, 310.0 Mb, 52% at chromosome ends
-  - chr04: 38.0 Mb, support chr05:4/4; HAP1:238.0-241.0Mb(interior)~chr05;HAP1:248.5-251.8Mb(interior)~chr05;HAP1:255.8-287.5Mb(end)~chr05
-  - chr05: 39.5 Mb, support chr04:4/4; HAP1:142.0-145.5Mb(interior)~chr04;HAP1:244.0-249.8Mb(interior)~chr04;HAP1:250.3-270.2Mb(end)~chr04;HAP1:270.8-281.0Mb(end)~chr04
-  - chr07: 3.0 Mb, support chr02:0/4;chr08:3/4; HAP1:163.0-166.0Mb(interior)~chr08
-  - chr08: 7.8 Mb, support chr07:3/4; HAP1:145.3-153.0Mb(interior)~chr07
-  - chr09: 32.0 Mb, support chr10:4/4; HAP1:8.3-15.8Mb(start)~chr10;HAP1:16.3-22.5Mb(start)~chr10;HAP1:24.0-29.2Mb(interior)~chr10;HAP1:29.8-40.0Mb(interior)~chr10;HAP1:58.0-60.8Mb(interior)~chr10
-  - chr10: 33.5 Mb, support chr09:4/4; HAP1:1.0-28.2Mb(start)~chr09;HAP1:100.0-106.2Mb(interior)~chr09
-  - chr14: 31.2 Mb, support chr15:4/4; HAP2:0.0-11.5Mb(start)~chr15;HAP2:13.3-16.8Mb(start)~chr15;HAP2:23.5-29.5Mb(interior)~chr15;HAP2:74.3-76.8Mb(interior)~chr15;HAP2:80.3-83.2Mb(interior)~chr15;HAP2:88.0-92.8Mb(interior)~chr15
-  - chr15: 31.2 Mb, support chr14:4/4; HAP1:4.0-7.0Mb(start)~chr14;HAP1:8.8-16.2Mb(start)~chr14;HAP1:23.0-27.2Mb(interior)~chr14;HAP1:35.8-41.8Mb(interior)~chr14;HAP1:78.5-81.8Mb(interior)~chr14;HAP1:84.8-87.5Mb(interior)~chr14;HAP1:92.3-94.5Mb(interior)~chr14;HAP1:95.0-97.2Mb(interior)~chr14
-  - chr16: 47.0 Mb, support chr19:4/4; HAP1:0.8-4.5Mb(start)~chr19;HAP1:6.5-12.5Mb(start)~chr19;HAP1:13.0-20.5Mb(start)~chr19;HAP1:21.0-25.5Mb(interior)~chr19;HAP1:27.3-31.8Mb(interior)~chr19;HAP1:32.3-48.8Mb(interior)~chr19;HAP1:64.5-68.8Mb(interior)~chr19
-  - chr19: 46.8 Mb, support chr16:4/4; HAP1:0.0-16.8Mb(start)~chr16;HAP1:18.5-44.2Mb(interior)~chr16;HAP1:61.5-65.8Mb(interior)~chr16
-- Homeologous-exchange candidates: 11
+- Residual tetrasomy: 0 of 19 tested chromosomes, 0.0 Mb
+- Homeologous-exchange candidates: 7
   - chr01: 14.5 Mb, copies chr18:2/2; HAP2:419.3-422.8Mb(end)~chr18;HAP2:424.3-429.0Mb(end)~chr18;HAP2:436.3-442.5Mb(end)~chr18
   - chr02: 15.2 Mb, copies chr03:1/2;chr07:2/2;chr18:1/2; HAP2:3.3-8.8Mb(start)~chr03;HAP1:416.3-419.2Mb(end)~chr07;HAP1:3.0-7.0Mb(start)~chr18;HAP1:23.5-26.2Mb(start)~chr18
   - chr03: 11.0 Mb, copies chr02:1/2; HAP2:0.0-11.0Mb(start)~chr02
   - chr07: 10.8 Mb, copies chr02:2/2;chr08:1/2; HAP1:9.3-15.5Mb(start)~chr02;HAP1:146.8-151.2Mb(interior)~chr08
-  - chr08: 6.8 Mb, copies chr07:1/2; HAP2:149.8-156.5Mb(interior)~chr07
   - chr10: 2.8 Mb, copies chr09:1/2; HAP1:28.3-31.0Mb(interior)~chr09
   - chr11: 5.0 Mb, copies chr12:1/2; HAP1:173.5-178.5Mb(end)~chr12
   - chr12: 3.5 Mb, copies chr11:1/2; HAP2:40.0-43.5Mb(interior)~chr11
-  - chr15: 3.5 Mb, copies chr14:1/2; HAP2:74.8-78.2Mb(interior)~chr14
-  - chr16: 3.5 Mb, copies chr19:1/2; HAP2:60.0-63.5Mb(interior)~chr19
-  - chr17: 6.0 Mb, copies chr13:1/2; HAP2:112.0-115.5Mb(interior)~chr13;HAP2:122.3-124.8Mb(interior)~chr13
 
 **Summary answers**
 
 | Question | Answer | Confidence |
 |---|---|---|
 | Ploidy | 2 haplotype copies of each of 19 chromosome numbers; the numbers form sets of 2 (7 groups of mostly 2 chromosome numbers), so x ≈ 7 and up to 4x relative to x. | medium |
-| Auto- or allo-like | Auto-like origin, mostly rediploidized: the duplicated sets have separated along most of their length, but 10 of 19 paired chromosome numbers keep stretches where the homeologs are as close as alleles (residual tetrasomy). That is expected after an autopolyploidization; recent homeologous exchanges in an allopolyploid can leave similar stretches. | medium |
+| Auto- or allo-like | Mixed: some duplicated sets look interchangeable, others separate. | medium |
 | TE markers | Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it. | not assessable |
-| Rediploidization | Partly: 10 of 19 homeolog-paired chromosome numbers keep stretches of residual tetrasomy (310.0 Mb, 52% of it at chromosome ends) where the homeologs are still as close as alleles; elsewhere they have diverged. Also: 6 chromosome(s) carry blocks homeologous to two or more others (chr01:chr02+chr18, chr02:chr01+chr03+chr07+chr18, chr03:chr02+chr18, chr07:chr02+chr08, chr13:chr06+chr17, chr18:chr01+chr02+chr03): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.48), as when regions resolve at different times; homeologous-exchange candidates on 11 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome). | medium |
+| Rediploidization | Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 6 chromosome(s) carry blocks homeologous to two or more others (chr01:chr02+chr18, chr02:chr01+chr03+chr07+chr18, chr03:chr02+chr18, chr07:chr02+chr08, chr13:chr06+chr17, chr18:chr01+chr02+chr03): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.48), as when regions resolve at different times; homeologous-exchange candidates on 7 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome). | medium |
 
 <details><summary>Evidence</summary>
 
 - Ploidy: copies from the assembly (2 per number); 7 groups of mostly 2 chromosome numbers (genome partition z = 15.6); homeolog distance 0.020 vs unrelated 0.091
-- Auto- or allo-like: 18 chromosome numbers assessed: 4 split into lineages, 8 tetrasomic-like, 2 one divergent copy, 4 candidate; residual tetrasomy on 10/19 homeolog-paired chromosome numbers (5 pair(s)), 310.0 Mb, 52% of it terminal
+- Auto- or allo-like: 18 chromosome numbers assessed: 4 split into lineages, 8 tetrasomic-like, 2 one divergent copy, 4 candidate
 - TE markers: te_marker_fraction mean 0.0819
-- Rediploidization: residual tetrasomy on 10/19 homeolog-paired chromosome numbers (5 pair(s)), 310.0 Mb, 52% of it terminal; pair-depth CV 0.54; homeology map: 69% of the genome in 108 homeolog blocks, 14 chromosome pairs, block-divergence CV 0.48; exchange: chr01(chr18:2/2);chr02(chr03:1/2;chr07:2/2;chr18:1/2);chr03(chr02:1/2);chr07(chr02:2/2;chr08:1/2);chr08(chr07:1/2);chr10(chr09:1/2);chr11(chr12:1/2);chr12(chr11:1/2);chr15(chr14:1/2);chr16(chr19:1/2);chr17(chr13:1/2)
+- Rediploidization: residual tetrasomy on 0/19 homeolog-paired chromosome numbers; pair-depth CV 0.54; homeology map: 69% of the genome in 108 homeolog blocks, 14 chromosome pairs, block-divergence CV 0.48; exchange: chr01(chr18:2/2);chr02(chr03:1/2;chr07:2/2;chr18:1/2);chr03(chr02:1/2);chr07(chr02:2/2;chr08:1/2);chr10(chr09:1/2);chr11(chr12:1/2);chr12(chr11:1/2)
 
 </details>
 
@@ -2249,12 +2229,9 @@ Every reading is from one individual's haplotype assemblies; states describe the
 - Per-chromosome states: partially resolved 2, resolved lineages 12, not assessable 19
 - Fusions between copies: none
 - Residual tetrasomy: 2 of 25 tested chromosomes, 8.6 Mb, 39% at chromosome ends
-  - chr17: 5.2 Mb, support chr29:4/4; HAP1:51.0-56.2Mb(interior)~chr29
-  - chr29: 3.3 Mb, support chr17:4/4; HAP1:31.5-34.8Mb(end)~chr17
-- Homeologous-exchange candidates: 3
-  - chr16: 2.8 Mb, copies chr06:1/2; HAP2:76.0-78.8Mb(end)~chr06
-  - chr29: 3.5 Mb, copies chr17:1/2; HAP2:30.5-34.0Mb(end)~chr17
-  - chr30: 2.8 Mb, copies chr02:1/2; HAP2:0.0-2.8Mb(start)~chr02
+  - chr17: 5.2 Mb, support chr29:3/4; HAP1:51.0-56.2Mb(interior)~chr29
+  - chr29: 3.3 Mb, support chr17:3/4; HAP1:31.5-34.8Mb(end)~chr17
+- Homeologous-exchange candidates: none
 
 **Summary answers**
 
@@ -2263,14 +2240,14 @@ Every reading is from one individual's haplotype assemblies; states describe the
 | Ploidy | 2 haplotype copies of each of 33 chromosome numbers; an older duplication shows on part of the genome (7 whole-chromosome homeolog pairs, 16% of the genome in homeolog blocks), too little to read duplicated sets from. | high |
 | Auto- or allo-like | Allo-like (disomic-like): the duplicated sets do not interchange, from homeolog pairs (pair-depth CV 0.09). This is also what a long-rediploidized autopolyploid looks like. | medium |
 | TE markers | Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it. | not assessable |
-| Rediploidization | Partly: 2 of 25 homeolog-paired chromosome numbers keep stretches of residual tetrasomy (8.6 Mb, 39% of it at chromosome ends) where the homeologs are still as close as alleles; elsewhere they have diverged. Also: 8 chromosome(s) carry blocks homeologous to two or more others (chr01:chr31+chr32, chr09:chr12+chr19, chr10:chr12+chr13, chr12:chr09+chr10, chr30:chr02+chr31, chr31:chr01+chr30, chr32:chr01+chr04+chr33, chr33:chr08+chr32): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.24), as when regions resolve at different times; homeologous-exchange candidates on 3 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome). | medium |
+| Rediploidization | Partly: 2 of 25 homeolog-paired chromosome numbers keep stretches of residual tetrasomy (8.6 Mb, 39% of it at chromosome ends) where the homeologs are still as close as alleles; elsewhere they have diverged. Also: 8 chromosome(s) carry blocks homeologous to two or more others (chr01:chr31+chr32, chr09:chr12+chr19, chr10:chr12+chr13, chr12:chr09+chr10, chr30:chr02+chr31, chr31:chr01+chr30, chr32:chr01+chr04+chr33, chr33:chr08+chr32): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.24), as when regions resolve at different times. | medium |
 
 <details><summary>Evidence</summary>
 
 - Ploidy: copies from the assembly (2 per number); 7 whole-chromosome homeolog pairs, 16% of the genome in homeolog blocks
 - Auto- or allo-like: 14 chromosome numbers assessed: 14 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate
 - TE markers: te_marker_fraction mean 0.2029
-- Rediploidization: residual tetrasomy on 2/25 homeolog-paired chromosome numbers (1 pair(s)), 8.6 Mb, 39% of it terminal; pair-depth CV 0.09; homeology map: 16% of the genome in 48 homeolog blocks, 17 chromosome pairs, block-divergence CV 0.24; exchange: chr16(chr06:1/2);chr29(chr17:1/2);chr30(chr02:1/2)
+- Rediploidization: residual tetrasomy on 2/25 homeolog-paired chromosome numbers (1 pair(s)), 8.6 Mb, 39% of it terminal; pair-depth CV 0.09; homeology map: 16% of the genome in 48 homeolog blocks, 17 chromosome pairs, block-divergence CV 0.24
 
 </details>
 
@@ -2301,18 +2278,11 @@ Every reading is from one individual's haplotype assemblies; states describe the
 - Per-chromosome states: candidate 2, resolved lineages 10, one divergent copy 4, not assessable 17
 - Fusions between copies: none
 - Residual tetrasomy: 0 of 28 tested chromosomes, 0.0 Mb
-- Homeologous-exchange candidates: 13
-  - chr01: 27.2 Mb, copies chr25:1/2; HAP1:42.3-47.0Mb(interior)~chr25;HAP1:47.5-50.2Mb(interior)~chr25;HAP1:50.8-70.5Mb(interior)~chr25
+- Homeologous-exchange candidates: 6
   - chr02: 21.8 Mb, copies chr21:1/2;chr31:1/2; HAP2:7.0-12.0Mb(start)~chr21;HAP2:12.0-25.8Mb(start)~chr31;HAP2:105.8-108.8Mb(interior)~chr31
-  - chr09: 4.2 Mb, copies chr13:1/2; HAP1:9.3-13.5Mb(start)~chr13
-  - chr14: 13.2 Mb, copies chr29:1/2; HAP1:43.5-56.8Mb(interior)~chr29
-  - chr16: 7.4 Mb, copies chr03:1/2; HAP1:79.8-84.5Mb(end)~chr03;HAP1:85.0-87.7Mb(end)~chr03
-  - chr17: 2.8 Mb, copies chr04:1/2; HAP1:9.8-12.5Mb(interior)~chr04
   - chr18: 8.5 Mb, copies chr20:1/2; HAP1:37.8-46.2Mb(interior)~chr20
   - chr21: 5.2 Mb, copies chr02:1/2; HAP1:48.5-53.8Mb(end)~chr02
   - chr25: 28.1 Mb, copies chr01:1/2; HAP2:9.8-12.8Mb(interior)~chr01;HAP2:33.5-58.6Mb(end)~chr01
-  - chr29: 7.8 Mb, copies chr14:1/2; HAP2:2.8-10.5Mb(start)~chr14
-  - chr30: 10.0 Mb, copies chr32:1/2; HAP2:34.8-39.8Mb(interior)~chr32;HAP2:41.8-46.8Mb(end)~chr32
   - chr31: 17.0 Mb, copies chr02:2/2; HAP1:0.0-17.0Mb(start)~chr02
   - chr32: 12.2 Mb, copies chr30:1/2; HAP1:0.0-4.5Mb(start)~chr30;HAP1:5.0-10.0Mb(interior)~chr30;HAP1:11.0-13.8Mb(end)~chr30
 
@@ -2323,14 +2293,14 @@ Every reading is from one individual's haplotype assemblies; states describe the
 | Ploidy | 2 haplotype copies of each of 33 chromosome numbers; an older duplication shows on part of the genome (8 whole-chromosome homeolog pairs, 22% of the genome in homeolog blocks), too little to read duplicated sets from. | high |
 | Auto- or allo-like | Allo-like (disomic-like): the duplicated sets do not interchange, from homeolog pairs (pair-depth CV 0.13). This is also what a long-rediploidized autopolyploid looks like. | medium |
 | TE markers | Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it. | not assessable |
-| Rediploidization | Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 7 chromosome(s) carry blocks homeologous to two or more others (chr02:chr21+chr31, chr07:chr08+chr11, chr08:chr07+chr16+chr26, chr09:chr13+chr22, chr11:chr07+chr12, chr16:chr03+chr08, chr21:chr02+chr30): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.42), as when regions resolve at different times; homeologous-exchange candidates on 13 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome). | medium |
+| Rediploidization | Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 7 chromosome(s) carry blocks homeologous to two or more others (chr02:chr21+chr31, chr07:chr08+chr11, chr08:chr07+chr16+chr26, chr09:chr13+chr22, chr11:chr07+chr12, chr16:chr03+chr08, chr21:chr02+chr30): fusions, fissions or translocations since the duplication; homeolog blocks diverged to different depths (CV 0.42), as when regions resolve at different times; homeologous-exchange candidates on 6 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome). | medium |
 
 <details><summary>Evidence</summary>
 
 - Ploidy: copies from the assembly (2 per number); 8 whole-chromosome homeolog pairs, 22% of the genome in homeolog blocks
 - Auto- or allo-like: 16 chromosome numbers assessed: 10 split into lineages, 0 tetrasomic-like, 4 one divergent copy, 2 candidate
 - TE markers: te_marker_fraction mean 0.3535
-- Rediploidization: residual tetrasomy on 0/28 homeolog-paired chromosome numbers; pair-depth CV 0.13; homeology map: 22% of the genome in 63 homeolog blocks, 17 chromosome pairs, block-divergence CV 0.42; exchange: chr01(chr25:1/2);chr02(chr21:1/2;chr31:1/2);chr09(chr13:1/2);chr14(chr29:1/2);chr16(chr03:1/2);chr17(chr04:1/2);chr18(chr20:1/2);chr21(chr02:1/2);chr25(chr01:1/2);chr29(chr14:1/2);chr30(chr32:1/2);chr31(chr02:2/2);chr32(chr30:1/2)
+- Rediploidization: residual tetrasomy on 0/28 homeolog-paired chromosome numbers; pair-depth CV 0.13; homeology map: 22% of the genome in 63 homeolog blocks, 17 chromosome pairs, block-divergence CV 0.42; exchange: chr02(chr21:1/2;chr31:1/2);chr18(chr20:1/2);chr21(chr02:1/2);chr25(chr01:1/2);chr31(chr02:2/2);chr32(chr30:1/2)
 
 </details>
 
@@ -2361,8 +2331,7 @@ Every reading is from one individual's haplotype assemblies; states describe the
 - Fusions between copies: chr19+chr22 (HAP3), chr19+chr22 (HAP4)
 - Regional lineage splits: chr01 (candidate: HAP3:0.0-2.0Mb;HAP3:3.5-7.8Mb); chr07 (tetrasomic like: HAP2:7.8-15.2Mb;HAP2:17.8-23.0Mb); chr09 (tetrasomic like: HAP3:6.5-8.5Mb;HAP3:21.5-24.0Mb); chr13 (partially resolved: HAP1:0.0-6.8Mb); chr15 (tetrasomic like: HAP4:4.0-8.5Mb); chr17 (partially resolved: HAP2:25.0-33.0Mb); chr18 (tetrasomic like: HAP4:17.8-22.8Mb); chr21 (candidate: HAP4:12.5-15.5Mb); chr24 (tetrasomic like: HAP2:3.8-6.2Mb)
 - Residual tetrasomy: 0 of 4 tested chromosomes, 0.0 Mb
-- Homeologous-exchange candidates: 1
-  - chr10: 2.2 Mb, copies chr03:1/4; HAP4:0.0-2.2Mb(start)~chr03
+- Homeologous-exchange candidates: none
 
 **Summary answers**
 
@@ -2371,14 +2340,14 @@ Every reading is from one individual's haplotype assemblies; states describe the
 | Ploidy | 4 haplotype copies of each of 25 chromosome numbers; no older duplicated sets detected. | high |
 | Auto- or allo-like | Mixed: tetrasomic-like and split chromosomes in one genome (see rediploidization). | medium |
 | TE markers | Repeat history tracks the lineages on 4 chromosome(s) only. | low |
-| Rediploidization | Yes: 1 chromosome fusion(s) between copies, which separate fused and unfused lineages (the snow carp mechanism). Also: homeolog blocks diverged to different depths (CV 0.19), as when regions resolve at different times; homeologous-exchange candidates on 1 chromosome(s), stretches closer to the homeolog than to the own homolog (exchange, or a contig placed on the wrong chromosome). | high |
+| Rediploidization | Yes: 1 chromosome fusion(s) between copies, which separate fused and unfused lineages (the snow carp mechanism). Also: homeolog blocks diverged to different depths (CV 0.19), as when regions resolve at different times. | high |
 
 <details><summary>Evidence</summary>
 
 - Ploidy: copies from the assembly (4 per number)
 - Auto- or allo-like: 25 chromosome numbers assessed: 4 split into lineages, 17 tetrasomic-like, 2 one divergent copy, 2 candidate
 - TE markers: TE split >= 2 on 4/24 chromosomes (median 1.10); absolute te_marker_fraction 0.2089 (reference only)
-- Rediploidization: 1 fusion(s): chr19+chr22; 4 split / 17 tetrasomic-like chromosomes; 4 regional split(s); residual tetrasomy on 0/4 homeolog-paired chromosome numbers; pair-depth CV 0.16; homeology map: 2% of the genome in 4 homeolog blocks, 1 chromosome pairs, block-divergence CV 0.19; exchange: chr10(chr03:1/4)
+- Rediploidization: 1 fusion(s): chr19+chr22; 4 split / 17 tetrasomic-like chromosomes; 4 regional split(s); residual tetrasomy on 0/4 homeolog-paired chromosome numbers; pair-depth CV 0.16; homeology map: 2% of the genome in 4 homeolog blocks, 1 chromosome pairs, block-divergence CV 0.19
 
 </details>
 
@@ -2623,8 +2592,7 @@ Every reading is from one individual's haplotype assemblies; states describe the
 - Per-chromosome states: fusion lineages 2, not assessable 22
 - Fusions between copies: chr23+chr24 (HAP1)
 - Residual tetrasomy: 0 of 1 tested chromosomes, 0.0 Mb
-- Homeologous-exchange candidates: 1
-  - chr23: 28.0 Mb, copies chr24:1/2; HAP1:4.0-19.2Mb(start)~chr24;HAP1:23.8-32.5Mb(interior)~chr24;HAP1:33.5-37.5Mb(interior)~chr24
+- Homeologous-exchange candidates: none
 
 **Summary answers**
 

@@ -38,8 +38,18 @@ alleles (daGleHede1: 0.03 vs 0.009) the ratio alone reads the near tail of
 ordinary homeolog divergence as residual tetrasomy, while real residual
 segments sit far below the homeolog level (OncMaso1: 0.0045 vs 0.048).
 
+Distances are read from one copy's windows only (-ln containment / k), so
+sequence missing from the other copy reads as divergence: daPilAura1 HAP1
+chr01 reads 0.015 from HAP2 chr01, HAP2 reads 0.0095 back. A pair of copies is
+measured by the lower of its two directions.
+
 In residual tetrasomy every copy is close to every other, so a window also
-needs the anchor's own homolog within the allelic cut. A window close to a
+needs the anchor's own homolog within the same cut as the homeolog (2026-10-22;
+before, within the uncapped allelic cut). In daPilAura1 the homeologs are as
+close as the alleles (median 0.0115 against 0.0023-0.0197), the ceiling holds
+the homeolog cut at 0.0025, and the old own cut of 3 x 0.011 let through
+windows where a homeolog copy was closer than the anchor's own allele -- 79 Mb
+of "residual tetrasomy" mostly carried by three of the four copies. A window close to a
 homeolog copy but far from its own homolog is a copy carrying its homeolog's
 sequence -- a homeologous exchange, or a contig placed on the wrong homeolog
 -- and is read as exchange instead. Without this an exchange in one copy
@@ -76,7 +86,11 @@ homeolog's sequence: a homeologous exchange (non-reciprocal homeologous
 recombination, a hallmark of allopolyploids), or a contig scaffolded onto the
 wrong chromosome (masu's reference-scaffolded HAP1). Runs are tested against
 their own shuffle null; no pair vote, since an exchange is usually carried by
-one copy -- `exchange_support` says how many.
+one copy -- `exchange_support` says how many. The own copies must also show
+the exchange from their side (REVERSE_FRAC): an exchange replaced sequence
+they still carry, so they are far from the anchor over a comparable stretch;
+a stretch merely missing from an own copy's assembly reads far one way only
+(charr chr09, masu chr18), and is reported as `exchange_one_way_bp` instead.
 
 Low-complexity windows (satellite arrays and repeat-dense stretches: zlib
 compression ratio below 0.75 of the genome median) are not read for either test: homeologous centromeres share
@@ -118,11 +132,21 @@ LOW_COMPLEXITY_FRAC = 0.75
 EXCHANGE_RATIO = 2.0  # homeolog copy this much closer than the anchor's own copies
 HOMEOLOG_FRAC = 0.25  # near-allelic also means well below the typical homeolog distance
 MIN_NULL_RUN = 8  # floor on the shuffled-run null, in windows
+# An exchange must show from the own copy's side too: at least this fraction of
+# each segment's exchange windows, as far stretches of each own copy read back
+# against the anchor at the corresponding place (reverse_far_windows). Containment is read from one
+# copy's windows only, so sequence missing from the other copy reads as
+# divergence: charr HAP1 chr09's first 6 Mb are 0.07-0.09 from HAP2 chr09
+# (51 against 62 Mb assembled), but HAP2 chr09 reads 0.0006 back.
+REVERSE_FRAC = 0.5
+REVERSE_MIN_RUN = 3
+REVERSE_SLACK = 0.1  # fraction of the chromosome length the corresponding place may shift
 
 FIELDS = ["chrom", "partner", "anchor", "control", "n_windows", "n_near_allelic", "n_shared_with_control",
           "allele_level",
           "longest_run", "null_max_run", "segments", "covered_bp", "covered_frac",
-          "n_exchange", "exchange_segments", "exchange_bp", "n_low_complexity"]
+          "n_exchange", "exchange_segments", "exchange_bp", "exchange_reverse_windows", "exchange_one_way_bp",
+          "n_low_complexity"]
 
 
 def load_tracks(path):
@@ -137,20 +161,30 @@ def load_tracks(path):
     return out
 
 
-def allele_levels(path, chrom_of=None):
-    """{anchor: allelic level}: the median over its windows of the distance to its
-    closest other copy; with chrom_of, every copy of a chromosome gets the median
-    of those levels, so a divergent copy is measured against its chromosome's
-    allelic level rather than its own distance to the rest."""
-    per = defaultdict(list)
+def own_pair_tracks(path):
+    """{(anchor, other copy): {win_start: distance}} from the windowed (same
+    number) tracks: each anchor window's distance to each other copy."""
+    out = defaultdict(dict)
     if not os.path.exists(path):
-        return {}
-    by_win = defaultdict(list)
+        return out
     for r, d in window_rows(path):
-        by_win[(r["unit_a"], r["win_start"])].append(d)
-    for (anchor, _), ds in by_win.items():
-        per[anchor].append(min(ds))
-    levels = {a: statistics.median(v) for a, v in per.items()}
+        out[(r["unit_a"], r["unit_b"])][int(r["win_start"])] = d
+    return out
+
+
+def allele_levels(pairs, chrom_of=None):
+    """{anchor: allelic level} from own_pair_tracks: per pair of copies, the
+    lower of the two directions' median window distance (sequence missing
+    from one copy inflates only the direction read from the other; see the
+    module docstring), and per anchor its closest copy. With chrom_of, every
+    copy of a chromosome gets the median of those levels, so a divergent copy
+    is measured against its chromosome's allelic level rather than its own
+    distance to the rest."""
+    med = {k: statistics.median(v.values()) for k, v in pairs.items() if v}
+    per = defaultdict(list)
+    for (a, b), m in med.items():
+        per[a].append(min(m, med.get((b, a), m)))
+    levels = {a: min(v) for a, v in per.items()}
     if not chrom_of:
         return levels
     by_chrom = defaultdict(list)
@@ -165,15 +199,47 @@ def allele_levels(path, chrom_of=None):
     return {a: min(chrom_level[chrom_of.get(a)], cap) for a in levels}
 
 
-def own_copy_distances(path):
+def own_copy_distances(pairs):
     """{(anchor, win_start): distance to the anchor's closest own-number copy}"""
     out = {}
-    if not os.path.exists(path):
-        return out
-    for r, d in window_rows(path):
-        key = (r["unit_a"], int(r["win_start"]))
-        out[key] = min(d, out.get(key, d))
+    for (a, _), track in pairs.items():
+        for s, d in track.items():
+            out[(a, s)] = min(d, out.get((a, s), d))
     return out
+
+
+def reverse_far_windows(pairs, anchor, seg, anchor_len, floor, low=None, min_run=REVERSE_MIN_RUN,
+                        slack=REVERSE_SLACK):
+    """The fewest windows, over the anchor's own copies, that are beyond `floor`
+    from the anchor read from that copy's side, in runs of at least `min_run`
+    (bridged as in runs()), at the place on that copy corresponding to the
+    anchor's segment `seg` = (start, end): the same fraction of its length
+    +- `slack`, in either orientation. A real exchange replaced sequence the own
+    copies still carry there; sequence merely missing from an own copy leaves
+    that copy close to the anchor, and a far stretch elsewhere on it is another
+    event (OncMaso1_wu2026 chr18: HAP1's end and HAP2's start each missing from
+    the other). None when no own copy has a track back to the anchor."""
+    f0, f1 = seg[0] / anchor_len, seg[1] / anchor_len
+    spans = [(f0 - slack, f1 + slack), (1 - f1 - slack, 1 - f0 + slack)]
+    counts = []
+    for (b, a), track in pairs.items():
+        if a != anchor or not track:
+            continue
+        starts = sorted(track)
+        step = min((y - x for x, y in zip(starts, starts[1:])), default=1)
+        length = starts[-1] + step
+        skip = (low or {}).get(b, set())
+        flags = [track[x] > floor and x not in skip for x in starts]
+        best = 0
+        for lo, hi in spans:
+            n = 0
+            for i, j, _ in runs(flags):
+                if j - i + 1 < min_run:
+                    continue
+                n += sum(1 for k in range(i, j + 1) if flags[k] and lo <= starts[k] / length <= hi)
+            best = max(best, n)
+        counts.append(best)
+    return min(counts) if counts else None
 
 
 def compress_ratio(seq):
@@ -243,16 +309,16 @@ def near_allelic_track(windows, allele, ratio, control=None, ceiling=None, own=N
     window close to the control chromosome as well is not near-allelic; the
     cut never exceeds `ceiling` (a fraction of the homeolog distance). With
     `own` ({start: distance to the anchor's own other copies}) a window whose
-    own homolog is beyond the allelic cut is not near-allelic either: it is an
-    exchange-like window (exchange_track), not residual tetrasomy."""
+    own homolog is beyond the same cut is not near-allelic either: a homeolog
+    copy closer than the anchor's own is an exchange-like window
+    (exchange_track), not residual tetrasomy."""
     cut = ratio * max(allele, ALLELE_FLOOR)
-    own_cut = cut
     if ceiling is not None:
         cut = min(cut, ceiling)
     out = []
     for s in sorted(windows):
         near = min(windows[s][1].values()) < cut
-        if near and own and own.get(s) is not None and own[s] > own_cut:
+        if near and own and own.get(s) is not None and own[s] > cut:
             near = False
         ctl = control.get(s) if control else None
         shared = bool(ctl and min(ctl[1].values()) < cut)
@@ -318,7 +384,8 @@ def residual_tetrasomy(outdir, chrom_of, thresholds):
     tracks = load_tracks(os.path.join(homeologs_dir(outdir), "windowed_homeologs_all.tsv"))
     if not tracks:
         return [], {}, None
-    alleles = allele_levels(os.path.join(windowed_dir(outdir), "windowed_all.tsv"), chrom_of)
+    own_pairs = own_pair_tracks(os.path.join(windowed_dir(outdir), "windowed_all.tsv"))
+    alleles = allele_levels(own_pairs, chrom_of)
     controls = load_tracks(os.path.join(homeologs_dir(outdir), CONTROLS_TSV))
     control_of = {anchor: (c, w) for (anchor, c), w in controls.items()}
     ratio = thresholds.get("residual_ratio", RESIDUAL_RATIO)
@@ -326,7 +393,7 @@ def residual_tetrasomy(outdir, chrom_of, thresholds):
     homeolog_level = statistics.median(min(d.values()) for w in tracks.values() for _, d in w.values())
     ceiling = thresholds.get("residual_homeolog_frac", HOMEOLOG_FRAC) * homeolog_level
 
-    own = own_copy_distances(os.path.join(windowed_dir(outdir), "windowed_all.tsv"))
+    own = own_copy_distances(own_pairs)
     starts = defaultdict(dict)
     for (anchor, _), windows in tracks.items():
         starts[anchor].update({s: windows[s][0] for s in windows})
@@ -362,10 +429,26 @@ def residual_tetrasomy(outdir, chrom_of, thresholds):
                 segs.append((s, e, position(s, e, span_start, span_end)))
         return all_runs, segs, span_end - span_start + 1
 
+    # each exchange segment against the far stretch its own copies show back at
+    # the corresponding place (REVERSE_FRAC); one-way segments are dropped
+    ex_segments, reverse, one_way_bp = {}, {}, {}
+    for key, t in ex_tracks.items():
+        kept, counts, dropped = [], [], 0
+        floor = ratio * max(alleles[key[0]], ALLELE_FLOOR)
+        for seg in segments(t, 2, ex_null)[1]:
+            n = sum(1 for x, _, hit in t if hit and seg[0] <= x <= seg[1])
+            back = reverse_far_windows(own_pairs, key[0], seg, t[-1][1], floor, low)
+            counts.append("" if back is None else str(back))
+            if back is not None and back < REVERSE_FRAC * n:
+                dropped += seg[1] - seg[0] + 1
+            else:
+                kept.append(seg)
+        ex_segments[key], reverse[key], one_way_bp[key] = kept, ";".join(counts), dropped
+
     rows, reads_by_pair = [], defaultdict(list)
     for (anchor, partner), track in built.items():
         all_runs, segs, span = segments(track, 2, null)
-        _, ex_segs, _ = segments(ex_tracks[(anchor, partner)], 2, ex_null)
+        ex_segs = ex_segments[(anchor, partner)]
         covered = sum(e - s + 1 for s, e, _ in segs)
         ex_bp = sum(e - s + 1 for s, e, _ in ex_segs)
         chrom = chrom_of[anchor]
@@ -382,6 +465,8 @@ def residual_tetrasomy(outdir, chrom_of, thresholds):
                          exchange_segments=";".join(f"{s / 1e6:.2f}-{e / 1e6:.2f}Mb({p})"
                                                     for s, e, p in ex_segs),
                          exchange_bp=ex_bp,
+                         exchange_reverse_windows=reverse[(anchor, partner)],
+                         exchange_one_way_bp=one_way_bp[(anchor, partner)],
                          n_low_complexity=sum(1 for t in track if t[0] in low.get(anchor, ()))))
         reads_by_pair[tuple(sorted((chrom, partner)))].append(
             dict(chrom=chrom, partner=partner, anchor=anchor, covered=covered, frac=covered / span,
