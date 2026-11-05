@@ -1,0 +1,61 @@
+{% set name = "ploidyspec" %}
+{% set version = "0.1.0" %}
+{% set sha256 = "SHA256_OF_GITHUB_TARBALL" %}
+{% set python_min = "3.9" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/ARU-life-sciences/ploidyspec/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vvv
+  entry_points:
+    - ploidyspec = ploidyspec.cli:main
+  run_exports:
+    - {{ pin_subpackage(name, max_pin="x.x") }}
+
+requirements:
+  host:
+    - python {{ python_min }}
+    - pip
+    - setuptools >=61
+  run:
+    - python >={{ python_min }}
+    - numpy
+    - matplotlib-base
+    - samtools
+    - fastk >=1.2
+
+test:
+  requires:
+    - python {{ python_min }}
+  imports:
+    - ploidyspec
+  commands:
+    - ploidyspec --version
+    - ploidyspec --help
+    - ploidyspec check
+
+about:
+  home: https://github.com/ARU-life-sciences/ploidyspec
+  dev_url: https://github.com/ARU-life-sciences/ploidyspec
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  summary: "Reference-free k-mer profiling of ploidy, polyploid origin and rediploidization from haplotype-resolved assemblies"
+  description: |
+    ploidyspec reads chromosome-scale, haplotype-resolved assemblies and reports
+    copies per chromosome number, homeolog pairs and subgenomes, auto-like versus
+    allo-like inheritance, TE markers between subgenomes, and residual tetrasomy
+    and homeologous exchange along the chromosomes. No reference genome or
+    alignment is needed.
+
+extra:
+  recipe-maintainers:
+    - GITHUB_HANDLE  # your GitHub login

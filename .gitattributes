@@ -1,0 +1,8 @@
+# Kept out of `git archive` and GitHub release tarballs, so the source
+# archive (bioconda, pip from a tag) is the tool, not the 900 MB panel.
+results/ export-ignore
+docs/ export-ignore
+meta/ export-ignore
+manifests/ export-ignore
+logs/ export-ignore
+lit.txt export-ignore
