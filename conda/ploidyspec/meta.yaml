@@ -1,6 +1,6 @@
 {% set name = "ploidyspec" %}
 {% set version = "0.1.0" %}
-{% set sha256 = "SHA256_OF_GITHUB_TARBALL" %}
+{% set sha256 = "e8e9e51d5975d43d666c18022c0966fd27b44d28ed286df7015defe6457d2268" %}
 {% set python_min = "3.9" %}
 
 package:
@@ -58,4 +58,4 @@ about:
 
 extra:
   recipe-maintainers:
-    - GITHUB_HANDLE  # your GitHub login
+    - Euphrasiologist
