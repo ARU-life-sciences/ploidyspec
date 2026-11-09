@@ -94,6 +94,9 @@ def main():
     ap.add_argument("--next-max", type=int, default=int(os.environ.get("SCAN_MAX", 60)),
                     help="--max for the resubmitted runs (default 60); lets a first run clear the backlog")
     ap.add_argument("--queue", default=os.environ.get("SCAN_QUEUE", "transfer"))
+    ap.add_argument("--big-queue", default=os.environ.get("SCAN_BIG_QUEUE", "basement"),
+                    help="queue for screens needing more than --queue-mem MB (transfer hosts have 42 GB)")
+    ap.add_argument("--queue-mem", type=int, default=30000)
     ap.add_argument("--threads", type=int, default=4)
     ap.add_argument("--once", action="store_true", help="do not resubmit for next week")
     ap.add_argument("--dry-run", action="store_true", help="crawl, metadata and selection only")
@@ -146,7 +149,8 @@ def main():
             f.write("# fasta_path\thap_label\n")
             f.writelines(f"{fa}\tHAP{i}\n" for i, fa in enumerate(fastas, 1))
         mem = max(8000, int(40 * max_chrom_len(fastas) / 1e6) + 4000)
-        job = bsub(["-q", a.queue, "-n", str(a.threads), "-M", str(mem),
+        queue = a.queue if mem <= a.queue_mem else a.big_queue
+        job = bsub(["-q", queue, "-n", str(a.threads), "-M", str(mem),
                     "-R", f"span[hosts=1] select[mem>={mem}] rusage[mem={mem}]",
                     "-o", os.path.join(SCAN, "logs", f"{r['tolid']}.%J.out"),
                     "-e", os.path.join(SCAN, "logs", f"{r['tolid']}.%J.err"),
@@ -164,7 +168,7 @@ def main():
     if not a.once:
         nxt = datetime.datetime.now() + datetime.timedelta(days=7)
         cmd = (f"{sys.executable} {os.path.abspath(__file__)} --max {a.next_max} --next-max {a.next_max}"
-               f" --queue {a.queue}")
+               f" --queue {a.queue} --big-queue {a.big_queue} --queue-mem {a.queue_mem}")
         bsub(["-q", a.queue, "-n", "1", "-M", "4000", "-R", "select[mem>=4000] rusage[mem=4000]",
               "-b", nxt.strftime("%Y:%m:%d:%H:%M"),
               "-o", os.path.join(SCAN, "logs", "weekly.%J.out"), "-J", "scanweekly"], cmd)

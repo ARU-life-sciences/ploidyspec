@@ -12,7 +12,6 @@ source /etc/profile.d/modules.sh
 module load fastk/1.2-c1 samtools/1.20--h50ea8bc_0
 export MPLCONFIGDIR=${TMPDIR:-/tmp}
 rm -f "$d/screen.done" "$d/screen.failed" "$d/screen.mode"
-regex='chromosome:?\s*(\d+)\b|SUPER[_-](\d+)_HAP\d+\b|SUPER[_-](\d+)\b(?!_)'
 n_files=$(grep -vc '^#' "$d/manifest.tsv")
 haps_read() { awk -F'\t' 'NR>1{print $2}' "$d/sequences.tsv" 2>/dev/null | sort -u | wc -l; }
 # prepare: header names; if a haplotype comes out empty (its scaffolds carry no
@@ -27,13 +26,13 @@ for try in names auto hap1; do
         { head -1 "$d/manifest.tsv"; grep -v '^#' "$d/manifest.tsv" | head -1; } > "$d/manifest_hap1.tsv"
         m="$d/manifest_hap1.tsv"; n_files=1
     fi
-    if ./ploidyspec.sh prepare --manifest "$m" --outdir "$d" --chrom-regex "$regex" "${naming[@]}" \
+    if ./ploidyspec.sh prepare --manifest "$m" --outdir "$d" "${naming[@]}" \
         && [ "$(haps_read)" -eq "$n_files" ]; then
         mode=$try; break
     fi
 done
 echo "${mode:-none}" > "$d/screen.mode"
-args=(--manifest "$m" --outdir "$d" --k 23 --chrom-regex "$regex" --threads "$threads")
+args=(--manifest "$m" --outdir "$d" --k 23 --threads "$threads")
 if [ -n "$mode" ] \
     && ./ploidyspec.sh kmers "${args[@]}" \
     && ./ploidyspec.sh matrix "${args[@]}" \

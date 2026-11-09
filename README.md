@@ -86,6 +86,9 @@ can be placed on another, scaffolded haplotype of the same individual first with
 
 **Chromosome number** — any of:
 - `chromosome: <N>` (or `chromosome<N>`, case-insensitive) anywhere in the description.
+- `chromosome: <N><L>` or `chromosome: <L><N>` with a subgenome letter A–I (wheat `3B`,
+  bird `1A`, *Brassica* `C09`, cotton `D13`). These are numbered 100 × letter + number
+  (A = 1), so `3B` becomes chromosome 203 (`chr203` in unit names) and `C09` becomes 309.
 - `SUPER_<N>_HAP<M>` (chromosome-then-haplotype, as several ToL assemblies name them).
 - `SUPER_<N>` or `SUPER-<N>` in the sequence name, as long as nothing else immediately
   follows the number (so `SUPER_22_unloc_1` does not match).

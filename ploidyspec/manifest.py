@@ -8,6 +8,11 @@ from .common import log, run
 
 DEFAULT_CHROM_REGEXES = [
     r"chromosome:?\s*(\d+)\b",
+    # subgenome-lettered chromosomes: number then letter (wheat 1A-7D, bird 1A/4A)
+    # or letter then number (Brassica napus A01/C09, cotton A01/D13); see
+    # match_chrom for how they are numbered
+    r"chromosome:?\s*(\d{1,2})([A-I])\b",
+    r"chromosome:?\s*([A-I])(\d{1,2})\b",
     # chromosome-then-haplotype names (SUPER_4_HAP2), which several ToL
     # assemblies use; the bare pattern below excludes them with (?!_)
     r"SUPER[_-](\d+)_HAP\d+\b",
@@ -131,11 +136,22 @@ def first_group(m):
     return next(g for g in m.groups() if g is not None)
 
 
+# A letter-suffixed or -prefixed chromosome is numbered LETTER_BASE times the
+# letter's place (A = 1) plus its number: 1A -> 101, 3B -> 203, C09 -> 309.
+# Letters run to I, so numbers stay below AUTO_OFFSET.
+LETTER_BASE = 100
+
+
 def match_chrom(desc, regexes):
+    """Chromosome number from a header. A regex with a letter group as well as
+    a number group (1A, A01) gets LETTER_BASE * letter + number."""
     for pat in regexes:
         m = re.search(pat, desc, re.IGNORECASE)
         if m:
-            return int(first_group(m))
+            groups = [g for g in m.groups() if g is not None]
+            num = next(g for g in groups if g.isdigit())
+            letter = next((g for g in groups if g.isalpha()), None)
+            return int(num) + (LETTER_BASE * (ord(letter.upper()) - ord("A") + 1) if letter else 0)
     return None
 
 

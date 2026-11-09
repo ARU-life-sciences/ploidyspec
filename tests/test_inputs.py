@@ -9,7 +9,7 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ploidyspec.cli import write_fasta_manifest
-from ploidyspec.manifest import gzip_kind, prepare, read_manifest, usable_fasta
+from ploidyspec.manifest import DEFAULT_CHROM_REGEXES, gzip_kind, match_chrom, prepare, read_manifest, usable_fasta
 
 
 def write_fasta(path, records):
@@ -95,6 +95,33 @@ class TestDetectNaming(unittest.TestCase):
                 rows = list(csv.DictReader(f, delimiter="\t"))
         self.assertEqual(sorted(r["unit_id"] for r in rows),
                          ["HAP1_chr01", "HAP1_chr02", "HAP2_chr01", "HAP2_chr02"])
+        self.assertTrue(all(r["numbering"] == "names" for r in rows))
+
+
+class TestLetteredChromosomes(unittest.TestCase):
+    """Wheat names its chromosomes 1A-7D (lpTriAest1), Brassica A01-C09: the
+    letter is part of the name, so 1A, 1B and 1D are three chromosomes."""
+
+    def test_number_then_letter_and_letter_then_number(self):
+        R = DEFAULT_CHROM_REGEXES
+        self.assertEqual(match_chrom("Triticum aestivum genome assembly, chromosome: 3B", R), 203)
+        self.assertEqual(match_chrom("chromosome: 1A", R), 101)
+        self.assertEqual(match_chrom("chromosome: C09", R), 309)
+        self.assertEqual(match_chrom("chromosome: 12", R), 12)
+        self.assertIsNone(match_chrom("chromosome: Z", R))
+
+    def test_wheat_names_give_one_unit_per_chromosome(self):
+        with tempfile.TemporaryDirectory() as d:
+            h1, h2 = os.path.join(d, "h1.fa"), os.path.join(d, "h2.fa")
+            names = [f"{n}{s}" for n in (1, 2) for s in "ABD"]
+            for path, pre in ((h1, "OZ1"), (h2, "OZ2")):
+                write_fasta(path, [(f"{pre}{i}", f"genome assembly, chromosome: {c}", 2000)
+                                   for i, c in enumerate(names)])
+            prepare(write_fasta_manifest([h1, h2], d), os.path.join(d, "out"), "samtools", 1000, None, None)
+            with open(os.path.join(d, "out", "sequences.tsv")) as f:
+                rows = list(csv.DictReader(f, delimiter="\t"))
+        self.assertEqual(sorted({int(r["chrom"]) for r in rows}), [101, 102, 201, 202, 401, 402])
+        self.assertEqual(len(rows), 12)
         self.assertTrue(all(r["numbering"] == "names" for r in rows))
 
 
