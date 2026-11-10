@@ -92,5 +92,18 @@ class TestCachedFasta(unittest.TestCase):
         self.assertEqual(remaining, sorted(keep))
 
 
+
+class TestFastkParts(unittest.TestCase):
+    """Logex segfaults on a table part over 2^31 bytes: chromosomes over
+    PART_BP are split into more parts (dmAdoAnnu1, daAncArve1)."""
+
+    def test_parts_scale_with_length(self):
+        from ploidyspec.kmer_tables import PART_BP, fastk_parts
+        self.assertEqual(fastk_parts(1_000_000), 1)
+        self.assertEqual(fastk_parts(PART_BP), 1)
+        self.assertEqual(fastk_parts(745_000_000), 2)
+        self.assertEqual(fastk_parts("1715719071"), 5)
+
+
 if __name__ == "__main__":
     unittest.main()

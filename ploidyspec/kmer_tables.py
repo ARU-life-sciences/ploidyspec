@@ -67,6 +67,17 @@ def remove_unit_cache(outdir, unit_id):
                 os.remove(os.path.join(kdir, name))
 
 
+# Logex segfaults on a table part file over 2^31 bytes (FastK 1.2). FastK
+# writes one part per -T thread, about 3.3 bytes per bp of unique sequence, so
+# -T1 overflows from ~650 Mb chromosomes (Adonis annua 745 Mb: one 2.47 GB part,
+# crash; four 0.63 GB parts, fine). One part per PART_BP keeps parts near 1.3 GB.
+PART_BP = 400_000_000
+
+
+def fastk_parts(length):
+    return max(1, -(-int(length) // PART_BP))
+
+
 def build_one(samtools_bin, fastk_bin, unit, k, outdir):
     chrom_fa = chrom_fasta_path(outdir, unit["unit_id"])
     ktab_prefix = ktab_prefix_path(outdir, unit["unit_id"], k)
@@ -93,7 +104,7 @@ def build_one(samtools_bin, fastk_bin, unit, k, outdir):
                 fastk_bin,
                 f"-k{k}",
                 "-t1",
-                "-T1",
+                f"-T{fastk_parts(unit['length'])}",
                 f"-N{ktab_prefix}",
                 f"-P{os.path.dirname(ktab_prefix)}",
                 chrom_fa,
