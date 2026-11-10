@@ -13,7 +13,14 @@ module load fastk/1.2-c1 samtools/1.20--h50ea8bc_0
 export MPLCONFIGDIR=${TMPDIR:-/tmp}
 rm -f "$d/screen.done" "$d/screen.failed" "$d/screen.mode"
 n_files=$(grep -vc '^#' "$d/manifest.tsv")
-haps_read() { awk -F'\t' 'NR>1{print $2}' "$d/sequences.tsv" 2>/dev/null | sort -u | wc -l; }
+# haplotypes read, counting only those with chromosome-scale units within a
+# factor of 2 of every other haplotype's count: one stray named contig
+# (lpTriAest1 hap2, contig-level but for "contig: SUPER_1") or a haplotype in
+# 135 pieces does not count as read
+haps_read() {
+    awk -F'\t' 'NR>1{n[$2]++} END{lo=1e9; hi=0; for(h in n){if(n[h]<lo)lo=n[h]; if(n[h]>hi)hi=n[h]; k++}
+        print (k && hi <= 2*lo) ? k : 0}' "$d/sequences.tsv" 2>/dev/null || echo 0
+}
 # prepare: header names; if a haplotype comes out empty (its scaffolds carry no
 # chromosome names, xgLitLitt3 hap2), number by matching (--chrom-naming auto);
 # if that fails too (a contig-level haplotype, daBudDavi1 hap2), hap1 alone
