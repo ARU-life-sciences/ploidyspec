@@ -1,6 +1,6 @@
 {% set name = "ploidyspec" %}
-{% set version = "0.1.0" %}
-{% set sha256 = "e8e9e51d5975d43d666c18022c0966fd27b44d28ed286df7015defe6457d2268" %}
+{% set version = "0.1.1" %}
+{% set sha256 = "0e9cad832bdf37971fe1e28233a70a261a27bbf1fcc62e64be876a8c0ad2ff89" %}
 {% set python_min = "3.9" %}
 
 package:
