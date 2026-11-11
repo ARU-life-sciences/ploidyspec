@@ -1,0 +1,30 @@
+# daMimPere1
+
+## Ploidy
+
+2 haplotype copies of each of 45 chromosome numbers; the numbers form sets of 3 (15 groups of mostly 3 chromosome numbers), so x ≈ 15 and up to 6x relative to x.
+
+*Confidence:* high  
+*Evidence:* copies from the assembly (2 per number); 15 groups of mostly 3 chromosome numbers (genome partition z = 45.4); homeolog distance 0.066 vs unrelated 0.131
+
+## Auto-like or allo-like?
+
+Allo-like (disomic-like): the duplicated sets do not interchange, from homeolog pairs (pair-depth CV 0.21). This is also what a long-rediploidized autopolyploid looks like.
+
+*Confidence:* medium  
+*Evidence:* 32 chromosome numbers assessed: 32 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate
+
+## TE markers
+
+Only the absolute marker fraction is available (two copies per number); it does not separate diploid, auto- and allopolyploid, so no reading is made from it.
+
+*Confidence:* not assessable  
+*Evidence:* te_marker_fraction mean 0.1122
+
+## Rediploidization
+
+Advanced: no stretch where homeologs are as close as alleles, and the karyotype has been rearranged since the duplication. Also: 6 chromosome(s) carry blocks homeologous to two or more others (chr04:chr03+chr19+chr43, chr21:chr05+chr39, chr31:chr33+chr43, chr32:chr07+chr34, chr33:chr13+chr31, chr43:chr04+chr31): fusions, fissions or translocations since the duplication; 2 low-divergence homeolog blocks (6 Mb, 2% of the block span; chr31xchr43): regions that stopped recombining later than the rest (delayed, LORe-like rediploidization), or a younger duplication.
+
+*Confidence:* medium  
+*Evidence:* residual tetrasomy on 0/40 homeolog-paired chromosome numbers; pair-depth CV 0.21; homeology map: 38% of the genome in 69 homeolog blocks, 21 chromosome pairs, block-divergence CV 0.12; LORe-like blocks: 2, 6.0 Mb
+
