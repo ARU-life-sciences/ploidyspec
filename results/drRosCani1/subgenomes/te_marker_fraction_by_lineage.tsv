@@ -1,0 +1,8 @@
+chrom	group_a	group_b	n_within	n_cross	within_te_marker_fraction	cross_te_marker_fraction	split_ratio	flagged_units	high_density_units
+chr01	HAP1D_chr01,HAP1C_chr01	HAP2_chr01,HAP1B_chr01,HAP1_chr01	4	6	0.213077	0.476267	2.24		
+chr02	HAP1D_chr02,HAP1C_chr02	HAP2_chr02,HAP1B_chr02,HAP1_chr02	4	6	0.279068	0.458594	1.64		
+chr03	HAP1D_chr03,HAP1C_chr03	HAP1_chr03,HAP1B_chr03,HAP2_chr03	4	6	0.232414	0.459602	1.98	HAP1C_chr03,HAP1D_chr03	
+chr04	HAP1D_chr04,HAP1C_chr04	HAP1_chr04,HAP1B_chr04,HAP2_chr04	4	6	0.256178	0.468086	1.83		
+chr05	HAP1D_chr05,HAP1C_chr05	HAP1_chr05,HAP1B_chr05,HAP2_chr05	4	6	0.287938	0.490877	1.70		
+chr06	HAP1D_chr06,HAP1C_chr06	HAP2_chr06,HAP1B_chr06,HAP1_chr06	4	6	0.221607	0.426277	1.92		
+chr07	HAP1D_chr07,HAP1C_chr07	HAP2_chr07,HAP1B_chr07,HAP1_chr07	4	6	0.413650	0.576554	1.39		

@@ -209,8 +209,11 @@ def answer_ploidy(g):
     text = f"{c} haplotype copies of each of {n} chromosome numbers"
     evidence = [f"copies from the assembly ({c} per number)"]
     if g.get("extra_sets"):
-        text += (f" ({', '.join(g['extra_sets'])} split out of one haplotype file holding two "
-                 "chromosome sets)")
+        # extra sets are their file's haplotype plus one letter (HAP1B,
+        # HAP1C): count the sets each such file held
+        files = Counter(h[:-1] for h in g["extra_sets"])
+        held = "; ".join(f"{base}'s file held {k + 1} chromosome sets" for base, k in sorted(files.items()))
+        text += f" ({', '.join(g['extra_sets'])} split out: {held})"
         evidence.append("extra set(s) matched one-to-one to the shared numbers")
     if c % 2:
         text += "; an odd copy number (triploid-like or higher odd ploidy)"

@@ -1,0 +1,5 @@
+species	question	answer	confidence	evidence
+drRosCani1	ploidy	5 haplotype copies of each of 7 chromosome numbers (HAP1B, HAP1C, HAP1D split out: HAP1's file held 4 chromosome sets); an odd copy number (triploid-like or higher odd ploidy); no older duplicated sets detected.	high	copies from the assembly (5 per number); extra set(s) matched one-to-one to the shared numbers
+drRosCani1	origin_like_structure	Allo-like (disomic-like): most chromosomes split into two lineages. A long-rediploidized autopolyploid would look the same.	high	7 chromosome numbers assessed: 7 split into lineages, 0 tetrasomic-like, 0 one divergent copy, 0 candidate
+drRosCani1	te_markers	Repeat history tracks the lineages on several chromosomes: separate TE histories in the split copies.	medium	TE split >= 2 on 1/7 chromosomes (median 1.83); absolute te_marker_fraction 0.3965 (reference only)
+drRosCani1	rediploidization	Split throughout: either rediploidization is complete or the genome was allo-like from the start; these data cannot tell which.	medium	7 split / 0 tetrasomic-like chromosomes; 0 regional split(s); homeology map: 0% of the genome in 0 homeolog blocks, 0 chromosome pairs
