@@ -100,6 +100,8 @@ def main():
     ap.add_argument("--threads", type=int, default=4)
     ap.add_argument("--once", action="store_true", help="do not resubmit for next week")
     ap.add_argument("--dry-run", action="store_true", help="crawl, metadata and selection only")
+    ap.add_argument("--only", nargs="+", metavar="TOLID",
+                    help="screen just these releases (no --max, implies --once): a hand-picked set")
     a = ap.parse_args()
 
     today = datetime.date.today().isoformat()
@@ -114,6 +116,12 @@ def main():
     state = {(r["tolid"], r["version"]): r for r in read(state_path)}
     panel = set(os.listdir(os.path.join(REPO, "results")))
     todo = [r for r in catalog if (r["tolid"], r["version"]) not in state and r["tolid"] not in panel]
+    if a.only:
+        a.once, a.max = True, len(a.only)
+        unknown = set(a.only) - {r["tolid"] for r in todo}
+        if unknown:
+            print("not in the catalog, already screened or in the panel:", " ".join(sorted(unknown)))
+        todo = [r for r in todo if r["tolid"] in set(a.only)]
 
     meta_path = os.path.join(SCAN, "metadata.tsv")
     meta = {r["tolid"]: r for r in read(meta_path)}

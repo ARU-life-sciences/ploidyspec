@@ -58,3 +58,29 @@ fCorLav1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/fC
 lpTriTurg1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/lpTriTurg1.tsv		
 OncMaso1_wu2026	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/OncMaso1_wu2026.tsv	chromosome (\d+),	
 daMimPere1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/daMimPere1.tsv		
+dhCarBetu1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/dhCarBetu1.tsv		
+ddSalMyrs1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/ddSalMyrs1.tsv		
+drAlcMoll1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/drAlcMoll1.tsv		
+drLotTenu1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/drLotTenu1.tsv		
+dhBetPube1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/dhBetPube1.tsv		
+drRosCani1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/drRosCani1.tsv		
+drSorBris1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/drSorBris1.tsv	chromosome:?\s*(\d+)[A-Z]\b|SUPER[_-](\d+)\b(?!_)	chromosome:?\s*\d+([A-Z])\b
+daHieSnow1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/daHieSnow1.tsv	chromosome:?\s*(\d+)[A-Z]\b|SUPER[_-](\d+)\b(?!_)	chromosome:?\s*\d+([A-Z])\b
+dcPerAmph1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/dcPerAmph1.tsv		
+daSolNigr1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/daSolNigr1.tsv		
+ddCarPrat1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/ddCarPrat1.tsv		
+lpTriAest6	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/lpTriAest6.tsv		
+ddTilTome1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/ddTilTome1.tsv		
+drHydVulg1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/drHydVulg1.tsv		
+dmAdoAnnu1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/dmAdoAnnu1.tsv		
+klBraLanc2	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/klBraLanc2.tsv		
+sRajCla2	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/sRajCla2.tsv		
+fGasAcu3	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/fGasAcu3.tsv		
+fCobTae1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/fCobTae1.tsv		
+mMicAgr2	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/mMicAgr2.tsv		
+qqAraQuad2	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/qqAraQuad2.tsv		
+qqEusFlav1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/qqEusFlav1.tsv		
+wcApoCali1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/wcApoCali1.tsv		
+icOtiPorc1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/icOtiPorc1.tsv		
+gfAmaPhal2	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/gfAmaPhal2.tsv		
+vlDipAlpi1	/lustre/scratch122/tol/teams/blaxter/users/mb39/ploidyspec/manifests/vlDipAlpi1.tsv		

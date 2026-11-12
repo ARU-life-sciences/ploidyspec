@@ -19,6 +19,7 @@ needed to use ploidyspec elsewhere: it wraps the `ploidyspec` command with
   homeologs, structure) on up to 60 a week, writes `scan/reports/<date>.md`
   and `scan/candidates.tsv` (`report.py`), and resubmits itself for next week.
   Start: `bsub -q transfer ... python3 workflows/sanger/scan/weekly.py`;
+  a hand-picked set: `weekly.py --only TOLID ...`;
   stop: `bkill -J scanweekly`.
 - `archive/` — one-off batch and repair scripts kept for the record.
 

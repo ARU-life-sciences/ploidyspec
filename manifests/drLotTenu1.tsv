@@ -1,0 +1,5 @@
+# fasta_path	hap_label
+/lustre/scratch122/tol/data/8/3/9/6/b/c/Lotus_tenuis/assembly/release/drLotTenu1.hap1.1/insdc/GCA_988426825.1.fa.gz	HAP1
+/lustre/scratch122/tol/data/8/3/9/6/b/c/Lotus_tenuis/assembly/release/drLotTenu1.hap2.1/insdc/GCA_988426765.1.fa.gz	HAP2
+/lustre/scratch122/tol/data/8/3/9/6/b/c/Lotus_tenuis/assembly/release/drLotTenu1.hap3.1/insdc/GCA_988426845.1.fa.gz	HAP3
+/lustre/scratch122/tol/data/8/3/9/6/b/c/Lotus_tenuis/assembly/release/drLotTenu1.hap4.1/insdc/GCA_988427105.1.fa.gz	HAP4

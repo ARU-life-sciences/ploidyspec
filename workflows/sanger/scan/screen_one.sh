@@ -38,6 +38,12 @@ for try in names auto hap1; do
         mode=$try; break
     fi
 done
+# detect falls back to auto numbering inside prepare (no chromosome names in
+# the headers, jaOrbAnnu2's HAP1_SCAFFOLD_N): record that, since scaffold
+# pieces of one chromosome can then pair up like homeologs
+if [ "$mode" = names ] && awk -F'\t' '{sub(/\r$/, "")} NR==1{for(i=1;i<=NF;i++) if($i=="numbering") c=i} NR>1 && c && $c=="auto"{f=1} END{exit !f}' "$d/sequences.tsv"; then
+    mode=auto
+fi
 echo "${mode:-none}" > "$d/screen.mode"
 args=(--manifest "$m" --outdir "$d" --k 23 --threads "$threads")
 if [ -n "$mode" ] \

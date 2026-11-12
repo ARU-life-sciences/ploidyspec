@@ -1,0 +1,4 @@
+# fasta_path	hap_label
+/lustre/scratch122/tol/data/5/0/4/7/3/6/Alchemilla_mollis/assembly/release/drAlcMoll1.hap1.1/insdc/GCA_987114305.1.fa.gz	HAP1
+/lustre/scratch122/tol/data/5/0/4/7/3/6/Alchemilla_mollis/assembly/release/drAlcMoll1.hap2.1/insdc/GCA_987114285.1.fa.gz	HAP2
+/lustre/scratch122/tol/data/5/0/4/7/3/6/Alchemilla_mollis/assembly/release/drAlcMoll1.hap3.1/insdc/GCA_987114315.1.fa.gz	HAP3
