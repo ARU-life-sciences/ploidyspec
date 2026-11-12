@@ -136,6 +136,11 @@ back can this k-mer sweep actually see."
 
 ## `windowed/` — divergence along the chromosome
 
+For the panel in `results/`, git holds `windowed_all.tsv` and
+`window_complexity.tsv` for each species. The per-chromosome
+`windowed_chrNN.tsv` files repeat `windowed_all.tsv`'s rows and stay out of git,
+as do the much larger windowed homeolog tables (`homeologs/windowed_*.tsv`).
+
 **`windowed_chrNN.tsv`** (one per chromosome number) and **`windowed_all.tsv`**:
 one row per window of one copy (`unit_a`, positions along *its own*
 coordinates) against another copy (`unit_b`). Each window's k-mers are looked

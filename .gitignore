@@ -20,8 +20,11 @@ tmp_rediploidization
 superseded/
 tmp/
 # per-window tables live alongside the results, not in git (images and
-# summary tables are tracked)
+# summary tables are tracked), except one table per species of divergence
+# along the chromosomes and its window complexity (~25 MB in git for the panel)
 results/*/windowed/*.tsv
+!results/*/windowed/windowed_all.tsv
+!results/*/windowed/window_complexity.tsv
 results/*/homeologs/windowed_*.tsv
 results/*/subgenomes/te_markers_windowed_*.tsv
 /scan
