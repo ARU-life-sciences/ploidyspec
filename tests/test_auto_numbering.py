@@ -62,6 +62,26 @@ class TestAutoNumber(unittest.TestCase):
             again, _ = auto_number(self.candidates(), d)
         self.assertEqual({r["seq_id"]: r["chrom"] for r in again if r["hap"] == "HAP2"}, final)
 
+    def test_resume_keeps_extra_set_haplotypes(self):
+        # dhBetPube1: the matrix stage made a second set in HAP2's file HAP2B;
+        # read back as HAP2, b0 and b2 would both be HAP2_chr01
+        with tempfile.TemporaryDirectory() as d:
+            rows, _ = auto_number(self.candidates(), d)
+            final = {"b0": (1, "HAP2B"), "b1": (2, "HAP2"), "b2": (1, "HAP2")}
+            with open(os.path.join(d, "sequences.tsv"), "w", newline="") as f:
+                w = csv.DictWriter(f, fieldnames=["unit_id", "hap", "chrom", "seq_id", "source", "numbering"],
+                                   delimiter="\t")
+                w.writeheader()
+                for r in rows:
+                    chrom, hap = final.get(r["seq_id"], (r["chrom"], r["hap"]))
+                    w.writerow(dict(unit_id="", hap=hap, chrom=chrom, seq_id=r["seq_id"],
+                                    source=r["source"], numbering="auto"))
+            again, _ = auto_number(self.candidates(), d)
+        by = {r["seq_id"]: r for r in again}
+        self.assertEqual(by["b0"]["unit_id"], "HAP2B_chr01")
+        self.assertEqual(by["b2"]["unit_id"], "HAP2_chr01")
+        self.assertEqual(len({r["unit_id"] for r in again}), len(again))
+
 
 class TestAutoReconcile(unittest.TestCase):
     def unit(self, uid, hap, chrom, source):

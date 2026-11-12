@@ -422,6 +422,27 @@ class TestExtraSets(unittest.TestCase):
         units, distance = self.build(b_dist=0.095)
         self.assertEqual(detect_extra_sets(units, distance), [])
 
+    def test_several_sets_in_one_haplotype_each_become_a_copy(self):
+        # drRosCani1: HAP1 holds four sets of 4 here (of 7 in the assembly),
+        # HAP2 one set; HAP1's first set is already matched to HAP2's numbers
+        n = 4
+        units = [unit(f"HAP2_chr0{c}", "HAP2", str(c), "fileB") for c in range(1, n + 1)]
+        units += [unit(f"HAP1_chr0{c}", "HAP1", str(c), "fileA") for c in range(1, n + 1)]
+        units += [unit(f"HAP1_chr{1000 + k}", "HAP1", str(1000 + k), "fileA") for k in range(3 * n)]
+        pairs = {}
+        for c in range(n):
+            group = [c, n + c] + [2 * n + s * n + c for s in range(3)]
+            for a in group:
+                for b in group:
+                    if a < b:
+                        pairs[(a, b)] = 0.03
+        sets = detect_extra_sets(units, symmetric_matrix(len(units), pairs, default=0.10))
+        by_hap = {}
+        for c in sets:
+            by_hap.setdefault(c["new_hap"], set()).add(c["new_chrom"])
+        self.assertEqual(by_hap, {h: {"1", "2", "3", "4"} for h in ("HAP1B", "HAP1C", "HAP1D")})
+        self.assertEqual(len({c["unit_id"] for c in sets}), 3 * n)
+
     def test_a_single_private_chromosome_is_not_a_set(self):
         # xgMonCant1: one fusion component private to HAP2
         units = [unit(f"HAP1_chr0{c}", "HAP1", str(c), "fileA") for c in range(1, 4)]

@@ -310,10 +310,11 @@ def detect_relabeling(units, distance, ratio_threshold=DEFAULT_RATIO_THRESHOLD):
 
 def detect_extra_sets(units, distance, ratio=SET_MATCH_RATIO, min_units=SET_MIN_UNITS):
     """Units of a haplotype whose numbers no other haplotype has, matched one-
-    to-one to the numbers the haplotypes share. Returns [dict(index, unit_id,
-    old_chrom, new_chrom, new_hap, own_dist (median to other numbers),
-    alt_dist (to the matched number), ratio)] -- empty unless the haplotype
-    holds a set: >= min_units matched and at least half its private units."""
+    to-one to the numbers the haplotypes share, one set at a time (HAP1B,
+    HAP1C, ...). Returns [dict(index, unit_id, old_chrom, new_chrom, new_hap,
+    own_dist (median to other numbers), alt_dist (to the matched number),
+    ratio)] -- empty unless the haplotype holds a set: >= min_units matched and
+    at least half of the shared numbers (or of its private units, if fewer)."""
     haps_of = defaultdict(set)
     for u in units:
         haps_of[u["chrom"]].add(u["hap"])
@@ -332,28 +333,36 @@ def detect_extra_sets(units, distance, ratio=SET_MATCH_RATIO, min_units=SET_MIN_
         if len(haps_of[u["chrom"]]) == 1:
             by_hap[u["hap"]].append(i)
     for hap, private in sorted(by_hap.items()):
-        scored = []
-        for i in private:
-            d = {c: mean_distance(i, idxs, distance) for c, idxs in shared.items()}
-            bg = sorted(d.values())[len(d) // 2]
-            for c, dc in d.items():
-                scored.append((dc, i, c, bg))
-        scored.sort()
-        matched, used = {}, set()
-        for dc, i, c, bg in scored:
-            if i in matched or c in used:
-                continue
-            if dc > 0 and bg / dc >= ratio:
-                matched[i] = (c, dc, bg)
-                used.add(c)
-        if len(matched) < min_units or len(matched) < len(private) / 2:
-            continue
-        new_hap = next(f"{hap}{x}" for x in "BCDEFGH" if f"{hap}{x}" not in taken_haps)
-        taken_haps.add(new_hap)
-        for i, (c, dc, bg) in sorted(matched.items()):
-            out.append(dict(index=i, unit_id=units[i]["unit_id"], old_chrom=units[i]["chrom"],
-                            new_chrom=c, new_hap=new_hap, own_dist=bg, alt_dist=dc, ratio=bg / dc,
-                            status="extra_set"))
+        # one set per round, one unit per shared number, until a round finds no
+        # set: a file can hold several (drRosCani1's HAP1 holds four sets of 7
+        # against HAP2's one; dhBetPube1's HAP2 three sets of 14 against HAP1's
+        # one). A round is a set when it matches >= min_units and at least half
+        # of the numbers it could fill.
+        private = list(private)
+        while private:
+            scored = []
+            for i in private:
+                d = {c: mean_distance(i, idxs, distance) for c, idxs in shared.items()}
+                bg = sorted(d.values())[len(d) // 2]
+                for c, dc in d.items():
+                    scored.append((dc, i, c, bg))
+            scored.sort()
+            matched, used = {}, set()
+            for dc, i, c, bg in scored:
+                if i in matched or c in used:
+                    continue
+                if dc > 0 and bg / dc >= ratio:
+                    matched[i] = (c, dc, bg)
+                    used.add(c)
+            if len(matched) < min_units or len(matched) < min(len(private), len(shared)) / 2:
+                break
+            new_hap = next(f"{hap}{x}" for x in "BCDEFGHIJKLMNOPQRSTUVWXYZ" if f"{hap}{x}" not in taken_haps)
+            taken_haps.add(new_hap)
+            for i, (c, dc, bg) in sorted(matched.items()):
+                out.append(dict(index=i, unit_id=units[i]["unit_id"], old_chrom=units[i]["chrom"],
+                                new_chrom=c, new_hap=new_hap, own_dist=bg, alt_dist=dc, ratio=bg / dc,
+                                status="extra_set"))
+            private = [i for i in private if i not in matched]
     return out
 
 

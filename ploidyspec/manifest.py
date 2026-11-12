@@ -192,15 +192,17 @@ def chromosome_scale(lengths, min_frac=AUTO_MIN_FRAC):
 
 
 def previous_auto_numbers(outdir):
-    """{(source, seq_id): chrom} from an earlier auto-numbered sequences.tsv, so a
-    resumed run keeps the numbers the matrix stage already assigned (and the
-    k-mer tables cached under them)."""
+    """{(source, seq_id): (chrom, hap)} from an earlier auto-numbered
+    sequences.tsv, so a resumed run keeps the numbers and haplotypes the matrix
+    stage already assigned (and the k-mer tables cached under them). The
+    haplotype matters when a file holds several sets: dhBetPube1's HAP2B and
+    HAP2C units would otherwise come back as HAP2 and collide."""
     path = os.path.join(outdir, "sequences.tsv")
     if not os.path.exists(path):
         return {}
     with open(path) as f:
-        return {(r["source"], r["seq_id"]): int(r["chrom"]) for r in csv.DictReader(f, delimiter="\t")
-                if r.get("numbering") == "auto"}
+        return {(r["source"], r["seq_id"]): (int(r["chrom"]), r["hap"])
+                for r in csv.DictReader(f, delimiter="\t") if r.get("numbering") == "auto"}
 
 
 def auto_number(candidates, outdir, min_frac=AUTO_MIN_FRAC):
@@ -236,11 +238,12 @@ def auto_number(candidates, outdir, min_frac=AUTO_MIN_FRAC):
     reuse = all((s["source"], s["seq_id"]) in previous for seqs in kept.values() for s in seqs)
     for key in order:
         for rank, s in enumerate(kept[key]):
+            hap = s["hap"]
             if reuse:
-                chrom = previous[(s["source"], s["seq_id"])]
+                chrom, hap = previous[(s["source"], s["seq_id"])]
             else:
                 chrom = rank + 1 if key == ref else AUTO_OFFSET + rank
-            rows.append(dict(s, chrom=chrom, unit_id=f"{s['hap']}_chr{chrom:02d}", numbering="auto"))
+            rows.append(dict(s, hap=hap, chrom=chrom, unit_id=f"{hap}_chr{chrom:02d}", numbering="auto"))
     log(f"auto chromosome numbering: reference {ref[1]} ({len(kept[ref])} chromosome-scale "
         f"sequences, numbered by length); other haplotypes numbered by k-mer matching in the "
         f"matrix stage" + (" (reusing the numbering of the existing sequences.tsv)" if reuse else ""))
