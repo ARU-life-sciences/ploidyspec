@@ -28,3 +28,5 @@ results/*/windowed/*.tsv
 results/*/homeologs/windowed_*.tsv
 results/*/subgenomes/te_markers_windowed_*.tsv
 /scan
+# k-mer count caches from scripts/te_subgenomes.py (rebuilt on demand)
+results/*/te_subgenomes*/counts_k*_h*.npz

@@ -25,8 +25,14 @@ fi
 
 THREADS="${LSB_DJOB_NUMPROC:-8}"
 
-echo "=== ${species_id}: prepare ==="
-./ploidyspec.sh prepare --manifest "$manifest" --outdir "$outdir" --min-len 1000000 "${extra_args[@]}"
+# A finished run's sequences.tsv carries the matrix stage's relabelling (extra
+# chromosome sets, swapped numbers); re-preparing would undo it.
+if [ -s "$outdir/sequences.tsv" ]; then
+    echo "=== ${species_id}: keeping existing sequences.tsv ==="
+else
+    echo "=== ${species_id}: prepare ==="
+    ./ploidyspec.sh prepare --manifest "$manifest" --outdir "$outdir" --min-len 1000000 "${extra_args[@]}"
+fi
 
 echo "=== ${species_id}: kmers (marker-k=13 only) ==="
 ./ploidyspec.sh kmers --manifest "$manifest" --outdir "$outdir" --k 13 --threads "$THREADS" "${extra_args[@]}"
