@@ -28,6 +28,13 @@ homeologs/homeolog_pairs.tsv) and writes <outdir>/te_subgenomes/.
    cluster's rates (rates measured on the copies of that cluster), so marker
    pool sizes cancel. Runs of >= --min-run windows of a foreign cluster are
    candidate exchanges (or phasing/scaffolding switches).
+6. Call (call_rule), in order: consistent fraction >= --min-consistent;
+   above the null maximum; >= --min-agree-sets informative sets for the
+   distance check; clusters agree with the distance lineages on >=
+   --min-agree of them; not length-confounded (one cluster taking the shorter
+   homeolog), unless the --blocks run, which counts only over homeology-map
+   blocks, holds up (blocks_clear). Run --blocks first so the whole-chromosome
+   call can use it; --recall re-applies the rule to an existing summary.tsv.
 
 Caveat: markers are learned from the same copies they paint; a short foreign
 segment barely moves its copy's genome-wide calls, but painting is not
@@ -387,6 +394,66 @@ def runs(labels_seq, home, min_run):
     return out
 
 
+def blocks_clear(outdir, a):
+    """True when the block-restricted run (te_subgenomes_blocks/summary.tsv,
+    chosen k) keeps a consistent fraction >= --min-consistent and above its null
+    maximum. Counting only over homeology-map blocks removes most of the length
+    difference between copies, so a signal that survives it is not a length
+    artefact (masu: falls inside its null; Cerastium alpinum: 0.91 vs 0.015)."""
+    path = os.path.join(outdir, "te_subgenomes_blocks", "summary.tsv")
+    if not os.path.exists(path):
+        return False
+    with open(path) as f:
+        for r in csv.DictReader(f, delimiter="\t"):
+            if r["chosen"] == "yes":
+                obs, nmax = float(r["consistent_frac"]), float(r["null_max"])
+                return obs >= a.min_consistent and obs > nmax
+    return False
+
+
+def is_confounded(n_ls, n_short, ratio, a):
+    return n_ls >= 3 and n_short >= a.confound_frac * n_ls and ratio >= a.confound_ratio
+
+
+def call_rule(obs, null_max, agree, confounded, length_cleared, a):
+    """The call, in order: consistent fraction, null, enough informative sets
+    for the distance check, agreement with distance, then the length check,
+    which the block-restricted run can clear (length_cleared)."""
+    if obs < a.min_consistent:
+        return "none"
+    if obs <= null_max:
+        return "none_within_null"
+    if agree[1] < a.min_agree_sets:
+        return "none_too_few_sets"
+    if agree[0] < a.min_agree * agree[1]:
+        return "none_disagrees_with_distance"
+    if confounded and not length_cleared:
+        return "none_length_confounded"
+    return "subgenome_specific_repeats"
+
+
+def recall(outdir, a):
+    """Re-apply call_rule to an existing summary.tsv without recounting."""
+    od = os.path.join(outdir, "te_subgenomes_blocks" if a.blocks else "te_subgenomes")
+    path = os.path.join(od, "summary.tsv")
+    with open(path) as f:
+        rows = list(csv.DictReader(f, delimiter="\t"))
+    if not rows:
+        return
+    cleared = True if a.blocks else blocks_clear(outdir, a)
+    for r in rows:
+        n, d = (int(x) for x in r["chroms_agreeing_with_distance"].split("/"))
+        conf = is_confounded(int(r["length_split_sets"]), int(r["shorter_in_one_cluster"]),
+                             float(r["median_length_ratio"]), a)
+        r["call"] = call_rule(float(r["consistent_frac"]), float(r["null_max"]), (n, d), conf, cleared, a)
+    with open(path, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0]), delimiter="\t", lineterminator="\n")
+        w.writeheader()
+        w.writerows(rows)
+    best = next(r for r in rows if r["chosen"] == "yes")
+    log(f"{od}: k={best['k']} call {best['call']}")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("outdir")
@@ -411,11 +478,20 @@ def main():
                     help="provisional call threshold on the consistent fraction (panel: allo >= 0.17, auto <= 0.08)")
     ap.add_argument("--min-agree", type=float, default=2 / 3,
                     help="fraction of informative chromosomes whose TE split must match the distance split")
+    ap.add_argument("--min-agree-sets", type=int, default=5,
+                    help="informative chromosomes/sets needed for the distance check; fewer -> none_too_few_sets "
+                         "(skate 4/4, Staurocalyptus 2/3, Alchemilla 1/1 were called on too few)")
+    ap.add_argument("--recall", action="store_true",
+                    help="re-apply the call rule to an existing summary.tsv (no counting)")
     ap.add_argument("--confound-frac", type=float, default=0.8)
     ap.add_argument("--confound-ratio", type=float, default=1.5,
                     help="length-confounded when one cluster takes the shorter number in >= --confound-frac "
-                         "of split cross-number sets and their median length ratio is >= this")
+                         "of split cross-number sets and their median length ratio is >= this; the "
+                         "block-restricted run, when it holds up, clears it (see blocks_clear)")
     args = ap.parse_args()
+    if args.recall:
+        recall(args.outdir, args)
+        return
     if args.k > 16:
         raise SystemExit("--k must be <= 16 (uint32 codes)")
 
@@ -515,23 +591,14 @@ def main():
     top = max(r["obs"] for r in results)
     best = next(r for r in results if r["obs"] >= args.k_tolerance * top)
     D = load_distance(args.outdir)
+    cleared = True if args.blocks else blocks_clear(args.outdir, args)
     for r in results:
         agr = distance_agreement(sets, units, sub, r["labels"], D)
         r["agree"] = (sum(a[1] for a in agr), len(agr))
         n_ls, n_short, ratio, lrows = length_confound(sets, units, sub, r["labels"])
         r["length"] = (n_ls, n_short, ratio)
-        r["confounded"] = n_ls >= 3 and n_short >= args.confound_frac * n_ls and ratio >= args.confound_ratio
-        ok_agree = r["agree"][1] == 0 or r["agree"][0] >= args.min_agree * r["agree"][1]
-        if r["obs"] < args.min_consistent:
-            r["call"] = "none"
-        elif r["obs"] <= r["null_max"]:
-            r["call"] = "none_within_null"
-        elif r["confounded"]:
-            r["call"] = "none_length_confounded"
-        elif not ok_agree:
-            r["call"] = "none_disagrees_with_distance"
-        else:
-            r["call"] = "subgenome_specific_repeats"
+        r["confounded"] = is_confounded(n_ls, n_short, ratio, args)
+        r["call"] = call_rule(r["obs"], r["null_max"], r["agree"], r["confounded"], cleared, args)
         if r is best:
             best_agr, best_lrows = agr, lrows
     with open(os.path.join(od, "summary.tsv"), "w") as f:
