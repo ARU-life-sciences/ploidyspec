@@ -1,0 +1,7 @@
+shorter	longer	length_ratio	shorter_cluster	longer_cluster
+chr12	chr02	1.62	S1	S2
+chr15	chr03	1.89	S1	S2
+chr11	chr04	1.33	S1	S2
+chr08	chr06	1.16	S2	S1
+chr09	chr07	1.14	S1	S2
+chr14	chr10	1.15	S1	S2

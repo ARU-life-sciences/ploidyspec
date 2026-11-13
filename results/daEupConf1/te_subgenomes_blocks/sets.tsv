@@ -1,0 +1,12 @@
+set	units
+0	HAP1_chr01,HAP1_chr03
+1	HAP1_chr02,HAP1_chr05
+2	HAP1_chr04,HAP1_chr13
+3	HAP1_chr06,HAP1_chr07
+4	HAP1_chr08,HAP1_chr14
+5	HAP1_chr09,HAP1_chr17
+6	HAP1_chr10,HAP1_chr12
+7	HAP1_chr11,HAP1_chr16
+8	HAP1_chr15,HAP1_chr19
+9	HAP1_chr18,HAP1_chr21
+10	HAP1_chr20,HAP1_chr22

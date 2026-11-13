@@ -1,0 +1,89 @@
+chrom	partner	anchor	control	n_windows	n_near_allelic	n_shared_with_control	allele_level	longest_run	null_max_run	segments	covered_bp	covered_frac	n_exchange	exchange_segments	exchange_bp	exchange_reverse_windows	exchange_one_way_bp	n_low_complexity
+chr01	chr02	HAP1_chr01	chr22	140	1	1	0.00502	1	8		0	0.000	0		0		0	1
+chr01	chr04	HAP1_chr01	chr22	140	2	1	0.00502	2	8		0	0.000	0		0		0	1
+chr02	chr01	HAP1_chr02	chr27	138	0	1	0.00391	0	8		0	0.000	0		0		0	5
+chr03	chr04	HAP1_chr03	chr06	136	0	0	0.00157	0	8		0	0.000	0		0		0	3
+chr04	chr01	HAP1_chr04		135	2	0	0.00505	2	8		0	0.000	0		0		0	3
+chr04	chr03	HAP1_chr04		135	0	0	0.00505	0	8		0	0.000	0		0		0	3
+chr05	chr06	HAP1_chr05	chr07	167	0	0	0.00490	0	8		0	0.000	0		0		0	8
+chr06	chr05	HAP1_chr06	chr08	163	0	0	0.00404	0	8		0	0.000	0		0		0	6
+chr06	chr07	HAP1_chr06	chr08	163	0	0	0.00404	0	8		0	0.000	0		0		0	6
+chr07	chr06	HAP1_chr07	chr10	154	0	0	0.00104	0	8		0	0.000	0		0		0	9
+chr07	chr08	HAP1_chr07	chr10	154	0	0	0.00104	0	8		0	0.000	0		0		0	9
+chr08	chr07	HAP1_chr08	chr06	154	0	0	0.00417	0	8		0	0.000	0		0		0	6
+chr09	chr10	HAP1_chr09	chr01	188	0	0	0.00306	0	8		0	0.000	1		0		0	8
+chr09	chr11	HAP1_chr09	chr01	188	0	0	0.00306	0	8		0	0.000	0		0		0	8
+chr09	chr12	HAP1_chr09	chr01	188	0	0	0.00306	0	8		0	0.000	0		0		0	8
+chr10	chr09	HAP1_chr10	chr14	178	0	0	0.00543	0	8		0	0.000	0		0		0	5
+chr10	chr12	HAP1_chr10	chr14	178	0	0	0.00543	0	8		0	0.000	0		0		0	5
+chr11	chr09	HAP1_chr11		177	0	0	0.00536	0	8		0	0.000	0		0		0	9
+chr12	chr09	HAP1_chr12		176	0	0	0.00187	0	8		0	0.000	0		0		0	7
+chr12	chr10	HAP1_chr12		176	0	0	0.00187	0	8		0	0.000	0		0		0	7
+chr13	chr14	HAP1_chr13	chr16	151	0	0	0.00611	0	8		0	0.000	0		0		0	7
+chr14	chr13	HAP1_chr14	chr10	151	0	0	0.00500	0	8		0	0.000	0		0		0	15
+chr15	chr16	HAP1_chr15	chr20	150	0	1	0.00486	0	8		0	0.000	0		0		0	6
+chr16	chr15	HAP1_chr16	chr13	149	0	0	0.00456	0	8		0	0.000	0		0		0	4
+chr17	chr20	HAP1_chr17	chr19	162	0	0	0.00603	0	8		0	0.000	0		0		0	9
+chr18	chr19	HAP1_chr18	chr25	161	0	0	0.00533	0	8		0	0.000	0		0		0	5
+chr18	chr20	HAP1_chr18	chr25	161	0	0	0.00533	0	8		0	0.000	0		0		0	5
+chr19	chr18	HAP1_chr19	chr23	161	0	0	0.00474	0	8		0	0.000	0		0		0	10
+chr19	chr25	HAP1_chr19	chr23	161	0	0	0.00474	0	8		0	0.000	0		0		0	10
+chr20	chr17	HAP1_chr20	chr15	154	0	0	0.00732	0	8		0	0.000	0		0		0	2
+chr20	chr18	HAP1_chr20	chr15	154	0	0	0.00732	0	8		0	0.000	0		0		0	2
+chr21	chr23	HAP1_chr21	chr01	206	0	0	0.00471	0	8		0	0.000	0		0		0	11
+chr22	chr23	HAP1_chr22	chr28	206	0	0	0.00375	0	8		0	0.000	0		0		0	7
+chr22	chr24	HAP1_chr22	chr28	206	0	0	0.00375	0	8		0	0.000	0		0		0	7
+chr23	chr21	HAP1_chr23	chr19	201	0	0	0.00477	0	8		0	0.000	0		0		0	6
+chr23	chr22	HAP1_chr23	chr19	201	0	0	0.00477	0	8		0	0.000	0		0		0	6
+chr24	chr22	HAP1_chr24		190	0	0	0.00460	0	8		0	0.000	0		0		0	4
+chr25	chr19	HAP1_chr25	chr27	143	0	0	0.00732	0	8		0	0.000	0		0		0	14
+chr25	chr28	HAP1_chr25	chr27	143	3	0	0.00732	2	8		0	0.000	3		0		0	14
+chr26	chr27	HAP1_chr26	chr28	138	0	0	0.00490	0	8		0	0.000	0		0		0	4
+chr27	chr26	HAP1_chr27	chr02	133	0	0	0.00504	0	8		0	0.000	0		0		0	3
+chr27	chr28	HAP1_chr27	chr02	133	0	0	0.00504	0	8		0	0.000	0		0		0	3
+chr28	chr25	HAP1_chr28	chr26	131	1	0	0.00685	1	8		0	0.000	0		0		0	0
+chr28	chr27	HAP1_chr28	chr26	131	0	0	0.00685	0	8		0	0.000	0		0		0	0
+chr01	chr02	HAP2_chr01	chr22	137	0	0	0.00502	0	8		0	0.000	0		0		0	0
+chr01	chr04	HAP2_chr01	chr22	137	2	0	0.00502	2	8		0	0.000	0		0		0	0
+chr02	chr01	HAP2_chr02	chr27	142	0	0	0.00391	0	8		0	0.000	0		0		0	6
+chr03	chr04	HAP2_chr03	chr06	134	0	0	0.00157	0	8		0	0.000	0		0		0	3
+chr04	chr01	HAP2_chr04		133	2	0	0.00505	2	8		0	0.000	0		0		0	3
+chr04	chr03	HAP2_chr04		133	0	0	0.00505	0	8		0	0.000	0		0		0	3
+chr05	chr06	HAP2_chr05	chr07	170	0	0	0.00490	0	8		0	0.000	0		0		0	7
+chr06	chr05	HAP2_chr06	chr08	164	1	0	0.00404	1	8		0	0.000	0		0		0	5
+chr06	chr07	HAP2_chr06	chr08	164	0	0	0.00404	0	8		0	0.000	0		0		0	5
+chr07	chr06	HAP2_chr07	chr10	154	0	0	0.00104	0	8		0	0.000	0		0		0	9
+chr07	chr08	HAP2_chr07	chr10	154	0	0	0.00104	0	8		0	0.000	0		0		0	9
+chr08	chr07	HAP2_chr08	chr06	164	0	0	0.00417	0	8		0	0.000	0		0		0	14
+chr09	chr10	HAP2_chr09	chr01	185	0	0	0.00306	0	8		0	0.000	0		0		0	8
+chr09	chr11	HAP2_chr09	chr01	185	0	0	0.00306	0	8		0	0.000	0		0		0	8
+chr09	chr12	HAP2_chr09	chr01	185	0	0	0.00306	0	8		0	0.000	0		0		0	8
+chr10	chr09	HAP2_chr10	chr14	179	0	0	0.00543	0	8		0	0.000	0		0		0	5
+chr10	chr12	HAP2_chr10	chr14	179	0	0	0.00543	0	8		0	0.000	0		0		0	5
+chr11	chr09	HAP2_chr11		177	0	0	0.00536	0	8		0	0.000	0		0		0	8
+chr12	chr09	HAP2_chr12		174	0	0	0.00187	0	8		0	0.000	0		0		0	7
+chr12	chr10	HAP2_chr12		174	0	0	0.00187	0	8		0	0.000	0		0		0	7
+chr13	chr14	HAP2_chr13	chr16	155	0	0	0.00611	0	8		0	0.000	0		0		0	8
+chr14	chr13	HAP2_chr14	chr10	159	0	0	0.00500	0	8		0	0.000	0		0		0	21
+chr15	chr16	HAP2_chr15	chr20	148	0	0	0.00486	0	8		0	0.000	0		0		0	5
+chr16	chr15	HAP2_chr16	chr13	147	0	0	0.00456	0	8		0	0.000	0		0		0	1
+chr17	chr20	HAP2_chr17	chr19	160	0	0	0.00603	0	8		0	0.000	0		0		0	11
+chr18	chr19	HAP2_chr18	chr25	160	0	0	0.00533	0	8		0	0.000	0		0		0	4
+chr18	chr20	HAP2_chr18	chr25	160	0	0	0.00533	0	8		0	0.000	0		0		0	4
+chr19	chr18	HAP2_chr19	chr23	165	0	0	0.00474	0	8		0	0.000	0		0		0	17
+chr19	chr25	HAP2_chr19	chr23	165	0	0	0.00474	0	8		0	0.000	0		0		0	17
+chr20	chr17	HAP2_chr20	chr15	156	0	0	0.00732	0	8		0	0.000	0		0		0	5
+chr20	chr18	HAP2_chr20	chr15	156	0	0	0.00732	0	8		0	0.000	0		0		0	5
+chr21	chr23	HAP2_chr21	chr01	198	0	0	0.00471	0	8		0	0.000	0		0		0	4
+chr22	chr23	HAP2_chr22	chr28	206	0	0	0.00375	0	8		0	0.000	0		0		0	7
+chr22	chr24	HAP2_chr22	chr28	206	0	0	0.00375	0	8		0	0.000	0		0		0	7
+chr23	chr21	HAP2_chr23	chr19	200	1	0	0.00477	1	8		0	0.000	0		0		0	7
+chr23	chr22	HAP2_chr23	chr19	200	0	0	0.00477	0	8		0	0.000	0		0		0	7
+chr24	chr22	HAP2_chr24		186	0	0	0.00460	0	8		0	0.000	0		0		0	4
+chr25	chr19	HAP2_chr25	chr27	143	0	0	0.00732	0	8		0	0.000	0		0		0	16
+chr25	chr28	HAP2_chr25	chr27	143	4	0	0.00732	3	8		0	0.000	2		0		0	16
+chr26	chr27	HAP2_chr26	chr28	140	0	0	0.00490	0	8		0	0.000	0		0		0	5
+chr27	chr26	HAP2_chr27	chr02	130	0	0	0.00504	0	8		0	0.000	0		0		0	3
+chr27	chr28	HAP2_chr27	chr02	130	0	0	0.00504	0	8		0	0.000	0		0		0	3
+chr28	chr25	HAP2_chr28	chr26	128	1	0	0.00685	1	8		0	0.000	0		0		0	0
+chr28	chr27	HAP2_chr28	chr26	128	0	0	0.00685	0	8		0	0.000	0		0		0	0

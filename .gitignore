@@ -30,3 +30,5 @@ results/*/subgenomes/te_markers_windowed_*.tsv
 /scan
 # k-mer count caches from scripts/te_subgenomes.py (rebuilt on demand)
 results/*/te_subgenomes*/counts_k*_h*.npz
+# assemblies copied in for runs that are not in the ToL data tree (e.g. ENA downloads)
+results/*/inputs/

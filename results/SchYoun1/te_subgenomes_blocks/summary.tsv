@@ -1,0 +1,4 @@
+k	chosen	n_multiset_kmers	consistent_frac	null_mean	null_max	p	cluster_sizes	clusters_follow_hap_files	chroms_agreeing_with_distance	length_split_sets	shorter_in_one_cluster	median_length_ratio	call
+2	no	21791	0.0116	0.0094	0.0257	0.383	25,55	False	3/14	0	0	nan	none
+3	no	21791	0.0175	0.0149	0.0300	0.343	25,11,44	False	3/16	0	0	nan	none
+4	yes	21791	0.0827	0.0162	0.0300	0.00498	25,11,15,29	False	5/16	0	0	nan	none

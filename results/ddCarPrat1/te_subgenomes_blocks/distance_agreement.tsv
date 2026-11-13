@@ -1,0 +1,7 @@
+chrom	agrees	te_partition	distance_partition
+chr01+chr14	False	HAP1_chr01;HAP1_chr14,HAP2_chr01,HAP2_chr14	HAP1_chr01,HAP2_chr01;HAP1_chr14,HAP2_chr14
+chr02+chr10	False	HAP1_chr02,HAP1_chr10,HAP2_chr02;HAP2_chr10	HAP1_chr02;HAP1_chr10,HAP2_chr02,HAP2_chr10
+chr03+chr04	False	HAP1_chr03,HAP2_chr03,HAP2_chr04;HAP1_chr04	HAP1_chr03,HAP1_chr04,HAP2_chr03;HAP2_chr04
+chr06+chr07	False	HAP1_chr06,HAP1_chr07;HAP2_chr06,HAP2_chr07	HAP1_chr06,HAP2_chr07;HAP1_chr07,HAP2_chr06
+chr08+chr12	False	HAP1_chr08,HAP2_chr08;HAP1_chr12,HAP2_chr12	HAP1_chr08,HAP2_chr08,HAP2_chr12;HAP1_chr12
+chr13+chr15	False	HAP1_chr13,HAP1_chr15;HAP2_chr13,HAP2_chr15	HAP1_chr13,HAP1_chr15,HAP2_chr13;HAP2_chr15

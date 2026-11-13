@@ -1,0 +1,3 @@
+chrom	agrees	te_partition	distance_partition
+chr09+chr12	True	HAP1_chr09;HAP1_chr12	HAP1_chr09;HAP1_chr12
+chr13+chr18	True	HAP1_chr13,HAP2_chr13;HAP1_chr18,HAP2_chr18	HAP1_chr13,HAP2_chr13;HAP1_chr18,HAP2_chr18

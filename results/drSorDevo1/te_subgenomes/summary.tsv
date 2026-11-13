@@ -1,0 +1,4 @@
+k	chosen	n_multiset_kmers	consistent_frac	null_mean	null_max	p	cluster_sizes	clusters_follow_hap_files	chroms_agreeing_with_distance	length_split_sets	shorter_in_one_cluster	median_length_ratio	call
+2	yes	56238	0.8657	0.0051	0.0112	0.00498	34,34	False	17/17	17	14	1.06	subgenome_specific_repeats
+3	no	56238	0.8156	0.0093	0.0125	0.00498	34,33,1	False	17/17	16	14	1.07	subgenome_specific_repeats
+4	no	56238	0.7215	0.0115	0.0160	0.00498	34,7,26,1	False	17/17	9	8	1.11	subgenome_specific_repeats

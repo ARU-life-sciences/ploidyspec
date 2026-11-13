@@ -1,0 +1,9 @@
+set	units
+0	HAPA_chr01,HAPA_chr06,HAPB_chr01,HAPB_chr06,HAPC_chr01,HAPC_chr06
+1	HAPA_chr02,HAPB_chr02,HAPC_chr02
+2	HAPA_chr03,HAPB_chr03,HAPC_chr03
+3	HAPA_chr04,HAPB_chr04,HAPC_chr04
+4	HAPA_chr05,HAPB_chr05,HAPC_chr05
+5	HAPA_chr07,HAPB_chr07,HAPC_chr07
+6	HAPA_chr08,HAPB_chr08,HAPC_chr08
+7	HAPA_chr09,HAPB_chr09,HAPC_chr09
