@@ -93,6 +93,7 @@ def gather(outdir):
         n_numbers=n_numbers,
         allele=allele, cross=cross,
         n_pairs=len(independent),
+        pair_chroms=[(r["chrom_a"], r["chrom_b"]) for r in independent],
         # xgStaPalu1: one pair at z = -16 and two at -3 to -4 (3-4% below background)
         n_strong_pairs=sum(1 for r in independent if abs(_num(r.get("z_score")) or 0) >= STRONG_PAIR_Z),
         n_fusion_pairs=len(pairs) - len(independent),
@@ -109,9 +110,45 @@ def gather(outdir):
     )
 
 
+def balanced_subgenomes(g):
+    """The genome partition row splitting the numbers into k >= 3 equal
+    subgenomes (fewer groups than n/4, so groups of subgenomes, not of
+    homeologs), crossed by every homeolog pair; else None. Bread wheat (AABBDD,
+    two copies of 21 numbers): k = 3 of 7 at z = 14, while the 1:1 pair
+    matching can only find 7 of its 21 homeolog links and reads sets of 2."""
+    n = g["n_numbers"] or 0
+    pairs = g.get("pair_chroms") or []
+    best = None
+    for r in g["parts"]:
+        k, z = int(r["k"]), _num(r["z_score"])
+        sizes = [int(s) for s in r["group_sizes"].split(",")]
+        if not (3 <= k < n / 4 and z is not None and z >= SET_PARTITION_Z and len(set(sizes)) == 1):
+            continue
+        group = {c.strip(): gi for gi, grp in enumerate(r["groups"].split("|")) for c in grp.split(",")}
+        if not pairs or any(group.get(a) == group.get(b) for a, b in pairs):
+            continue
+        if best is None or z > _num(best["z_score"]):
+            best = r
+    return best
+
+
+def subgenome_repeats(g):
+    """True when chromosomes within a subgenome (homeologs.subgenome_partition)
+    are closer than homeologs across subgenomes: shared repeats, not age, then
+    set the homeolog distance."""
+    sg = g.get("subgenomes") or {}
+    within, hom = _num(sg.get("within_set_mean")), _num(sg.get("cross_set_homeolog_mean"))
+    return sg.get("pair_test") == "cross_subgenome" and within is not None and hom is not None and within < hom
+
+
 def duplicated_sets(g):
     """(sets per haplotype, base number x, basis, confidence)."""
     n = g["n_numbers"] or 0
+    sub = balanced_subgenomes(g)
+    if sub:
+        k, size = int(sub["k"]), int(sub["group_sizes"].split(",")[0])
+        return k, size, (f"{k} subgenomes of {size} chromosome numbers each, crossed by every "
+                         f"homeolog pair (genome partition z = {_num(sub['z_score']):.1f})"), "medium"
     small = [r for r in g["parts"]
              if int(r["k"]) >= n / 4 and _num(r["z_score"]) and _num(r["z_score"]) >= SET_PARTITION_Z]
     if small:
@@ -228,7 +265,13 @@ def answer_ploidy(g):
         if g["pair_depth"] and g["cross"]:
             ratio = g["pair_depth"] / g["cross"]
             evidence.append(f"homeolog distance {g['pair_depth']:.3f} vs unrelated {g['cross']:.3f}")
-            if ratio >= PALEO_RATIO:
+            if ratio >= PALEO_RATIO and balanced_subgenomes(g) and subgenome_repeats(g):
+                # wheat: subgenome-specific repeats separate all cross-subgenome
+                # comparisons, homeologs included, whatever the age
+                text += ("; homeologs are nearly as diverged as unrelated chromosomes, but each "
+                         "subgenome carries its own repeats, so that distance need not mean an "
+                         "old duplication")
+            elif ratio >= PALEO_RATIO:
                 text += "; the sets are nearly as diverged as unrelated chromosomes, so they may be an old (paleo) duplication"
     elif duplication_evidence(g):
         # masu, charr: the salmonid duplication shows on part of the genome only
@@ -348,6 +391,17 @@ def fusion_note(g):
 def subgenome_note(g):
     """(sentence, evidence) when the homeolog pairs came from the cross-subgenome
     test (homeologs.subgenome_partition), else None."""
+    sub = balanced_subgenomes(g)
+    if sub:
+        k, groups = int(sub["k"]), sub["groups"]
+        size = groups.split("|")[0].count(",") + 1
+        text = (f" The chromosome numbers form {k} subgenomes of {size} (z = {_num(sub['z_score']):.0f}) "
+                "and every homeolog pair crosses them.")
+        if subgenome_repeats(g):
+            text += (" Non-homologous chromosomes within a subgenome are closer than homeologs "
+                     "across them: each subgenome carries its own repeats, as when diverged "
+                     "genomes merge.")
+        return text, f"subgenomes {groups} (z = {_num(sub['z_score']):.1f})"
     sg = g.get("subgenomes") or {}
     if sg.get("pair_test") != "cross_subgenome":
         return None
