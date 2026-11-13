@@ -27,9 +27,11 @@ FASTA per haplotype copy (plain, gzip or bgzip), in order:
 ploidyspec all --fasta hap1.fa.gz hap2.fa.gz --outdir results/mysp --threads 8
 ```
 
-and open `results/mysp/report.html`. Add `--full` for every reading (residual
+and open `results/mysp/report.html`. Add `--full` for the further readings (residual
 tetrasomy, homeologous exchange, the homeology map, the TE-marker auto/allo index; see
-below for the cost).
+below for the cost). `--full` leaves out the windowed TE painting
+(`--with-te-markers-windowed`), which is the most expensive stage and only informative
+when the subgenomes carry clearly different repeats.
 
 ## Install / setup
 
@@ -184,7 +186,10 @@ Opt-in stages (moderate-to-expensive; flags on `all`, or run individually):
   haplotype copies (the auto&harr;allo index), plus `subgenome-report`'s summary.
 - `--with-te-markers-windowed` — the most expensive stage: paints windows along each
   haplotype copy by which subgenome's markers they match (implies
-  `--with-te-markers`).
+  `--with-te-markers`; not part of `--full`). It separates subgenomes window by window
+  only where their repeats differ strongly (durum wheat A vs B: 87% of windows on their
+  own side, 0.3% on the other). Elsewhere the labels mostly follow which copy has more
+  repeat k-mers, so it does not confirm or rule out the homeologous-exchange calls.
 
 ## Usage
 
